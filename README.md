@@ -183,3 +183,4 @@ npx http-server
 ---
 
 **Made with ❤️ for workflow analysis and process optimization**
+# workflow-visualizer
