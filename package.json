@@ -1,0 +1,39 @@
+{
+  "name": "workflow-visualizer",
+  "version": "1.0.0",
+  "description": "Interactive web application for visualizing complex business workflows and process flows",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "npx http-server -p 8080 -c-1",
+    "dev": "npx http-server -p 8080 -c-1 -o"
+  },
+  "keywords": [
+    "workflow",
+    "visualization",
+    "d3js",
+    "business-process",
+    "network-diagram",
+    "data-visualization",
+    "csv",
+    "interactive",
+    "responsive"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/workflow-visualizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/workflow-visualizer/issues"
+  },
+  "homepage": "https://github.com/yourusername/workflow-visualizer#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1>Workflow Visualization</h1>
+                <div class="header-controls">
+                    <div class="upload-section">
+                        <input type="file" id="csvFile" accept=".csv" class="file-input">
+                        <label for="csvFile" class="btn btn--outline">Choose CSV File</label>
+                        <button id="uploadBtn" class="btn btn--primary">Upload CSV</button>
+                        <button id="sampleBtn" class="btn btn--secondary">Load Sample Data</button>
+                    </div>
+                    <div id="statusMessage" class="status-message"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <div class="control-group">
+                    <label class="form-label">Search Nodes:</label>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by name...">
+                </div>
+                
+                <div class="control-group">
+                    <label class="form-label">Filter by Type:</label>
+                    <select id="typeFilter" class="form-control">
+                        <option value="">All Types</option>
+                        <option value="Resource">Resource</option>
+                        <option value="Action">Action</option>
+                        <option value="State">State</option>
+                        <option value="Decision">Decision</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="form-label">Filter by Execution:</label>
+                    <select id="executionFilter" class="form-control">
+                        <option value="">All Executions</option>
+                        <option value="Automatic">Automatic</option>
+                        <option value="Applicant">Applicant</option>
+                        <option value="Manual">Manual</option>
+                        <option value="Noemie">Noemie</option>
+                        <option value="Gil">Gil</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="form-label">Element Size:</label>
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="sizeToggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="toggle-label">Cost-based sizing</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="form-label">Graph Layout:</label>
+                    <select id="layoutSelect" class="form-control">
+                        <option value="force">Force-Directed</option>
+                        <option value="hierarchical">Hierarchical</option>
+                        <option value="circular">Circular</option>
+                        <option value="grid">Grid</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="form-label">Orientation Controls:</label>
+                    <div class="orientation-controls">
+                        <button id="rotateLeftBtn" class="btn btn--outline btn--sm orientation-btn">↺ Rotate Left</button>
+                        <button id="rotateRightBtn" class="btn btn--outline btn--sm orientation-btn">↻ Rotate Right</button>
+                        <button id="flipHorizontalBtn" class="btn btn--outline btn--sm orientation-btn">⇄ Flip H</button>
+                        <button id="flipVerticalBtn" class="btn btn--outline btn--sm orientation-btn">⇅ Flip V</button>
+                        <button id="centerGraphBtn" class="btn btn--outline btn--sm orientation-btn">⌖ Center</button>
+                        <button id="fitToScreenBtn" class="btn btn--outline btn--sm orientation-btn">⤢ Fit Screen</button>
+                    </div>
+                </div>
+
+                <button id="resetBtn" class="btn btn--outline btn--sm">Reset View</button>
+                <button id="verifyBtn" class="btn btn--secondary btn--sm">🔍 Verify Connections</button>
+                <button id="exportPdfBtn" class="btn btn--primary btn--sm">📄 Export PDF</button>
+            </div>
+
+            <!-- Visualization Area -->
+            <div class="viz-container">
+                <div id="networkGraph" class="network-graph"></div>
+                <div class="legend">
+                    <h4>Node Types</h4>
+                    <div class="legend-item">
+                        <div class="legend-shape rectangle"></div>
+                        <span>Resource</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-shape triangle"></div>
+                        <span>Action</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-shape circle"></div>
+                        <span>State</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-shape diamond"></div>
+                        <span>Decision</span>
+                    </div>
+                    
+                    <h4 style="margin-top: 16px;">Execution Types</h4>
+                    <div class="legend-item">
+                        <div class="legend-border solid"></div>
+                        <span>Automatic</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-border dotted"></div>
+                        <span>Applicant</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-border dashed"></div>
+                        <span>Manual/Others</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Panel -->
+            <div id="detailsPanel" class="details-panel hidden">
+                <div class="panel-header">
+                    <h3>Node Details</h3>
+                    <button id="closePanelBtn" class="close-btn">&times;</button>
+                </div>
+                <div id="nodeDetails" class="panel-content">
+                    <!-- Node details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
