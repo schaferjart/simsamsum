@@ -4,9 +4,9 @@
   "description": "Interactive web application for visualizing complex business workflows and process flows",
   "main": "index.html",
   "scripts": {
-    "start": "python3 -m http.server 8000",
-    "serve": "npx http-server -p 8080 -c-1",
-    "dev": "npx http-server -p 8080 -c-1 -o"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "keywords": [
     "workflow",
@@ -29,11 +29,17 @@
     "url": "https://github.com/yourusername/workflow-visualizer/issues"
   },
   "homepage": "https://github.com/yourusername/workflow-visualizer#readme",
-  "dependencies": {},
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "vite": "^7.1.7"
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.3",
+    "papaparse": "^5.5.3"
   }
 }
