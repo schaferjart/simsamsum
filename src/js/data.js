@@ -1,119 +1,6 @@
 import Papa from 'papaparse';
 import { calculateNodeSize, getBorderStyle } from './utils.js';
 
-export const sampleData = [
-    {
-        "Name": "Indeed",
-        "Type": "Resource",
-        "Execution": "Automatic",
-        "Ø Cost": 0.3,
-        "Effective Cost": 120.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Indeed",
-        "Incoming": "",
-        "Outgoing": "Text Application"
-    },
-    {
-        "Name": "Text Application",
-        "Type": "Action",
-        "Execution": "Applicant",
-        "Ø Cost": 0.2,
-        "Effective Cost": 80.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "TypeForm",
-        "Incoming": "Indeed",
-        "Outgoing": "Video Application"
-    },
-    {
-        "Name": "AI Call",
-        "Type": "Action",
-        "Execution": "Automatic",
-        "Ø Cost": 0.4,
-        "Effective Cost": 40.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Solers",
-        "Incoming": "Pre Call SMS",
-        "Outgoing": "Pre Video Mail"
-    },
-    {
-        "Name": "Application Review 1",
-        "Type": "Decision",
-        "Execution": "Noemie",
-        "Ø Cost": 0.1,
-        "Effective Cost": 4.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Team Tailor",
-        "Incoming": "Video Application",
-        "Outgoing": "Rejection 1,Application Review 2"
-    },
-    {
-        "Name": "Ghost 1",
-        "Type": "State",
-        "Execution": "Applicant",
-        "Ø Cost": null,
-        "Effective Cost": null,
-        "Monitoring": "Team Tailor",
-        "Platform": "Team Tailor",
-        "Incoming": "Video Application",
-        "Outgoing": ""
-    },
-    {
-        "Name": "Pre Call SMS",
-        "Type": "Action",
-        "Execution": "Automatic",
-        "Ø Cost": 0.1,
-        "Effective Cost": 10.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Team Tailor",
-        "Incoming": "Text Application",
-        "Outgoing": "AI Call"
-    },
-    {
-        "Name": "Pre Video Mail",
-        "Type": "Action",
-        "Execution": "Automatic",
-        "Ø Cost": 0.05,
-        "Effective Cost": 5.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Team Tailor",
-        "Incoming": "AI Call",
-        "Outgoing": "Video Application"
-    },
-    {
-        "Name": "Video Application",
-        "Type": "Action",
-        "Execution": "Applicant",
-        "Ø Cost": 0.1,
-        "Effective Cost": 40.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Team Tailor",
-        "Incoming": "Pre Video Mail",
-        "Outgoing": "Application Review 1,Ghost 1"
-    },
-    {
-        "Name": "Rejection 1",
-        "Type": "State",
-        "Execution": "Automatic",
-        "Ø Cost": 0.1,
-        "Effective Cost": 2.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Team Tailor",
-        "Incoming": "Application Review 1",
-        "Outgoing": ""
-    },
-    {
-        "Name": "Application Review 2",
-        "Type": "Decision",
-        "Execution": "Manual",
-        "Ø Cost": 1.0,
-        "Effective Cost": 50.0,
-        "Monitoring": "Team Tailor",
-        "Platform": "Team Tailor",
-        "Incoming": "Application Review 1",
-        "Outgoing": ""
-    }
-];
-
 /**
  * Processes raw data from CSV into nodes and links.
  * @param {Array<Object>} data - The raw data from PapaParse.
@@ -203,26 +90,68 @@ export function processData(data, costBasedSizing) {
  * @param {File} file - The CSV file to parse.
  * @returns {Promise<Array<Object>>} A promise that resolves with the parsed data.
  */
-export function parseCSV(file) {
+export function processJsonData(data, costBasedSizing) {
+    console.log('Processing JSON data:', data);
+
+    if (!data.nodes || data.nodes.length === 0) {
+        return { nodes: [], links: [] };
+    }
+
+    const nodes = data.nodes.map(node => ({
+        ...node,
+        id: node.id || node.name,
+        size: calculateNodeSize(node.effectiveCost, costBasedSizing),
+        borderStyle: getBorderStyle(node.execution)
+    }));
+
+    const links = data.connections.map(link => ({
+        ...link,
+        source: link.fromId,
+        target: link.toId,
+        type: 'outgoing'
+    }));
+
+    console.log('Processed Nodes:', nodes);
+    console.log('Processed Links:', links);
+    return { nodes, links };
+}
+
+export function loadAndProcessData(file, costBasedSizing) {
     return new Promise((resolve, reject) => {
-        Papa.parse(file, {
-            header: true,
-            skipEmptyLines: true,
-            complete: (results) => {
-                if (results.errors.length > 0) {
-                    console.error('CSV parsing errors:', results.errors);
-                    return reject(new Error('Error parsing CSV file'));
+        if (!file) {
+            return reject(new Error('No file provided'));
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const fileContent = event.target.result;
+                let data;
+                if (file.name.toLowerCase().endsWith('.json')) {
+                    data = JSON.parse(fileContent);
+                    resolve(processJsonData(data, costBasedSizing));
+                } else if (file.name.toLowerCase().endsWith('.csv')) {
+                    // CSV processing logic remains unchanged
+                    Papa.parse(fileContent, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: (results) => {
+                            if (results.errors.length) {
+                                reject(new Error('Error parsing CSV'));
+                            } else {
+                                resolve(processData(results.data, costBasedSizing));
+                            }
+                        }
+                    });
+                } else {
+                    reject(new Error('Unsupported file type'));
                 }
-                if (results.data.length === 0) {
-                    return reject(new Error('CSV file appears to be empty'));
-                }
-                resolve(results.data);
-            },
-            error: (error) => {
-                console.error('CSV parsing error:', error);
-                reject(new Error('Error reading CSV file'));
+            } catch (error) {
+                reject(new Error('Error processing file'));
             }
-        });
+        };
+        reader.onerror = (error) => reject(new Error('Error reading file'));
+        reader.readAsText(file);
     });
 }
 

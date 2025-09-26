@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { showStatus, calculateNodeSize, downloadJsonFile, snapToGrid } from './utils.js';
-import { sampleData, processData, parseCSV, verifyConnections } from './data.js';
+import { processData, loadAndProcessData, verifyConnections, processJsonData } from './data.js';
 import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay } from './render.js';
 import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
@@ -186,43 +186,57 @@ class WorkflowVisualizer {
         const fileInput = document.getElementById('csvFile');
         const file = fileInput.files[0];
         if (!file) {
-            showStatus('Please select a CSV file first', 'error');
+            showStatus('Please select a file first', 'error');
             return;
         }
-        if (!file.name.toLowerCase().endsWith('.csv')) {
-            showStatus('Please select a valid CSV file', 'error');
+
+        const supportedTypes = ['.csv', '.json'];
+        const fileType = `.${file.name.split('.').pop().toLowerCase()}`;
+        if (!supportedTypes.includes(fileType)) {
+            showStatus('Please select a valid CSV or JSON file', 'error');
             return;
         }
 
         this.state.currentDataFile = file.name;
-        showStatus('Processing CSV file...', 'loading');
+        showStatus(`Processing ${fileType.slice(1).toUpperCase()} file...`, 'loading');
+
         try {
-            const data = await parseCSV(file);
-            const { nodes, links } = processData(data, this.state.costBasedSizing);
+            const { nodes, links } = await loadAndProcessData(file, this.state.costBasedSizing);
             this.state.allNodes = nodes;
             this.state.allLinks = links;
             this.state.nodes = [...this.state.allNodes];
             this.state.links = [...this.state.allLinks];
             this.updateVisualization();
-            showStatus('CSV loaded successfully!', 'success');
+            showStatus('File loaded successfully!', 'success');
         } catch (error) {
             showStatus(error.message, 'error');
+            console.error('File processing error:', error);
         }
     }
 
     /**
      * Loads the built-in sample data and updates the visualization.
      */
-    loadSampleData() {
-        showStatus('Loading sample data...', 'loading');
-        this.state.currentDataFile = 'sample-data.csv';
-        const { nodes, links } = processData(sampleData, this.state.costBasedSizing);
-        this.state.allNodes = nodes;
-        this.state.allLinks = links;
-        this.state.nodes = [...this.state.allNodes];
-        this.state.links = [...this.state.allLinks];
-        this.updateVisualization();
-        showStatus('Sample data loaded!', 'success');
+    async loadSampleData() {
+        showStatus('Loading default data...', 'loading');
+        this.state.currentDataFile = 'data.json';
+        try {
+            const response = await fetch(this.state.currentDataFile);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            const { nodes, links } = processJsonData(data, this.state.costBasedSizing);
+            this.state.allNodes = nodes;
+            this.state.allLinks = links;
+            this.state.nodes = [...this.state.allNodes];
+            this.state.links = [...this.state.allLinks];
+            this.updateVisualization();
+            showStatus('Default data loaded successfully!', 'success');
+        } catch (error) {
+            showStatus('Error loading default data. Please check the console.', 'error');
+            console.error('Error loading default data:', error);
+        }
     }
 
     /**
