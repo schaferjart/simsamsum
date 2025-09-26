@@ -88,8 +88,3 @@ workflow-visualizer/
 - ✅ Connection verification system
 - ✅ Responsive design
 - ✅ CSV data import
-
----
-
-**Made with ❤️ for workflow analysis and process optimization**
-# workflow-visualizer
