@@ -59,6 +59,12 @@ export function initVisualization(container, onZoom, onBackgroundClick) {
  * @param {d3.Selection} svg - The main SVG selection.
  * @param {d3.ZoomBehavior} zoom - The D3 zoom behavior.
  */
+/**
+ * Adds zoom controls to the visualization.
+ * @param {d3.Selection} svg - The main SVG selection.
+ * @param {d3.ZoomBehavior} zoom - The D3 zoom behavior.
+ * @private
+ */
 function addZoomControls(svg, zoom) {
     const container = svg.node().parentNode;
     d3.select(container).select('.zoom-controls').remove();
@@ -216,6 +222,14 @@ export function updatePositions(g) {
  * Creates an orthogonal path for a link.
  * @param {object} d - The link data.
  * @returns {string} The SVG path string.
+ */
+/**
+ * Creates an SVG path string for an orthogonal link between two nodes.
+ * This function is used specifically for the 'hierarchical-orthogonal' layout to draw
+ * links with 90-degree bends, creating a cleaner, more structured look.
+ * @param {object} d - The link data object, which must contain `source` and `target` node objects.
+ * @returns {string} The SVG path data string (e.g., "M x1,y1 L x2,y2 ...").
+ * @private
  */
 function createOrthogonalPath(d) {
     const { source, target } = d;

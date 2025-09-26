@@ -34,6 +34,16 @@ export function applyLayout(layoutType, state) {
     }
 }
 
+/**
+ * Applies a force-directed layout.
+ * This is the default layout, simulating physical forces between nodes.
+ * @param {Array<Object>} nodes - The array of nodes.
+ * @param {Array<Object>} links - The array of links.
+ * @param {number} width - The width of the visualization area.
+ * @param {number} height - The height of the visualization area.
+ * @returns {d3.Simulation} The configured D3 simulation.
+ * @private
+ */
 function applyForceLayout(nodes, links, width, height) {
     const simulation = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(links).id(d => d.id).distance(150).strength(0.8))
@@ -44,6 +54,16 @@ function applyForceLayout(nodes, links, width, height) {
     return simulation;
 }
 
+/**
+ * Applies a basic hierarchical layout.
+ * Nodes are arranged in levels based on their connectivity from root nodes.
+ * @param {Array<Object>} nodes - The array of nodes.
+ * @param {Array<Object>} links - The array of links.
+ * @param {number} width - The width of the visualization area.
+ * @param {number} height - The height of the visualization area.
+ * @returns {d3.Simulation} A simulation for collision detection.
+ * @private
+ */
 function applyHierarchicalLayout(nodes, links, width, height) {
     const levels = calculateNodeLevels(nodes, links);
     const maxLevel = Math.max(...Object.values(levels));
@@ -82,6 +102,15 @@ function applyHierarchicalLayout(nodes, links, width, height) {
         .alpha(0.3);
 }
 
+/**
+ * Applies an advanced hierarchical layout with orthogonal links.
+ * This layout attempts to minimize edge crossings and arrange nodes in a clean, top-down structure.
+ * @param {Array<Object>} nodes - The array of nodes.
+ * @param {Array<Object>} links - The array of links.
+ * @param {number} width - The width of the visualization area.
+ * @param {number} height - The height of the visualization area.
+ * @private
+ */
 function applyHierarchicalOrthogonalLayout(nodes, links, width, height) {
     console.log('🎯 Starting advanced hierarchical orthogonal layout...');
     const hierarchy = buildAdvancedHierarchy(nodes, links);
@@ -91,6 +120,15 @@ function applyHierarchicalOrthogonalLayout(nodes, links, width, height) {
     console.log('✅ Hierarchical orthogonal layout complete');
 }
 
+/**
+ * Applies a circular layout.
+ * Nodes are arranged in a circle around the center of the visualization area.
+ * @param {Array<Object>} nodes - The array of nodes.
+ * @param {number} width - The width of the visualization area.
+ * @param {number} height - The height of the visualization area.
+ * @returns {d3.Simulation} A simulation for collision detection.
+ * @private
+ */
 function applyCircularLayout(nodes, width, height) {
     const centerX = width / 2;
     const centerY = height / 2;
@@ -107,6 +145,15 @@ function applyCircularLayout(nodes, width, height) {
         .alpha(0.3);
 }
 
+/**
+ * Applies a grid layout.
+ * Nodes are arranged in a simple grid.
+ * @param {Array<Object>} nodes - The array of nodes.
+ * @param {number} width - The width of the visualization area.
+ * @param {number} height - The height of the visualization area.
+ * @returns {d3.Simulation} A simulation for collision detection.
+ * @private
+ */
 function applyGridLayout(nodes, width, height) {
     const cols = Math.ceil(Math.sqrt(nodes.length));
     const cellWidth = (width - 100) / cols;
@@ -124,6 +171,14 @@ function applyGridLayout(nodes, width, height) {
         .alpha(0.3);
 }
 
+/**
+ * Applies a manual grid layout.
+ * This layout allows users to drag and drop nodes, which then snap to a grid.
+ * It initializes node positions if they aren't already set.
+ * @param {Array<Object>} nodes - The array of nodes.
+ * @param {number} gridSize - The size of the grid for snapping.
+ * @private
+ */
 function applyManualGridLayout(nodes, gridSize) {
     console.log('🎯 Applying manual grid layout...');
     // Initial placement if no position is set
@@ -136,6 +191,13 @@ function applyManualGridLayout(nodes, gridSize) {
     });
 }
 
+/**
+ * Initializes the positions of nodes for the manual grid layout.
+ * This is called when switching to manual layout if nodes don't have prior positions.
+ * @param {Array<Object>} nodes - The array of nodes to position.
+ * @param {number} gridSize - The grid size to determine spacing.
+ * @private
+ */
 function initializeManualLayout(nodes, gridSize) {
     const cols = Math.ceil(Math.sqrt(nodes.length));
     const spacing = gridSize * 4;
@@ -154,6 +216,14 @@ function initializeManualLayout(nodes, gridSize) {
 
 // --- Helper functions for Hierarchical Layout ---
 
+/**
+ * Calculates the level of each node in the hierarchy (distance from a root node).
+ * This is used for the basic hierarchical layout.
+ * @param {Array<Object>} nodes - The array of all nodes.
+ * @param {Array<Object>} links - The array of all links.
+ * @returns {Object.<string, number>} An object mapping node ID to its level.
+ * @private
+ */
 function calculateNodeLevels(nodes, links) {
     const levels = {};
     const visited = new Set();
@@ -185,6 +255,14 @@ function calculateNodeLevels(nodes, links) {
     return levels;
 }
 
+/**
+ * Builds a more detailed hierarchical structure for the orthogonal layout.
+ * It determines levels, groupings, and connections for more complex arrangements.
+ * @param {Array<Object>} nodes - The array of all nodes.
+ * @param {Array<Object>} links - The array of all links.
+ * @returns {Object} A hierarchy object containing levels, nodes by level, and connection data.
+ * @private
+ */
 function buildAdvancedHierarchy(nodes, links) {
     const hierarchy = { levels: {}, nodesByLevel: {}, maxLevel: 0, connections: new Map() };
     links.forEach(link => {
@@ -220,6 +298,16 @@ function buildAdvancedHierarchy(nodes, links) {
     return hierarchy;
 }
 
+/**
+ * Positions nodes based on the calculated hierarchy.
+ * It iterates through each level and distributes nodes horizontally.
+ * @param {Object} hierarchy - The hierarchy object from buildAdvancedHierarchy.
+ * @param {number} width - The width of the visualization area.
+ * @param {number} height - The height of the visualization area.
+ * @param {Array<Object>} nodes - The array of all nodes.
+ * @param {Array<Object>} links - The array of all links.
+ * @private
+ */
 function positionNodesInHierarchy(hierarchy, width, height, nodes, links) {
     const spacing = { vertical: 200, horizontal: 300 };
     const topPadding = 80;
@@ -238,6 +326,19 @@ function positionNodesInHierarchy(hierarchy, width, height, nodes, links) {
     });
 }
 
+/**
+ * Distributes nodes horizontally at a specific level of the hierarchy.
+ * It sorts nodes based on their parent's position to reduce crossovers and then spaces them out.
+ * @param {Array<Object>} levelNodes - The nodes at the current level.
+ * @param {number} y - The y-coordinate for this level.
+ * @param {Object} spacing - The spacing configuration.
+ * @param {Object} hierarchy - The main hierarchy object.
+ * @param {number} level - The current level number.
+ * @param {number} width - The width of the visualization area.
+ * @param {Array<Object>} nodes - The array of all nodes.
+ * @param {Array<Object>} links - The array of all links.
+ * @private
+ */
 function distributeNodesAtLevel(levelNodes, y, spacing, hierarchy, level, width, nodes, links) {
     if (level > 0) {
         levelNodes.sort((a, b) => getParentAverageX(a.node, nodes, links) - getParentAverageX(b.node, nodes, links));
@@ -257,6 +358,15 @@ function distributeNodesAtLevel(levelNodes, y, spacing, hierarchy, level, width,
     });
 }
 
+/**
+ * Calculates the average x-position of a node's parent nodes.
+ * This is used as a heuristic to sort nodes at the same level to minimize link crossings.
+ * @param {Object} node - The node whose parents' average x-position is to be calculated.
+ * @param {Array<Object>} allNodes - The array of all nodes in the graph.
+ * @param {Array<Object>} allLinks - The array of all links in the graph.
+ * @returns {number} The average x-position of the parent nodes.
+ * @private
+ */
 function getParentAverageX(node, allNodes, allLinks) {
     const parents = allLinks
         .filter(link => (link.target.id || link.target) === node.id)
@@ -267,6 +377,16 @@ function getParentAverageX(node, allNodes, allLinks) {
 }
 
 
+/**
+ * Attempts to minimize edge crossings using the barycenter method.
+ * This function iterates through each level of the hierarchy and re-orders the nodes
+ * based on the average position (barycenter) of their parents in the level above.
+ * @param {Object} hierarchy - The hierarchy object.
+ * @param {number} width - The width of the visualization area.
+ * @param {Array<Object>} nodes - The array of all nodes.
+ * @param {Array<Object>} links - The array of all links.
+ * @private
+ */
 function minimizeEdgeCrossings(hierarchy, width, nodes, links) {
     for (let level = 1; level <= hierarchy.maxLevel; level++) {
         const levelNodes = hierarchy.nodesByLevel[level];
@@ -291,6 +411,13 @@ function minimizeEdgeCrossings(hierarchy, width, nodes, links) {
     }
 }
 
+/**
+ * Applies the calculated hierarchical positions to the nodes.
+ * It sets the `fx` and `fy` properties to fix the node positions,
+ * effectively overriding the simulation's positioning forces.
+ * @param {Array<Object>} nodes - The array of nodes with x and y properties already calculated.
+ * @private
+ */
 function applyHierarchicalPositions(nodes) {
     nodes.forEach(node => {
         node.fx = node.x;

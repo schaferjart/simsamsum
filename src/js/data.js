@@ -306,6 +306,14 @@ export function verifyConnections(allNodes, allLinks) {
     return report;
 }
 
+/**
+ * Verifies that connections are bidirectional.
+ * If node A lists node B as an outgoing connection, this function checks
+ * if node B also lists node A as an incoming connection.
+ * @param {Object} report - The report object to be updated with validation errors.
+ * @param {Map<string, Object>} nodeMap - A map of node names to node objects for quick lookup.
+ * @private
+ */
 function verifyBidirectionalConnections(report, nodeMap) {
     console.log('🔗 Verifying bidirectional consistency...');
     Object.values(report.connectionSummary).forEach(nodeConn => {
@@ -324,6 +332,12 @@ function verifyBidirectionalConnections(report, nodeMap) {
     });
 }
 
+/**
+ * Generates aggregate statistics about the graph's connections.
+ * Calculates metrics like average incoming/outgoing links, max links, etc.
+ * @param {Object} report - The report object to which the stats will be added.
+ * @private
+ */
 function generateConnectionStats(report) {
     const stats = {
         nodesWithIncoming: 0,

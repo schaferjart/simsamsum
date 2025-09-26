@@ -7,8 +7,37 @@ import * as interactions from './interactions.js';
 import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
 
+/**
+ * Main class for the Workflow Visualizer application.
+ * Manages the application state, data, and interactions.
+ */
 class WorkflowVisualizer {
+    /**
+     * Initializes the application state and kicks off the initialization process.
+     */
     constructor() {
+        /**
+         * The central state object for the application.
+         * @type {object}
+         * @property {number} width - The width of the SVG container.
+         * @property {number} height - The height of the SVG container.
+         * @property {d3.Selection} svg - The main SVG element.
+         * @property {d3.Selection} zoomGroup - The group element that zoom is applied to.
+         * @property {d3.Selection} g - The main group element for graph contents.
+         * @property {d3.Simulation} simulation - The D3 force simulation instance.
+         * @property {Array<Object>} nodes - The currently displayed nodes.
+         * @property {Array<Object>} links - The currently displayed links.
+         * @property {Array<Object>} allNodes - The complete set of nodes from the data source.
+         * @property {Array<Object>} allLinks - The complete set of links from the data source.
+         * @property {d3.ZoomBehavior} zoom - The D3 zoom behavior.
+         * @property {boolean} costBasedSizing - Whether node size is based on cost.
+         * @property {string} currentLayout - The name of the currently active layout.
+         * @property {number} graphRotation - The current rotation of the graph in degrees.
+         * @property {Object} graphTransform - The current scale transform of the graph.
+         * @property {number} gridSize - The size of the grid for manual layout.
+         * @property {boolean} showGrid - Whether the grid is currently visible.
+         * @property {string} currentDataFile - The name of the currently loaded data file.
+         */
         this.state = {
             width: 0,
             height: 0,
@@ -33,6 +62,10 @@ class WorkflowVisualizer {
         this.init();
     }
 
+    /**
+     * Sets up the initial visualization, binds event listeners, and loads sample data.
+     * @private
+     */
     init() {
         const container = document.getElementById('networkGraph');
         if (!container) return;
@@ -55,6 +88,12 @@ class WorkflowVisualizer {
         this.loadSampleData();
     }
 
+    /**
+     * Creates and returns an object containing all the event handler functions for the UI.
+     * This keeps the event binding logic clean and centralized.
+     * @returns {Object.<string, function>} An object where keys are handler names and values are the corresponding functions.
+     * @private
+     */
     getEventHandlers() {
         return {
             handleFileSelect: (e) => {
@@ -83,6 +122,10 @@ class WorkflowVisualizer {
         };
     }
 
+    /**
+     * Rerenders the visualization. This is the main function called after any data or layout change.
+     * It applies the current layout, sets up the simulation (if any), and calls the rendering functions.
+     */
     updateVisualization() {
         console.log('Updating visualization with nodes:', this.state.nodes.length, 'links:', this.state.links.length);
         if (this.state.nodes.length === 0) {
@@ -118,6 +161,9 @@ class WorkflowVisualizer {
         updatePositions(this.state.g);
     }
 
+    /**
+     * Applies the current search and filter values to the dataset and updates the visualization.
+     */
     applyFilters() {
         const searchQuery = document.getElementById('searchInput').value;
         const typeFilter = document.getElementById('typeFilter').value;
@@ -132,6 +178,10 @@ class WorkflowVisualizer {
         this.updateVisualization();
     }
 
+    /**
+     * Handles the user uploading a CSV file.
+     * It reads the file, processes the data, and updates the visualization.
+     */
     async handleFileUpload() {
         const fileInput = document.getElementById('csvFile');
         const file = fileInput.files[0];
@@ -160,6 +210,9 @@ class WorkflowVisualizer {
         }
     }
 
+    /**
+     * Loads the built-in sample data and updates the visualization.
+     */
     loadSampleData() {
         showStatus('Loading sample data...', 'loading');
         this.state.currentDataFile = 'sample-data.csv';
@@ -172,6 +225,10 @@ class WorkflowVisualizer {
         showStatus('Sample data loaded!', 'success');
     }
 
+    /**
+     * Handles the toggling of cost-based node sizing.
+     * @param {boolean} enabled - Whether cost-based sizing should be enabled.
+     */
     handleSizeToggle(enabled) {
         this.state.costBasedSizing = enabled;
         this.state.allNodes.forEach(node => {
@@ -184,6 +241,10 @@ class WorkflowVisualizer {
         showStatus(enabled ? 'Cost-based sizing enabled' : 'Uniform sizing enabled', 'info');
     }
 
+    /**
+     * Handles changing the graph layout.
+     * @param {string} layoutType - The new layout type to apply.
+     */
     handleLayoutChange(layoutType) {
         this.state.currentLayout = layoutType;
         ui.toggleGridControls(layoutType === 'manual-grid');
@@ -196,12 +257,18 @@ class WorkflowVisualizer {
         showStatus(`Layout changed to ${layoutType}`, 'info');
     }
 
+    /**
+     * Toggles the visibility of the grid overlay.
+     */
     toggleGrid() {
         this.state.showGrid = !this.state.showGrid;
         updateGridDisplay(this.state.svg, this.state.showGrid, this.state.width, this.state.height, this.state.gridSize);
         ui.updateGridUI(this.state.showGrid);
     }
 
+    /**
+     * Snaps all nodes to the nearest grid lines.
+     */
     snapAllToGrid() {
         this.state.nodes.forEach(node => {
             const snapped = snapToGrid(node.x, node.y, this.state.gridSize);
@@ -214,6 +281,10 @@ class WorkflowVisualizer {
         showStatus('All nodes snapped to grid', 'info');
     }
 
+    /**
+     * Updates the size of the grid.
+     * @param {number} newSize - The new size for the grid cells.
+     */
     updateGridSize(newSize) {
         this.state.gridSize = newSize;
         ui.updateGridSizeLabel(newSize);
@@ -222,6 +293,10 @@ class WorkflowVisualizer {
         }
     }
 
+    /**
+     * Saves the current layout of nodes to a JSON file.
+     * Only saves the positions of the currently visible nodes.
+     */
     saveCurrentLayout() {
         const layoutData = {
             timestamp: new Date().toISOString(),
@@ -240,6 +315,10 @@ class WorkflowVisualizer {
         showStatus(`Layout saved as "${fileName}"`, 'success');
     }
 
+    /**
+     * Loads a previously saved layout from a JSON file.
+     * Prompts the user to select a file.
+     */
     loadSavedLayout() {
         const input = document.createElement('input');
         input.type = 'file';
@@ -281,12 +360,20 @@ class WorkflowVisualizer {
         input.click();
     }
 
+    /**
+     * Rotates the graph by a given number of degrees.
+     * @param {number} degrees - The number of degrees to rotate (e.g., 90 or -90).
+     */
     rotateGraph(degrees) {
         this.state.graphRotation += degrees;
         this.applyGraphTransform();
         showStatus(`Graph rotated ${degrees > 0 ? 'right' : 'left'}`, 'info');
     }
 
+    /**
+     * Flips the graph horizontally or vertically.
+     * @param {string} direction - The direction to flip ('horizontal' or 'vertical').
+     */
     flipGraph(direction) {
         if (direction === 'horizontal') this.state.graphTransform.scaleX *= -1;
         if (direction === 'vertical') this.state.graphTransform.scaleY *= -1;
@@ -294,6 +381,10 @@ class WorkflowVisualizer {
         showStatus(`Graph flipped ${direction}ly`, 'info');
     }
 
+    /**
+     * Applies the current rotation and scale transformations to the main graph group.
+     * @private
+     */
     applyGraphTransform() {
         if (!this.state.g) return;
         const bounds = this.calculateGraphBounds();
@@ -304,6 +395,9 @@ class WorkflowVisualizer {
         updateTextRotation(this.state.g, this.state.graphRotation, this.state.graphTransform);
     }
 
+    /**
+     * Resets the zoom and pan to center the graph.
+     */
     centerGraph() {
         if (this.state.svg && this.state.zoom) {
             this.state.svg.transition().duration(750).call(this.state.zoom.transform, d3.zoomIdentity);
@@ -311,6 +405,9 @@ class WorkflowVisualizer {
         }
     }
 
+    /**
+     * Adjusts the zoom and pan to fit the entire graph within the viewport.
+     */
     fitToScreen() {
         if (!this.state.g || this.state.nodes.length === 0) return;
         const bounds = this.calculateGraphBounds();
@@ -331,6 +428,11 @@ class WorkflowVisualizer {
         showStatus('Graph fitted to screen', 'info');
     }
 
+    /**
+     * Calculates the bounding box of the currently displayed nodes.
+     * @returns {{minX: number, maxX: number, minY: number, maxY: number}|null} The bounding box or null if no nodes.
+     * @private
+     */
     calculateGraphBounds() {
         if (this.state.nodes.length === 0) return null;
         let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -345,6 +447,9 @@ class WorkflowVisualizer {
         return minX === Infinity ? null : { minX, maxX, minY, maxY };
     }
 
+    /**
+     * Runs a verification on the graph connections and displays a report.
+     */
     showConnectionReport() {
         const report = verifyConnections(this.state.allNodes, this.state.allLinks);
         let message = `📊 Connection Report: Total Nodes: ${report.totalNodes}, Total Links: ${report.totalLinks}, Broken Connections: ${report.brokenConnections.length}, Orphaned Nodes: ${report.orphanedNodes.length}, Dead-end Nodes: ${report.deadEndNodes.length}, Validation Errors: ${report.validationErrors.length}`;
@@ -359,6 +464,9 @@ class WorkflowVisualizer {
         console.log(message);
     }
 
+    /**
+     * Resets the view to its initial state (filters, layout, zoom, etc.).
+     */
     resetView() {
         ui.resetUI();
         this.state.currentLayout = 'force';
@@ -373,6 +481,10 @@ class WorkflowVisualizer {
     }
 }
 
+/**
+ * Initializes the application by creating a new WorkflowVisualizer instance.
+ * This is the main entry point of the application.
+ */
 export function initializeApp() {
     new WorkflowVisualizer();
 }

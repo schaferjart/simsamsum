@@ -45,6 +45,16 @@ export async function exportToPDF(state) {
     }
 }
 
+/**
+ * Creates the PDF content in a hidden container and triggers the download.
+ * This function builds an off-screen element containing the visualization and metadata,
+ * renders it to a canvas using html2canvas, and then inserts it into a jsPDF document.
+ * @param {HTMLElement} networkGraph - The container of the SVG visualization.
+ * @param {number} nodeCount - The total number of nodes in the graph.
+ * @param {number} linkCount - The total number of links in the graph.
+ * @param {string} layout - The name of the current graph layout.
+ * @private
+ */
 async function createPDFExport(networkGraph, nodeCount, linkCount, layout) {
     const exportContainer = document.createElement('div');
     exportContainer.style.cssText = `
