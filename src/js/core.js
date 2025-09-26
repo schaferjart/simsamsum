@@ -246,9 +246,11 @@ class WorkflowVisualizer {
      * @param {string} layoutType - The new layout type to apply.
      */
     handleLayoutChange(layoutType) {
-        this.state.currentLayout = layoutType;
-        ui.toggleGridControls(layoutType === 'manual-grid');
-        if (layoutType !== 'manual-grid') {
+    this.state.currentLayout = layoutType;
+    // Enable grid controls for manual-grid and hierarchical-orthogonal layouts
+    const gridCapable = layoutType === 'manual-grid' || layoutType === 'hierarchical-orthogonal';
+    ui.toggleGridControls(gridCapable);
+    if (!gridCapable) {
             this.state.showGrid = false;
             updateGridDisplay(this.state.svg, this.state.showGrid, this.state.width, this.state.height, this.state.gridSize);
             ui.updateGridUI(this.state.showGrid);

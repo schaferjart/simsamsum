@@ -11,7 +11,8 @@ import { highlightNode as renderHighlight, clearHighlight as renderClearHighligh
 export function dragStarted(event, d, simulation, currentLayout) {
     console.log(`🔥 Drag started for node: ${d.id}, layout: ${currentLayout}`);
     if (currentLayout !== 'manual-grid') {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
+        // Safely kick the simulation only if it exists
+        if (!event.active && simulation) simulation.alphaTarget(0.3).restart();
     }
     d.fx = d.x;
     d.fy = d.y;
@@ -25,10 +26,14 @@ export function dragStarted(event, d, simulation, currentLayout) {
  * @param {number} gridSize - The grid size for snapping.
  */
 export function dragged(event, d, currentLayout, gridSize) {
-    if (currentLayout === 'manual-grid') {
-        const snapped = snapToGrid(event.x, event.y, gridSize);
-        d.fx = snapped.x;
-        d.fy = snapped.y;
+    if (currentLayout === 'manual-grid' || currentLayout === 'hierarchical-orthogonal') {
+        // In manual-grid or orthogonal (no simulation), update absolute positions directly with grid snap
+    const snapped = snapToGrid(event.x, event.y, gridSize);
+    d.x = snapped.x;
+    d.y = snapped.y;
+    // Keep fixed coords in sync so subsequent renders/layouts respect the position
+    d.fx = d.x;
+    d.fy = d.y;
     } else {
         d.fx = event.x;
         d.fy = event.y;
@@ -43,10 +48,10 @@ export function dragged(event, d, currentLayout, gridSize) {
  * @param {string} currentLayout - The current layout type.
  */
 export function dragEnded(event, d, simulation, currentLayout) {
-    if (currentLayout === 'manual-grid') {
+    if (currentLayout === 'manual-grid' || currentLayout === 'hierarchical-orthogonal') {
         // Keep position fixed in manual mode
-        d.fx = d.x;
-        d.fy = d.y;
+    d.fx = d.x;
+    d.fy = d.y;
     } else {
         if (simulation && !event.active) simulation.alphaTarget(0);
         d.fx = null;
