@@ -59,7 +59,23 @@ class WorkflowVisualizer {
             currentDataFile: 'sample-data.csv'
         };
 
-        this.init();
+    /**
+     * Table-oriented state for editing/importing raw nodes, connections, and variables
+     * independent of the visualization's internal state. These are intentionally kept
+     * outside of this.state to avoid collisions with the rendering pipeline.
+     * @type {Array<{ id: string, name: string, type: string, platform: string, cost: number, volumeIn: number, description: string, x: number, y: number }>}
+     */
+    this.nodes = [];
+    /**
+     * @type {Array<{ id: string, fromId: string, toId: string, probability: string|number, type: string, description: string }>}
+     */
+    this.connections = [];
+    /**
+     * @type {{ [key: string]: number }}
+     */
+    this.variables = {};
+
+    this.init();
     }
 
     /**
@@ -85,7 +101,16 @@ class WorkflowVisualizer {
 
         ui.bindEventListeners(this.getEventHandlers());
         ui.hideDetailsPanel();
+        // Load sample visualization data, then seed the table-oriented state from it
         this.loadSampleData();
+        this.populateTablesFromCurrentState();
+        // Quick visibility for dev/test
+        // eslint-disable-next-line no-console
+        console.log('[Tables] Initialized from sample:', {
+            nodes: this.nodes,
+            connections: this.connections,
+            variables: this.variables
+        });
     }
 
     /**
@@ -223,6 +248,126 @@ class WorkflowVisualizer {
         this.state.links = [...this.state.allLinks];
         this.updateVisualization();
         showStatus('Sample data loaded!', 'success');
+    }
+
+    /**
+     * Seeds the table-oriented state (this.nodes, this.connections, this.variables)
+     * from the current visualization state. This provides a baseline for editing via tables.
+     * @private
+     */
+    populateTablesFromCurrentState() {
+        // Map visualization nodes to table nodes
+        this.nodes = (this.state.allNodes || []).map(n => ({
+            id: n.id,
+            name: n.Name || n.id,
+            type: n.Type || '',
+            platform: n.Platform || '',
+            cost: typeof n["Effective Cost"] === 'number' ? n["Effective Cost"] : (typeof n.costValue === 'number' ? n.costValue : 0),
+            volumeIn: typeof n.volumeIn === 'number' ? n.volumeIn : 0,
+            description: '',
+            x: typeof n.x === 'number' ? n.x : 0,
+            y: typeof n.y === 'number' ? n.y : 0
+        }));
+
+        // Map visualization links to table connections
+        this.connections = (this.state.allLinks || []).map(l => {
+            const fromId = l.source?.id ?? l.source;
+            const toId = l.target?.id ?? l.target;
+            return {
+                id: `${fromId}->${toId}`,
+                fromId,
+                toId,
+                probability: typeof l.probability === 'number' ? l.probability : (l.probability ?? 1.0),
+                type: l.type || 'outgoing',
+                description: ''
+            };
+        });
+
+        // Initialize variables as empty by default
+        this.variables = this.variables || {};
+
+        // Compute derived fields (stub)
+        this.computeDerivedFields();
+    }
+
+    /**
+     * Updates the table-oriented state from external inputs (e.g., editable tables)
+     * and triggers a visualization refresh.
+     * @param {'nodes'|'connections'|'variables'} type - The dataset being updated.
+     * @param {any} data - The new data to apply.
+     */
+    updateFromTable(type, data) {
+        if (type === 'nodes') {
+            this.nodes = Array.isArray(data) ? [...data] : [];
+        } else if (type === 'connections') {
+            this.connections = Array.isArray(data) ? [...data] : [];
+            // Resolve any variable references within connection probabilities
+            this.resolveVariables();
+        } else if (type === 'variables') {
+            // Normalize variable values to numbers
+            const normalized = {};
+            Object.entries(data || {}).forEach(([k, v]) => {
+                const num = typeof v === 'number' ? v : parseFloat(v);
+                if (!Number.isNaN(num)) normalized[k] = num;
+            });
+            this.variables = normalized;
+            // Re-resolve probabilities with new variable values
+            this.resolveVariables();
+        } else {
+            console.warn('[updateFromTable] Unknown type:', type);
+            return;
+        }
+
+        // Recompute derived values (stubbed) and refresh visualization
+        this.computeDerivedFields();
+        this.updateVisualization();
+    }
+
+    /**
+     * Resolves string-based probability values in connections using variables.
+     * Accepts numeric strings (e.g., "0.25") or variable keys (e.g., "callback_rate" or "${callback_rate}").
+     */
+    resolveVariables() {
+        const varKeyFromString = (s) => {
+            if (typeof s !== 'string') return null;
+            const trimmed = s.trim();
+            // Try numeric first
+            const asNum = parseFloat(trimmed);
+            if (!Number.isNaN(asNum)) return asNum;
+            // Extract key from patterns like ${key}, {key}, or key
+            const match = trimmed.match(/^\s*(?:\$?\{)?([a-zA-Z_][\w]*)\}?\s*$/);
+            if (match) {
+                const key = match[1];
+                const val = this.variables?.[key];
+                return typeof val === 'number' ? val : null;
+            }
+            return null;
+        };
+
+        this.connections = (this.connections || []).map(c => {
+            let prob = c.probability;
+            if (typeof prob === 'string') {
+                const resolved = varKeyFromString(prob);
+                if (resolved !== null) prob = resolved;
+            }
+            return { ...c, probability: prob };
+        });
+    }
+
+    /**
+     * Computes derived fields for table nodes, such as volumeIn.
+     * Phase 1 (stub): set volumeIn to the number of incoming connections.
+     * Phase 2: incorporate probabilities and upstream volumes.
+     */
+    computeDerivedFields() {
+        const incomingCount = new Map();
+        (this.connections || []).forEach(c => {
+            incomingCount.set(c.toId, (incomingCount.get(c.toId) || 0) + 1);
+        });
+        this.nodes = (this.nodes || []).map(n => ({
+            ...n,
+            volumeIn: incomingCount.get(n.id) || 0
+        }));
     }
 
     /**
