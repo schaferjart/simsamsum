@@ -15,6 +15,9 @@ class WorkflowVisualizer {
         this.currentLayout = 'force'; // Current layout type
         this.graphRotation = 0; // Current rotation angle
         this.graphTransform = { scaleX: 1, scaleY: 1 }; // Flip transforms
+        this.gridSize = 50; // Grid snap size
+        this.showGrid = false; // Show grid overlay
+        this.savedPositions = {}; // Saved node positions
 
         this.init();
         this.bindEvents();
@@ -179,6 +182,13 @@ class WorkflowVisualizer {
         // Layout selection
         document.getElementById('layoutSelect').addEventListener('change', (e) => this.handleLayoutChange(e.target.value));
         
+        // Grid controls
+        document.getElementById('showGridBtn').addEventListener('click', () => this.toggleGrid());
+        document.getElementById('snapToGridBtn').addEventListener('click', () => this.snapAllToGrid());
+        document.getElementById('savePositionsBtn').addEventListener('click', () => this.saveCurrentLayout());
+        document.getElementById('loadPositionsBtn').addEventListener('click', () => this.loadSavedLayout());
+        document.getElementById('gridSizeSlider').addEventListener('input', (e) => this.updateGridSize(parseInt(e.target.value)));
+        
         // Orientation controls
         document.getElementById('rotateLeftBtn').addEventListener('click', () => this.rotateGraph(-90));
         document.getElementById('rotateRightBtn').addEventListener('click', () => this.rotateGraph(90));
@@ -329,8 +339,29 @@ class WorkflowVisualizer {
     handleLayoutChange(layoutType) {
         this.currentLayout = layoutType;
         
+        // Show/hide grid controls
+        const gridControls = document.getElementById('gridControls');
+        if (layoutType === 'manual-grid') {
+            gridControls.style.display = 'block';
+        } else {
+            gridControls.style.display = 'none';
+            // Hide grid when switching away from manual mode
+            this.showGrid = false;
+            this.updateGridDisplay();
+        }
+        
         if (this.nodes.length > 0) {
+            // Stop any existing simulation first
+            if (this.simulation) {
+                this.simulation.stop();
+            }
+            
+            // Clear existing visualization and apply new layout
+            this.g.selectAll("*").remove();
             this.applyLayout(layoutType);
+            
+            // Re-render the visualization elements
+            this.renderVisualizationElements();
         }
         
         this.showStatus(`Layout changed to ${layoutType}`, 'info');
@@ -708,6 +739,17 @@ class WorkflowVisualizer {
     }
 
     applyLayout(layoutType) {
+        console.log(`🎨 Applying layout: ${layoutType}`);
+        console.log('Available nodes:', this.nodes ? this.nodes.length : 'undefined');
+        
+        this.currentLayout = layoutType; // Set the current layout
+        
+        // Hide grid controls by default
+        const gridControls = document.getElementById('gridControls');
+        if (gridControls) {
+            gridControls.style.display = 'none';
+        }
+        
         if (this.simulation) {
             this.simulation.stop();
         }
@@ -718,6 +760,17 @@ class WorkflowVisualizer {
                 break;
             case 'hierarchical':
                 this.applyHierarchicalLayout();
+                break;
+            case 'hierarchical-orthogonal':
+                this.applyHierarchicalOrthogonalLayout();
+                break;
+            case 'manual-grid':
+                try {
+                    console.log('Calling applyManualGridLayout...');
+                    this.applyManualGridLayout();
+                } catch (error) {
+                    console.error('Error in manual grid layout:', error);
+                }
                 break;
             case 'circular':
                 this.applyCircularLayout();
@@ -794,6 +847,270 @@ class WorkflowVisualizer {
         this.simulation.on('tick', () => this.updatePositions());
     }
 
+    applyHierarchicalOrthogonalLayout() {
+        // Advanced hierarchical layout using Sugiyama algorithm principles
+        console.log('🎯 Starting advanced hierarchical orthogonal layout...');
+        
+        // Step 1: Build proper hierarchy with branching support
+        const hierarchy = this.buildAdvancedHierarchy();
+        console.log('📊 Hierarchy built:', hierarchy);
+        
+        // Step 2: Apply intelligent positioning
+        this.positionNodesInHierarchy(hierarchy);
+        
+        // Step 3: Minimize edge crossings (basic implementation)
+        this.minimizeEdgeCrossings(hierarchy);
+        
+        // Step 4: Apply final positions
+        this.applyHierarchicalPositions(hierarchy);
+        
+        // No simulation needed - positions are set directly
+        console.log('✅ Hierarchical orthogonal layout complete - no further updates needed');
+    }
+
+    buildAdvancedHierarchy() {
+        const hierarchy = {
+            levels: {},
+            nodesByLevel: {},
+            maxLevel: 0,
+            connections: new Map()
+        };
+        
+        // Build connection map
+        this.links.forEach(link => {
+            const sourceId = link.source.id || link.source;
+            const targetId = link.target.id || link.target;
+            
+            if (!hierarchy.connections.has(sourceId)) {
+                hierarchy.connections.set(sourceId, []);
+            }
+            hierarchy.connections.get(sourceId).push({
+                target: targetId,
+                probability: link.probability || 1.0
+            });
+        });
+        
+        // Find true root nodes (no incoming connections)
+        const rootNodes = this.nodes.filter(node => 
+            !this.links.some(link => (link.target.id || link.target) === node.id)
+        );
+        
+        console.log('🌳 Root nodes found:', rootNodes.map(n => n.Name));
+        
+        // BFS with branching awareness
+        const queue = rootNodes.map(node => ({ node, level: 0, branch: 0 }));
+        const processed = new Set();
+        
+        while (queue.length > 0) {
+            const { node, level, branch } = queue.shift();
+            
+            if (processed.has(node.id)) continue;
+            processed.add(node.id);
+            
+            // Assign to level
+            hierarchy.levels[node.id] = level;
+            if (!hierarchy.nodesByLevel[level]) hierarchy.nodesByLevel[level] = [];
+            hierarchy.nodesByLevel[level].push({ node, branch });
+            
+            hierarchy.maxLevel = Math.max(hierarchy.maxLevel, level);
+            
+            // Process children
+            const connections = hierarchy.connections.get(node.id) || [];
+            connections.forEach((conn, index) => {
+                const targetNode = this.nodes.find(n => n.id === conn.target);
+                if (targetNode && !processed.has(conn.target)) {
+                    queue.push({ 
+                        node: targetNode, 
+                        level: level + 1, 
+                        branch: index // Track which branch this is
+                    });
+                }
+            });
+        }
+        
+        return hierarchy;
+    }
+
+    positionNodesInHierarchy(hierarchy) {
+        const spacing = {
+            vertical: 200,    // Between levels
+            horizontal: 300,  // Between nodes at same level
+            branchOffset: 100 // Extra space for branches
+        };
+        
+        const topPadding = 80;
+        
+        // Position each level
+        Object.keys(hierarchy.nodesByLevel).forEach(levelStr => {
+            const level = parseInt(levelStr);
+            const levelNodes = hierarchy.nodesByLevel[level];
+            const y = topPadding + level * spacing.vertical;
+            
+            if (levelNodes.length === 1) {
+                // Single node - center it
+                const { node } = levelNodes[0];
+                node.fx = this.width / 2;
+                node.fy = y;
+                node.x = node.fx;
+                node.y = node.fy;
+            } else {
+                // Multiple nodes - distribute intelligently
+                this.distributeNodesAtLevel(levelNodes, y, spacing, hierarchy, level);
+            }
+        });
+    }
+
+    distributeNodesAtLevel(levelNodes, y, spacing, hierarchy, level) {
+        // Sort nodes by their parent's position to minimize crossings
+        if (level > 0) {
+            levelNodes.sort((a, b) => {
+                const aParentX = this.getParentAverageX(a.node, hierarchy);
+                const bParentX = this.getParentAverageX(b.node, hierarchy);
+                return aParentX - bParentX;
+            });
+        }
+        
+        // Adaptive spacing that fits the viewport better
+        const maxNodes = Math.max(...Object.values(hierarchy.nodesByLevel).map(nodes => nodes.length));
+        const adaptiveSpacing = Math.min(spacing.horizontal, (this.width - 200) / maxNodes);
+        const minSpacing = 150; // Minimum spacing to keep readable
+        const finalSpacing = Math.max(minSpacing, adaptiveSpacing);
+        
+        // Calculate total width needed
+        const totalWidth = (levelNodes.length - 1) * finalSpacing;
+        
+        // Center the level within viewport
+        const startX = Math.max(100, (this.width - totalWidth) / 2);
+        
+        levelNodes.forEach(({ node, branch }, index) => {
+            node.fx = startX + (index * finalSpacing);
+            node.fy = y;
+            node.x = node.fx;
+            node.y = node.fy;
+            
+            // Position set successfully
+        });
+    }
+
+    getParentAverageX(node, hierarchy) {
+        const parents = this.links
+            .filter(link => (link.target.id || link.target) === node.id)
+            .map(link => this.nodes.find(n => n.id === (link.source.id || link.source)))
+            .filter(parent => parent && parent.x !== undefined);
+        
+        if (parents.length === 0) return this.width / 2;
+        
+        const avgX = parents.reduce((sum, parent) => sum + parent.x, 0) / parents.length;
+        return avgX;
+    }
+
+    calculateBranchAdjustments(levelNodes) {
+        let adjustments = 0;
+        for (let i = 0; i < levelNodes.length - 1; i++) {
+            if (levelNodes[i].branch !== levelNodes[i + 1].branch) {
+                adjustments += 100; // Extra space between different branches
+            }
+        }
+        return adjustments;
+    }
+
+    minimizeEdgeCrossings(hierarchy) {
+        // Simple crossing reduction using barycenter method
+        for (let level = 1; level <= hierarchy.maxLevel; level++) {
+            const levelNodes = hierarchy.nodesByLevel[level];
+            if (!levelNodes || levelNodes.length <= 1) continue;
+            
+            // Calculate barycenter for each node
+            levelNodes.forEach(({ node }) => {
+                const parents = this.links
+                    .filter(link => (link.target.id || link.target) === node.id)
+                    .map(link => this.nodes.find(n => n.id === (link.source.id || link.source)))
+                    .filter(parent => parent);
+                
+                if (parents.length > 0) {
+                    node.barycenter = parents.reduce((sum, parent) => sum + parent.x, 0) / parents.length;
+                } else {
+                    node.barycenter = node.x;
+                }
+            });
+            
+            // Sort by barycenter and reposition
+            levelNodes.sort((a, b) => a.node.barycenter - b.node.barycenter);
+            
+            // Reposition with maintained spacing
+            const spacing = 300;
+            const totalWidth = (levelNodes.length - 1) * spacing;
+            const startX = Math.max(100, (this.width - totalWidth) / 2);
+            
+            levelNodes.forEach(({ node }, index) => {
+                node.fx = startX + (index * spacing);
+                node.x = node.fx;
+            });
+        }
+    }
+
+    applyHierarchicalPositions(hierarchy) {
+        // Final position application with automatic viewport fitting
+        this.nodes.forEach(node => {
+            node.fx = node.x;
+            node.fy = node.y;
+        });
+        
+        // Auto-fit to screen for orthogonal layout
+        if (this.currentLayout === 'hierarchical-orthogonal') {
+            setTimeout(() => {
+                this.fitToScreen();
+            }, 100);
+        }
+        
+        console.log('✅ Hierarchical positioning complete');
+    }
+
+    buildConnectionMatrix() {
+        const matrix = {};
+        this.links.forEach(link => {
+            const sourceId = link.source.id || link.source;
+            const targetId = link.target.id || link.target;
+            if (!matrix[sourceId]) matrix[sourceId] = [];
+            matrix[sourceId].push(targetId);
+        });
+        return matrix;
+    }
+
+    getConnectionWeights(node, previousLevelNodes) {
+        let weight = 0;
+        const connections = this.links.filter(link => 
+            (link.target.id || link.target) === node.id
+        );
+        
+        connections.forEach(conn => {
+            const sourceId = conn.source.id || conn.source;
+            const sourceIndex = previousLevelNodes.findIndex(n => n.id === sourceId);
+            if (sourceIndex >= 0) {
+                weight += sourceIndex;
+            }
+        });
+        
+        return weight;
+    }
+
+    calculateMaxConnectionSpread(nodesInLevel, levelNum) {
+        let maxSpread = 0;
+        
+        nodesInLevel.forEach(node => {
+            const connections = this.links.filter(link => 
+                (link.source.id || link.source) === node.id ||
+                (link.target.id || link.target) === node.id
+            );
+            
+            if (connections.length > maxSpread) {
+                maxSpread = connections.length;
+            }
+        });
+        
+        return maxSpread;
+    }
+
     applyCircularLayout() {
         const centerX = this.width / 2;
         const centerY = this.height / 2;
@@ -836,6 +1153,293 @@ class WorkflowVisualizer {
         this.simulation.on('tick', () => this.updatePositions());
     }
 
+    applyManualGridLayout() {
+        // Manual layout with grid snapping
+        console.log('🎯 Applying manual grid layout...');
+        console.log('Current nodes:', this.nodes.length);
+        console.log('Current gridSize:', this.gridSize);
+        
+        // Check if we have saved positions for these nodes
+        const hasSavedPositions = this.loadSavedLayout(false); // Don't show status
+        console.log('Has saved positions:', hasSavedPositions);
+        
+        // Always initialize layout to prevent stacking, even if we have saved positions
+        // This ensures nodes are spread out if saved positions are invalid
+        console.log('Checking node positions for stacking...');
+        let needsInitialization = !hasSavedPositions;
+        
+        if (hasSavedPositions) {
+            // Check if nodes are stacked (all at same position)
+            const firstNode = this.nodes[0];
+            const allSamePosition = this.nodes.every(node => 
+                Math.abs(node.x - firstNode.x) < 10 && Math.abs(node.y - firstNode.y) < 10
+            );
+            
+            if (allSamePosition) {
+                console.log('Detected stacked nodes, forcing initialization...');
+                needsInitialization = true;
+            }
+        }
+        
+        if (needsInitialization) {
+            console.log('Initializing manual layout...');
+            this.initializeManualLayout();
+        }
+        
+        // Debug: Check final node positions
+        console.log('Final node positions after initialization:');
+        this.nodes.slice(0, 3).forEach(node => {
+            console.log(`Node ${node.id}: x=${node.x}, y=${node.y}, fx=${node.fx}, fy=${node.fy}`);
+        });
+        
+        // Enable grid snapping for all nodes
+        console.log('Enabling grid snapping...');
+        this.enableGridSnapping();
+        
+        // Ensure all nodes have fixed positions for dragging
+        this.nodes.forEach(node => {
+            if (node.x !== undefined && node.y !== undefined) {
+                node.fx = node.x;
+                node.fy = node.y;
+            }
+        });
+        console.log('Fixed positions set for all nodes');
+        
+        // Add draggable class to all nodes in manual mode
+        this.g.selectAll('.node').classed('draggable', true);
+        console.log('Added draggable class to nodes');
+        
+        // Show grid controls
+        const gridControls = document.getElementById('gridControls');
+        console.log('Grid controls element:', gridControls);
+        if (gridControls) {
+            gridControls.style.display = 'block';
+            console.log('Grid controls displayed');
+        } else {
+            console.error('Grid controls element not found!');
+        }
+        
+        // No simulation - manual positioning only
+        if (this.simulation) {
+            this.simulation.stop();
+            console.log('Simulation stopped');
+        }
+        
+        // Force a redraw
+        this.updatePositions();
+        
+        console.log('✅ Manual grid layout ready - drag nodes to position them');
+    }
+
+    initializeManualLayout() {
+        // Place nodes in a loose grid formation as starting point
+        const cols = Math.ceil(Math.sqrt(this.nodes.length));
+        const spacing = this.gridSize * 4; // Wider initial spacing
+        const startX = 100;
+        const startY = 100;
+        
+        this.nodes.forEach((node, i) => {
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+            
+            node.x = startX + col * spacing;
+            node.y = startY + row * spacing;
+            node.fx = node.x;
+            node.fy = node.y;
+        });
+    }
+
+    enableGridSnapping() {
+        // Enhance drag behavior to include grid snapping
+        this.nodes.forEach(node => {
+            node.gridSnap = true;
+        });
+    }
+
+    toggleGrid() {
+        this.showGrid = !this.showGrid;
+        this.updateGridDisplay();
+        
+        const btn = document.getElementById('showGridBtn');
+        btn.textContent = this.showGrid ? '📐 Hide Grid' : '📐 Show Grid';
+        btn.classList.toggle('btn--active', this.showGrid);
+    }
+
+    updateGridDisplay() {
+        // Remove existing grid
+        this.svg.selectAll('.grid-line').remove();
+        
+        if (!this.showGrid) return;
+        
+        // Draw grid lines
+        const gridGroup = this.svg.append('g').attr('class', 'grid-overlay');
+        
+        // Vertical lines
+        for (let x = 0; x <= this.width; x += this.gridSize) {
+            gridGroup.append('line')
+                .attr('class', 'grid-line')
+                .attr('x1', x)
+                .attr('y1', 0)
+                .attr('x2', x)
+                .attr('y2', this.height)
+                .attr('stroke', '#e0e0e0')
+                .attr('stroke-width', x % (this.gridSize * 4) === 0 ? 1 : 0.5)
+                .attr('opacity', 0.5);
+        }
+        
+        // Horizontal lines
+        for (let y = 0; y <= this.height; y += this.gridSize) {
+            gridGroup.append('line')
+                .attr('class', 'grid-line')
+                .attr('x1', 0)
+                .attr('y1', y)
+                .attr('x2', this.width)
+                .attr('y2', y)
+                .attr('stroke', '#e0e0e0')
+                .attr('stroke-width', y % (this.gridSize * 4) === 0 ? 1 : 0.5)
+                .attr('opacity', 0.5);
+        }
+    }
+
+    updateGridSize(newSize) {
+        this.gridSize = newSize;
+        document.getElementById('gridSizeLabel').textContent = `${newSize}px`;
+        
+        if (this.showGrid) {
+            this.updateGridDisplay();
+        }
+    }
+
+    snapToGrid(x, y) {
+        return {
+            x: Math.round(x / this.gridSize) * this.gridSize,
+            y: Math.round(y / this.gridSize) * this.gridSize
+        };
+    }
+
+    snapAllToGrid() {
+        this.nodes.forEach(node => {
+            const snapped = this.snapToGrid(node.x, node.y);
+            node.x = snapped.x;
+            node.y = snapped.y;
+            node.fx = snapped.x;
+            node.fy = snapped.y;
+        });
+        
+        this.updatePositions();
+        this.showStatus('All nodes snapped to grid', 'info');
+    }
+
+    saveCurrentLayout() {
+        const layoutData = {
+            timestamp: new Date().toISOString(),
+            gridSize: this.gridSize,
+            dataFile: this.currentDataFile || 'unknown',
+            nodeCount: this.nodes.length,
+            positions: {}
+        };
+        
+        this.nodes.forEach(node => {
+            layoutData.positions[node.id] = {
+                x: node.x,
+                y: node.y,
+                name: node.Name || node.id
+            };
+        });
+        
+        // Generate filename based on current data file and timestamp
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        const baseFileName = this.currentDataFile ? this.currentDataFile.replace('.csv', '') : 'workflow';
+        const fileName = `${baseFileName}_layout_${timestamp}.json`;
+        
+        // Download as file
+        this.downloadJsonFile(layoutData, fileName);
+        
+        this.showStatus(`Layout saved as "${fileName}"`, 'success');
+    }
+
+    downloadJsonFile(data, filename) {
+        const jsonString = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    loadSavedLayout(showMessage = true) {
+        // Create file input element for loading layout files
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        
+        input.onchange = (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const layoutData = JSON.parse(e.target.result);
+                    
+                    if (layoutData && layoutData.positions) {
+                        let loadedCount = 0;
+                        
+                        // Restore grid size if saved
+                        if (layoutData.gridSize) {
+                            this.gridSize = layoutData.gridSize;
+                            document.getElementById('gridSizeSlider').value = this.gridSize;
+                            document.getElementById('gridSizeLabel').textContent = `${this.gridSize}px`;
+                        }
+                        
+                        this.nodes.forEach(node => {
+                            if (layoutData.positions[node.id]) {
+                                const pos = layoutData.positions[node.id];
+                                node.x = pos.x;
+                                node.y = pos.y;
+                                node.fx = pos.x;
+                                node.fy = pos.y;
+                                loadedCount++;
+                            }
+                        });
+                        
+                        this.updatePositions();
+                        
+                        if (showMessage) {
+                            this.showStatus(`Loaded layout from "${file.name}" (${loadedCount}/${this.nodes.length} nodes positioned)`, 'success');
+                        }
+                        
+                        return true;
+                    } else {
+                        this.showStatus('Invalid layout file format', 'error');
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Error loading layout:', error);
+                    this.showStatus('Error loading layout file', 'error');
+                    return false;
+                }
+            };
+            
+            reader.readAsText(file);
+        };
+        
+        // Trigger file selection dialog
+        if (showMessage) {
+            input.click();
+        }
+        
+        return false; // Will be updated by the file reader callback
+    }
+
+    // File-based layouts - no longer need getSavedLayouts method
+    // Layouts are now saved as downloadable JSON files
+
     calculateNodeLevels() {
         const levels = {};
         const visited = new Set();
@@ -847,9 +1451,12 @@ class WorkflowVisualizer {
             )
         );
         
+        console.log(`Found ${rootNodes.length} root nodes:`, rootNodes.map(n => n.Name));
+        
         // If no clear roots, use first node
         if (rootNodes.length === 0 && this.nodes.length > 0) {
             rootNodes.push(this.nodes[0]);
+            console.log('No root nodes found, using first node:', this.nodes[0].Name);
         }
         
         // BFS to assign levels
@@ -877,6 +1484,14 @@ class WorkflowVisualizer {
             });
         }
         
+        // Debug: Show level assignment
+        console.log('Level assignments:', levels);
+        const levelCounts = {};
+        Object.values(levels).forEach(level => {
+            levelCounts[level] = (levelCounts[level] || 0) + 1;
+        });
+        console.log('Nodes per level:', levelCounts);
+        
         return levels;
     }
 
@@ -884,11 +1499,69 @@ class WorkflowVisualizer {
         this.g.selectAll('.node')
             .attr('transform', d => `translate(${d.x},${d.y})`);
 
-        this.g.selectAll('.link')
+        // Update straight line links
+        this.g.selectAll('line.link')
             .attr('x1', d => d.source.x)
             .attr('y1', d => d.source.y)
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
+            
+        // Update orthogonal path links
+        this.g.selectAll('path.link')
+            .attr('d', d => this.createOrthogonalPath(d));
+    }
+
+    updateOrthogonalPositions() {
+        // Update node positions
+        this.g.selectAll('.node')
+            .attr('transform', d => `translate(${d.x},${d.y})`);
+
+        // Update orthogonal path links
+        this.g.selectAll('path.link')
+            .attr('d', d => this.createOrthogonalPath(d));
+            
+        // Update any remaining straight line links
+        this.g.selectAll('line.link')
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
+    }
+
+    createOrthogonalPath(d) {
+        const source = d.source;
+        const target = d.target;
+        
+        // Calculate node sizes for proper connection points
+        const sourceSize = source.size || 30;
+        const targetSize = target.size || 30;
+        
+        // Connection points with better spacing
+        const sourceY = source.y + sourceSize/2 + 5;
+        const targetY = target.y - targetSize/2 - 5;
+        const sourceX = source.x;
+        const targetX = target.x;
+        
+        // Calculate distances
+        const horizontalDistance = Math.abs(targetX - sourceX);
+        const verticalDistance = Math.abs(targetY - sourceY);
+        
+        if (horizontalDistance < 20) {
+            // Vertical alignment - straight line
+            return `M${sourceX},${sourceY} L${targetX},${targetY}`;
+        }
+        
+        // Create professional orthogonal routing
+        if (verticalDistance > 100) {
+            // Standard L-shape for good vertical separation
+            const bendY = sourceY + (targetY - sourceY) * 0.55;
+            return `M${sourceX},${sourceY} L${sourceX},${bendY} L${targetX},${bendY} L${targetX},${targetY}`;
+        } else {
+            // Close vertical spacing - create wider routing to avoid overlaps
+            const routingOffset = Math.max(40, verticalDistance * 0.7);
+            const bendY = sourceY + routingOffset;
+            return `M${sourceX},${sourceY} L${sourceX},${bendY} L${targetX},${bendY} L${targetX},${targetY}`;
+        }
     }
 
     handleFileUpload() {
@@ -906,6 +1579,9 @@ class WorkflowVisualizer {
         }
 
         this.showStatus('Processing CSV file...', 'loading');
+        
+        // Store current data file name for layout saving
+        this.currentDataFile = file.name;
 
         Papa.parse(file, {
             header: true,
@@ -934,6 +1610,7 @@ class WorkflowVisualizer {
 
     loadSampleData() {
         this.showStatus('Loading sample data...', 'loading');
+        this.currentDataFile = 'sample-data.csv'; // Set default name for sample data
         this.processData(this.sampleData);
         this.showStatus('Sample data loaded!', 'success');
     }
@@ -1086,13 +1763,36 @@ class WorkflowVisualizer {
         // Apply the selected layout
         this.applyLayout(this.currentLayout);
 
-        // Create links
-        const link = this.g.append('g')
-            .attr('class', 'links')
-            .selectAll('line')
-            .data(this.links)
-            .enter().append('line')
-            .attr('class', 'link');
+        // Render the visual elements
+        this.renderVisualizationElements();
+    }
+
+    renderVisualizationElements() {
+        // Create links based on layout type
+        const linkGroup = this.g.append('g').attr('class', 'links');
+        
+        if (this.currentLayout === 'hierarchical-orthogonal') {
+            // Create orthogonal path links
+            const link = linkGroup
+                .selectAll('path')
+                .data(this.links)
+                .enter().append('path')
+                .attr('class', 'link orthogonal-link')
+                .attr('fill', 'none')
+                .attr('stroke', '#999')
+                .attr('stroke-width', 2)
+                .attr('marker-end', 'url(#arrowhead)');
+        } else {
+            // Create straight line links
+            const link = linkGroup
+                .selectAll('line')
+                .data(this.links)
+                .enter().append('line')
+                .attr('class', 'link')
+                .attr('stroke', '#999')
+                .attr('stroke-width', 2)
+                .attr('marker-end', 'url(#arrowhead)');
+        }
 
         // Create node groups
         const node = this.g.append('g')
@@ -1318,20 +2018,49 @@ class WorkflowVisualizer {
     }
 
     dragStarted(event, d) {
-        if (!event.active) this.simulation.alphaTarget(0.3).restart();
+        console.log(`🔥 Drag started for node: ${d.id}, layout: ${this.currentLayout}`);
+        if (this.currentLayout !== 'manual-grid') {
+            if (!event.active) this.simulation.alphaTarget(0.3).restart();
+        }
         d.fx = d.x;
         d.fy = d.y;
     }
 
     dragged(event, d) {
-        d.fx = event.x;
-        d.fy = event.y;
+        console.log(`🚀 Dragging node: ${d.id}, event.x: ${event.x}, event.y: ${event.y}, gridSnap: ${d.gridSnap}`);
+        if (this.currentLayout === 'manual-grid' && d.gridSnap) {
+            // Snap to grid during drag
+            const snapped = this.snapToGrid(event.x, event.y);
+            console.log(`⚡ Snapped to: ${snapped.x}, ${snapped.y}`);
+            d.fx = snapped.x;
+            d.fy = snapped.y;
+            d.x = snapped.x;
+            d.y = snapped.y;
+        } else {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+        this.updatePositions();
     }
 
     dragEnded(event, d) {
-        if (!event.active) this.simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
+        if (this.currentLayout === 'manual-grid') {
+            // Keep position fixed in manual mode
+            if (d.gridSnap) {
+                const snapped = this.snapToGrid(d.x, d.y);
+                d.fx = snapped.x;
+                d.fy = snapped.y;
+                d.x = snapped.x;
+                d.y = snapped.y;
+            } else {
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+        } else {
+            if (!event.active) this.simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
     }
 
     highlightNode(selectedNode) {

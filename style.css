@@ -890,16 +890,41 @@ select.form-control {
 
 /* Orientation Controls */
 .orientation-controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-8);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .orientation-btn {
-  font-size: var(--font-size-xs);
-  padding: var(--space-6) var(--space-8);
-  white-space: nowrap;
   min-width: auto;
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.grid-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.grid-size-control {
+  margin-top: 8px;
+}
+
+.grid-size-control label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.grid-size-control input[type="range"] {
+  width: 100%;
+}
+
+.btn--active {
+  background-color: var(--color-primary);
+  color: white;
 }
 
 .orientation-controls .orientation-btn:nth-child(5),
@@ -1115,6 +1140,14 @@ select.form-control {
   transition: all 0.2s ease;
 }
 
+.node.draggable {
+  cursor: grab;
+}
+
+.node.draggable:active {
+  cursor: grabbing;
+}
+
 .node:hover {
   filter: brightness(1.2);
 }
@@ -1133,6 +1166,13 @@ select.form-control {
   stroke: var(--color-text-secondary);
   stroke-width: 2px;
   opacity: 0.6;
+  marker-end: url(#arrowhead);
+}
+
+.link.orthogonal-link {
+  stroke: var(--color-teal-600);
+  stroke-width: 2px;
+  opacity: 0.8;
   marker-end: url(#arrowhead);
 }
 
