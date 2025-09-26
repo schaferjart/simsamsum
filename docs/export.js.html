@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>export.js - Documentation</title>
+
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+
+
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WorkflowVisualizer.html">WorkflowVisualizer</a><ul class='methods'><li data-type='method'><a href="WorkflowVisualizer.html#applyFilters">applyFilters</a></li><li data-type='method'><a href="WorkflowVisualizer.html#centerGraph">centerGraph</a></li><li data-type='method'><a href="WorkflowVisualizer.html#fitToScreen">fitToScreen</a></li><li data-type='method'><a href="WorkflowVisualizer.html#flipGraph">flipGraph</a></li><li data-type='method'><a href="WorkflowVisualizer.html#handleFileUpload">handleFileUpload</a></li><li data-type='method'><a href="WorkflowVisualizer.html#handleLayoutChange">handleLayoutChange</a></li><li data-type='method'><a href="WorkflowVisualizer.html#handleSizeToggle">handleSizeToggle</a></li><li data-type='method'><a href="WorkflowVisualizer.html#loadSampleData">loadSampleData</a></li><li data-type='method'><a href="WorkflowVisualizer.html#loadSavedLayout">loadSavedLayout</a></li><li data-type='method'><a href="WorkflowVisualizer.html#resetView">resetView</a></li><li data-type='method'><a href="WorkflowVisualizer.html#rotateGraph">rotateGraph</a></li><li data-type='method'><a href="WorkflowVisualizer.html#saveCurrentLayout">saveCurrentLayout</a></li><li data-type='method'><a href="WorkflowVisualizer.html#showConnectionReport">showConnectionReport</a></li><li data-type='method'><a href="WorkflowVisualizer.html#snapAllToGrid">snapAllToGrid</a></li><li data-type='method'><a href="WorkflowVisualizer.html#toggleGrid">toggleGrid</a></li><li data-type='method'><a href="WorkflowVisualizer.html#updateGridSize">updateGridSize</a></li><li data-type='method'><a href="WorkflowVisualizer.html#updateVisualization">updateVisualization</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#applyLayout">applyLayout</a></li><li><a href="global.html#bindEventListeners">bindEventListeners</a></li><li><a href="global.html#calculateNodeSize">calculateNodeSize</a></li><li><a href="global.html#clearHighlight">clearHighlight</a></li><li><a href="global.html#downloadJsonFile">downloadJsonFile</a></li><li><a href="global.html#dragEnded">dragEnded</a></li><li><a href="global.html#dragStarted">dragStarted</a></li><li><a href="global.html#dragged">dragged</a></li><li><a href="global.html#exportToPDF">exportToPDF</a></li><li><a href="global.html#getBorderStyle">getBorderStyle</a></li><li><a href="global.html#handleResize">handleResize</a></li><li><a href="global.html#handleZoom">handleZoom</a></li><li><a href="global.html#hideDetailsPanel">hideDetailsPanel</a></li><li><a href="global.html#highlightNode">highlightNode</a></li><li><a href="global.html#initVisualization">initVisualization</a></li><li><a href="global.html#initializeApp">initializeApp</a></li><li><a href="global.html#parseCSV">parseCSV</a></li><li><a href="global.html#processData">processData</a></li><li><a href="global.html#renderVisualizationElements">renderVisualizationElements</a></li><li><a href="global.html#resetUI">resetUI</a></li><li><a href="global.html#showNodeDetails">showNodeDetails</a></li><li><a href="global.html#showStatus">showStatus</a></li><li><a href="global.html#snapToGrid">snapToGrid</a></li><li><a href="global.html#toggleGridControls">toggleGridControls</a></li><li><a href="global.html#updateGridDisplay">updateGridDisplay</a></li><li><a href="global.html#updateGridSizeLabel">updateGridSizeLabel</a></li><li><a href="global.html#updateGridUI">updateGridUI</a></li><li><a href="global.html#updatePositions">updatePositions</a></li><li><a href="global.html#updateTextRotation">updateTextRotation</a></li><li><a href="global.html#verifyConnections">verifyConnections</a></li></ul>
+
+</nav>
+
+<div id="main">
+
+    <h1 class="page-title">export.js</h1>
+
+
+
+
+
+
+
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import { showStatus } from './utils.js';
+
+/**
+ * Exports the current visualization to a PDF file.
+ * @param {object} state - The current application state.
+ */
+export async function exportToPDF(state) {
+    const { nodes, links, currentLayout } = state;
+
+    try {
+        showStatus('Preparing PDF export...', 'loading');
+
+        const networkGraph = document.getElementById('networkGraph');
+        if (!networkGraph || nodes.length === 0) {
+            showStatus('No visualization to export', 'error');
+            return;
+        }
+
+        // Temporarily hide UI elements that shouldn't be in the PDF
+        const elementsToHide = ['.zoom-controls', '.legend', '.controls-panel', '#detailsPanel'];
+        const hiddenElements = [];
+        elementsToHide.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => {
+                if (el.style.display !== 'none') {
+                    hiddenElements.push({ element: el, originalDisplay: el.style.display });
+                    el.style.display = 'none';
+                }
+            });
+        });
+
+        await createPDFExport(networkGraph, nodes.length, links.length, currentLayout);
+
+        // Restore hidden elements
+        hiddenElements.forEach(({ element, originalDisplay }) => {
+            element.style.display = originalDisplay;
+        });
+
+        showStatus('PDF exported successfully!', 'success');
+
+    } catch (error) {
+        console.error('PDF export error:', error);
+        showStatus('Error exporting PDF', 'error');
+    }
+}
+
+/**
+ * Creates the PDF content in a hidden container and triggers the download.
+ * This function builds an off-screen element containing the visualization and metadata,
+ * renders it to a canvas using html2canvas, and then inserts it into a jsPDF document.
+ * @param {HTMLElement} networkGraph - The container of the SVG visualization.
+ * @param {number} nodeCount - The total number of nodes in the graph.
+ * @param {number} linkCount - The total number of links in the graph.
+ * @param {string} layout - The name of the current graph layout.
+ * @private
+ */
+async function createPDFExport(networkGraph, nodeCount, linkCount, layout) {
+    const exportContainer = document.createElement('div');
+    exportContainer.style.cssText = `
+        position: fixed;
+        top: -10000px;
+        left: -10000px;
+        width: 1600px;
+        height: 1200px;
+        background: white;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    `;
+    document.body.appendChild(exportContainer);
+
+    const header = document.createElement('div');
+    header.style.cssText = `text-align: center; margin-bottom: 20px; font-size: 24px; font-weight: bold; color: #333;`;
+    header.textContent = 'Workflow Visualization';
+    exportContainer.appendChild(header);
+
+    const metadata = document.createElement('div');
+    metadata.style.cssText = `display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; color: #666;`;
+    metadata.innerHTML = `
+        &lt;div>
+            &lt;div>Total Nodes: ${nodeCount}&lt;/div>
+            &lt;div>Total Links: ${linkCount}&lt;/div>
+            &lt;div>Layout: ${layout}&lt;/div>
+        &lt;/div>
+        &lt;div>
+            &lt;div>Export Date: ${new Date().toLocaleDateString()}&lt;/div>
+            &lt;div>Export Time: ${new Date().toLocaleTimeString()}&lt;/div>
+        &lt;/div>
+    `;
+    exportContainer.appendChild(metadata);
+
+    const svgElement = networkGraph.querySelector('svg');
+    if (svgElement) {
+        const svgClone = svgElement.cloneNode(true);
+        const bbox = svgElement.getBBox();
+        const margin = 50;
+        const width = Math.max(1160, bbox.width + margin * 2);
+        const height = Math.max(700, bbox.height + margin * 2);
+
+        svgClone.setAttribute('width', width);
+        svgClone.setAttribute('height', height);
+        svgClone.setAttribute('viewBox', `${bbox.x - margin} ${bbox.y - margin} ${width} ${height}`);
+        svgClone.style.border = '1px solid #ddd';
+        svgClone.style.backgroundColor = 'white';
+
+        svgClone.querySelectorAll('text').forEach(text => {
+            text.style.fill = '#333';
+            text.style.fontSize = text.style.fontSize || '12px';
+        });
+
+        exportContainer.appendChild(svgClone);
+    }
+
+    const canvas = await html2canvas(exportContainer, {
+        width: 1200,
+        height: 800,
+        scale: 2,
+        backgroundColor: 'white',
+        logging: false,
+        useCORS: true
+    });
+
+    const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const pageWidth = 297;
+    const pageHeight = 210;
+    const aspectRatio = canvas.width / canvas.height;
+    let imgWidth, imgHeight;
+
+    if (aspectRatio > pageWidth / pageHeight) {
+        imgWidth = pageWidth;
+        imgHeight = pageWidth / aspectRatio;
+    } else {
+        imgHeight = pageHeight;
+        imgWidth = pageHeight * aspectRatio;
+    }
+
+    const x = (pageWidth - imgWidth) / 2;
+    const y = (pageHeight - imgHeight) / 2;
+
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', x, y, imgWidth, imgHeight);
+
+    const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
+    pdf.save(`workflow-visualization-${timestamp}.pdf`);
+
+    document.body.removeChild(exportContainer);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Sep 26 2025 13:40:40 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

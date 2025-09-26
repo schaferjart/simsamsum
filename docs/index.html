@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+
+
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="WorkflowVisualizer.html">WorkflowVisualizer</a><ul class='methods'><li data-type='method'><a href="WorkflowVisualizer.html#applyFilters">applyFilters</a></li><li data-type='method'><a href="WorkflowVisualizer.html#centerGraph">centerGraph</a></li><li data-type='method'><a href="WorkflowVisualizer.html#fitToScreen">fitToScreen</a></li><li data-type='method'><a href="WorkflowVisualizer.html#flipGraph">flipGraph</a></li><li data-type='method'><a href="WorkflowVisualizer.html#handleFileUpload">handleFileUpload</a></li><li data-type='method'><a href="WorkflowVisualizer.html#handleLayoutChange">handleLayoutChange</a></li><li data-type='method'><a href="WorkflowVisualizer.html#handleSizeToggle">handleSizeToggle</a></li><li data-type='method'><a href="WorkflowVisualizer.html#loadSampleData">loadSampleData</a></li><li data-type='method'><a href="WorkflowVisualizer.html#loadSavedLayout">loadSavedLayout</a></li><li data-type='method'><a href="WorkflowVisualizer.html#resetView">resetView</a></li><li data-type='method'><a href="WorkflowVisualizer.html#rotateGraph">rotateGraph</a></li><li data-type='method'><a href="WorkflowVisualizer.html#saveCurrentLayout">saveCurrentLayout</a></li><li data-type='method'><a href="WorkflowVisualizer.html#showConnectionReport">showConnectionReport</a></li><li data-type='method'><a href="WorkflowVisualizer.html#snapAllToGrid">snapAllToGrid</a></li><li data-type='method'><a href="WorkflowVisualizer.html#toggleGrid">toggleGrid</a></li><li data-type='method'><a href="WorkflowVisualizer.html#updateGridSize">updateGridSize</a></li><li data-type='method'><a href="WorkflowVisualizer.html#updateVisualization">updateVisualization</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#applyFilters">applyFilters</a></li><li><a href="global.html#applyLayout">applyLayout</a></li><li><a href="global.html#bindEventListeners">bindEventListeners</a></li><li><a href="global.html#calculateNodeSize">calculateNodeSize</a></li><li><a href="global.html#clearHighlight">clearHighlight</a></li><li><a href="global.html#downloadJsonFile">downloadJsonFile</a></li><li><a href="global.html#dragEnded">dragEnded</a></li><li><a href="global.html#dragStarted">dragStarted</a></li><li><a href="global.html#dragged">dragged</a></li><li><a href="global.html#exportToPDF">exportToPDF</a></li><li><a href="global.html#getBorderStyle">getBorderStyle</a></li><li><a href="global.html#handleResize">handleResize</a></li><li><a href="global.html#handleZoom">handleZoom</a></li><li><a href="global.html#hideDetailsPanel">hideDetailsPanel</a></li><li><a href="global.html#highlightNode">highlightNode</a></li><li><a href="global.html#initVisualization">initVisualization</a></li><li><a href="global.html#initializeApp">initializeApp</a></li><li><a href="global.html#parseCSV">parseCSV</a></li><li><a href="global.html#processData">processData</a></li><li><a href="global.html#renderVisualizationElements">renderVisualizationElements</a></li><li><a href="global.html#resetUI">resetUI</a></li><li><a href="global.html#showNodeDetails">showNodeDetails</a></li><li><a href="global.html#showStatus">showStatus</a></li><li><a href="global.html#snapToGrid">snapToGrid</a></li><li><a href="global.html#toggleGridControls">toggleGridControls</a></li><li><a href="global.html#updateGridDisplay">updateGridDisplay</a></li><li><a href="global.html#updateGridSizeLabel">updateGridSizeLabel</a></li><li><a href="global.html#updateGridUI">updateGridUI</a></li><li><a href="global.html#updatePositions">updatePositions</a></li><li><a href="global.html#updateTextRotation">updateTextRotation</a></li><li><a href="global.html#verifyConnections">verifyConnections</a></li></ul>
+
+</nav>
+
+<div id="main">
+
+
+
+
+
+
+
+
+
+    <section class="package">
+        <h3> </h3>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <section class="readme usertext">
+        <article><h1>Workflow Visualizer</h1>
+<p><strong>Workflow Visualizer</strong> is an interactive web application for creating, analyzing, and visualizing complex business workflows and process flows. Built with D3.js, it provides a dynamic and responsive interface to turn CSV data into insightful, interactive diagrams.</p>
+<p><img src="https://img.shields.io/badge/Status-Production%20Ready-green" alt="Status">
+<img src="https://img.shields.io/badge/Tech-D3.js%20%7C%20Vite%20%7C%20JavaScript-blue" alt="Technology">
+<img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></p>
+<hr>
+<h2>Features</h2>
+<ul>
+<li><strong>Interactive &amp; Responsive:</strong> Zoom, pan, and drag nodes to organize your workflow. The visualization adapts to your screen size.</li>
+<li><strong>Multiple Layouts:</strong> Instantly switch between different layout algorithms:
+<ul>
+<li>Force-Directed</li>
+<li>Hierarchical (Top-Down)</li>
+<li>Hierarchical (Orthogonal)</li>
+<li>Circular</li>
+<li>Grid</li>
+<li>Manual (with Grid-Snapping)</li>
+</ul>
+</li>
+<li><strong>Data-Driven:</strong> Upload your own CSV files to visualize custom workflows. A sample dataset is included to get you started.</li>
+<li><strong>Rich UI Controls:</strong>
+<ul>
+<li>Search and filter nodes by name, type, or execution method.</li>
+<li>Toggle node sizing between uniform and cost-based.</li>
+<li>Rotate, flip, center, and fit the graph to the screen.</li>
+<li>Save and load custom layouts.</li>
+</ul>
+</li>
+<li><strong>Node Details Panel:</strong> Click any node to see its detailed information.</li>
+<li><strong>Connection Verification:</strong> A built-in tool to identify orphaned nodes, broken links, and other inconsistencies in your data.</li>
+<li><strong>PDF Export:</strong> Export your current visualization to a high-quality PDF document.</li>
+</ul>
+<h2>Getting Started</h2>
+<h3>Prerequisites</h3>
+<ul>
+<li><a href="https://nodejs.org/">Node.js</a> (version 14.0.0 or higher)</li>
+<li><a href="https://www.npmjs.com/">npm</a> (comes with Node.js)</li>
+</ul>
+<h3>Installation &amp; Setup</h3>
+<ol>
+<li>
+<p><strong>Clone the repository:</strong></p>
+<pre class="prettyprint source lang-bash"><code>git clone https://github.com/yourusername/workflow-visualizer.git
+cd workflow-visualizer
+</code></pre>
+</li>
+<li>
+<p><strong>Install dependencies:</strong>
+The project uses <code>npm</code> to manage dependencies like D3.js and Vite.</p>
+<pre class="prettyprint source lang-bash"><code>npm install
+</code></pre>
+</li>
+<li>
+<p><strong>Run the development server:</strong>
+This command starts a local development server using Vite, which provides hot-reloading and an optimized environment.</p>
+<pre class="prettyprint source lang-bash"><code>npm run dev
+</code></pre>
+<p>The application will be available at <code>http://localhost:5173</code> (or the next available port).</p>
+</li>
+</ol>
+<h2>Usage</h2>
+<ol>
+<li>
+<p><strong>Load Data:</strong></p>
+<ul>
+<li>Click <strong>Load Sample Data</strong> to see a pre-built example workflow.</li>
+<li>Click <strong>Choose CSV File</strong>, select your own data file, and click <strong>Upload CSV</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Interact with the Graph:</strong></p>
+<ul>
+<li><strong>Pan:</strong> Click and drag the background.</li>
+<li><strong>Zoom:</strong> Use your mouse wheel or the <code>+</code> / <code>-</code> controls.</li>
+<li><strong>Move Nodes:</strong> Click and drag any node. In &quot;Manual (Grid Snap)&quot; layout, nodes will snap to the grid.</li>
+<li><strong>View Details:</strong> Click on a node to open the details panel on the right.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use the Controls:</strong></p>
+<ul>
+<li>The left-hand panel provides all the tools to filter, re-arrange, and customize the view. Experiment with different layouts and filters to better understand your workflow.</li>
+</ul>
+</li>
+</ol>
+<h2>Code Documentation</h2>
+<p>This project uses JSDoc to automatically generate a browsable HTML website from the JSDoc comments in the source code.</p>
+<h3>Generating the Documentation</h3>
+<p>To generate the documentation, run the following command from the project root:</p>
+<pre class="prettyprint source lang-bash"><code>npm run docs:generate
+</code></pre>
+<p>This will create a <code>docs</code> directory containing the full documentation website.</p>
+<h3>Viewing the Documentation</h3>
+<p>To view the documentation, open the following file in your web browser:</p>
+<pre class="prettyprint source"><code>docs/index.html
+</code></pre>
+<ol start="2">
+<li>
+<p><strong>Interact with the Graph:</strong></p>
+<ul>
+<li><strong>Pan:</strong> Click and drag the background.</li>
+<li><strong>Zoom:</strong> Use your mouse wheel or the <code>+</code> / <code>-</code> controls.</li>
+<li><strong>Move Nodes:</strong> Click and drag any node. In &quot;Manual (Grid Snap)&quot; layout, nodes will snap to the grid.</li>
+<li><strong>View Details:</strong> Click on a node to open the details panel on the right.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use the Controls:</strong></p>
+<ul>
+<li>The left-hand panel provides all the tools to filter, re-arrange, and customize the view. Experiment with different layouts and filters to better understand your workflow.</li>
+</ul>
+</li>
+</ol>
+<h2>Data Format</h2>
+<p>The application ingests CSV files. The file must contain a header row.</p>
+<h3>Required Columns:</h3>
+<ul>
+<li><code>Name</code>: A unique identifier for the node.</li>
+<li><code>Type</code>: The shape of the node. Supported values:
+<ul>
+<li><code>Resource</code> (Rectangle)</li>
+<li><code>Action</code> (Triangle)</li>
+<li><code>State</code> (Circle)</li>
+<li><code>Decision</code> (Diamond)</li>
+</ul>
+</li>
+<li><code>Incoming</code>: A comma-separated list of <code>Name</code> values for nodes that link <em>to</em> this node.</li>
+</ul>
+<h3>Optional Columns:</h3>
+<ul>
+<li><code>Execution</code>: Determines the border style.
+<ul>
+<li><code>Automatic</code> (Solid)</li>
+<li><code>Applicant</code> (Dotted)</li>
+<li>Any other value will be Dashed.</li>
+</ul>
+</li>
+<li><code>Effective Cost</code> or <code>Ø Cost</code>: A numeric value used for cost-based node sizing.</li>
+<li><code>Outgoing1</code>, <code>Outgoing2</code>, ... <code>Outgoing5</code>: The <code>Name</code> of a node that this node links <em>to</em>. (Note: The primary connection logic uses the <code>Incoming</code> column, but this is used for verification).</li>
+<li><code>Platform</code>, <code>Monitoring</code>, and other custom fields will be displayed in the Node Details panel.</li>
+</ul>
+<h2>Project Structure</h2>
+<pre class="prettyprint source"><code>workflow-visualizer/
+├── index.html              # Main application page (entry point)
+├── package.json            # Project dependencies and scripts
+├── README.md               # This documentation file
+├── src/
+│   ├── app.js              # Initializes the application
+│   ├── style.css           # Main stylesheet
+│   └── js/
+│       ├── core.js         # Main application class and state management
+│       ├── data.js         # Data processing, parsing, and verification
+│       ├── export.js       # PDF export logic
+│       ├── interactions.js # User interactions (drag, zoom, filters)
+│       ├── layouts.js      # All graph layout algorithms
+│       ├── render.js       # D3.js rendering logic (nodes, links, SVG)
+│       ├── ui.js           # UI-related functions (panels, buttons)
+│       └── utils.js        # Utility functions
+└── WFR-Processes-Sep25.csv # Sample data file
+</code></pre>
+<h2>Technical Details</h2>
+<ul>
+<li><strong>Core Library:</strong> D3.js v7.9.0</li>
+<li><strong>Development Server:</strong> Vite</li>
+<li><strong>CSV Parsing:</strong> PapaParse v5.5.3</li>
+<li><strong>PDF Generation:</strong> jsPDF &amp; html2canvas</li>
+</ul>
+<h2>License</h2>
+<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p></article>
+    </section>
+
+
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Sep 26 2025 13:40:40 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

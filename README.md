@@ -1,6 +1,6 @@
 # Workflow Visualizer
 
-**Workflow Visualizer** is an interactive web application for creating, analyzing, and visualizing business workflows and process flows. Built with D3.js, it provides a dynamic and responsive interface to turn CSV data into insightful, interactive diagrams.
+**Workflow Visualizer** is an interactive web application for creating, analyzing, and visualizing complex business workflows and process flows. Built with D3.js, it provides a dynamic and responsive interface to turn CSV data into insightful, interactive diagrams.
 
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
 ![Technology](https://img.shields.io/badge/Tech-D3.js%20%7C%20Vite%20%7C%20JavaScript-blue)
@@ -61,6 +61,37 @@
 1.  **Load Data:**
     -   Click **Load Sample Data** to see a pre-built example workflow.
     -   Click **Choose CSV File**, select your own data file, and click **Upload CSV**.
+
+2.  **Interact with the Graph:**
+    -   **Pan:** Click and drag the background.
+    -   **Zoom:** Use your mouse wheel or the `+` / `-` controls.
+    -   **Move Nodes:** Click and drag any node. In "Manual (Grid Snap)" layout, nodes will snap to the grid.
+    -   **View Details:** Click on a node to open the details panel on the right.
+
+3.  **Use the Controls:**
+    -   The left-hand panel provides all the tools to filter, re-arrange, and customize the view. Experiment with different layouts and filters to better understand your workflow.
+
+## Code Documentation
+
+This project uses JSDoc to automatically generate a browsable HTML website from the JSDoc comments in the source code.
+
+### Generating the Documentation
+
+To generate the documentation, run the following command from the project root:
+
+```bash
+npm run docs:generate
+```
+
+This will create a `docs` directory containing the full documentation website.
+
+### Viewing the Documentation
+
+To view the documentation, open the following file in your web browser:
+
+```
+docs/index.html
+```
 
 2.  **Interact with the Graph:**
     -   **Pan:** Click and drag the background.
