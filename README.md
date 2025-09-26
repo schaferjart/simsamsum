@@ -1,6 +1,6 @@
 # Workflow Visualizer
 
-**Workflow Visualizer** is an interactive web application for creating, analyzing, and visualizing complex business workflows and process flows. Built with D3.js, it provides a dynamic and responsive interface to turn CSV data into insightful, interactive diagrams.
+**Workflow Visualizer** is an interactive web application for creating, analyzing, and visualizing business workflows and process flows. Built with D3.js, it provides a dynamic and responsive interface to turn CSV data into insightful, interactive diagrams.
 
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
 ![Technology](https://img.shields.io/badge/Tech-D3.js%20%7C%20Vite%20%7C%20JavaScript-blue)
