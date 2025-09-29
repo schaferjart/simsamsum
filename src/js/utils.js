@@ -74,12 +74,15 @@ export function snapToGrid(x, y, gridSize) {
 }
 
 /**
- * Triggers a browser download for a JSON object as a file.
- * @param {object} data - The JSON object to download.
+ * Triggers a browser download for JSON content as a file.
+ * Accepts either a JSON string or a plain object (which will be stringified).
+ * @param {object|string} dataOrString - JSON object to stringify or an already-stringified JSON string.
  * @param {string} filename - The desired name for the downloaded file.
  */
-export function downloadJsonFile(data, filename) {
-    const jsonString = JSON.stringify(data, null, 2);
+export function downloadJsonFile(dataOrString, filename) {
+    const jsonString = typeof dataOrString === 'string'
+        ? dataOrString
+        : JSON.stringify(dataOrString, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 

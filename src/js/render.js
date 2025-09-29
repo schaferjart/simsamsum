@@ -352,3 +352,14 @@ export function updateGridDisplay(svg, showGrid, width, height, gridSize) {
             .attr('opacity', 0.5);
     }
 }
+
+/**
+ * Highlights a single node element by its id without dimming others.
+ * Useful for syncing selection from the table to the graph.
+ * @param {string} nodeId
+ */
+export function highlightNodeById(nodeId) {
+    if (!g) return;
+    g.selectAll('.node')
+        .classed('table-highlight', d => d.id === nodeId);
+}

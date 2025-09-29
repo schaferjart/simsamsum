@@ -17,7 +17,6 @@
                         <input type="file" id="csvFile" accept=".csv" class="file-input">
                         <label for="csvFile" class="btn btn--outline">Choose CSV File</label>
                         <button id="uploadBtn" class="btn btn--primary">Upload CSV</button>
-                        <button id="sampleBtn" class="btn btn--secondary">Load Sample Data</button>
                     </div>
                     <div id="statusMessage" class="status-message"></div>
                 </div>
@@ -148,14 +147,44 @@
                 </div>
             </div>
 
-            <!-- Details Panel -->
-            <div id="detailsPanel" class="details-panel hidden">
+            <!-- Right Sidebar: Editor Tables -->
+            <div id="detailsPanel" class="details-panel">
+                <div id="panelResizer" class="panel-resizer" title="Drag to resize"></div>
                 <div class="panel-header">
-                    <h3>Node Details</h3>
-                    <button id="closePanelBtn" class="close-btn">&times;</button>
+                    <h3>Editor</h3>
+                    <button id="closePanelBtn" class="close-btn" title="Hide/Show">&times;</button>
                 </div>
-                <div id="nodeDetails" class="panel-content">
-                    <!-- Node details will be populated here -->
+                <div class="panel-content">
+                    <div id="editor-panel" class="editor-panel" aria-label="Table Editor">
+                        <ul class="tabs" role="tablist">
+                            <li role="tab" aria-selected="true" tabindex="0">Elements</li>
+                            <li role="tab" aria-selected="false" tabindex="0">Connections</li>
+                            <li role="tab" aria-selected="false" tabindex="0">Variables</li>
+                        </ul>
+
+                        <div class="editor-section" id="nodes-section" aria-labelledby="elements-tab">
+                            <div id="nodes-table" class="editor-table" aria-live="polite"><!-- Handsontable here --></div>
+                        </div>
+
+                        <div class="editor-section" id="connections-section" aria-labelledby="connections-tab" hidden>
+                            <div id="connections-table" class="editor-table"><!-- Handsontable here --></div>
+                        </div>
+
+                        <div class="editor-section" id="variables-section" aria-labelledby="variables-tab" hidden>
+                            <div id="variables-table" class="editor-table"><!-- Handsontable here --></div>
+                        </div>
+
+                        <div class="editor-actions">
+                            <button id="add-row" class="btn btn--primary btn--sm">+ Add Row</button>
+
+                            <div class="spacer"></div>
+
+                            <div class="export-group">
+                                <button id="save-to-server" class="btn btn--primary btn--sm">💾 Save to Server</button>
+                                <button id="export-data" class="btn btn--outline btn--sm">📤 Export Data</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

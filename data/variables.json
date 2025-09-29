@@ -1,0 +1,7 @@
+{
+  "application_rate": 0.15,
+  "callback_rate": 0.25,
+  "initial_volume": 10000,
+  "conversion_rate": 0.08,
+  "retention_rate": 0.92
+}

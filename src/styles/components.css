@@ -326,9 +326,6 @@ select.form-control {
   flex-shrink: 0;
 }
 
-.legend-shape.rectangle {
-  /* Default rectangle shape */
-}
 
 .legend-shape.triangle {
   width: 0;
@@ -370,9 +367,6 @@ select.form-control {
   flex-shrink: 0;
 }
 
-.legend-border.solid {
-  /* Default solid border */
-}
 
 .legend-border.dotted {
   background: repeating-linear-gradient(
@@ -401,11 +395,12 @@ select.form-control {
 
 /* Details Panel */
 .details-panel {
-  width: 350px;
+  width: 480px;
   background-color: var(--color-surface);
   border-left: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .details-panel.hidden {
@@ -450,7 +445,84 @@ select.form-control {
 .panel-content {
   flex: 1;
   padding: var(--space-20);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Changed from overflow-y: auto */
+}
+
+/* Editor Panel Styles */
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tabs {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-secondary-50);
+}
+
+.tabs li {
+  padding: var(--space-12) var(--space-16);
+  cursor: pointer;
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-secondary);
+  color: var(--color-text-subtle);
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.tabs li:hover {
+  background-color: var(--color-secondary-hover);
+  color: var(--color-text);
+}
+
+.tabs li[aria-selected="true"] {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.editor-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor-table {
+  flex: 1;
+  overflow: hidden; /* Let Handsontable handle its own scrolling */
+}
+
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--space-16);
+}
+
+.spacer {
+  flex: 1;
+}
+
+/* Draggable vertical resizer for the right sidebar */
+.panel-resizer {
+  position: absolute;
+  left: -6px;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  background: transparent;
+}
+.panel-resizer:hover {
+  background: rgba(0,0,0,0.05);
 }
 
 .detail-row {
@@ -508,4 +580,21 @@ select.form-control {
 .zoom-btn:hover {
   background-color: var(--color-secondary);
   border-color: var(--color-primary);
+}
+
+/* EMERGENCY RESET - Absolute minimum for tables */
+.editor-section {
+  display: block;
+  padding: 10px;
+}
+
+.editor-section[hidden] {
+  display: none !important;
+}
+
+.editor-table {
+  height: 400px;
+  width: 100%;
+  border: 1px solid #ccc;
+  margin: 10px 0;
 }

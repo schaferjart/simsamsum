@@ -1,0 +1,110 @@
+[
+  {
+    "id": "indeed",
+    "name": "Indeed",
+    "type": "Resource",
+    "area": "Screening-Candidates",
+    "platform": "Indeed",
+    "execution": "Automatic",
+    "cost": 0.3,
+    "incomingVolume": 0,
+    "description": "Indeed, biggest job platform in France",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "text_application",
+    "name": "Text Application",
+    "type": "Action",
+    "area": "Screening-Candidates",
+    "platform": "TypeForm",
+    "execution": "Applicant",
+    "cost": 0.2,
+    "incomingVolume": 0,
+    "description": "Application Form. Applicants respond to questions",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "text_application2",
+    "name": "TextNew",
+    "type": "Action",
+    "area": "Screening-Candidates",
+    "platform": "TypeForm",
+    "execution": "Applicant",
+    "cost": 0.2,
+    "incomingVolume": 0,
+    "description": "Application Form. Applicants respond to questions",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "text_3",
+    "name": "text_3",
+    "type": "Resource",
+    "area": "",
+    "platform": "",
+    "execution": "Manual",
+    "cost": 0,
+    "incomingVolume": 0,
+    "description": "",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "text_new",
+    "name": "text_tets",
+    "type": "",
+    "area": "",
+    "platform": "",
+    "execution": "Manual",
+    "cost": 0,
+    "incomingVolume": 0,
+    "description": "",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "one",
+    "name": "two",
+    "type": "",
+    "area": "",
+    "platform": "",
+    "execution": "Manual",
+    "cost": 0,
+    "incomingVolume": 0,
+    "description": "",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "two",
+    "name": "three",
+    "type": "",
+    "area": "",
+    "platform": "",
+    "execution": "Manual",
+    "cost": 0,
+    "incomingVolume": 0,
+    "description": "",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "nap",
+    "name": "",
+    "type": "",
+    "area": "",
+    "platform": "",
+    "execution": "Manual",
+    "cost": 0,
+    "incomingVolume": 0,
+    "description": "",
+    "computedVolumeIn": 0
+  },
+  {
+    "id": "seven",
+    "name": "",
+    "type": "",
+    "area": "",
+    "platform": "",
+    "execution": "Manual",
+    "cost": 0,
+    "incomingVolume": 0,
+    "description": "",
+    "computedVolumeIn": 0
+  }
+]

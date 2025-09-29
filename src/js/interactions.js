@@ -1,5 +1,7 @@
+import * as d3 from 'd3';
 import { snapToGrid } from './utils.js';
 import { highlightNode as renderHighlight, clearHighlight as renderClearHighlight } from './render.js';
+import { highlightTableRowByNodeId } from './ui.js';
 
 /**
  * Handles the start of a drag event on a node.
@@ -56,6 +58,20 @@ export function dragEnded(event, d, simulation, currentLayout) {
         if (simulation && !event.active) simulation.alphaTarget(0);
         d.fx = null;
         d.fy = null;
+    }
+}
+
+/**
+ * Handle node click to also highlight selection in the editor tables.
+ * This function can be used in the nodeClicked handler in core.
+ * @param {Event} event
+ * @param {object} d
+ */
+export function handleNodeClickSelection(event, d) {
+    try {
+        highlightTableRowByNodeId(d.id);
+    } catch(e) {
+        // no-op if table not present
     }
 }
 

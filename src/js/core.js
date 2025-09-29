@@ -1,11 +1,12 @@
 import * as d3 from 'd3';
 import { showStatus, calculateNodeSize, downloadJsonFile, snapToGrid } from './utils.js';
-import { sampleData, processData, parseCSV, verifyConnections } from './data.js';
+import { processData, parseCSV, verifyConnections, computeDerivedFields as computeDerivedFieldsData } from './data.js';
 import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay } from './render.js';
 import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
 import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
+import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
 
 /**
  * Main class for the Workflow Visualizer application.
@@ -60,12 +61,12 @@ class WorkflowVisualizer {
         };
 
     /**
-     * Table-oriented state for editing/importing raw nodes, connections, and variables
+     * Table-oriented state for editing/importing raw elements, connections, and variables
      * independent of the visualization's internal state. These are intentionally kept
      * outside of this.state to avoid collisions with the rendering pipeline.
-     * @type {Array<{ id: string, name: string, type: string, platform: string, cost: number, volumeIn: number, description: string, x: number, y: number }>}
+     * @type {Array<{ id: string, name: string, type: string, area: string, platform: string, cost: number, incomingVolume: number, description: string, x: number, y: number }>}
      */
-    this.nodes = [];
+    this.elements = [];
     /**
      * @type {Array<{ id: string, fromId: string, toId: string, probability: string|number, type: string, description: string }>}
      */
@@ -74,22 +75,20 @@ class WorkflowVisualizer {
      * @type {{ [key: string]: number }}
      */
     this.variables = {};
-
-    this.init();
     }
 
     /**
      * Sets up the initial visualization, binds event listeners, and loads sample data.
      * @private
      */
-    init() {
+    async init() {
         const container = document.getElementById('networkGraph');
         if (!container) return;
 
         const { svg, zoomGroup, g, zoom, width, height } = initVisualization(
             container,
             (event) => interactions.handleZoom(event, this.state.zoomGroup),
-            () => ui.hideDetailsPanel()
+            () => {}
         );
 
         this.state.svg = svg;
@@ -99,18 +98,219 @@ class WorkflowVisualizer {
         this.state.width = width;
         this.state.height = height;
 
-        ui.bindEventListeners(this.getEventHandlers());
-        ui.hideDetailsPanel();
-        // Load sample visualization data, then seed the table-oriented state from it
-        this.loadSampleData();
-        this.populateTablesFromCurrentState();
+    ui.bindEventListeners(this.getEventHandlers());
+
+        // Priority: 1) JSON files, 2) localStorage, 3) empty state
+        const loaded = await this.loadFromJsonFiles() || this.loadFromLocalStorage();
+        if (!loaded) {
+            this.initializeEmptyState();
+        }
+
+        // Initialize table editors (if available)
+        if (typeof ui.initEditorTables === 'function') {
+            ui.initEditorTables(this);
+        }
+        
+        // Initialize file manager for better persistence
+        initFileManager(this);
+        
         // Quick visibility for dev/test
         // eslint-disable-next-line no-console
-        console.log('[Tables] Initialized from sample:', {
-            nodes: this.nodes,
+        console.log('[Tables] Initialized with:', {
+            elements: this.elements,
             connections: this.connections,
             variables: this.variables
         });
+    }
+
+    /**
+     * Returns the current editable table-oriented state for export.
+     */
+    getState() {
+        return {
+            elements: this.elements,
+            connections: this.connections,
+            variables: this.variables,
+            // Legacy support
+            nodes: this.elements
+        };
+    }
+
+    /**
+     * Returns a method to save current state to files
+     */
+    saveToFiles() {
+        return saveToFiles(this.elements, this.connections, this.variables);
+    }
+
+    /**
+     * Legacy method for backward compatibility
+     */
+    getStateLegacy() {
+        return {
+            nodes: this.nodes,
+            connections: this.connections,
+            variables: this.variables
+        };
+    }
+
+    /**
+     * Load application data from JSON files in data/ directory (priority #1).
+     * Returns true if data was loaded from files, false otherwise.
+     */
+    async loadFromJsonFiles() {
+        try {
+            // Try to load via API server first
+            try {
+                const apiResponse = await fetch('http://localhost:3001/api/load-workflow');
+                if (apiResponse.ok) {
+                    const data = await apiResponse.json();
+                    this.elements = Array.isArray(data.elements) ? data.elements : [];
+                    this.connections = Array.isArray(data.connections) ? data.connections : [];
+                    this.variables = data.variables && typeof data.variables === 'object' ? data.variables : {};
+                    
+                    console.log('✅ Loaded from API server:', { 
+                        elements: this.elements.length, 
+                        connections: this.connections.length,
+                        variables: Object.keys(this.variables).length 
+                    });
+                    
+                    this.computeDerivedFields();
+                    let { nodes: vizNodes, links: vizLinks } = processData({
+                        nodes: this.elements,
+                        connections: this.connections,
+                        variables: this.variables
+                    }, this.state.costBasedSizing);
+
+                    const idSet = new Set((vizNodes || []).map(n => n.id));
+                    vizLinks = (vizLinks || []).filter(l => idSet.has(l.source?.id ?? l.source) && idSet.has(l.target?.id ?? l.target));
+
+                    this.state.allNodes = vizNodes;
+                    this.state.allLinks = vizLinks;
+                    this.state.nodes = [...vizNodes];
+                    this.state.links = [...vizLinks];
+                    this.updateVisualization();
+                    this.refreshTables();
+                    return true;
+                }
+            } catch (apiError) {
+                console.log('📁 API server not available, trying direct file access...');
+            }
+
+            // Fallback: try to load from data directory files directly
+            const responses = await Promise.allSettled([
+                fetch('./data/elements.json'),
+                fetch('./data/connections.json'), 
+                fetch('./data/variables.json')
+            ]);
+            
+            // Check if all files loaded successfully
+            const [elementsRes, connectionsRes, variablesRes] = responses;
+            if (elementsRes.status !== 'fulfilled' || !elementsRes.value.ok) {
+                console.log('📁 No data/elements.json found, falling back to localStorage/sample');
+                return false;
+            }
+            
+            // Parse the JSON files
+            const elements = await elementsRes.value.json();
+            const connections = connectionsRes.status === 'fulfilled' && connectionsRes.value.ok 
+                ? await connectionsRes.value.json() : [];
+            const variables = variablesRes.status === 'fulfilled' && variablesRes.value.ok 
+                ? await variablesRes.value.json() : {};
+                
+            // Set the data
+            this.elements = Array.isArray(elements) ? elements : [];
+            this.connections = Array.isArray(connections) ? connections : [];
+            this.variables = variables && typeof variables === 'object' ? variables : {};
+            
+            console.log('✅ Loaded from JSON files:', { 
+                elements: this.elements.length, 
+                connections: this.connections.length,
+                variables: Object.keys(this.variables).length 
+            });
+            
+            // Compute derived fields and hydrate visualization
+            this.computeDerivedFields();
+            let { nodes: vizNodes, links: vizLinks } = processData({
+                nodes: this.elements,
+                connections: this.connections,
+                variables: this.variables
+            }, this.state.costBasedSizing);
+
+            // Sanitize links
+            const idSet = new Set((vizNodes || []).map(n => n.id));
+            vizLinks = (vizLinks || []).filter(l => idSet.has(l.source?.id ?? l.source) && idSet.has(l.target?.id ?? l.target));
+
+            this.state.allNodes = vizNodes;
+            this.state.allLinks = vizLinks;
+            this.state.nodes = [...vizNodes];
+            this.state.links = [...vizLinks];
+            this.updateVisualization();
+            
+            // Refresh table data after loading from files
+            this.refreshTables();
+            return true;
+            
+        } catch (error) {
+            console.log('📁 Failed to load from JSON files:', error.message);
+            return false;
+        }
+    }
+
+    /**
+     * Load application data from localStorage (if present) and hydrate visualization.
+     * Returns true if data was loaded from storage, false otherwise.
+     */
+    loadFromLocalStorage() {
+        try {
+            const saved = localStorage.getItem('workflowData');
+            if (!saved) return false;
+            const { elements, nodes, connections, variables } = JSON.parse(saved);
+            // Support both new format (elements) and legacy format (nodes)
+            this.elements = Array.isArray(elements) ? elements : (Array.isArray(nodes) ? nodes : []);
+            this.connections = Array.isArray(connections) ? connections : [];
+            this.variables = variables && typeof variables === 'object' ? variables : {};
+
+            // Compute derived fields and hydrate visualization state from table model
+            this.computeDerivedFields();
+            let { nodes: vizNodes, links: vizLinks } = processData({
+                nodes: this.elements, // processData still expects 'nodes' key
+                connections: this.connections,
+                variables: this.variables
+            }, this.state.costBasedSizing);
+
+            // Sanitize links against resolved node ids to avoid d3 force errors on stale endpoints
+            const idSet = new Set((vizNodes || []).map(n => n.id));
+            vizLinks = (vizLinks || []).filter(l => idSet.has(l.source?.id ?? l.source) && idSet.has(l.target?.id ?? l.target));
+
+            this.state.allNodes = vizNodes;
+            this.state.allLinks = vizLinks;
+            this.state.nodes = [...vizNodes];
+            this.state.links = [...vizLinks];
+            this.updateVisualization();
+            return true;
+        } catch (e) {
+            console.warn('Failed to load from localStorage, using sample data instead.', e);
+            return false;
+        }
+    }
+
+    /**
+     * Persist current tables data to localStorage.
+     */
+    saveToLocalStorage() {
+        try {
+            const state = {
+                elements: this.elements,
+                connections: this.connections,
+                variables: this.variables,
+                // Keep legacy nodes key for backward compatibility
+                nodes: this.elements
+            };
+            localStorage.setItem('workflowData', JSON.stringify(state));
+        } catch (e) {
+            console.warn('Failed to save to localStorage', e);
+        }
     }
 
     /**
@@ -126,7 +326,6 @@ class WorkflowVisualizer {
                 showStatus(`Selected: ${fileName}`, 'info');
             },
             handleFileUpload: () => this.handleFileUpload(),
-            handleSampleData: () => this.loadSampleData(),
             handleSearch: () => this.applyFilters(),
             handleFilter: () => this.applyFilters(),
             handleReset: () => this.resetView(),
@@ -157,7 +356,10 @@ class WorkflowVisualizer {
             showStatus('No data to display', 'info');
         }
 
-        this.state.simulation = applyLayout(this.state.currentLayout, this.state);
+    // Filter out any links with missing endpoints before layout
+    const idSet2 = new Set(this.state.nodes.map(n => n.id));
+    this.state.links = this.state.links.filter(l => idSet2.has(l.source?.id ?? l.source) && idSet2.has(l.target?.id ?? l.target));
+    this.state.simulation = applyLayout(this.state.currentLayout, this.state);
 
         if (this.state.simulation) {
             this.state.simulation.on('tick', () => updatePositions(this.state.g));
@@ -178,6 +380,10 @@ class WorkflowVisualizer {
                 nodeClicked: (event, d) => {
                     event.stopPropagation();
                     ui.showNodeDetails(d);
+                    // Sync selection into tables
+                    if (interactions.handleNodeClickSelection) {
+                        interactions.handleNodeClickSelection(event, d);
+                    }
                 },
                 nodeMouseOver: (event, d) => highlightNode(this.state.g, d, this.state.links),
                 nodeMouseOut: () => clearHighlight(this.state.g)
@@ -236,18 +442,22 @@ class WorkflowVisualizer {
     }
 
     /**
-     * Loads the built-in sample data and updates the visualization.
+     * Initializes empty state when no data files are found.
      */
-    loadSampleData() {
-        showStatus('Loading sample data...', 'loading');
-        this.state.currentDataFile = 'sample-data.csv';
-        const { nodes, links } = processData(sampleData, this.state.costBasedSizing);
-        this.state.allNodes = nodes;
-        this.state.allLinks = links;
-        this.state.nodes = [...this.state.allNodes];
-        this.state.links = [...this.state.allLinks];
+    initializeEmptyState() {
+        console.log('📋 Initializing empty workspace...');
+        this.elements = [];
+        this.connections = [];
+        this.variables = {};
+        
+        this.state.allNodes = [];
+        this.state.allLinks = [];
+        this.state.nodes = [];
+        this.state.links = [];
+        this.state.currentDataFile = 'new-workflow';
+        
         this.updateVisualization();
-        showStatus('Sample data loaded!', 'success');
+        showStatus('Ready to create new workflow', 'info');
     }
 
     /**
@@ -256,15 +466,17 @@ class WorkflowVisualizer {
      * @private
      */
     populateTablesFromCurrentState() {
-        // Map visualization nodes to table nodes
-        this.nodes = (this.state.allNodes || []).map(n => ({
+        // Map visualization nodes to table elements
+        this.elements = (this.state.allNodes || []).map(n => ({
             id: n.id,
             name: n.Name || n.id,
             type: n.Type || '',
+            area: n.Area || 'General',
             platform: n.Platform || '',
+            execution: n.Execution || 'Manual',
             cost: typeof n["Effective Cost"] === 'number' ? n["Effective Cost"] : (typeof n.costValue === 'number' ? n.costValue : 0),
-            volumeIn: typeof n.volumeIn === 'number' ? n.volumeIn : 0,
-            description: '',
+            incomingVolume: typeof n.incomingVolume === 'number' ? n.incomingVolume : 0,
+            description: n.description || '',
             x: typeof n.x === 'number' ? n.x : 0,
             y: typeof n.y === 'number' ? n.y : 0
         }));
@@ -297,8 +509,11 @@ class WorkflowVisualizer {
      * @param {any} data - The new data to apply.
      */
     updateFromTable(type, data) {
-        if (type === 'nodes') {
-            this.nodes = Array.isArray(data) ? [...data] : [];
+        console.log('🎯 updateFromTable called:', type, 'with', Array.isArray(data) ? data.length : typeof data, 'items');
+        
+        if (type === 'elements' || type === 'nodes') {
+            this.elements = Array.isArray(data) ? [...data] : [];
+            console.log('✅ Updated elements:', this.elements.length);
         } else if (type === 'connections') {
             this.connections = Array.isArray(data) ? [...data] : [];
             // Resolve any variable references within connection probabilities
@@ -318,12 +533,15 @@ class WorkflowVisualizer {
             return;
         }
 
-        // Recompute derived values (stubbed) and refresh visualization
+        // Recompute derived values and sync to visualization state
         this.computeDerivedFields();
+        this.syncTableDataToVisualization();
         this.updateVisualization();
-    }
-
-    /**
+        // Auto-save after edits
+        this.saveToLocalStorage();
+        // Do not reload editor tables here; hot.loadData causes focus loss and jank during typing.
+        // UI will refresh tables explicitly after bulk imports or structure changes.
+    }    /**
      * Resolves string-based probability values in connections using variables.
      * Accepts numeric strings (e.g., "0.25") or variable keys (e.g., "callback_rate" or "${callback_rate}").
      */
@@ -360,14 +578,54 @@ class WorkflowVisualizer {
      * Phase 2: incorporate probabilities and upstream volumes.
      */
     computeDerivedFields() {
-        const incomingCount = new Map();
-        (this.connections || []).forEach(c => {
-            incomingCount.set(c.toId, (incomingCount.get(c.toId) || 0) + 1);
+    // Use data.js implementation to compute iterative volume propagation
+    computeDerivedFieldsData(this.elements, this.connections, this.variables);
+    }
+
+    /**
+     * Syncs the table data (elements, connections, variables) to the visualization state.
+     * This converts table format to the format expected by the visualization.
+     */
+    syncTableDataToVisualization() {
+        console.log('🔄 Syncing table data to visualization...', {
+            elements: this.elements.length,
+            connections: this.connections.length,
+            variables: Object.keys(this.variables).length
         });
-        this.nodes = (this.nodes || []).map(n => ({
-            ...n,
-            volumeIn: incomingCount.get(n.id) || 0
-        }));
+
+        // Convert table data to visualization format using processData
+        const { nodes: vizNodes, links: vizLinks } = processData({
+            nodes: this.elements,
+            connections: this.connections,
+            variables: this.variables
+        }, this.state.costBasedSizing);
+
+        // Sanitize links against resolved node ids
+        const idSet = new Set((vizNodes || []).map(n => n.id));
+        const sanitizedLinks = (vizLinks || []).filter(l => 
+            idSet.has(l.source?.id ?? l.source) && idSet.has(l.target?.id ?? l.target)
+        );
+
+        // Update visualization state
+        this.state.allNodes = vizNodes || [];
+        this.state.allLinks = sanitizedLinks;
+        this.state.nodes = [...this.state.allNodes];
+        this.state.links = [...this.state.allLinks];
+
+        console.log('✅ Synced to visualization:', {
+            nodes: this.state.nodes.length,
+            links: this.state.links.length
+        });
+    }
+
+    /**
+     * Refreshes the table displays with current data
+     */
+    refreshTables() {
+        // Trigger table refresh through UI module
+        if (typeof ui.refreshEditorData === 'function') {
+            ui.refreshEditorData(this);
+        }
     }
 
     /**
@@ -632,6 +890,13 @@ class WorkflowVisualizer {
  * Initializes the application by creating a new WorkflowVisualizer instance.
  * This is the main entry point of the application.
  */
-export function initializeApp() {
-    new WorkflowVisualizer();
+export async function initializeApp() {
+    const app = new WorkflowVisualizer();
+    await app.init();
+    
+    // Expose for debugging
+    window.workflowApp = app;
+    console.log('🎯 App instance available as window.workflowApp for debugging');
+    
+    return app;
 }

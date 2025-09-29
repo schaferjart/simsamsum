@@ -1,0 +1,42 @@
+[
+  {
+    "id": "indeed->text_application",
+    "fromId": "indeed",
+    "toId": "text_application",
+    "probability": 0.15,
+    "type": "flow",
+    "description": "Users who see job posting and start application"
+  },
+  {
+    "id": "text_application->text_application2",
+    "fromId": "text_application",
+    "toId": "text_application2",
+    "probability": 0.25,
+    "type": "flow",
+    "description": "Applicants who complete application and get a callback"
+  },
+  {
+    "id": "indeed->text_a3",
+    "fromId": "indeed",
+    "toId": "text_a3",
+    "probability": null,
+    "type": "outgoing",
+    "description": ""
+  },
+  {
+    "id": "text_3->text_new",
+    "fromId": "text_3",
+    "toId": "text_new",
+    "probability": null,
+    "type": "outgoing",
+    "description": ""
+  },
+  {
+    "id": "diw",
+    "fromId": "indeed",
+    "toId": "text_3",
+    "probability": null,
+    "type": "outgoing",
+    "description": ""
+  }
+]
