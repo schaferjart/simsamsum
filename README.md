@@ -27,6 +27,55 @@ SimSamSum is an interactive web application for creating, analyzing, and visuali
 
 **Validation Tools**: Built-in connection verification, orphaned node detection, data consistency checking, and comprehensive error reporting.
 
+## Usage
+
+### Selection and Dragging
+- Single select: Click a node.
+- Toggle select: Cmd/Ctrl + Click additional nodes.
+- Multi-select (box): Hold Shift and drag on empty space to draw a rectangle and add nodes inside the box to your selection.
+- Clear selection: Press Escape.
+- Select all: Cmd/Ctrl + A.
+
+### Group Drag Behavior by Layout
+- Force layout:
+  - Dragging a selection moves them together and temporarily pins them to the pointer; on release they rejoin the simulation.
+- Manual-grid and Hierarchical-Orthogonal:
+  - Dragging a selection moves them together and keeps their positions fixed where you drop them.
+  - Positions snap to the configured grid size in Manual-grid.
+
+### Grid Controls (Manual-grid and Hierarchical-Orthogonal)
+- Show/Hide Grid: Toggle the grid overlay.
+- Grid Size: Adjust with the slider; snapping respects this size.
+- Snap All To Grid: Snap every node to the nearest grid intersection.
+- Save Layout: Download a JSON with current positions.
+- Load Layout: Load a previously saved positions JSON.
+
+### Keyboard Shortcuts
+- Cmd/Ctrl + A: Select all nodes
+- Escape: Clear selection
+- Shift + Drag (on background): Box-select (adds to selection)
+
+### Zoom and Pan
+- Mouse wheel, drag background to pan.
+- While Shift is held for box-selection, zoom/pan are temporarily disabled to avoid conflicts.
+
+## Layouts at a Glance
+- Force: Organic physics-based arrangement; useful for exploration. Group drag pins during interaction then releases.
+- Hierarchical: Top-down layering with collision.
+- Hierarchical-Orthogonal: Clean right-angle links with fixed positions; great for presentations.
+- Circular: Ring layout for overviews.
+- Grid: Automatic grid placement for balanced spacing.
+- Manual-grid: You control placement; nodes snap and stay where you drop them.
+
+## Saving and Loading Positions
+- Use Save Layout to export positions (and grid size) to a JSON file.
+- Use Load Layout to bring positions back later—handy for sharing or restoring a curated layout.
+
+## Troubleshooting
+- Shift-drag doesn’t draw a box: Ensure you start dragging on empty space with Shift held; zoom/pan are disabled while Shift is down.
+- Nodes slide back after dragging: You’re likely on Force layout; that’s expected as the simulation resumes. Switch to Manual-grid to keep positions fixed.
+- API server offline: The app will attempt direct file loading from the `data/` folder if the API isn’t available.
+
 ## Quick Start
 
 ### Prerequisites
