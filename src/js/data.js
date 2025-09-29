@@ -218,38 +218,82 @@ export function processData(data, costBasedSizing, variables = {}) {
 
     console.log('Processing data (flexible model):', {
         nodes: tableNodes.length ? tableNodes : 'empty',
-        connections: tableConns.length ? tableConns : 'empty', 
+        connections: tableConns.length ? tableConns : 'empty',
         variables: vars
     });
 
     const nodes = tableNodes.map(n => {
-        const name = n.name || n.id;
-        const execution = n.execution || 'Manual';
-        const cost = typeof n.cost === 'number' ? n.cost : resolveValue(n.cost, vars);
-        const incomingVolume = typeof n.incomingVolume === 'number' ? n.incomingVolume : resolveValue(n.incomingVolume, vars);
-        return {
-            id: n.id,
-            Name: name,
-            Type: n.type || '',
-            Platform: n.platform || '',
+        // 1. Normalize identifiers for backward compatibility
+        const id = n.id || n.Id;
+        const name = n.name || n.Name || id;
+
+        // 2. Normalize core attributes, falling back from new to old format
+        const type = n.Type || n.type || '';
+        const execution = n.Execution || n.execution || 'Manual';
+        const platform = n.Platform || n.platform || '';
+        const description = n.Description || n.description || '';
+
+        // 3. Resolve cost from multiple possible fields, then resolve variables
+        const effectiveCostRaw = n['Effective Cost'] !== undefined ? n['Effective Cost'] : n.effectiveCost;
+        const avgCostRaw = n.AvgCost !== undefined ? n.AvgCost : n.cost;
+        const costRaw = effectiveCostRaw !== undefined ? effectiveCostRaw : (avgCostRaw !== undefined ? avgCostRaw : 0);
+        const resolvedCost = resolveValue(costRaw, vars);
+
+        // 4. Resolve incoming volume from multiple possible fields, then resolve variables
+        const incomingVolumeRaw = n['Incoming Number'] !== undefined ? n['Incoming Number'] : n.incomingVolume;
+        const resolvedIncomingVolume = resolveValue(incomingVolumeRaw, vars);
+
+        // 5. Build the final node object explicitly, mapping all new fields and maintaining existing conventions
+        const finalNode = {
+            // Core IDs and names
+            id: id,
+            Name: name, // Keep PascalCase for consistency with existing app code
+
+            // Core visual properties
+            Type: type,
             Execution: execution,
-            size: calculateNodeSize(cost, costBasedSizing),
+            Platform: platform,
+            Description: description,
+
+            // New properties from the new format
+            SubType: n.SubType || n.subType,
+            AOR: n.AOR,
+            Account: n.Account,
+            Monitoring: n.Monitoring,
+            MonitoredData: n['Monitored Data'],
+            AvgCostTime: n.AvgCostTime,
+            AvgCost: n.AvgCost,
+            LastUpdate: n.LastUpdate,
+            NextUpdate: n.NextUpdate,
+            KPI: n.KPI,
+            Variable: n.Variable,
+
+            // Properties for d3 and rendering logic
+            size: calculateNodeSize(resolvedCost, costBasedSizing),
             borderStyle: getBorderStyle(execution),
             x: typeof n.x === 'number' ? n.x : undefined,
             y: typeof n.y === 'number' ? n.y : undefined,
-            incomingVolume: incomingVolume,
-            // For compatibility with existing code paths
-            costValue: cost,
-            "Effective Cost": cost
+
+            // Resolved values for data processing and display
+            incomingVolume: resolvedIncomingVolume,
+            costValue: resolvedCost,
+            "Effective Cost": resolvedCost // Keep this for backward compatibility in UI/tables
         };
+        return finalNode;
     });
 
-    const links = tableConns.map(c => ({
-        source: c.fromId,
-        target: c.toId,
-        type: 'outgoing', // Simplified: all connections are flow connections
-        probability: c.probability !== undefined ? resolveValue(c.probability, vars) : 1.0
-    }));
+    const links = tableConns.map(c => {
+        // Normalize source and target IDs for backward compatibility
+        const source = c.source || c.fromId || c.FromId || c.Source;
+        const target = c.target || c.toId || c.ToId || c.Target;
+
+        return {
+            source: source,
+            target: target,
+            type: 'outgoing', // Simplified: all connections are flow connections
+            probability: c.probability !== undefined ? resolveValue(c.probability, vars) : 1.0
+        };
+    }).filter(c => c.source && c.target); // Filter out links with missing source or target
 
     console.log('🔗 Generated links:', links.length, 'from connections:', tableConns.length);
     console.log('📊 Generated nodes:', nodes.length, 'from elements:', tableNodes.length);
