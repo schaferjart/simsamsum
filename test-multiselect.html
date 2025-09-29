@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Select Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-header {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .test-instructions {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .test-instructions h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .test-instructions ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .test-instructions li {
+            margin-bottom: 8px;
+        }
+        .shortcut {
+            background: #333;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .feature {
+            background: #4caf50;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .link-button {
+            display: inline-block;
+            background: #2196f3;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .link-button:hover {
+            background: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-header">🎯 Multi-Select Drag & Drop Implementation Complete!</h1>
+        
+        <div class="test-instructions">
+            <h3>✨ New Features Available:</h3>
+            <ul>
+                <li><span class="feature">Multi-Select</span> - Hold <span class="shortcut">Ctrl</span> (or <span class="shortcut">Cmd</span> on Mac) and click nodes to select multiple</li>
+                <li><span class="feature">Group Drag</span> - Drag any selected node to move all selected nodes together</li>
+                <li><span class="feature">Rectangle Selection</span> - Click and drag on empty space to select multiple nodes in a rectangle</li>
+                <li><span class="feature">Keyboard Shortcuts</span>:
+                    <ul>
+                        <li><span class="shortcut">Ctrl+A</span> / <span class="shortcut">Cmd+A</span> - Select all nodes</li>
+                        <li><span class="shortcut">Escape</span> - Clear all selections</li>
+                        <li><span class="shortcut">Delete</span> - Log selected nodes (placeholder for deletion)</li>
+                    </ul>
+                </li>
+                <li><span class="feature">Visual Feedback</span> - Selected nodes are highlighted with blue borders and glow effects</li>
+            </ul>
+        </div>
+
+        <div class="test-instructions">
+            <h3>🧪 How to Test:</h3>
+            <ol>
+                <li>Click the button below to open the main application</li>
+                <li>Try <strong>Ctrl+clicking</strong> (or <strong>Cmd+clicking</strong>) multiple nodes to select them</li>
+                <li>Drag one of the selected nodes - all selected nodes should move together</li>
+                <li>Try <strong>dragging on empty space</strong> to create a selection rectangle</li>
+                <li>Use <strong>Ctrl+A</strong> to select all nodes, then drag them around</li>
+                <li>Press <strong>Escape</strong> to clear selections</li>
+            </ol>
+        </div>
+
+        <a href="/" class="link-button">🚀 Open Workflow Visualizer</a>
+        
+        <div style="margin-top: 30px; padding: 15px; background: #f0f9ff; border-radius: 4px;">
+            <h4 style="margin-top: 0; color: #0369a1;">🔧 Technical Implementation:</h4>
+            <ul style="color: #0f172a; font-size: 14px;">
+                <li><strong>SelectionManager class</strong> - Handles multi-select state and operations</li>
+                <li><strong>Enhanced drag handlers</strong> - Support for multi-node dragging with visual feedback</li>
+                <li><strong>Rectangle selection</strong> - Click-drag on empty space for area selection</li>
+                <li><strong>Keyboard shortcuts</strong> - Standard selection hotkeys (Ctrl+A, Escape, Delete)</li>
+                <li><strong>Visual feedback</strong> - CSS styling for selected nodes with borders and effects</li>
+                <li><strong>Conservation of mass</strong> - Volume calculations with semantic connection logic</li>
+                <li><strong>22-field table sync</strong> - Complete data mapping from elements.json</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -7,6 +7,7 @@ import * as interactions from './interactions.js';
 import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
+import { SelectionManager } from './selection.js';
 
 /**
  * Main class for the Workflow Visualizer application.
@@ -59,6 +60,9 @@ class WorkflowVisualizer {
             showGrid: false,
             currentDataFile: 'sample-data.csv'
         };
+
+        // Initialize selection manager for multi-select drag and drop
+        this.selectionManager = new SelectionManager();
 
     /**
      * Table-oriented state for editing/importing raw elements, connections, and variables
@@ -113,6 +117,20 @@ class WorkflowVisualizer {
         
         // Initialize file manager for better persistence
         initFileManager(this);
+        
+        // Initialize rectangle selection and keyboard shortcuts for multi-select
+        interactions.initRectangleSelection(
+            this.state.svg, 
+            this.state.g, 
+            this.selectionManager, 
+            this.state.allNodes, 
+            this.state.zoom
+        );
+        interactions.initKeyboardShortcuts(
+            this.selectionManager, 
+            this.state.g, 
+            this.state.allNodes
+        );
         
         // Quick visibility for dev/test
         // eslint-disable-next-line no-console
@@ -371,19 +389,17 @@ class WorkflowVisualizer {
             this.state.links,
             this.state.currentLayout,
             {
-                dragStarted: (event, d) => interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout),
+                dragStarted: (event, d) => interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager),
                 dragged: (event, d) => {
-                    interactions.dragged(event, d, this.state.currentLayout, this.state.gridSize)
+                    interactions.dragged(event, d, this.state.currentLayout, this.state.gridSize, this.selectionManager)
                     updatePositions(this.state.g);
                 },
-                dragEnded: (event, d) => interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout),
+                dragEnded: (event, d) => interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager),
                 nodeClicked: (event, d) => {
                     event.stopPropagation();
                     ui.showNodeDetails(d);
-                    // Sync selection into tables
-                    if (interactions.handleNodeClickSelection) {
-                        interactions.handleNodeClickSelection(event, d);
-                    }
+                    // Handle multi-select and visual feedback
+                    interactions.handleNodeClickSelection(event, d, this.selectionManager, this.state.g);
                 },
                 nodeMouseOver: (event, d) => highlightNode(this.state.g, d, this.state.links),
                 nodeMouseOut: () => clearHighlight(this.state.g)

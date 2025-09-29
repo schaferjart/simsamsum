@@ -354,6 +354,43 @@ export function updateGridDisplay(svg, showGrid, width, height, gridSize) {
 }
 
 /**
+ * Updates the visual selection state for nodes
+ * @param {d3.Selection} g - The main D3 group element
+ * @param {Set<string>} selectedNodeIds - Set of selected node IDs
+ */
+export function updateSelectionVisuals(g, selectedNodeIds) {
+    if (!g) return;
+    
+    g.selectAll('.node')
+        .classed('selected', d => selectedNodeIds.has(d.id))
+        .select('rect, circle, path')
+        .attr('stroke', d => selectedNodeIds.has(d.id) ? '#007bff' : '#000000')
+        .attr('stroke-width', d => selectedNodeIds.has(d.id) ? 3 : 2);
+}
+
+/**
+ * Creates a selection rectangle for drag selection
+ * @param {d3.Selection} g - The main D3 group element
+ * @param {number} x - X coordinate
+ * @param {number} y - Y coordinate
+ * @param {number} width - Rectangle width
+ * @param {number} height - Rectangle height
+ * @returns {d3.Selection} The selection rectangle element
+ */
+export function createSelectionRect(g, x, y, width, height) {
+    return g.append('rect')
+        .attr('class', 'selection-rect')
+        .attr('x', x)
+        .attr('y', y)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('fill', 'rgba(0, 123, 255, 0.1)')
+        .attr('stroke', '#007bff')
+        .attr('stroke-width', 1)
+        .attr('stroke-dasharray', '5,5');
+}
+
+/**
  * Highlights a single node element by its id without dimming others.
  * Useful for syncing selection from the table to the graph.
  * @param {string} nodeId
