@@ -118,14 +118,14 @@ class WorkflowVisualizer {
         // Initialize file manager for better persistence
         initFileManager(this);
         
-        // Initialize rectangle selection and keyboard shortcuts for multi-select
-        interactions.initRectangleSelection(
-            this.state.svg, 
-            this.state.g, 
-            this.selectionManager, 
-            this.state.allNodes, 
-            this.state.zoom
-        );
+        // Remove any rectangle selection handlers (feature disabled per request)
+        if (this.state.svg) {
+            this.state.svg.on('mousedown.selection', null);
+            this.state.svg.on('mousemove.selection', null);
+            this.state.svg.on('mouseup.selection', null);
+        }
+
+        // Keyboard shortcuts for selection (keep)
         interactions.initKeyboardShortcuts(
             this.selectionManager, 
             this.state.g, 
@@ -391,7 +391,7 @@ class WorkflowVisualizer {
             {
                 dragStarted: (event, d) => interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager),
                 dragged: (event, d) => {
-                    interactions.dragged(event, d, this.state.currentLayout, this.state.gridSize, this.selectionManager)
+                    interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.state.gridSize, this.selectionManager)
                     updatePositions(this.state.g);
                 },
                 dragEnded: (event, d) => interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager),

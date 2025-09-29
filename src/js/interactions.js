@@ -59,7 +59,7 @@ export function dragStarted(event, d, simulation, currentLayout, selectionManage
  * @param {number} gridSize - The grid size for snapping.
  * @param {object} selectionManager - The selection manager instance.
  */
-export function dragged(event, d, currentLayout, gridSize, selectionManager = null) {
+export function dragged(event, d, simulation, currentLayout, gridSize, selectionManager = null) {
     if (!dragState.isDragging) return;
     
     // Calculate movement delta
@@ -68,7 +68,6 @@ export function dragged(event, d, currentLayout, gridSize, selectionManager = nu
     
     if (selectionManager && selectionManager.selectedNodes.has(d.id)) {
         // Move all selected nodes
-        const simulation = d3.select('svg').datum()?.simulation;
         if (simulation) {
             selectionManager.selectedNodes.forEach(nodeId => {
                 const node = simulation.nodes().find(n => n.id === nodeId);
@@ -178,89 +177,7 @@ export function handleNodeClickSelection(event, d, selectionManager, g) {
  * @param {Array<object>} allNodes - All nodes for selection
  * @param {d3.zoom} zoomBehavior - The zoom behavior for coordinate transformation
  */
-export function initRectangleSelection(svg, g, selectionManager, allNodes, zoomBehavior) {
-    let startPoint = null;
-    let selectionRect = null;
-    let isSelecting = false;
-
-    svg.on('mousedown.selection', function(event) {
-        // Only start selection on empty space (not on nodes)
-        if (event.target === svg.node() || event.target.closest('.node') === null) {
-            event.preventDefault();
-            isSelecting = true;
-            
-            // Transform coordinates to account for zoom/pan
-            const transform = d3.zoomTransform(svg.node());
-            const [x, y] = transform.invert(d3.pointer(event, svg.node()));
-            startPoint = [x, y];
-            
-            selectionRect = g.append('rect')
-                .attr('class', 'selection-rect')
-                .attr('x', x)
-                .attr('y', y)
-                .attr('width', 0)
-                .attr('height', 0)
-                .attr('fill', 'rgba(0, 123, 255, 0.1)')
-                .attr('stroke', '#007bff')
-                .attr('stroke-width', 1)
-                .attr('stroke-dasharray', '5,5');
-        }
-    });
-
-    svg.on('mousemove.selection', function(event) {
-        if (isSelecting && startPoint && selectionRect) {
-            event.preventDefault();
-            
-            const transform = d3.zoomTransform(svg.node());
-            const [x, y] = transform.invert(d3.pointer(event, svg.node()));
-            
-            const rectX = Math.min(startPoint[0], x);
-            const rectY = Math.min(startPoint[1], y);
-            const rectWidth = Math.abs(x - startPoint[0]);
-            const rectHeight = Math.abs(y - startPoint[1]);
-            
-            selectionRect
-                .attr('x', rectX)
-                .attr('y', rectY)
-                .attr('width', rectWidth)
-                .attr('height', rectHeight);
-        }
-    });
-
-    svg.on('mouseup.selection', function(event) {
-        if (isSelecting && selectionRect) {
-            event.preventDefault();
-            
-            const transform = d3.zoomTransform(svg.node());
-            const [x, y] = transform.invert(d3.pointer(event, svg.node()));
-            
-            const rectX = Math.min(startPoint[0], x);
-            const rectY = Math.min(startPoint[1], y);
-            const rectWidth = Math.abs(x - startPoint[0]);
-            const rectHeight = Math.abs(y - startPoint[1]);
-            
-            // Only select if we actually dragged (minimum size)
-            if (rectWidth > 5 && rectHeight > 5) {
-                const addToSelection = event.ctrlKey || event.metaKey;
-                selectionManager.selectInRect(
-                    allNodes, 
-                    rectX, 
-                    rectY, 
-                    rectX + rectWidth, 
-                    rectY + rectHeight, 
-                    addToSelection
-                );
-                
-                updateSelectionVisuals(g, selectionManager.selectedNodes);
-            }
-            
-            selectionRect.remove();
-            selectionRect = null;
-            startPoint = null;
-            isSelecting = false;
-        }
-    });
-}
+// Rectangle selection disabled per request.
 
 /**
  * Initializes keyboard shortcuts for selection
@@ -320,4 +237,21 @@ export function highlightNode(d, g) {
  */
 export function clearHighlight(g) {
     renderClearHighlight(g);
+}
+
+/**
+ * Handles window resize events.
+ * @param {object} state - The application state.
+ * @param {d3.Selection} svg - The main SVG element.
+ */
+export function handleResize(state, svg) {
+    const container = document.getElementById('networkGraph');
+    if (!container || !svg) return;
+    state.width = container.clientWidth;
+    state.height = container.clientHeight;
+    svg.attr('width', state.width).attr('height', state.height);
+    if (state.simulation) {
+        state.simulation.force('center', d3.forceCenter(state.width / 2, state.height / 2));
+        state.simulation.alpha(0.15).restart();
+    }
 }
