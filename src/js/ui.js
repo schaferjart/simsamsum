@@ -243,21 +243,6 @@ export async function initEditorTables(core) {
         }
     });
 
-    _variablesHot.addHook('afterOnCellMouseDown', () => setActiveHot(_variablesHot));
-
-    // Set active table on click and handle graph highlighting
-    _nodesHot.addHook('afterOnCellMouseDown', (event, coords) => {
-        setActiveHot(_nodesHot);
-        const row = coords?.row;
-        if (row == null || row < 0) return;
-        const data = _nodesHot.getSourceDataAtRow(row);
-        if (data && data.id) {
-            try {
-                highlightNodeById(data.id);
-            } catch (_) { /* ignore */ }
-        }
-    });
-
     // Connections table
     const elementIds = (core.elements || core.nodes || []).map(e => e.id);
     _connectionsHot = new Handsontable(connsEl, {
@@ -372,6 +357,21 @@ export async function initEditorTables(core) {
             }, 2000);
         };
     }
+
+    // Set active table on click and handle graph highlighting
+    _nodesHot.addHook('afterOnCellMouseDown', (event, coords) => {
+        setActiveHot(_nodesHot);
+        const row = coords?.row;
+        if (row == null || row < 0) return;
+        const data = _nodesHot.getSourceDataAtRow(row);
+        if (data && data.id) {
+            try {
+                highlightNodeById(data.id);
+            } catch (_) { /* ignore */ }
+        }
+    });
+    _connectionsHot.addHook('afterOnCellMouseDown', () => setActiveHot(_connectionsHot));
+    _variablesHot.addHook('afterOnCellMouseDown', () => setActiveHot(_variablesHot));
 
     let _activeHot = _nodesHot; // Default to the first table
 
