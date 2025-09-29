@@ -489,18 +489,19 @@ function saveUIPrefs() {
     const getHiddenCols = (hotInstance) => {
         if (!hotInstance) return [];
         const plugin = hotInstance.getPlugin('hiddenColumns');
-        // Ensure plugin is ready and hiddenColumns is an array
-        return plugin && Array.isArray(plugin.hiddenColumns) ? plugin.hiddenColumns : [];
+        return plugin && Array.isArray(plugin.getHiddenColumns()) ? plugin.getHiddenColumns() : [];
     };
 
     const prefs = {
         detailsPanelWidth: document.getElementById('detailsPanel').style.width,
-        elementsTableHeight: document.getElementById('elements-table-container').style.height,
-        connectionsTableHeight: document.getElementById('connections-table-container').style.height,
+        elementsTableFlexBasis: document.getElementById('elements-table-container').style.flexBasis,
+        connectionsTableFlexBasis: document.getElementById('connections-table-container').style.flexBasis,
+        variablesTableFlexBasis: document.getElementById('variables-table-container').style.flexBasis,
         hidden_elements: getHiddenCols(_nodesHot),
         hidden_connections: getHiddenCols(_connectionsHot),
         hidden_variables: getHiddenCols(_variablesHot),
     };
+    console.log('[Prefs] Saving preferences:', prefs);
     localStorage.setItem('workflowUIPrefs', JSON.stringify(prefs));
 }
 
@@ -508,18 +509,28 @@ function saveUIPrefs() {
  * Loads and applies UI preferences from localStorage.
  */
 function loadUIPrefs() {
-    const prefs = JSON.parse(localStorage.getItem('workflowUIPrefs'));
-    if (!prefs) return;
+    const prefsString = localStorage.getItem('workflowUIPrefs');
+    console.log('[Prefs] Loading preferences string:', prefsString);
+    if (!prefsString) {
+        console.log('[Prefs] No preferences found.');
+        return;
+    }
+
+    const prefs = JSON.parse(prefsString);
+    console.log('[Prefs] Applying loaded preferences:', prefs);
 
     // Restore panel sizes
     if (prefs.detailsPanelWidth) {
         document.getElementById('detailsPanel').style.width = prefs.detailsPanelWidth;
     }
-    if (prefs.elementsTableHeight) {
-        document.getElementById('elements-table-container').style.height = prefs.elementsTableHeight;
+    if (prefs.elementsTableFlexBasis) {
+        document.getElementById('elements-table-container').style.flexBasis = prefs.elementsTableFlexBasis;
     }
-    if (prefs.connectionsTableHeight) {
-        document.getElementById('connections-table-container').style.height = prefs.connectionsTableHeight;
+    if (prefs.connectionsTableFlexBasis) {
+        document.getElementById('connections-table-container').style.flexBasis = prefs.connectionsTableFlexBasis;
+    }
+    if (prefs.variablesTableFlexBasis) {
+        document.getElementById('variables-table-container').style.flexBasis = prefs.variablesTableFlexBasis;
     }
 
     // Restore hidden columns
@@ -527,7 +538,6 @@ function loadUIPrefs() {
         if (hotInstance && prefs[key] && Array.isArray(prefs[key])) {
             const plugin = hotInstance.getPlugin('hiddenColumns');
             if (plugin) {
-                // Use a timeout to ensure the table is fully rendered before hiding columns
                 setTimeout(() => {
                     plugin.hideColumns(prefs[key]);
                     hotInstance.render();
@@ -594,10 +604,17 @@ function initColumnToggles() {
 
                 checkbox.addEventListener('change', () => {
                     const colIndex = parseInt(checkbox.dataset.colIndex, 10);
-                    if (checkbox.checked) {
-                        hiddenPlugin.showColumn(colIndex);
-                    } else {
-                        hiddenPlugin.hideColumn(colIndex);
+                    const currentlyHidden = hiddenPlugin.getHiddenColumns();
+                    const isCurrentlyHidden = currentlyHidden.includes(colIndex);
+
+                    if (checkbox.checked && isCurrentlyHidden) {
+                        // Show column: remove it from the hidden list
+                        const newHidden = currentlyHidden.filter(i => i !== colIndex);
+                        hiddenPlugin.hideColumns(newHidden);
+                    } else if (!checkbox.checked && !isCurrentlyHidden) {
+                        // Hide column: add it to the hidden list
+                        const newHidden = [...currentlyHidden, colIndex];
+                        hiddenPlugin.hideColumns(newHidden);
                     }
                     hot.render();
                     saveUIPrefs(); // Persist change
@@ -693,16 +710,16 @@ function initResizers() {
 
     // Vertical resizers for tables
     document.querySelectorAll('.vertical-resizer').forEach(resizer => {
-        let startY = 0;
-        let startHeight = 0;
-        let targetElement = null;
+        let startY, prevElement, nextElement, prevHeight, nextHeight;
 
         const onMove = (e) => {
             const dy = e.clientY - startY;
-            const newHeight = startHeight + dy;
-            if (newHeight > 40) { // Minimum height
-                targetElement.style.height = newHeight + 'px';
-                targetElement.style.flexGrow = '0';
+            const newPrevHeight = prevHeight + dy;
+            const newNextHeight = nextHeight - dy;
+
+            if (newPrevHeight > 40 && newNextHeight > 40) { // Ensure minimum height
+                prevElement.style.flexBasis = `${newPrevHeight}px`;
+                nextElement.style.flexBasis = `${newNextHeight}px`;
             }
         };
 
@@ -713,10 +730,20 @@ function initResizers() {
         };
 
         resizer.addEventListener('mousedown', (e) => {
+            e.preventDefault();
             startY = e.clientY;
-            const targetId = resizer.dataset.tableTarget;
-            targetElement = document.getElementById(targetId);
-            startHeight = targetElement.getBoundingClientRect().height;
+            prevElement = resizer.previousElementSibling;
+            nextElement = resizer.nextElementSibling;
+
+            prevHeight = prevElement.getBoundingClientRect().height;
+            nextHeight = nextElement.getBoundingClientRect().height;
+
+            // Set flex properties to make flex-basis authoritative during drag
+            prevElement.style.flexGrow = '0';
+            prevElement.style.flexShrink = '0';
+            nextElement.style.flexGrow = '0';
+            nextElement.style.flexShrink = '0';
+
             window.addEventListener('mousemove', onMove);
             window.addEventListener('mouseup', onUp);
         });
