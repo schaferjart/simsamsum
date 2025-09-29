@@ -36,6 +36,10 @@ export function initVisualization(container, onZoom, onBackgroundClick) {
 
     zoom = d3.zoom()
         .scaleExtent([0.1, 4])
+        .filter((event) => {
+            // Disable zoom/pan when Shift is held for rectangle selection
+            return !event.shiftKey;
+        })
         .on('zoom', onZoom);
 
     svg.call(zoom);
