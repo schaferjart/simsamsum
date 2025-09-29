@@ -94,3 +94,23 @@ export function downloadJsonFile(dataOrString, filename) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
+
+/**
+ * Converts a human-readable name to a valid ID format.
+ * Example: "Application Review 4" -> "application_review_4"
+ * @param {string} name - The name to convert
+ * @returns {string} The generated ID
+ */
+export function generateIdFromName(name) {
+    if (!name || typeof name !== 'string') {
+        return `element_${Date.now()}`; // Fallback for empty names
+    }
+    
+    return name
+        .toLowerCase()                    // Convert to lowercase
+        .trim()                          // Remove leading/trailing spaces
+        .replace(/[^a-z0-9\s]/g, '')     // Remove special characters, keep letters, numbers, spaces
+        .replace(/\s+/g, '_')            // Replace spaces with underscores
+        .replace(/_{2,}/g, '_')          // Replace multiple underscores with single
+        .replace(/^_|_$/g, '');          // Remove leading/trailing underscores
+}

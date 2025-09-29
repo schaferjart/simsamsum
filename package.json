@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "node server.js"
+    "server": "node server.js",
+    "test": "node tests/verify-sync.js",
+    "test:data": "node tests/test-data-sync.js",
+    "test:api": "node tests/test-api-simple.js",
+    "debug:cache": "echo 'Copy contents of tests/debug-clear-cache.js to browser console'",
+    "debug:table": "echo 'Copy contents of tests/debug-test-table.js to browser console'"
   },
   "keywords": [
     "workflow",
@@ -20,7 +25,7 @@
     "interactive",
     "responsive"
   ],
-  "author": "Your Name",
+  "author": "Yunes",
   "license": "MIT",
   "repository": {
     "type": "git",

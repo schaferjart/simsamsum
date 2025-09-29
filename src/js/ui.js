@@ -175,7 +175,8 @@ export async function initEditorTables(core) {
             { data: 'platform', title: 'Platform' },
             { data: 'execution', title: 'Execution', type: 'dropdown', source: executionTypes },
             { data: 'cost', title: 'Cost', type: 'numeric', numericFormat: { pattern: '0[.]00' } },
-            { data: 'incomingVolume', title: 'Incoming Volume', type: 'numeric', readOnly: true },
+            { data: 'incomingVolume', title: 'Volume' },
+            { data: 'nodeMultiplier', title: 'Multiplier', type: 'numeric', numericFormat: { pattern: '0[.]000' } },
             { data: 'description', title: 'Description' }
         ],
         afterChange: (changes, source) => {
@@ -191,7 +192,8 @@ export async function initEditorTables(core) {
                     platform: String(r.platform || '').trim(),
                     execution: String(r.execution || 'Manual').trim(),
                     cost: typeof r.cost === 'number' ? r.cost : parseFloat(r.cost) || 0,
-                    incomingVolume: typeof r.incomingVolume === 'number' ? r.incomingVolume : 0,
+                    incomingVolume: r.incomingVolume, // Keep original value (can be string/variable)
+                    nodeMultiplier: r.nodeMultiplier, // Keep original value (can be string/variable)
                     description: String(r.description || '').trim(),
                 })).filter(e => e.id);
                 console.log('🚀 Calling updateFromTable with:', nextElements.length, 'elements');
@@ -234,10 +236,7 @@ export async function initEditorTables(core) {
         columns: [
             { data: 'id', title: 'ID' },
             { data: 'fromId', title: 'From', type: 'dropdown', source: elementIds },
-            { data: 'toId', title: 'To', type: 'dropdown', source: elementIds },
-            { data: 'probability', title: 'Probability' },
-            { data: 'type', title: 'Type', type: 'dropdown', source: ['flow', 'dependency'] },
-            { data: 'description', title: 'Description' }
+            { data: 'toId', title: 'To', type: 'dropdown', source: elementIds }
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
@@ -247,10 +246,7 @@ export async function initEditorTables(core) {
                 const nextConns = _connectionsHot.getSourceData().map(r => ({
                     id: String(r.id || `${r.fromId || ''}->${r.toId || ''}`).trim(),
                     fromId: String(r.fromId || '').trim(),
-                    toId: String(r.toId || '').trim(),
-                    probability: r.probability, // can be string or number
-                    type: String(r.type || 'outgoing').trim(),
-                    description: String(r.description || '').trim(),
+                    toId: String(r.toId || '').trim()
                 })).filter(c => c.fromId && c.toId);
                 console.log('🚀 Calling updateFromTable with:', nextConns.length, 'connections');
                 core.updateFromTable('connections', nextConns);

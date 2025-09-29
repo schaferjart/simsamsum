@@ -68,7 +68,7 @@ class WorkflowVisualizer {
      */
     this.elements = [];
     /**
-     * @type {Array<{ id: string, fromId: string, toId: string, probability: string|number, type: string, description: string }>}
+     * @type {Array<{ id: string, fromId: string, toId: string }>}
      */
     this.connections = [];
     /**
@@ -475,7 +475,8 @@ class WorkflowVisualizer {
             platform: n.Platform || '',
             execution: n.Execution || 'Manual',
             cost: typeof n["Effective Cost"] === 'number' ? n["Effective Cost"] : (typeof n.costValue === 'number' ? n.costValue : 0),
-            incomingVolume: typeof n.incomingVolume === 'number' ? n.incomingVolume : 0,
+            incomingVolume: n.incomingVolume || 0,
+            nodeMultiplier: n.nodeMultiplier || 1,
             description: n.description || '',
             x: typeof n.x === 'number' ? n.x : 0,
             y: typeof n.y === 'number' ? n.y : 0
@@ -488,10 +489,7 @@ class WorkflowVisualizer {
             return {
                 id: `${fromId}->${toId}`,
                 fromId,
-                toId,
-                probability: typeof l.probability === 'number' ? l.probability : (l.probability ?? 1.0),
-                type: l.type || 'outgoing',
-                description: ''
+                toId
             };
         });
 

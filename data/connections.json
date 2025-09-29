@@ -1,42 +1,52 @@
 [
   {
+    "id": "indeed->text_application_s",
+    "fromId": "indeed",
+    "toId": "text_application_s"
+  },
+  {
     "id": "indeed->text_application",
     "fromId": "indeed",
-    "toId": "text_application",
-    "probability": 0.15,
-    "type": "flow",
-    "description": "Users who see job posting and start application"
+    "toId": "text_application"
   },
   {
     "id": "text_application->text_application2",
     "fromId": "text_application",
-    "toId": "text_application2",
-    "probability": 0.25,
-    "type": "flow",
-    "description": "Applicants who complete application and get a callback"
+    "toId": "text_application2"
   },
   {
-    "id": "indeed->text_a3",
+    "id": "text_application_s->text_application2",
+    "fromId": "text_application_s",
+    "toId": "text_application2"
+  },
+  {
+    "id": "text_application_s->one",
+    "fromId": "text_application_s",
+    "toId": "one"
+  },
+  {
+    "id": "one->two",
+    "fromId": "one",
+    "toId": "two"
+  },
+  {
+    "id": "indeed->seven",
     "fromId": "indeed",
-    "toId": "text_a3",
-    "probability": null,
-    "type": "outgoing",
-    "description": ""
+    "toId": "seven"
   },
   {
-    "id": "text_3->text_new",
-    "fromId": "text_3",
-    "toId": "text_new",
-    "probability": null,
-    "type": "outgoing",
-    "description": ""
+    "id": "seven->nap",
+    "fromId": "seven",
+    "toId": "nap"
   },
   {
-    "id": "diw",
-    "fromId": "indeed",
-    "toId": "text_3",
-    "probability": null,
-    "type": "outgoing",
-    "description": ""
+    "id": "nap->text_3",
+    "fromId": "nap",
+    "toId": "text_3"
+  },
+  {
+    "id": "nap->text_new",
+    "fromId": "nap",
+    "toId": "text_new"
   }
 ]

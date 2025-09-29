@@ -1,159 +1,279 @@
 # Workflow Visualizer
 
-**Workflow Visualizer** is an interactive web application for creating, analyzing, and visualizing complex business workflows and process flows. Built with D3.js, it provides a dynamic and responsive interface to turn CSV data into insightful, interactive diagrams.
+SimSamSum is an interactive web application for creating, analyzing, and visualizing complex business workflows and process flows. Built with D3.js, it provides a dynamic interface for turning data into insightful, interactive diagrams with multiple data sources and real-time editing capabilities.
 
-![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
-![Technology](https://img.shields.io/badge/Tech-D3.js%20%7C%20Vite%20%7C%20JavaScript-blue)
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
----
+## Architecture Overview
+
+### Core Components
+
+**Frontend Application**: Single-page application built with vanilla JavaScript and D3.js for visualization rendering, featuring modular architecture with clear separation of concerns.
+
+**API Server**: Node.js/Express server providing RESTful endpoints for data persistence, file management, and workflow synchronization.
+
+**Data Layer**: JSON-based data storage with support for elements, connections, variables, and combined workflow files, enabling version control and easy data manipulation.
+
+**Test Suite**: Comprehensive testing infrastructure for data integrity, API functionality, and browser debugging utilities.
 
 ## Features
 
--   **Interactive & Responsive:** Zoom, pan, and drag nodes to organize your workflow. The visualization adapts to your screen size.
--   **Multiple Layouts:** Instantly switch between different layout algorithms:
-    -   Force-Directed
-    -   Hierarchical (Top-Down)
-    -   Hierarchical (Orthogonal)
-    -   Circular
-    -   Grid
-    -   Manual (with Grid-Snapping)
--   **Data-Driven:** Upload your own CSV files to visualize custom workflows. A sample dataset is included to get you started.
--   **Rich UI Controls:**
-    -   Search and filter nodes by name, type, or execution method.
-    -   Toggle node sizing between uniform and cost-based.
-    -   Rotate, flip, center, and fit the graph to the screen.
-    -   Save and load custom layouts.
--   **Node Details Panel:** Click any node to see its detailed information.
--   **Connection Verification:** A built-in tool to identify orphaned nodes, broken links, and other inconsistencies in your data.
--   **PDF Export:** Export your current visualization to a high-quality PDF document.
+**Interactive Visualization**: Zoom, pan, and drag nodes with responsive design. Multiple layout algorithms including force-directed, hierarchical, circular, grid, and manual positioning with grid-snapping capabilities.
 
-## Getting Started
+**Data Management**: Support for CSV import, JSON persistence, real-time table editing with Handsontable integration, and automatic data synchronization between frontend and backend.
+
+**Advanced Controls**: Search and filter nodes by name, type, or execution method. Toggle between uniform and cost-based node sizing. Graph transformation tools including rotation, flipping, centering, and auto-fitting.
+
+**Export Capabilities**: High-quality PDF export with metadata, layout preservation, and custom formatting. JSON data export for backup and sharing workflows.
+
+**Validation Tools**: Built-in connection verification, orphaned node detection, data consistency checking, and comprehensive error reporting.
+
+## Quick Start
 
 ### Prerequisites
+- Node.js (version 14.0.0 or higher)
+- npm (comes with Node.js)
 
--   [Node.js](https://nodejs.org/) (version 14.0.0 or higher)
--   [npm](https://www.npmjs.com/) (comes with Node.js)
-
-### Installation & Setup
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/workflow-visualizer.git
-    cd workflow-visualizer
-    ```
-
-2.  **Install dependencies:**
-    The project uses `npm` to manage dependencies like D3.js and Vite.
-    ```bash
-    npm install
-    ```
-
-3.  **Run the development server:**
-    This command starts a local development server using Vite, which provides hot-reloading and an optimized environment.
-    ```bash
-    npm run dev
-    ```
-    The application will be available at `http://localhost:5173` (or the next available port).
-
-## Usage
-
-1.  **Load Data:**
-    -   Click **Load Sample Data** to see a pre-built example workflow.
-    -   Click **Choose CSV File**, select your own data file, and click **Upload CSV**.
-
-2.  **Interact with the Graph:**
-    -   **Pan:** Click and drag the background.
-    -   **Zoom:** Use your mouse wheel or the `+` / `-` controls.
-    -   **Move Nodes:** Click and drag any node. In "Manual (Grid Snap)" layout, nodes will snap to the grid.
-    -   **View Details:** Click on a node to open the details panel on the right.
-
-3.  **Use the Controls:**
-    -   The left-hand panel provides all the tools to filter, re-arrange, and customize the view. Experiment with different layouts and filters to better understand your workflow.
-
-## Code Documentation
-
-This project uses JSDoc to automatically generate a browsable HTML website from the JSDoc comments in the source code.
-
-### Generating the Documentation
-
-To generate the documentation, run the following command from the project root:
-
+### Installation
 ```bash
-npm run docs:generate
+git clone https://github.com/yourusername/workflow-visualizer.git
+cd workflow-visualizer
+npm install
 ```
 
-This will create a `docs` directory containing the full documentation website.
+### Development
+```bash
+# Start frontend development server
+npm run dev
 
-### Viewing the Documentation
+# Start API server (in separate terminal)
+npm run server
 
-To view the documentation, open the following file in your web browser:
-
+# Run comprehensive tests
+npm run test
 ```
-docs/index.html
-```
 
-2.  **Interact with the Graph:**
-    -   **Pan:** Click and drag the background.
-    -   **Zoom:** Use your mouse wheel or the `+` / `-` controls.
-    -   **Move Nodes:** Click and drag any node. In "Manual (Grid Snap)" layout, nodes will snap to the grid.
-    -   **View Details:** Click on a node to open the details panel on the right.
-
-3.  **Use the Controls:**
-    -   The left-hand panel provides all the tools to filter, re-arrange, and customize the view. Experiment with different layouts and filters to better understand your workflow.
-
-## Data Format
-
-The application ingests CSV files. The file must contain a header row.
-
-### Required Columns:
-
--   `Name`: A unique identifier for the node.
--   `Type`: The shape of the node. Supported values:
-    -   `Resource` (Rectangle)
-    -   `Action` (Triangle)
-    -   `State` (Circle)
-    -   `Decision` (Diamond)
--   `Incoming`: A comma-separated list of `Name` values for nodes that link *to* this node.
-
-### Optional Columns:
-
--   `Execution`: Determines the border style.
-    -   `Automatic` (Solid)
-    -   `Applicant` (Dotted)
-    -   Any other value will be Dashed.
--   `Effective Cost` or `Ø Cost`: A numeric value used for cost-based node sizing.
--   `Outgoing1`, `Outgoing2`, ... `Outgoing5`: The `Name` of a node that this node links *to*. (Note: The primary connection logic uses the `Incoming` column, but this is used for verification).
--   `Platform`, `Monitoring`, and other custom fields will be displayed in the Node Details panel.
+The application will be available at `http://localhost:5174` with API server running on `http://localhost:3001`.
 
 ## Project Structure
 
+### Root Files
 ```
 workflow-visualizer/
-├── index.html              # Main application page (entry point)
-├── package.json            # Project dependencies and scripts
-├── README.md               # This documentation file
-├── src/
-│   ├── app.js              # Initializes the application
-│   ├── style.css           # Main stylesheet
-│   └── js/
-│       ├── core.js         # Main application class and state management
-│       ├── data.js         # Data processing, parsing, and verification
-│       ├── export.js       # PDF export logic
-│       ├── interactions.js # User interactions (drag, zoom, filters)
-│       ├── layouts.js      # All graph layout algorithms
-│       ├── render.js       # D3.js rendering logic (nodes, links, SVG)
-│       ├── ui.js           # UI-related functions (panels, buttons)
-│       └── utils.js        # Utility functions
-└── WFR-Processes-Sep25.csv # Sample data file
+├── index.html              # Application entry point with complete UI layout
+├── package.json            # Dependencies, scripts, and project metadata
+├── server.js               # Express API server for data persistence
+├── LICENSE                 # MIT license
+├── README.md               # This documentation
+└── WFR-Processes-Sep25.csv # Sample workflow data
 ```
 
-## Technical Details
+### Source Code Architecture
+```
+src/
+├── app.js                  # Application bootstrap and initialization
+├── style.css               # Main stylesheet importing modular CSS
+├── js/                     # Core JavaScript modules
+│   ├── core.js             # WorkflowVisualizer class and application state
+│   ├── data.js             # Data processing, parsing, and validation
+│   ├── render.js           # D3.js visualization rendering engine
+│   ├── interactions.js     # User interactions and event handling
+│   ├── layouts.js          # Graph layout algorithms implementation
+│   ├── ui.js               # User interface components and controls
+│   ├── export.js           # PDF export functionality
+│   ├── fileManager.js      # File operations and API communication
+│   └── utils.js            # Utility functions and helpers
+└── styles/                 # Modular CSS architecture
+    ├── base.css            # CSS variables and reset styles
+    ├── components.css      # Reusable UI component styles
+    ├── layout.css          # Application layout and structure
+    ├── responsive.css      # Mobile and responsive design
+    └── visualization.css   # D3.js visualization styling
+```
 
--   **Core Library:** D3.js v7.9.0
--   **Development Server:** Vite
--   **CSV Parsing:** PapaParse v5.5.3
--   **PDF Generation:** jsPDF & html2canvas
+### Data Storage
+```
+data/
+├── elements.json           # Workflow nodes/elements definition
+├── connections.json        # Node relationships and flows
+├── variables.json          # Dynamic variables for calculations
+└── workflow.json           # Combined workflow data with metadata
+```
+
+### Testing Infrastructure
+```
+tests/
+├── README.md               # Testing documentation and usage guide
+├── verify-sync.js          # Comprehensive system verification
+├── test-data-sync.js       # Data integrity and consistency testing
+├── test-api-simple.js      # API endpoint connectivity testing
+├── test-api.js             # Browser-based API testing utilities
+├── debug-clear-cache.js    # Browser localStorage cache clearing
+├── debug-test-data.js      # Sample data for development testing
+└── debug-test-table.js     # Table modification testing utilities
+```
+
+## Core Modules Description
+
+### core.js - Application Core
+The main `WorkflowVisualizer` class orchestrates the entire application lifecycle. It manages state synchronization between table data (elements, connections, variables) and visualization data (nodes, links). Key responsibilities include data loading from multiple sources (API, direct files, localStorage), layout management, and event coordination between modules.
+
+**Key Functions**:
+- `initializeApp()`: Application entry point and instance creation
+- `loadFromJsonFiles()`: Data loading with API-first, file fallback strategy
+- `updateVisualization()`: Central visualization update coordinator
+- `syncTableDataToVisualization()`: Bidirectional data synchronization
+
+### data.js - Data Processing Engine
+Handles all data transformation, validation, and computation. Supports both legacy CSV format and modern JSON table format. Implements flow-based volume calculations for workflow analytics.
+
+**Key Functions**:
+- `processData()`: Main data transformation pipeline
+- `computeDerivedFields()`: Calculate node volumes and flow metrics
+- `verifyConnections()`: Data consistency validation
+- `parseCSV()`: CSV import and processing
+- Import/export functions for JSON and CSV formats
+
+### render.js - Visualization Engine
+D3.js-based rendering system for creating interactive network diagrams. Manages SVG creation, node and link rendering, and visual state updates.
+
+**Key Functions**:
+- `initVisualization()`: SVG setup and zoom/pan initialization
+- `renderVisualizationElements()`: Node and link rendering with event binding
+- `updatePositions()`: Animation and position updates
+- `highlightNode()` / `clearHighlight()`: Interactive highlighting system
+
+### interactions.js - User Interaction Handler
+Manages all user interactions including drag-and-drop, zoom/pan, filtering, and node selection. Coordinates between user actions and application state changes.
+
+**Key Functions**:
+- Drag and drop with grid snapping support
+- Filter system for nodes by multiple criteria
+- Zoom and pan management with boundaries
+- Event propagation and state updates
+
+### layouts.js - Layout Algorithms
+Implements multiple graph layout algorithms for different visualization needs. Each layout is self-contained and can be applied independently.
+
+**Available Layouts**:
+- Force-directed simulation for organic positioning
+- Hierarchical layouts (top-down and orthogonal)
+- Circular arrangement for cycle visualization
+- Grid layouts for structured presentations
+- Manual positioning with grid snapping
+
+### ui.js - User Interface Management
+Handles all UI components including control panels, tables, buttons, and modal dialogs. Integrates Handsontable for advanced data editing capabilities.
+
+**Key Functions**:
+- `initEditorTables()`: Handsontable initialization and configuration
+- Event binding for all UI controls
+- Status message system
+- Panel management and responsive behavior
+
+### fileManager.js - File Operations
+Manages data persistence through API server communication. Handles file uploads, downloads, and synchronization with the backend storage system.
+
+**Key Functions**:
+- `saveToFiles()`: API-based data persistence
+- `loadFromFile()`: File upload and parsing
+- Auto-save functionality with change tracking
+
+### export.js - Export System
+PDF export functionality using jsPDF and html2canvas. Creates print-ready documents with metadata and proper formatting.
+
+**Features**:
+- High-resolution SVG to PDF conversion
+- Metadata inclusion (node count, layout, timestamp)
+- Element hiding for clean exports
+- Error handling and user feedback
+
+### utils.js - Utility Functions
+Common utility functions used across the application including node sizing calculations, grid snapping, file downloads, and status messaging.
+
+## Data Model
+
+### Elements (Nodes)
+```json
+{
+  "id": "unique_identifier",
+  "name": "Display Name",
+  "type": "Resource|Action|Decision|State",
+  "area": "Functional Area",
+  "platform": "Platform Name",
+  "execution": "Manual|Automatic|Applicant",
+  "cost": 0.0,
+  "incomingVolume": "variable_name_or_number",
+  "nodeMultiplier": "variable_name_or_number",
+  "description": "Node description",
+  "computedVolumeIn": 0.0
+}
+```
+
+### Connections (Links)
+```json
+{
+  "id": "from_id->to_id",
+  "fromId": "source_node_id",
+  "toId": "target_node_id"
+}
+```
+
+### Variables
+```json
+{
+  "variable_name": 0.0,
+  "callback_rate": 0.25,
+  "incoming_volume": 2000
+}
+```
+
+## API Endpoints
+
+### GET /api/health
+Health check endpoint returning server status and timestamp.
+
+### GET /api/load-workflow
+Returns complete workflow data including elements, connections, and variables.
+
+### POST /api/save-workflow
+Saves workflow data to JSON files. Accepts elements, connections, and variables in request body.
+
+## Development Scripts
+
+```bash
+npm run dev          # Start Vite development server
+npm run build        # Build production bundle
+npm run preview      # Preview production build
+npm run server       # Start API server
+npm run test         # Run comprehensive verification
+npm run test:data    # Test data consistency
+npm run test:api     # Test API connectivity
+npm run debug:cache  # Clear browser cache instructions
+npm run debug:table  # Table testing instructions
+```
+
+## Browser Compatibility
+
+- Modern browsers with ES6+ support
+- Chrome 80+, Firefox 75+, Safari 13+, Edge 80+
+- Mobile browsers with touch interaction support
+
+## Technical Dependencies
+
+**Core Libraries**:
+- D3.js v7.9.0 (visualization)
+- Vite v7.1.7 (development server)
+- Express v4.21.2 (API server)
+- Handsontable v14.3.0 (table editing)
+
+**Export and Processing**:
+- jsPDF v3.0.3 (PDF generation)
+- html2canvas v1.4.1 (SVG capture)
+- PapaParse v5.5.3 (CSV parsing)
+
+**Development Tools**:
+- CORS v2.8.5 (cross-origin requests)
+- JSDoc v4.0.4 (documentation generation)
 
 ## License
 

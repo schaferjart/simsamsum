@@ -146,8 +146,6 @@ export function resolveValue(value, variables = {}) {
  * @returns {{nodes: Array<Object>, links: Array<Object>}}
  */
 export function processData(data, costBasedSizing, variables = {}) {
-    console.log('Processing data (flexible model):', data);
-
     // Shape detection: legacy CSV rows array vs new model { nodes, connections, variables }
     if (Array.isArray(data)) {
         // Legacy path (existing behavior)
@@ -214,14 +212,21 @@ export function processData(data, costBasedSizing, variables = {}) {
     }
 
     // New model path: expect { nodes, connections, variables? }
-    const tableNodes = data?.nodes || [];
+    const tableNodes = data?.nodes || data?.elements || [];
     const tableConns = data?.connections || [];
     const vars = { ...(data?.variables || {}), ...variables };
+
+    console.log('Processing data (flexible model):', {
+        nodes: tableNodes.length ? tableNodes : 'empty',
+        connections: tableConns.length ? tableConns : 'empty', 
+        variables: vars
+    });
 
     const nodes = tableNodes.map(n => {
         const name = n.name || n.id;
         const execution = n.execution || 'Manual';
         const cost = typeof n.cost === 'number' ? n.cost : resolveValue(n.cost, vars);
+        const incomingVolume = typeof n.incomingVolume === 'number' ? n.incomingVolume : resolveValue(n.incomingVolume, vars);
         return {
             id: n.id,
             Name: name,
@@ -232,6 +237,7 @@ export function processData(data, costBasedSizing, variables = {}) {
             borderStyle: getBorderStyle(execution),
             x: typeof n.x === 'number' ? n.x : undefined,
             y: typeof n.y === 'number' ? n.y : undefined,
+            incomingVolume: incomingVolume,
             // For compatibility with existing code paths
             costValue: cost,
             "Effective Cost": cost
@@ -241,9 +247,12 @@ export function processData(data, costBasedSizing, variables = {}) {
     const links = tableConns.map(c => ({
         source: c.fromId,
         target: c.toId,
-        type: c.type || 'outgoing',
-        probability: resolveValue(c.probability, vars)
+        type: 'outgoing', // Simplified: all connections are flow connections
+        probability: c.probability !== undefined ? resolveValue(c.probability, vars) : 1.0
     }));
+
+    console.log('🔗 Generated links:', links.length, 'from connections:', tableConns.length);
+    console.log('📊 Generated nodes:', nodes.length, 'from elements:', tableNodes.length);
 
     return { nodes, links };
 }
@@ -541,14 +550,15 @@ export function importFromCsv(nodesCsv, connectionsCsv) {
         x: typeof n.x === 'number' ? n.x : parseFloat(n.x || 0) || 0,
         y: typeof n.y === 'number' ? n.y : parseFloat(n.y || 0) || 0
     })).filter(n => n.id);
-    const connections = rawConns.map(c => ({
-        id: c.id || c.ID || `${c.fromId || c.FromId || ''}->${c.toId || c.ToId || ''}`,
-        fromId: c.fromId || c.FromId || c.Source || '',
-        toId: c.toId || c.ToId || c.Target || '',
-        probability: c.probability ?? c.Probability ?? '',
-        type: c.type || c.Type || 'outgoing',
-        description: c.description || c.Description || ''
-    })).filter(c => c.fromId && c.toId);
+    const connections = rawConns.map(c => {
+        const fromId = c.fromId || c.FromId || c.Source || '';
+        const toId = c.toId || c.ToId || c.Target || '';
+        return {
+            id: `${fromId}->${toId}`, // Auto-generate ID
+            fromId,
+            toId
+        };
+    }).filter(c => c.fromId && c.toId);
     return { nodes, connections };
 }
 
@@ -562,78 +572,138 @@ export function exportToCsv(data) {
         cost: n.cost, volumeIn: n.volumeIn, description: n.description, x: n.x, y: n.y
     })));
     const connectionsCsv = Papa.unparse((data.connections || []).map(c => ({
-        id: c.id, fromId: c.fromId, toId: c.toId,
-        probability: c.probability,
-        probability_resolved: resolveValue(c.probability, vars),
-        type: c.type, description: c.description
+        id: c.id, fromId: c.fromId, toId: c.toId
     })));
     return { nodesCsv, connectionsCsv };
 }
 
 /**
- * Compute derived fields like computedVolumeIn by propagating volumes along connections.
- * Starts from each node's volumeIn (fallback 0) and iteratively distributes along outgoing edges
- * using probability weights. Caps at max 10 iterations to avoid infinite loops; warns on cycles.
- * @param {Array<{id: string, volumeIn?: number, computedVolumeIn?: number}>} nodes
+ * Compute derived fields using flow-based volume calculation.
+ * Source nodes start with their initial volumes (resolved from variables).
+ * Downstream nodes receive calculated volumes based on incoming flows.
+ * Multiple inputs to a node are summed up.
+ * @param {Array<{id: string, incomingVolume?: number|string, nodeMultiplier?: number|string}>} nodes
  * @param {Array<{fromId: string, toId: string, probability?: number|string}>} connections
  * @param {Record<string, number>} variables
- * @returns {Array} nodes with updated computedVolumeIn
  */
 export function computeDerivedFields(nodes, connections, variables = {}) {
-    const idToIndex = new Map();
-    (nodes || []).forEach((n, i) => idToIndex.set(n.id, i));
-    const probs = (connections || []).map(c => resolveValue(c.probability, variables));
+    if (!nodes || !connections) return nodes;
 
-    // Build adjacency and out-degree sum for normalization
-    const out = new Map();
-    (connections || []).forEach((c, idx) => {
-        if (!idToIndex.has(c.fromId) || !idToIndex.has(c.toId)) return;
-        const list = out.get(c.fromId) || [];
-        list.push({ to: c.toId, p: probs[idx] || 0 });
-        out.set(c.fromId, list);
+    // Step 1: Build connection map and resolve all variables
+    const connectionMap = new Map(); // fromId -> [{toId, probability}]
+    const incomingMap = new Map();   // toId -> [{fromId, probability}]
+    
+    connections.forEach(conn => {
+        // Default to probability = 1 if not specified (simplified connections)
+        const probability = conn.probability !== undefined ? resolveValue(conn.probability, variables) : 1.0;
+        
+        // Build outgoing map
+        if (!connectionMap.has(conn.fromId)) {
+            connectionMap.set(conn.fromId, []);
+        }
+        connectionMap.get(conn.fromId).push({
+            toId: conn.toId,
+            probability: probability
+        });
+        
+        // Build incoming map
+        if (!incomingMap.has(conn.toId)) {
+            incomingMap.set(conn.toId, []);
+        }
+        incomingMap.get(conn.toId).push({
+            fromId: conn.fromId,
+            probability: probability
+        });
     });
 
-    // Initialize volumes
-    const current = (nodes || []).map(n => (typeof n.volumeIn === 'number' ? n.volumeIn : 0));
-    const next = new Array(current.length).fill(0);
-
-    let iterations = 0;
-    const maxIter = 10;
-    while (iterations < maxIter) {
-        next.fill(0);
-        let moved = 0;
-        for (const [fromId, edges] of out.entries()) {
-            const fromIdx = idToIndex.get(fromId);
-            if (fromIdx == null) continue;
-            const totalP = edges.reduce((a, e) => a + (e.p || 0), 0) || 1;
-            for (const e of edges) {
-                const toIdx = idToIndex.get(e.to);
-                if (toIdx == null) continue;
-                const amount = current[fromIdx] * ((e.p || 0) / totalP);
-                if (amount) {
-                    next[toIdx] += amount;
-                    moved += amount;
-                }
-            }
+    // Step 2: Identify source nodes (nodes with initial volumes but no incoming connections)
+    const nodeVolumes = new Map();
+    const sourceNodes = [];
+    
+    nodes.forEach(node => {
+        const hasIncoming = incomingMap.has(node.id);
+        const hasInitialVolume = node.incomingVolume !== undefined && node.incomingVolume !== null && node.incomingVolume !== 0;
+        
+        if (hasInitialVolume && !hasIncoming) {
+            // Source node - resolve initial volume from variables
+            const initialVolume = resolveValue(node.incomingVolume, variables);
+            const nodeMultiplier = node.nodeMultiplier ? resolveValue(node.nodeMultiplier, variables) : 1;
+            const finalVolume = initialVolume * nodeMultiplier;
+            
+            nodeVolumes.set(node.id, finalVolume);
+            sourceNodes.push(node.id);
+            
+            console.log(`📊 Source node ${node.id}: ${node.incomingVolume} × ${nodeMultiplier} = ${finalVolume}`);
+        } else {
+            nodeVolumes.set(node.id, 0); // Will be calculated
         }
-        // Add base volumes to next and check convergence
-        let delta = 0;
-        for (let i = 0; i < next.length; i++) {
-            next[i] += (typeof nodes[i].volumeIn === 'number' ? nodes[i].volumeIn : 0);
-            delta += Math.abs(next[i] - current[i]);
-            current[i] = next[i];
-        }
-        iterations++;
-        if (delta < 1e-6 || moved === 0) break;
-    }
-
-    if (iterations === maxIter) {
-        console.warn('computeDerivedFields: iteration limit reached (possible cycles)');
-    }
-
-    (nodes || []).forEach((n, i) => {
-        n.computedVolumeIn = current[i];
     });
 
+    // Step 3: Topological sort to calculate volumes in correct order
+    const visited = new Set();
+    const calculating = new Set();
+    
+    function calculateNodeVolume(nodeId) {
+        if (visited.has(nodeId)) {
+            return nodeVolumes.get(nodeId);
+        }
+        
+        if (calculating.has(nodeId)) {
+            console.warn(`🔄 Cycle detected involving node ${nodeId}`);
+            return nodeVolumes.get(nodeId) || 0;
+        }
+        
+        calculating.add(nodeId);
+        
+        // If it's a source node, volume is already set
+        if (sourceNodes.includes(nodeId)) {
+            visited.add(nodeId);
+            calculating.delete(nodeId);
+            return nodeVolumes.get(nodeId);
+        }
+        
+        // Calculate volume from incoming connections
+        let totalIncomingVolume = 0;
+        const incomingConnections = incomingMap.get(nodeId) || [];
+        
+        incomingConnections.forEach(incoming => {
+            const fromVolume = calculateNodeVolume(incoming.fromId);
+            const flowVolume = fromVolume * incoming.probability;
+            totalIncomingVolume += flowVolume;
+            
+            console.log(`📈 Flow: ${incoming.fromId}(${fromVolume}) → ${nodeId}: ${fromVolume} × ${incoming.probability} = ${flowVolume}`);
+        });
+        
+        // Apply node multiplier if it exists
+        const node = nodes.find(n => n.id === nodeId);
+        const nodeMultiplier = node?.nodeMultiplier ? resolveValue(node.nodeMultiplier, variables) : 1;
+        const finalVolume = totalIncomingVolume * nodeMultiplier;
+        
+        nodeVolumes.set(nodeId, finalVolume);
+        visited.add(nodeId);
+        calculating.delete(nodeId);
+        
+        console.log(`✅ Node ${nodeId}: incoming ${totalIncomingVolume} × multiplier ${nodeMultiplier} = ${finalVolume}`);
+        
+        return finalVolume;
+    }
+
+    // Step 4: Calculate volumes for all nodes
+    nodes.forEach(node => {
+        calculateNodeVolume(node.id);
+    });
+
+    // Step 5: Update nodes with calculated volumes
+    nodes.forEach(node => {
+        const calculatedVolume = nodeVolumes.get(node.id) || 0;
+        node.computedVolumeIn = calculatedVolume;
+        
+        // Also update incomingVolume if it was calculated (for display purposes)
+        if (!sourceNodes.includes(node.id)) {
+            node.incomingVolume = calculatedVolume;
+        }
+    });
+
+    console.log('📊 Final volumes:', Object.fromEntries(nodeVolumes));
     return nodes;
 }

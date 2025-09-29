@@ -3,6 +3,8 @@
  * Handles saving and loading workflow data to/from actual files in the project directory
  */
 
+import { generateIdFromName } from './utils.js';
+
 /**
  * Default file paths for persistence
  */
@@ -147,17 +149,20 @@ function downloadJsonFile(data, filename) {
  * Convert legacy CSV-style format to new structure
  */
 function convertLegacyFormat(legacyData) {
-    const elements = legacyData.map((item, index) => ({
-        id: item.Name || `element_${index}`,
-        name: item.Name || `Element ${index}`,
-        type: item.Type || 'Action',
-        area: item.Area || 'General',
-        cost: parseFloat(item['Ø Cost'] || item.Cost || 0),
-        platform: item.Platform || '',
-        execution: item.Execution || 'Manual',
-        incomingVolume: 0, // Will be calculated
-        description: item.Description || ''
-    }));
+    const elements = legacyData.map((item, index) => {
+        const name = item.Name || `Element ${index}`;
+        return {
+            id: generateIdFromName(name), // Auto-generate ID from name
+            name: name,
+            type: item.Type || 'Action',
+            area: item.Area || 'General',
+            cost: parseFloat(item['Ø Cost'] || item.Cost || 0),
+            platform: item.Platform || '',
+            execution: item.Execution || 'Manual',
+            incomingVolume: 0, // Will be calculated
+            description: item.Description || ''
+        };
+    });
 
     const connections = [];
     legacyData.forEach(item => {
@@ -165,12 +170,9 @@ function convertLegacyFormat(legacyData) {
             const targets = item.Outgoing.split(',').map(s => s.trim());
             targets.forEach(target => {
                 connections.push({
-                    id: `${item.Name}->${target}`,
+                    id: `${item.Name}->${target}`, // Auto-generate ID
                     fromId: item.Name,
-                    toId: target,
-                    probability: 1.0,
-                    type: 'flow',
-                    description: ''
+                    toId: target
                 });
             });
         }
