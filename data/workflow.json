@@ -1796,10 +1796,10 @@
   ],
   "variables": {
     "callback_rate": 0.25,
-    "incoming_volume": 2000,
+    "incoming_volume": 9000,
     "conversion_rate": 0.08,
     "retention_rate": 0.92
   },
-  "timestamp": "2025-09-29T19:18:45.407Z",
+  "timestamp": "2025-09-29T21:36:49.192Z",
   "version": "1.0"
 }

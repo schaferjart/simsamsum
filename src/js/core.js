@@ -389,12 +389,12 @@ class WorkflowVisualizer {
             this.state.links,
             this.state.currentLayout,
             {
-                dragStarted: (event, d) => interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager),
+                dragStarted: (event, d) => interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes),
                 dragged: (event, d) => {
-                    interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.state.gridSize, this.selectionManager)
+                    interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.state.gridSize, this.selectionManager, this.state.nodes)
                     updatePositions(this.state.g);
                 },
-                dragEnded: (event, d) => interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager),
+                dragEnded: (event, d) => interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes),
                 nodeClicked: (event, d) => {
                     event.stopPropagation();
                     ui.showNodeDetails(d);

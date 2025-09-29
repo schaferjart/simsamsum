@@ -18,7 +18,7 @@ const dragState = {
  * @param {string} currentLayout - The current layout type.
  * @param {object} selectionManager - The selection manager instance.
  */
-export function dragStarted(event, d, simulation, currentLayout, selectionManager = null) {
+export function dragStarted(event, d, simulation, currentLayout, selectionManager = null, nodes = []) {
     console.log(`🔥 Drag started for node: ${d.id}, layout: ${currentLayout}`);
     
     // Handle selection if selectionManager is available
@@ -31,8 +31,9 @@ export function dragStarted(event, d, simulation, currentLayout, selectionManage
         
         // Store initial positions for all selected nodes
         dragState.startPositions.clear();
+        const getNode = (id) => (simulation ? simulation.nodes().find(n => n.id === id) : nodes.find(n => n.id === id));
         selectionManager.selectedNodes.forEach(nodeId => {
-            const node = simulation.nodes().find(n => n.id === nodeId);
+            const node = getNode(nodeId);
             if (node) {
                 dragState.startPositions.set(nodeId, { x: node.x, y: node.y });
             }
@@ -42,7 +43,7 @@ export function dragStarted(event, d, simulation, currentLayout, selectionManage
         if (currentLayout === 'force' || currentLayout === 'force-directed') {
             if (simulation) simulation.alphaTarget(0.3).restart();
             selectionManager.selectedNodes.forEach(nodeId => {
-                const node = simulation.nodes().find(n => n.id === nodeId);
+                const node = (simulation ? simulation.nodes().find(n => n.id === nodeId) : nodes.find(n => n.id === nodeId));
                 if (node) {
                     node.fx = node.x;
                     node.fy = node.y;
@@ -69,7 +70,7 @@ export function dragStarted(event, d, simulation, currentLayout, selectionManage
  * @param {number} gridSize - The grid size for snapping.
  * @param {object} selectionManager - The selection manager instance.
  */
-export function dragged(event, d, simulation, currentLayout, gridSize, selectionManager = null) {
+export function dragged(event, d, simulation, currentLayout, gridSize, selectionManager = null, nodes = []) {
     if (!dragState.isDragging) return;
     
     // Calculate movement delta
@@ -78,17 +79,19 @@ export function dragged(event, d, simulation, currentLayout, gridSize, selection
     
     if (selectionManager && selectionManager.selectedNodes.has(d.id)) {
         // Move all selected nodes
-        if (simulation) {
+        const getNode = (id) => (simulation ? simulation.nodes().find(n => n.id === id) : nodes.find(n => n.id === id));
+        {
             selectionManager.selectedNodes.forEach(nodeId => {
-                const node = simulation.nodes().find(n => n.id === nodeId);
+                const node = getNode(nodeId);
                 const startPos = dragState.startPositions.get(nodeId);
                 if (node && startPos) {
                     let newX = startPos.x + dx;
                     let newY = startPos.y + dy;
                     
                     if (currentLayout === 'manual-grid') {
-                        newX = snapToGrid(newX, gridSize);
-                        newY = snapToGrid(newY, gridSize);
+                        const snapped = snapToGrid(newX, newY, gridSize);
+                        newX = snapped.x;
+                        newY = snapped.y;
                     }
                     
                     node.x = newX;
@@ -108,8 +111,9 @@ export function dragged(event, d, simulation, currentLayout, gridSize, selection
     } else {
         // Single node movement
         if (currentLayout === 'manual-grid') {
-            d.x = snapToGrid(event.x, gridSize);
-            d.y = snapToGrid(event.y, gridSize);
+            const snapped = snapToGrid(event.x, event.y, gridSize);
+            d.x = snapped.x;
+            d.y = snapped.y;
         } else {
             d.x = event.x;
             d.y = event.y;
@@ -133,7 +137,7 @@ export function dragged(event, d, simulation, currentLayout, gridSize, selection
  * @param {string} currentLayout - The current layout type.
  * @param {object} selectionManager - The selection manager instance.
  */
-export function dragEnded(event, d, simulation, currentLayout, selectionManager = null) {
+export function dragEnded(event, d, simulation, currentLayout, selectionManager = null, nodes = []) {
     dragState.isDragging = false;
     dragState.startPositions.clear();
     dragState.dragStartPoint = null;
@@ -146,7 +150,7 @@ export function dragEnded(event, d, simulation, currentLayout, selectionManager 
         // Fix positions for all selected nodes
         if (selectionManager && selectionManager.selectedNodes.has(d.id)) {
             selectionManager.selectedNodes.forEach(nodeId => {
-                const node = simulation.nodes().find(n => n.id === nodeId);
+                const node = (simulation ? simulation.nodes().find(n => n.id === nodeId) : nodes.find(n => n.id === nodeId));
                 if (node) {
                     node.fx = node.x;
                     node.fy = node.y;
@@ -157,7 +161,7 @@ export function dragEnded(event, d, simulation, currentLayout, selectionManager 
         // Release fixed positions so force can continue
         if (selectionManager && selectionManager.selectedNodes.has(d.id)) {
             selectionManager.selectedNodes.forEach(nodeId => {
-                const node = simulation.nodes().find(n => n.id === nodeId);
+                const node = (simulation ? simulation.nodes().find(n => n.id === nodeId) : nodes.find(n => n.id === nodeId));
                 if (node) {
                     node.fx = null;
                     node.fy = null;

@@ -156,14 +156,16 @@ function applyCircularLayout(nodes, width, height) {
  */
 function applyGridLayout(nodes, width, height) {
     const cols = Math.ceil(Math.sqrt(nodes.length));
-    const cellWidth = (width - 100) / cols;
-    const cellHeight = (height - 100) / rows;
+    const rows = Math.ceil(nodes.length / cols);
+    const padding = 50;
+    const cellWidth = (width - padding * 2) / Math.max(1, cols);
+    const cellHeight = (height - padding * 2) / Math.max(1, rows);
 
     nodes.forEach((node, i) => {
         const col = i % cols;
         const row = Math.floor(i / cols);
-        node.fx = 50 + cellWidth * (col + 0.5);
-        node.fy = 50 + cellHeight * (row + 0.5);
+    node.fx = padding + cellWidth * (col + 0.5);
+    node.fy = padding + cellHeight * (row + 0.5);
     });
 
     return d3.forceSimulation(nodes)
