@@ -38,7 +38,7 @@
 
 /* Rectangle selection style */
 /* rectangle selection removed; keep class minimal if any leftover elements */
-.selection-rect { display: none; }
+.selection-rect { display: block; pointer-events: none; }
 
 .link {
   fill: none;

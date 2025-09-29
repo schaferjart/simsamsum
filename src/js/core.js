@@ -118,11 +118,14 @@ class WorkflowVisualizer {
         // Initialize file manager for better persistence
         initFileManager(this);
         
-        // Remove any rectangle selection handlers (feature disabled per request)
-        if (this.state.svg) {
-            this.state.svg.on('mousedown.selection', null);
-            this.state.svg.on('mousemove.selection', null);
-            this.state.svg.on('mouseup.selection', null);
+        // Enable Shift-only rectangle selection on the background
+        if (this.state.svg && this.state.g) {
+            interactions.initShiftRectangleSelection(
+                this.state.svg,
+                this.state.g,
+                this.selectionManager,
+                () => this.state.nodes
+            );
         }
 
         // Keyboard shortcuts for selection (keep)

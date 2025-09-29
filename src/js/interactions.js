@@ -213,7 +213,87 @@ export function handleNodeClickSelection(event, d, selectionManager, g) {
  * @param {Array<object>} allNodes - All nodes for selection
  * @param {d3.zoom} zoomBehavior - The zoom behavior for coordinate transformation
  */
-// Rectangle selection disabled per request.
+// Shift-only rectangle selection (reintroduced): draw a selection rect when Shift is held on empty space
+export function initShiftRectangleSelection(svg, g, selectionManager, getNodes) {
+    let startPoint = null;
+    let selectionRect = null;
+    let isSelecting = false;
+
+    // Clean previous handlers to avoid duplicates
+    if (svg) {
+        svg.on('mousedown.selection', null);
+        svg.on('mousemove.selection', null);
+        svg.on('mouseup.selection', null);
+    }
+
+    svg.on('mousedown.selection', function(event) {
+        // Begin only when Shift is held and not clicking on a node
+        const isOnBackground = (event.target === svg.node()) || !event.target.closest || !event.target.closest('.node');
+        if (!event.shiftKey || !isOnBackground) return;
+
+        event.preventDefault();
+        isSelecting = true;
+
+        const transform = d3.zoomTransform(svg.node());
+        const [x, y] = transform.invert(d3.pointer(event, svg.node()));
+        startPoint = [x, y];
+
+        selectionRect = g.append('rect')
+            .attr('class', 'selection-rect')
+            .attr('x', x)
+            .attr('y', y)
+            .attr('width', 0)
+            .attr('height', 0)
+            .attr('fill', 'rgba(0, 123, 255, 0.1)')
+            .attr('stroke', '#007bff')
+            .attr('stroke-width', 1)
+            .attr('stroke-dasharray', '5,5');
+    });
+
+    svg.on('mousemove.selection', function(event) {
+        if (!isSelecting || !startPoint || !selectionRect) return;
+        event.preventDefault();
+
+        const transform = d3.zoomTransform(svg.node());
+        const [x, y] = transform.invert(d3.pointer(event, svg.node()));
+
+        const rectX = Math.min(startPoint[0], x);
+        const rectY = Math.min(startPoint[1], y);
+        const rectWidth = Math.abs(x - startPoint[0]);
+        const rectHeight = Math.abs(y - startPoint[1]);
+
+        selectionRect
+            .attr('x', rectX)
+            .attr('y', rectY)
+            .attr('width', rectWidth)
+            .attr('height', rectHeight);
+    });
+
+    svg.on('mouseup.selection', function(event) {
+        if (!isSelecting || !selectionRect) return;
+        event.preventDefault();
+
+        const transform = d3.zoomTransform(svg.node());
+        const [x, y] = transform.invert(d3.pointer(event, svg.node()));
+
+        const rectX = Math.min(startPoint[0], x);
+        const rectY = Math.min(startPoint[1], y);
+        const rectWidth = Math.abs(x - startPoint[0]);
+        const rectHeight = Math.abs(y - startPoint[1]);
+
+        if (rectWidth > 5 && rectHeight > 5) {
+            const nodes = typeof getNodes === 'function' ? (getNodes() || []) : [];
+            // Shift-drag adds to selection
+            selectionManager.selectInRect(nodes, rectX, rectY, rectX + rectWidth, rectY + rectHeight, true);
+            updateSelectionVisuals(g, selectionManager.selectedNodes);
+        }
+
+        selectionRect.remove();
+        selectionRect = null;
+        startPoint = null;
+        isSelecting = false;
+    });
+}
 
 /**
  * Initializes keyboard shortcuts for selection
