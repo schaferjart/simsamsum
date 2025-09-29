@@ -37,15 +37,25 @@ export function dragStarted(event, d, simulation, currentLayout, selectionManage
                 dragState.startPositions.set(nodeId, { x: node.x, y: node.y });
             }
         });
+
+        // For force layouts, pin all selected nodes at their current positions before dragging
+        if (currentLayout === 'force' || currentLayout === 'force-directed') {
+            if (simulation) simulation.alphaTarget(0.3).restart();
+            selectionManager.selectedNodes.forEach(nodeId => {
+                const node = simulation.nodes().find(n => n.id === nodeId);
+                if (node) {
+                    node.fx = node.x;
+                    node.fy = node.y;
+                }
+            });
+        }
     }
     
     dragState.isDragging = true;
     dragState.dragStartPoint = { x: event.x, y: event.y };
     
-    if (currentLayout === 'force' || currentLayout === 'force-directed') {
-        if (simulation) {
-            simulation.alphaTarget(0.3).restart();
-        }
+    if (!selectionManager && (currentLayout === 'force' || currentLayout === 'force-directed')) {
+        if (simulation) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
         d.fy = d.y;
     }
@@ -87,6 +97,10 @@ export function dragged(event, d, simulation, currentLayout, gridSize, selection
                     if (currentLayout === 'manual-grid' || currentLayout === 'hierarchical-orthogonal') {
                         node.fx = newX;
                         node.fy = newY;
+                    } else if (currentLayout === 'force' || currentLayout === 'force-directed') {
+                        // Keep selected nodes pinned to follow pointer delta during force drag
+                        node.fx = newX;
+                        node.fy = newY;
                     }
                 }
             });
@@ -102,6 +116,9 @@ export function dragged(event, d, simulation, currentLayout, gridSize, selection
         }
         
         if (currentLayout === 'manual-grid' || currentLayout === 'hierarchical-orthogonal') {
+            d.fx = d.x;
+            d.fy = d.y;
+        } else if (currentLayout === 'force' || currentLayout === 'force-directed') {
             d.fx = d.x;
             d.fy = d.y;
         }
@@ -136,6 +153,21 @@ export function dragEnded(event, d, simulation, currentLayout, selectionManager 
                 }
             });
         }
+    } else if (currentLayout === 'force' || currentLayout === 'force-directed') {
+        // Release fixed positions so force can continue
+        if (selectionManager && selectionManager.selectedNodes.has(d.id)) {
+            selectionManager.selectedNodes.forEach(nodeId => {
+                const node = simulation.nodes().find(n => n.id === nodeId);
+                if (node) {
+                    node.fx = null;
+                    node.fy = null;
+                }
+            });
+        } else {
+            d.fx = null;
+            d.fy = null;
+        }
+        if (simulation) simulation.alphaTarget(0);
     }
     
     if (simulation) {
