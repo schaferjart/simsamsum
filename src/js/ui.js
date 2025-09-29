@@ -585,7 +585,7 @@ function initColumnToggles() {
             popup.innerHTML = '';
             const hiddenPlugin = hot.getPlugin('hiddenColumns');
             const allCols = hot.getSettings().columns;
-            const hiddenCols = hiddenPlugin.hiddenColumns || [];
+            const hiddenCols = hiddenPlugin.getHiddenColumns() || [];
 
             if (!Array.isArray(allCols)) {
                 return;
@@ -604,20 +604,13 @@ function initColumnToggles() {
 
                 checkbox.addEventListener('change', () => {
                     const colIndex = parseInt(checkbox.dataset.colIndex, 10);
-                    const currentlyHidden = hiddenPlugin.getHiddenColumns();
-                    const isCurrentlyHidden = currentlyHidden.includes(colIndex);
-
-                    if (checkbox.checked && isCurrentlyHidden) {
-                        // Show column: remove it from the hidden list
-                        const newHidden = currentlyHidden.filter(i => i !== colIndex);
-                        hiddenPlugin.hideColumns(newHidden);
-                    } else if (!checkbox.checked && !isCurrentlyHidden) {
-                        // Hide column: add it to the hidden list
-                        const newHidden = [...currentlyHidden, colIndex];
-                        hiddenPlugin.hideColumns(newHidden);
+                    if (checkbox.checked) {
+                        hiddenPlugin.showColumn(colIndex);
+                    } else {
+                        hiddenPlugin.hideColumn(colIndex);
                     }
                     hot.render();
-                    saveUIPrefs(); // Persist change
+                    saveUIPrefs();
                 });
 
                 popup.appendChild(label);
@@ -628,6 +621,9 @@ function initColumnToggles() {
             popup.style.display = 'block';
             popup.style.top = `${btnRect.bottom + 2}px`;
             popup.style.right = `${window.innerWidth - btnRect.right}px`;
+
+            // Prevent clicks inside the popup from closing it
+            popup.addEventListener('click', (e) => e.stopPropagation());
         });
     });
 
