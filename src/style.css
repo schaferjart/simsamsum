@@ -13,7 +13,6 @@
 	border-right: 1px solid var(--color-border);
 	padding: var(--space-16);
 	flex: 1 1 420px; /* responsive growth, base width ~420px */
-	max-width: 40vw;
 	overflow: auto;
 }
 

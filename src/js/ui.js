@@ -155,7 +155,6 @@ export async function initEditorTables(core) {
     const baseSettings = {
         licenseKey: 'non-commercial-and-evaluation',
         rowHeaders: true,
-        colHeaders: true,
         height: 350,
         width: '100%',
         contextMenu: true,
@@ -179,7 +178,6 @@ export async function initEditorTables(core) {
             { data: 'incomingVolume', title: 'Incoming Volume', type: 'numeric', readOnly: true },
             { data: 'description', title: 'Description' }
         ],
-        colHeaders: ['ID', 'Name', 'Type', 'Area', 'Platform', 'Execution', 'Cost', 'Volume In', 'Description'],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
             console.log('🔄 Elements table changed:', changes, 'source:', source);
@@ -241,7 +239,6 @@ export async function initEditorTables(core) {
             { data: 'type', title: 'Type', type: 'dropdown', source: ['flow', 'dependency'] },
             { data: 'description', title: 'Description' }
         ],
-        colHeaders: ['ID', 'From', 'To', 'Probability', 'Type', 'Description'],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
             console.log('🔄 Connections table changed:', changes, 'source:', source);
@@ -281,7 +278,6 @@ export async function initEditorTables(core) {
             { data: 'key', title: 'Key' },
             { data: 'value', title: 'Value', type: 'numeric', numericFormat: { pattern: '0[.]000' } }
         ],
-        colHeaders: ['Key', 'Value'],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
             debounceTable('variables', () => {
