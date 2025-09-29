@@ -155,10 +155,12 @@ export async function initEditorTables(core) {
     const baseSettings = {
         licenseKey: 'non-commercial-and-evaluation',
         rowHeaders: true,
-        height: 350,
+        height: '100%', // Stretch to container
         width: '100%',
         contextMenu: true,
-        minSpareRows: 1
+        minSpareRows: 1,
+        hiddenColumns: true, // Enable plugin
+        manualColumnResize: true, // Allow user resizing
     };
 
     // Elements table (formerly nodes)
@@ -241,8 +243,11 @@ export async function initEditorTables(core) {
         }
     });
 
-    // Select row -> highlight in graph + scroll to cell if needed
+    _variablesHot.addHook('afterOnCellMouseDown', () => setActiveHot(_variablesHot));
+
+    // Set active table on click and handle graph highlighting
     _nodesHot.addHook('afterOnCellMouseDown', (event, coords) => {
+        setActiveHot(_nodesHot);
         const row = coords?.row;
         if (row == null || row < 0) return;
         const data = _nodesHot.getSourceDataAtRow(row);
@@ -261,7 +266,10 @@ export async function initEditorTables(core) {
         columns: [
             { data: 'id', title: 'ID' },
             { data: 'fromId', title: 'From', type: 'dropdown', source: elementIds },
-            { data: 'toId', title: 'To', type: 'dropdown', source: elementIds }
+            { data: 'toId', title: 'To', type: 'dropdown', source: elementIds },
+            { data: 'probability', title: 'Probability' },
+            { data: 'type', title: 'Type', type: 'dropdown', source: ['flow', 'dependency'] },
+            { data: 'description', title: 'Description' }
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
@@ -278,6 +286,8 @@ export async function initEditorTables(core) {
             });
         }
     });
+
+    _connectionsHot.addHook('afterOnCellMouseDown', () => setActiveHot(_connectionsHot));
 
     // Variables table (object <-> rows of {key, value})
     const toVarRows = (vars) => Object.entries(vars || {}).map(([key, value]) => ({ key, value }));
@@ -363,100 +373,29 @@ export async function initEditorTables(core) {
         };
     }
 
-    // Add Row: insert into the active tab's table
+    let _activeHot = _nodesHot; // Default to the first table
+
+    const setActiveHot = (hotInstance) => {
+        _activeHot = hotInstance;
+    };
+
+    // Add Row: insert into the active table
     const addRowBtn = document.getElementById('add-row');
     if (addRowBtn) {
         addRowBtn.onclick = () => {
-            const tabs = Array.from(document.querySelectorAll('#editor-panel .tabs li'));
-            const activeIdx = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
-            if (activeIdx === 0 && _nodesHot) {
-                const rows = _nodesHot.countRows();
-                if (rows > 0) {
-                    _nodesHot.alter('insert_row_below', rows - 1, 1);
-                } else {
-                    _nodesHot.alter('insert_row_above', 0, 1);
-                }
-                _nodesHot.selectCell(_nodesHot.countRows() - 1, 0);
-            } else if (activeIdx === 1 && _connectionsHot) {
-                const rows = _connectionsHot.countRows();
-                if (rows > 0) {
-                    _connectionsHot.alter('insert_row_below', rows - 1, 1);
-                } else {
-                    _connectionsHot.alter('insert_row_above', 0, 1);
-                }
-                _connectionsHot.selectCell(_connectionsHot.countRows() - 1, 0);
-            } else if (activeIdx === 2 && _variablesHot) {
-                const rows = _variablesHot.countRows();
-                if (rows > 0) {
-                    _variablesHot.alter('insert_row_below', rows - 1, 1);
-                } else {
-                    _variablesHot.alter('insert_row_above', 0, 1);
-                }
-                _variablesHot.selectCell(_variablesHot.countRows() - 1, 0);
-            }
+            if (!_activeHot) return;
+            const rows = _activeHot.countRows();
+            const spareRows = _activeHot.getSettings().minSpareRows;
+            const targetRow = rows > spareRows ? rows - spareRows : rows;
+
+            _activeHot.alter('insert_row_below', targetRow, 1);
+            _activeHot.selectCell(targetRow + 1, 0);
         };
     }
 
-    // Lightweight tab switching for the three editor sections
-    const tabs = Array.from(document.querySelectorAll('#editor-panel .tabs li'));
-    const sections = {
-        0: document.getElementById('nodes-section'),
-        1: document.getElementById('connections-section'),
-        2: document.getElementById('variables-section')
-    };
-    tabs.forEach((tabEl, idx) => {
-        tabEl.style.cursor = 'pointer';
-        tabEl.onclick = () => {
-            tabs.forEach((t, i) => t.setAttribute('aria-selected', i === idx ? 'true' : 'false'));
-            Object.entries(sections).forEach(([i, sec]) => {
-                if (!sec) return;
-                if (Number(i) === idx) sec.removeAttribute('hidden'); else sec.setAttribute('hidden', 'true');
-            });
-            // Simple render after tab switch
-            setTimeout(() => {
-                try {
-                    if (idx === 0 && _nodesHot) _nodesHot.render();
-                    if (idx === 1 && _connectionsHot) _connectionsHot.render();  
-                    if (idx === 2 && _variablesHot) _variablesHot.render();
-                } catch (error) {
-                    console.warn('Table render error:', error.message);
-                }
-            }, 50);
-        };
-        // Basic keyboard support: Left/Right arrows navigate tabs
-        tabEl.onkeydown = (e) => {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-                e.preventDefault();
-                const dir = e.key === 'ArrowRight' ? 1 : -1;
-                const next = (idx + dir + tabs.length) % tabs.length;
-                tabs[next].focus();
-                tabs[next].click();
-            }
-        };
-    });
-
-    // Sidebar drag-to-resize
-    const panel = document.getElementById('detailsPanel');
-    const resizer = document.getElementById('panelResizer');
-    if (panel && resizer) {
-        let startX = 0;
-        let startWidth = 0;
-        const onMove = (e) => {
-            const dx = e.clientX - startX;
-            const newW = Math.max(320, startWidth - dx); // dragging handle left of panel
-            panel.style.width = newW + 'px';
-        };
-        const onUp = () => {
-            window.removeEventListener('mousemove', onMove);
-            window.removeEventListener('mouseup', onUp);
-        };
-        resizer.addEventListener('mousedown', (e) => {
-            startX = e.clientX;
-            startWidth = panel.getBoundingClientRect().width;
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('mouseup', onUp);
-        });
-    }
+    // All tables are created, now initialize interactions
+    initUIInteractions();
+    loadUIPrefs(); // Load saved sizes on startup
 }
 
 /**
@@ -532,5 +471,254 @@ export function refreshEditorData(core) {
                 if (hot) hot.render();
             });
         }, 100);
+    });
+}
+
+function initUIInteractions() {
+    initResizers();
+    initColumnToggles();
+    initMaximizeButtons();
+}
+
+// --- UI Preferences ---
+
+/**
+ * Saves the current UI preferences (panel/column states) to localStorage.
+ */
+function saveUIPrefs() {
+    const getHiddenCols = (hotInstance) => {
+        if (!hotInstance) return [];
+        const plugin = hotInstance.getPlugin('hiddenColumns');
+        // Ensure plugin is ready and hiddenColumns is an array
+        return plugin && Array.isArray(plugin.hiddenColumns) ? plugin.hiddenColumns : [];
+    };
+
+    const prefs = {
+        detailsPanelWidth: document.getElementById('detailsPanel').style.width,
+        elementsTableHeight: document.getElementById('elements-table-container').style.height,
+        connectionsTableHeight: document.getElementById('connections-table-container').style.height,
+        hidden_elements: getHiddenCols(_nodesHot),
+        hidden_connections: getHiddenCols(_connectionsHot),
+        hidden_variables: getHiddenCols(_variablesHot),
+    };
+    localStorage.setItem('workflowUIPrefs', JSON.stringify(prefs));
+}
+
+/**
+ * Loads and applies UI preferences from localStorage.
+ */
+function loadUIPrefs() {
+    const prefs = JSON.parse(localStorage.getItem('workflowUIPrefs'));
+    if (!prefs) return;
+
+    // Restore panel sizes
+    if (prefs.detailsPanelWidth) {
+        document.getElementById('detailsPanel').style.width = prefs.detailsPanelWidth;
+    }
+    if (prefs.elementsTableHeight) {
+        document.getElementById('elements-table-container').style.height = prefs.elementsTableHeight;
+    }
+    if (prefs.connectionsTableHeight) {
+        document.getElementById('connections-table-container').style.height = prefs.connectionsTableHeight;
+    }
+
+    // Restore hidden columns
+    const setHiddenCols = (hotInstance, key) => {
+        if (hotInstance && prefs[key] && Array.isArray(prefs[key])) {
+            const plugin = hotInstance.getPlugin('hiddenColumns');
+            if (plugin) {
+                // Use a timeout to ensure the table is fully rendered before hiding columns
+                setTimeout(() => {
+                    plugin.hideColumns(prefs[key]);
+                    hotInstance.render();
+                }, 100);
+            }
+        }
+    };
+
+    setHiddenCols(_nodesHot, 'hidden_elements');
+    setHiddenCols(_connectionsHot, 'hidden_connections');
+    setHiddenCols(_variablesHot, 'hidden_variables');
+}
+
+/**
+ * Initializes the "Columns" buttons to toggle column visibility popups.
+ */
+function initColumnToggles() {
+    const hotInstances = {
+        elements: _nodesHot,
+        connections: _connectionsHot,
+        variables: _variablesHot,
+    };
+
+    document.querySelectorAll('[data-action="toggle-columns"]').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const tableName = button.dataset.table;
+            const hot = hotInstances[tableName];
+            const popup = document.querySelector(`.column-toggle-popup[data-table="${tableName}"]`);
+
+            if (!hot || !popup) return;
+
+            // Hide other popups
+            document.querySelectorAll('.column-toggle-popup').forEach(p => {
+                if (p !== popup) p.style.display = 'none';
+            });
+
+            // Toggle current popup's visibility
+            if (popup.style.display === 'block') {
+                popup.style.display = 'none';
+                return;
+            }
+
+            // Populate popup with columns
+            popup.innerHTML = '';
+            const hiddenPlugin = hot.getPlugin('hiddenColumns');
+            const allCols = hot.getSettings().columns;
+            const hiddenCols = hiddenPlugin.hiddenColumns || [];
+
+            if (!Array.isArray(allCols)) {
+                return;
+            }
+
+            allCols.forEach((col, index) => {
+                const isHidden = hiddenCols.includes(index);
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = !isHidden;
+                checkbox.dataset.colIndex = index;
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(` ${col.title}`));
+
+                checkbox.addEventListener('change', () => {
+                    const colIndex = parseInt(checkbox.dataset.colIndex, 10);
+                    if (checkbox.checked) {
+                        hiddenPlugin.showColumn(colIndex);
+                    } else {
+                        hiddenPlugin.hideColumn(colIndex);
+                    }
+                    hot.render();
+                    saveUIPrefs(); // Persist change
+                });
+
+                popup.appendChild(label);
+            });
+
+            // Position and show popup
+            const btnRect = button.getBoundingClientRect();
+            popup.style.display = 'block';
+            popup.style.top = `${btnRect.bottom + 2}px`;
+            popup.style.right = `${window.innerWidth - btnRect.right}px`;
+        });
+    });
+
+    // Close popups when clicking elsewhere
+    window.addEventListener('click', () => {
+        document.querySelectorAll('.column-toggle-popup').forEach(p => p.style.display = 'none');
+    });
+}
+
+/**
+ * Initializes the maximize/minimize buttons for each table container.
+ */
+function initMaximizeButtons() {
+    document.querySelectorAll('[data-action="toggle-maximize"]').forEach(button => {
+        button.addEventListener('click', () => {
+            const tableName = button.dataset.table;
+            const targetContainer = document.getElementById(`${tableName}-table-container`);
+            if (!targetContainer) return;
+
+            const isMaximized = targetContainer.classList.contains('maximized');
+
+            // Reset all first
+            document.querySelectorAll('.table-container').forEach(c => {
+                c.classList.remove('maximized', 'hidden');
+            });
+            document.querySelectorAll('[data-action="toggle-maximize"]').forEach(b => {
+                b.textContent = '⛶'; // Restore maximize icon
+            });
+
+            if (!isMaximized) {
+                // Maximize the target
+                targetContainer.classList.add('maximized');
+                button.textContent = '❐'; // Change to minimize icon
+                // Hide others
+                document.querySelectorAll('.table-container').forEach(c => {
+                    if (c !== targetContainer) {
+                        c.classList.add('hidden');
+                    }
+                });
+            }
+            // If it was maximized, the reset above is all that's needed.
+
+            // Re-render all tables to adjust to new dimensions
+            setTimeout(() => {
+                [_nodesHot, _connectionsHot, _variablesHot].forEach(hot => {
+                    if (hot) hot.render();
+                });
+            }, 50); // Small delay for layout to update
+        });
+    });
+}
+
+/**
+ * Initializes all resizer elements (horizontal and vertical).
+ */
+function initResizers() {
+    // Horizontal resizer for the main details panel
+    const panel = document.getElementById('detailsPanel');
+    const panelResizer = document.getElementById('panelResizer');
+    if (panel && panelResizer) {
+        let startX = 0;
+        let startWidth = 0;
+        const onMove = (e) => {
+            const dx = e.clientX - startX;
+            const newW = Math.max(320, startWidth - dx);
+            panel.style.width = newW + 'px';
+        };
+        const onUp = () => {
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('mouseup', onUp);
+            saveUIPrefs();
+        };
+        panelResizer.addEventListener('mousedown', (e) => {
+            startX = e.clientX;
+            startWidth = panel.getBoundingClientRect().width;
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onUp);
+        });
+    }
+
+    // Vertical resizers for tables
+    document.querySelectorAll('.vertical-resizer').forEach(resizer => {
+        let startY = 0;
+        let startHeight = 0;
+        let targetElement = null;
+
+        const onMove = (e) => {
+            const dy = e.clientY - startY;
+            const newHeight = startHeight + dy;
+            if (newHeight > 40) { // Minimum height
+                targetElement.style.height = newHeight + 'px';
+                targetElement.style.flexGrow = '0';
+            }
+        };
+
+        const onUp = () => {
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('mouseup', onUp);
+            saveUIPrefs();
+        };
+
+        resizer.addEventListener('mousedown', (e) => {
+            startY = e.clientY;
+            const targetId = resizer.dataset.tableTarget;
+            targetElement = document.getElementById(targetId);
+            startHeight = targetElement.getBoundingClientRect().height;
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onUp);
+        });
     });
 }
