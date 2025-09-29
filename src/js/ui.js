@@ -164,20 +164,33 @@ export async function initEditorTables(core) {
     // Elements table (formerly nodes)
     const elementTypes = ['Resource', 'Action', 'State', 'Decision'];
     const executionTypes = ['Automatic', 'Manual', 'Applicant', 'Noemie', 'Gil'];
+    const subTypes = ['Job Portal', 'Form Incoming', 'SMS', 'Call', 'Mail', 'Video Incoming', 'Out', 'Checkpoint', 'State'];
     _nodesHot = new Handsontable(elementsEl, {
         ...baseSettings,
         data: (core.elements || core.nodes || []).map(e => ({ ...e })),
         columns: [
             { data: 'id', title: 'ID' },
             { data: 'name', title: 'Name' },
+            { data: 'incomingNumber', title: 'Incoming Number' },
+            { data: 'variable', title: 'Variable', type: 'numeric', numericFormat: { pattern: '0[.]000' } },
             { data: 'type', title: 'Type', type: 'dropdown', source: elementTypes },
-            { data: 'area', title: 'Area' },
-            { data: 'platform', title: 'Platform' },
+            { data: 'subType', title: 'Sub Type', type: 'dropdown', source: subTypes },
+            { data: 'aOR', title: 'AOR' },
             { data: 'execution', title: 'Execution', type: 'dropdown', source: executionTypes },
-            { data: 'cost', title: 'Cost', type: 'numeric', numericFormat: { pattern: '0[.]00' } },
-            { data: 'incomingVolume', title: 'Volume' },
-            { data: 'nodeMultiplier', title: 'Multiplier', type: 'numeric', numericFormat: { pattern: '0[.]000' } },
-            { data: 'description', title: 'Description' }
+            { data: 'account', title: 'Account' },
+            { data: 'platform', title: 'Platform' },
+            { data: 'monitoring', title: 'Monitoring' },
+            { data: 'monitoredData', title: 'Monitored Data' },
+            { data: 'description', title: 'Description' },
+            { data: 'avgCostTime', title: 'Avg Cost Time' },
+            { data: 'avgCost', title: 'Avg Cost', type: 'numeric', numericFormat: { pattern: '0[.]00' } },
+            { data: 'effectiveCost', title: 'Effective Cost', type: 'numeric', numericFormat: { pattern: '0[.]00' } },
+            { data: 'lastUpdate', title: 'Last Update' },
+            { data: 'nextUpdate', title: 'Next Update' },
+            { data: 'kPI', title: 'KPI' },
+            { data: 'scheduleStart', title: 'Schedule Start' },
+            { data: 'scheduleEnd', title: 'Schedule End' },
+            { data: 'frequency', title: 'Frequency' }
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
@@ -187,14 +200,26 @@ export async function initEditorTables(core) {
                 const nextElements = _nodesHot.getSourceData().map(r => ({
                     id: String(r.id || '').trim(),
                     name: String(r.name || '').trim(),
+                    incomingNumber: String(r.incomingNumber || '').trim(),
+                    variable: typeof r.variable === 'number' ? r.variable : parseFloat(r.variable) || 1.0,
                     type: String(r.type || '').trim(),
-                    area: String(r.area || '').trim(),
-                    platform: String(r.platform || '').trim(),
+                    subType: String(r.subType || '').trim(),
+                    aOR: String(r.aOR || '').trim(),
                     execution: String(r.execution || 'Manual').trim(),
-                    cost: typeof r.cost === 'number' ? r.cost : parseFloat(r.cost) || 0,
-                    incomingVolume: r.incomingVolume, // Keep original value (can be string/variable)
-                    nodeMultiplier: r.nodeMultiplier, // Keep original value (can be string/variable)
+                    account: String(r.account || '').trim(),
+                    platform: String(r.platform || '').trim(),
+                    monitoring: String(r.monitoring || '').trim(),
+                    monitoredData: String(r.monitoredData || '').trim(),
                     description: String(r.description || '').trim(),
+                    avgCostTime: String(r.avgCostTime || '').trim(),
+                    avgCost: typeof r.avgCost === 'number' ? r.avgCost : parseFloat(r.avgCost) || 0,
+                    effectiveCost: typeof r.effectiveCost === 'number' ? r.effectiveCost : parseFloat(r.effectiveCost) || 0,
+                    lastUpdate: String(r.lastUpdate || '').trim(),
+                    nextUpdate: String(r.nextUpdate || '').trim(),
+                    kPI: String(r.kPI || '').trim(),
+                    scheduleStart: String(r.scheduleStart || '').trim(),
+                    scheduleEnd: String(r.scheduleEnd || '').trim(),
+                    frequency: String(r.frequency || '').trim()
                 })).filter(e => e.id);
                 console.log('🚀 Calling updateFromTable with:', nextElements.length, 'elements');
                 core.updateFromTable('elements', nextElements);

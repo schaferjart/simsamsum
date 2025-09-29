@@ -469,15 +469,27 @@ class WorkflowVisualizer {
         // Map visualization nodes to table elements
         this.elements = (this.state.allNodes || []).map(n => ({
             id: n.id,
-            name: n.Name || n.id,
-            type: n.Type || '',
-            area: n.Area || 'General',
-            platform: n.Platform || '',
-            execution: n.Execution || 'Manual',
-            cost: typeof n["Effective Cost"] === 'number' ? n["Effective Cost"] : (typeof n.costValue === 'number' ? n.costValue : 0),
-            incomingVolume: n.incomingVolume || 0,
-            nodeMultiplier: n.nodeMultiplier || 1,
-            description: n.description || '',
+            name: n.Name || n.name || n.id,
+            incomingNumber: n.incomingNumber || '',
+            variable: typeof n.variable === 'number' ? n.variable : (typeof n.Variable === 'number' ? n.Variable : 1.0),
+            type: n.Type || n.type || '',
+            subType: n.SubType || n.subType || '',
+            aOR: n.AOR || n.aOR || '',
+            execution: n.Execution || n.execution || 'Manual',
+            account: n.Account || n.account || '',
+            platform: n.Platform || n.platform || '',
+            monitoring: n.Monitoring || n.monitoring || '',
+            monitoredData: n.MonitoredData || n.monitoredData || '',
+            description: n.description || n.Description || '',
+            avgCostTime: n.avgCostTime || n.AvgCostTime || '',
+            avgCost: typeof n.avgCost === 'number' ? n.avgCost : (typeof n.AvgCost === 'number' ? n.AvgCost : 0),
+            effectiveCost: typeof n.effectiveCost === 'number' ? n.effectiveCost : (typeof n["Effective Cost"] === 'number' ? n["Effective Cost"] : (typeof n.costValue === 'number' ? n.costValue : 0)),
+            lastUpdate: n.lastUpdate || n.LastUpdate || '',
+            nextUpdate: n.nextUpdate || n.NextUpdate || '',
+            kPI: n.kPI || n.KPI || '',
+            scheduleStart: n.scheduleStart || n.ScheduleStart || '',
+            scheduleEnd: n.scheduleEnd || n.ScheduleEnd || '',
+            frequency: n.frequency || n.Frequency || '',
             x: typeof n.x === 'number' ? n.x : 0,
             y: typeof n.y === 'number' ? n.y : 0
         }));
@@ -572,12 +584,64 @@ class WorkflowVisualizer {
 
     /**
      * Computes derived fields for table nodes, such as volumeIn.
-     * Phase 1 (stub): set volumeIn to the number of incoming connections.
-     * Phase 2: incorporate probabilities and upstream volumes.
+     * Maps elements.json structure to calculation format and back.
      */
     computeDerivedFields() {
-    // Use data.js implementation to compute iterative volume propagation
-    computeDerivedFieldsData(this.elements, this.connections, this.variables);
+        // Map elements to the format expected by computeDerivedFields
+        const mappedElements = this.elements.map(e => ({
+            ...e,
+            incomingVolume: e.incomingNumber || 0,
+            nodeMultiplier: 1.0  // Don't use variable as multiplier here, it's used for connection probability
+        }));
+        
+        // Map connections with semantic probability logic
+        const connectionCounts = new Map(); // toId -> count of incoming connections
+        this.connections.forEach(c => {
+            connectionCounts.set(c.toId, (connectionCounts.get(c.toId) || 0) + 1);
+        });
+        
+        const mappedConnections = this.connections.map(c => {
+            const targetElement = this.elements.find(e => e.id === c.toId);
+            const incomingCount = connectionCounts.get(c.toId) || 1;
+            
+            if (incomingCount === 1) {
+                // Single incoming: use target's variable as conversion probability
+                const probability = targetElement && targetElement.variable !== undefined ? targetElement.variable : 1.0;
+                return { ...c, probability: probability };
+            } else {
+                // Multiple incoming: distinguish between primary and secondary flows
+                // Primary flow (from larger volume source): use target's variable
+                // Secondary flows: pass-through (probability = 1.0)
+                
+                // Simple heuristic: if source has "application" or "text" in name, it's primary
+                const isPrimaryFlow = c.fromId.includes('application') || c.fromId.includes('text');
+                
+                if (isPrimaryFlow) {
+                    const probability = targetElement && targetElement.variable !== undefined ? targetElement.variable : 1.0;
+                    return { ...c, probability: probability };
+                } else {
+                    // Secondary flow: pass-through
+                    return { ...c, probability: 1.0 };
+                }
+            }
+        });
+        
+        console.log('🔄 Computing volumes with:', {
+            elements: mappedElements.length,
+            connections: mappedConnections.length,
+            variables: Object.keys(this.variables).length
+        });
+        
+        // Compute the volumes
+        computeDerivedFieldsData(mappedElements, mappedConnections, this.variables);
+        
+        // Map the calculated volumes back to incomingNumber for display
+        mappedElements.forEach((mapped, index) => {
+            const calculatedVolume = mapped.computedVolumeIn || mapped.incomingVolume || 0;
+            this.elements[index].incomingNumber = Math.round(calculatedVolume);
+        });
+        
+        console.log('✅ Volume calculation completed for', this.elements.length, 'elements');
     }
 
     /**

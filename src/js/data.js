@@ -228,19 +228,19 @@ export function processData(data, costBasedSizing, variables = {}) {
         const name = n.name || n.Name || id;
 
         // 2. Normalize core attributes, falling back from new to old format
-        const type = n.Type || n.type || '';
-        const execution = n.Execution || n.execution || 'Manual';
-        const platform = n.Platform || n.platform || '';
-        const description = n.Description || n.description || '';
+        const type = n.type || n.Type || '';
+        const execution = n.execution || n.Execution || 'Manual';
+        const platform = n.platform || n.Platform || '';
+        const description = n.description || n.Description || '';
 
         // 3. Resolve cost from multiple possible fields, then resolve variables
-        const effectiveCostRaw = n['Effective Cost'] !== undefined ? n['Effective Cost'] : n.effectiveCost;
-        const avgCostRaw = n.AvgCost !== undefined ? n.AvgCost : n.cost;
-        const costRaw = effectiveCostRaw !== undefined ? effectiveCostRaw : (avgCostRaw !== undefined ? avgCostRaw : 0);
+        const effectiveCostRaw = n.effectiveCost !== undefined ? n.effectiveCost : (n['Effective Cost'] !== undefined ? n['Effective Cost'] : 0);
+        const avgCostRaw = n.avgCost !== undefined ? n.avgCost : (n.AvgCost !== undefined ? n.AvgCost : (n.cost !== undefined ? n.cost : 0));
+        const costRaw = effectiveCostRaw !== undefined ? effectiveCostRaw : avgCostRaw;
         const resolvedCost = resolveValue(costRaw, vars);
 
         // 4. Resolve incoming volume from multiple possible fields, then resolve variables
-        const incomingVolumeRaw = n['Incoming Number'] !== undefined ? n['Incoming Number'] : n.incomingVolume;
+        const incomingVolumeRaw = n.incomingNumber !== undefined ? n.incomingNumber : (n['Incoming Number'] !== undefined ? n['Incoming Number'] : (n.incomingVolume !== undefined ? n.incomingVolume : 0));
         const resolvedIncomingVolume = resolveValue(incomingVolumeRaw, vars);
 
         // 5. Build the final node object explicitly, mapping all new fields and maintaining existing conventions
@@ -256,17 +256,21 @@ export function processData(data, costBasedSizing, variables = {}) {
             Description: description,
 
             // New properties from the new format
-            SubType: n.SubType || n.subType,
-            AOR: n.AOR,
-            Account: n.Account,
-            Monitoring: n.Monitoring,
-            MonitoredData: n['Monitored Data'],
-            AvgCostTime: n.AvgCostTime,
-            AvgCost: n.AvgCost,
-            LastUpdate: n.LastUpdate,
-            NextUpdate: n.NextUpdate,
-            KPI: n.KPI,
-            Variable: n.Variable,
+            SubType: n.subType || n.SubType,
+            AOR: n.aOR || n.AOR,
+            Account: n.account || n.Account,
+            Monitoring: n.monitoring || n.Monitoring,
+            MonitoredData: n.monitoredData || n['Monitored Data'],
+            AvgCostTime: n.avgCostTime || n.AvgCostTime,
+            AvgCost: n.avgCost || n.AvgCost,
+            LastUpdate: n.lastUpdate || n.LastUpdate,
+            NextUpdate: n.nextUpdate || n.NextUpdate,
+            KPI: n.kPI || n.KPI,
+            Variable: n.variable || n.Variable || 1.0,
+            IncomingNumber: n.incomingNumber || n.IncomingNumber || '',
+            ScheduleStart: n.scheduleStart || n.ScheduleStart || '',
+            ScheduleEnd: n.scheduleEnd || n.ScheduleEnd || '',
+            Frequency: n.frequency || n.Frequency || '',
 
             // Properties for d3 and rendering logic
             size: calculateNodeSize(resolvedCost, costBasedSizing),
@@ -666,18 +670,23 @@ export function computeDerivedFields(nodes, connections, variables = {}) {
     
     nodes.forEach(node => {
         const hasIncoming = incomingMap.has(node.id);
-        const hasInitialVolume = node.incomingVolume !== undefined && node.incomingVolume !== null && node.incomingVolume !== 0;
+        const hasInitialVolume = node.incomingVolume !== undefined && 
+                                node.incomingVolume !== null && 
+                                node.incomingVolume !== 0 &&
+                                node.incomingVolume !== '';
         
-        if (hasInitialVolume && !hasIncoming) {
+        if (hasInitialVolume) {
             // Source node - resolve initial volume from variables
             const initialVolume = resolveValue(node.incomingVolume, variables);
             const nodeMultiplier = node.nodeMultiplier ? resolveValue(node.nodeMultiplier, variables) : 1;
             const finalVolume = initialVolume * nodeMultiplier;
             
             nodeVolumes.set(node.id, finalVolume);
-            sourceNodes.push(node.id);
+            if (!hasIncoming) {
+                sourceNodes.push(node.id);
+            }
             
-            console.log(`📊 Source node ${node.id}: ${node.incomingVolume} × ${nodeMultiplier} = ${finalVolume}`);
+            console.log(`📊 ${hasIncoming ? 'Node with initial volume' : 'Source node'} ${node.id}: ${node.incomingVolume} × ${nodeMultiplier} = ${finalVolume}`);
         } else {
             nodeVolumes.set(node.id, 0); // Will be calculated
         }
