@@ -182,9 +182,9 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
                     .attr('r', Math.max(5, size * 0.6));
         }
 
-        shape.attr('fill', 'rgba(255, 255, 255, 0.8)')
-            .attr('stroke', '#000000')
-            .attr('stroke-width', 2)
+        shape.attr('fill', d => (d.style && d.style.color) || getNodeColor(d.Type))
+            .attr('stroke', d => (d.style && d.style.stroke) || '#000000')
+            .attr('stroke-width', d => (d.style && d.style.strokeWidth) || 2)
             .attr('stroke-dasharray', borderStyle);
     });
 
@@ -235,6 +235,17 @@ export function updatePositions(g) {
  * @returns {string} The SVG path data string (e.g., "M x1,y1 L x2,y2 ...").
  * @private
  */
+function getNodeColor(type) {
+    // Colors based on a standard categorical color palette
+    switch (type) {
+        case 'Resource': return '#4e79a7'; // Blue
+        case 'Action': return '#f28e2c'; // Orange
+        case 'State': return '#e15759'; // Red
+        case 'Decision': return '#76b7b2'; // Teal
+        default: return '#59a14f'; // Green
+    }
+}
+
 function createOrthogonalPath(d) {
     const { source, target } = d;
     const sourceSize = source.size || 30;

@@ -6,9 +6,11 @@ import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
 import * as layoutManager from './layoutManager.js';
 import * as ui from './ui.js';
+import { bindControlEventListeners } from './controls.js';
 import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
 import { SelectionManager } from './selection.js';
+import { initializeStyling } from './styling.js';
 
 /**
  * Main class for the Workflow Visualizer application.
@@ -64,6 +66,7 @@ class WorkflowVisualizer {
 
         // Initialize selection manager for multi-select drag and drop
         this.selectionManager = new SelectionManager();
+        this.stylingManager = null;
 
     /**
      * Table-oriented state for editing/importing raw elements, connections, and variables
@@ -103,7 +106,11 @@ class WorkflowVisualizer {
         this.state.width = width;
         this.state.height = height;
 
-    ui.bindEventListeners(this.getEventHandlers());
+    bindControlEventListeners(this.getEventHandlers());
+
+    // Bind event listeners that are not part of the controls panel
+    document.getElementById('closePanelBtn').addEventListener('click', ui.hideDetailsPanel);
+    window.addEventListener('resize', this.getEventHandlers().handleResize);
 
         // Set the initial state of the layout dropdown and controls
         document.getElementById('layoutSelect').value = this.state.currentLayout;
@@ -156,6 +163,11 @@ class WorkflowVisualizer {
             connections: this.connections,
             variables: this.variables
         });
+
+        this.stylingManager = initializeStyling(
+            (column) => this.getFilterOptions(column),
+            () => this.updateVisualization()
+        );
     }
 
     /**
@@ -359,7 +371,8 @@ class WorkflowVisualizer {
             },
             handleFileUpload: () => this.handleFileUpload(),
             handleSearch: () => this.applyFilters(),
-            handleFilter: () => this.applyFilters(),
+            applyFilters: () => this.applyFilters(),
+            getFilterOptions: (column) => this.getFilterOptions(column),
             handleReset: () => this.resetView(),
             handleSizeToggle: (enabled) => this.handleSizeToggle(enabled),
             handleLayoutChange: (layout) => this.handleLayoutChange(layout),
@@ -400,6 +413,8 @@ class WorkflowVisualizer {
             return { ...l, source, target };
         });
 
+        this.stylingManager.applyStyles(this.state.nodes);
+
         this.state.simulation = applyLayout(this.state.currentLayout, this.state);
 
         if (this.state.simulation) {
@@ -434,13 +449,38 @@ class WorkflowVisualizer {
     /**
      * Applies the current search and filter values to the dataset and updates the visualization.
      */
-    applyFilters() {
-        const searchQuery = document.getElementById('searchInput').value;
-        const typeFilter = document.getElementById('typeFilter').value;
-        const executionFilter = document.getElementById('executionFilter').value;
+    getFilterOptions(column) {
+        const columns = Object.keys(this.state.allNodes[0] || {}).filter(key => key !== 'id' && key !== 'size' && key !== 'borderStyle' && key !== 'x' && key !== 'y' && key !== 'fx' && key !== 'fy');
+        if (!column) {
+            return { columns };
+        }
+        const values = [...new Set(this.state.allNodes.map(node => node[column]))].sort();
+        return { values };
+    }
 
-        const { filteredNodes, filteredLinks } = interactions.applyFilters(
-            searchQuery, typeFilter, executionFilter, this.state.allNodes, this.state.allLinks
+    applyFilters() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const filterRows = document.querySelectorAll('.filter-row');
+        let filteredNodes = [...this.state.allNodes];
+
+        // Apply search query first
+        if (searchQuery) {
+            filteredNodes = filteredNodes.filter(node => node.Name.toLowerCase().includes(searchQuery));
+        }
+
+        // Apply advanced filters
+        filterRows.forEach(row => {
+            const column = row.querySelector('select:first-child').value;
+            const values = Array.from(row.querySelector('select:last-of-type').selectedOptions).map(opt => opt.value);
+
+            if (column && values.length > 0) {
+                filteredNodes = filteredNodes.filter(node => values.includes(String(node[column])));
+            }
+        });
+
+        const filteredNodeIds = new Set(filteredNodes.map(n => n.id));
+        const filteredLinks = this.state.allLinks.filter(link =>
+            filteredNodeIds.has(link.source.id || link.source) && filteredNodeIds.has(link.target.id || link.target)
         );
 
         this.state.nodes = filteredNodes;
