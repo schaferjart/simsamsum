@@ -64,6 +64,9 @@ class WorkflowVisualizer {
 
         // Initialize selection manager for multi-select drag and drop
         this.selectionManager = new SelectionManager();
+    // Simple undo stack for last actions (selection changes and node moves)
+    this.undoStack = [];
+    this.maxUndo = 50;
 
     /**
      * Table-oriented state for editing/importing raw elements, connections, and variables
@@ -101,7 +104,7 @@ class WorkflowVisualizer {
             }
         );
 
-        this.state.svg = svg;
+    this.state.svg = svg;
         this.state.zoomGroup = zoomGroup;
         this.state.g = g;
         this.state.zoom = zoom;
@@ -146,6 +149,25 @@ class WorkflowVisualizer {
                 () => this.state.nodes
             );
         }
+
+        // Hook selection changes for undo tracking
+        this.selectionManager.setOnChange((beforeIds, afterIds) => {
+            // Push selection change action if it actually changed
+            this._pushUndo({
+                type: 'selection',
+                before: beforeIds,
+                after: afterIds
+            });
+        });
+
+        // Keyboard shortcuts including Undo (Cmd/Ctrl+Z)
+        document.addEventListener('keydown', (e) => {
+            const isUndo = (e.metaKey || e.ctrlKey) && !e.shiftKey && (e.key === 'z' || e.key === 'Z');
+            if (isUndo) {
+                e.preventDefault();
+                this.undoLastAction();
+            }
+        });
 
         // Keyboard shortcuts for selection (keep)
         interactions.initKeyboardShortcuts(
@@ -417,12 +439,43 @@ class WorkflowVisualizer {
             this.state.links,
             this.state.currentLayout,
             {
-                dragStarted: (event, d) => interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes),
+                dragStarted: (event, d) => {
+                    // Snapshot positions of selected nodes (or the single node) for undo
+                    const ids = this.selectionManager.getSelectionCount() > 0 && this.selectionManager.isSelected(d.id)
+                        ? this.selectionManager.getSelectedIds()
+                        : [d.id];
+                    const beforePositions = new Map();
+                    ids.forEach(id => {
+                        const node = this.state.nodes.find(n => n.id === id);
+                        if (node) beforePositions.set(id, { x: node.x, y: node.y });
+                    });
+                    this._pendingMove = { ids, before: beforePositions };
+                    interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes);
+                },
                 dragged: (event, d) => {
                     interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.state.gridSize, this.selectionManager, this.state.nodes)
                     updatePositions(this.state.g);
                 },
-                dragEnded: (event, d) => interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes),
+                dragEnded: (event, d) => {
+                    interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes);
+                    // Record after positions and push undo action if any movement happened
+                    if (this._pendingMove) {
+                        const afterPositions = new Map();
+                        this._pendingMove.ids.forEach(id => {
+                            const node = this.state.nodes.find(n => n.id === id);
+                            if (node) afterPositions.set(id, { x: node.x, y: node.y });
+                        });
+                        // Check if any changed
+                        const changed = Array.from(this._pendingMove.before.entries()).some(([id, pos]) => {
+                            const ap = afterPositions.get(id);
+                            return !ap || ap.x !== pos.x || ap.y !== pos.y;
+                        });
+                        if (changed) {
+                            this._pushUndo({ type: 'move', before: this._pendingMove.before, after: afterPositions });
+                        }
+                        this._pendingMove = null;
+                    }
+                },
                 nodeClicked: (event, d) => {
                     event.stopPropagation();
                     ui.showNodeDetails(d);
@@ -438,6 +491,36 @@ class WorkflowVisualizer {
     // Always sync selection/table highlights after re-render (handles empty selection too)
         updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes || new Set());
     ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes || new Set());
+    }
+
+    // Push an undoable action and cap stack size
+    _pushUndo(action) {
+        this.undoStack.push(action);
+        if (this.undoStack.length > this.maxUndo) this.undoStack.shift();
+    }
+
+    // Undo last action (selection or move)
+    undoLastAction() {
+        const action = this.undoStack.pop();
+        if (!action) return;
+
+        if (action.type === 'selection') {
+            // Restore previous selection
+            this.selectionManager.selectedNodes = new Set(action.before);
+            updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
+            ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
+        } else if (action.type === 'move') {
+            // Restore previous positions
+            action.before.forEach((pos, id) => {
+                const node = this.state.nodes.find(n => n.id === id);
+                if (node) {
+                    node.x = pos.x; node.y = pos.y;
+                    node.fx = pos.x; node.fy = pos.y;
+                }
+            });
+            updatePositions(this.state.g);
+            if (this.state.simulation) this.state.simulation.alpha(0.15).restart();
+        }
     }
 
     /**

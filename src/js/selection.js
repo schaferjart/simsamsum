@@ -8,6 +8,25 @@ export class SelectionManager {
         this.selectedNodes = new Set();
         this.isMultiSelectMode = false;
         this.lastSelectedId = null;
+        this._onChange = null;
+    }
+
+    /**
+     * Register a callback invoked whenever the selection set changes.
+     * The callback receives two arrays: beforeIds and afterIds.
+     * @param {(beforeIds: string[], afterIds: string[]) => void} cb
+     */
+    setOnChange(cb) {
+        this._onChange = typeof cb === 'function' ? cb : null;
+    }
+
+    _emitChange(beforeIds) {
+        if (!this._onChange) return;
+        const afterIds = this.getSelectedIds();
+        // Only emit if changed
+        if (beforeIds.length !== afterIds.length || beforeIds.some(id => !this.selectedNodes.has(id))) {
+            this._onChange(beforeIds, afterIds);
+        }
     }
 
     /**
@@ -15,12 +34,14 @@ export class SelectionManager {
      * @param {string} nodeId - The ID of the node to toggle
      */
     toggleSelection(nodeId) {
+    const before = this.getSelectedIds();
         if (this.selectedNodes.has(nodeId)) {
             this.selectedNodes.delete(nodeId);
         } else {
             this.selectedNodes.add(nodeId);
             this.lastSelectedId = nodeId;
         }
+    this._emitChange(before);
     }
 
     /**
@@ -28,9 +49,11 @@ export class SelectionManager {
      * @param {string} nodeId - The ID of the node to select
      */
     selectSingle(nodeId) {
+    const before = this.getSelectedIds();
         this.selectedNodes.clear();
         this.selectedNodes.add(nodeId);
         this.lastSelectedId = nodeId;
+    this._emitChange(before);
     }
 
     /**
@@ -38,10 +61,12 @@ export class SelectionManager {
      * @param {Array<string>} nodeIds - Array of node IDs to select
      */
     selectMultiple(nodeIds) {
+    const before = this.getSelectedIds();
         nodeIds.forEach(id => this.selectedNodes.add(id));
         if (nodeIds.length > 0) {
             this.lastSelectedId = nodeIds[nodeIds.length - 1];
         }
+    this._emitChange(before);
     }
 
     /**
@@ -49,18 +74,22 @@ export class SelectionManager {
      * @param {Array<string>} allNodeIds - Array of all available node IDs
      */
     selectAll(allNodeIds) {
+    const before = this.getSelectedIds();
         this.selectedNodes = new Set(allNodeIds);
         if (allNodeIds.length > 0) {
             this.lastSelectedId = allNodeIds[allNodeIds.length - 1];
         }
+    this._emitChange(before);
     }
 
     /**
      * Clear all selections
      */
     clearSelection() {
+    const before = this.getSelectedIds();
         this.selectedNodes.clear();
         this.lastSelectedId = null;
+    this._emitChange(before);
     }
 
     /**
@@ -98,6 +127,7 @@ export class SelectionManager {
      * @param {boolean} addToSelection - Whether to add to existing selection or replace
      */
     selectInRect(nodes, x1, y1, x2, y2, addToSelection = false) {
+    const before = this.getSelectedIds();
         const left = Math.min(x1, x2);
         const right = Math.max(x1, x2);
         const top = Math.min(y1, y2);
@@ -112,6 +142,7 @@ export class SelectionManager {
                 this.selectedNodes.add(node.id);
             }
         });
+    this._emitChange(before);
     }
 
     /**
@@ -121,6 +152,7 @@ export class SelectionManager {
      * @param {string} endNodeId - Ending node ID
      */
     selectRange(nodes, startNodeId, endNodeId) {
+    const before = this.getSelectedIds();
         const startIndex = nodes.findIndex(n => n.id === startNodeId);
         const endIndex = nodes.findIndex(n => n.id === endNodeId);
         
@@ -132,5 +164,6 @@ export class SelectionManager {
                 this.selectedNodes.add(nodes[i].id);
             }
         }
+    this._emitChange(before);
     }
 }
