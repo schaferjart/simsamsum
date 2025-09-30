@@ -1396,7 +1396,7 @@
     "name": "Creation Alan Account",
     "incomingNumber": 0,
     "variable": 1,
-    "type": "",
+    "type": "Action",
     "subType": "",
     "aOR": "",
     "execution": "Manual",

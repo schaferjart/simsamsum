@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { snapToGrid } from './utils.js';
 import { highlightNode as renderHighlight, clearHighlight as renderClearHighlight, updateSelectionVisuals } from './render.js';
-import { highlightTableRowByNodeId } from './ui.js';
+import { highlightTableRowByNodeId, updateTableSelectionHighlights, clearTableRowHoverHighlight } from './ui.js';
 
 // Drag state management
 const dragState = {
@@ -27,6 +27,8 @@ export function dragStarted(event, d, simulation, currentLayout, selectionManage
         if (!selectionManager.isSelected(d.id) && !(event.sourceEvent?.ctrlKey || event.sourceEvent?.metaKey)) {
             selectionManager.selectSingle(d.id);
             updateSelectionVisuals(d3.select('svg g'), selectionManager.selectedNodes);
+            // Sync table highlights for multi-select
+            updateTableSelectionHighlights(selectionManager.selectedNodes);
         }
         
         // Store initial positions for all selected nodes
@@ -203,6 +205,8 @@ export function handleNodeClickSelection(event, d, selectionManager, g) {
     }
     
     updateSelectionVisuals(g, selectionManager.selectedNodes);
+    // Sync table highlights for multi-select and connections
+    updateTableSelectionHighlights(selectionManager.selectedNodes);
 }
 
 /**
@@ -286,6 +290,7 @@ export function initShiftRectangleSelection(svg, g, selectionManager, getNodes) 
             // Shift-drag adds to selection
             selectionManager.selectInRect(nodes, rectX, rectY, rectX + rectWidth, rectY + rectHeight, true);
             updateSelectionVisuals(g, selectionManager.selectedNodes);
+            updateTableSelectionHighlights(selectionManager.selectedNodes);
         }
 
         selectionRect.remove();
@@ -308,12 +313,14 @@ export function initKeyboardShortcuts(selectionManager, g, allNodes) {
             event.preventDefault();
             selectionManager.selectAll(allNodes.map(n => n.id));
             updateSelectionVisuals(g, selectionManager.selectedNodes);
+            updateTableSelectionHighlights(selectionManager.selectedNodes);
         }
         
         // Clear selection (Escape)
         if (event.key === 'Escape') {
             selectionManager.clearSelection();
             updateSelectionVisuals(g, selectionManager.selectedNodes);
+            updateTableSelectionHighlights(selectionManager.selectedNodes);
         }
         
         // Delete selected nodes (Delete key)
@@ -353,6 +360,8 @@ export function highlightNode(d, g) {
  */
 export function clearHighlight(g) {
     renderClearHighlight(g);
+    // Clear transient table hover when graph hover ends
+    clearTableRowHoverHighlight();
 }
 
 /**

@@ -16,21 +16,43 @@ export function applyLayout(layoutType, state) {
 
     switch (layoutType) {
         case 'force':
+            // Ensure links reference node objects
+            linkify(links, nodes);
             return applyForceLayout(nodes, links, width, height);
         case 'hierarchical':
+            linkify(links, nodes);
             return applyHierarchicalLayout(nodes, links, width, height);
         case 'hierarchical-orthogonal':
+            linkify(links, nodes);
             applyHierarchicalOrthogonalLayout(nodes, links, width, height);
             return null; // No simulation
         case 'circular':
+            linkify(links, nodes);
             return applyCircularLayout(nodes, width, height);
         case 'grid':
+            linkify(links, nodes);
             return applyGridLayout(nodes, width, height);
         case 'manual-grid':
+            linkify(links, nodes);
             applyManualGridLayout(nodes, state.gridSize);
             return null; // No simulation
         default:
+            linkify(links, nodes);
             return applyForceLayout(nodes, links, width, height);
+    }
+}
+
+function linkify(links, nodes) {
+    const byId = new Map(nodes.map(n => [n.id, n]));
+    for (let i = 0; i < links.length; i++) {
+        const l = links[i];
+        if (!l) continue;
+        if (!l.source || typeof l.source !== 'object') {
+            l.source = byId.get(l.source);
+        }
+        if (!l.target || typeof l.target !== 'object') {
+            l.target = byId.get(l.target);
+        }
     }
 }
 
@@ -207,10 +229,11 @@ function initializeManualLayout(nodes, gridSize) {
     const startY = 100;
 
     nodes.forEach((node, i) => {
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-        node.x = startX + col * spacing;
-        node.y = startY + row * spacing;
+    if (typeof node.x === 'number' && typeof node.y === 'number') return; // keep existing
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    node.x = startX + col * spacing;
+    node.y = startY + row * spacing;
         node.fx = node.x;
         node.fy = node.y;
     });

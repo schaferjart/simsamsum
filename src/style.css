@@ -88,8 +88,11 @@
 }
 
 /* Highlighted row and graph node styles for selection sync */
-.ht_master tbody tr.is-selected td {
-	background: rgba(255, 221, 87, 0.3) !important; /* soft yellow */
+.ht_master tbody td.is-selected {
+    background: rgba(255, 221, 87, 0.3) !important; /* soft yellow for selected rows */
+}
+.ht_master tbody tr.is-hovered td {
+    background: rgba(255, 221, 87, 0.28) !important; /* soft yellow for current focus/hover */
 }
 
 .node.table-highlight > * {

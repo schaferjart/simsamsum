@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workflow Visualization</title>
+    <title>51m54mZ00M</title>
     <link rel="stylesheet" href="/node_modules/handsontable/dist/handsontable.full.min.css">
     <link rel="stylesheet" href="./src/style.css">
 </head>
@@ -12,7 +12,7 @@
         <!-- Header -->
         <header class="app-header">
             <div class="header-content">
-                <h1>Workflow Visualization</h1>
+                <h1>51m54mZ00M</h1>
                 <div class="header-controls">
                     <div class="upload-section">
                         <input type="file" id="csvFile" accept=".csv" class="file-input">
@@ -80,12 +80,14 @@
                 </div>
 
                 <div class="control-group" id="gridControls" style="display: none;">
-                    <label class="form-label">Grid Settings:</label>
+                    <label class="form-label">Manual Layout Settings:</label>
                     <div class="grid-controls">
                         <button id="showGridBtn" class="btn btn--outline btn--sm">📐 Show Grid</button>
                         <button id="snapToGridBtn" class="btn btn--outline btn--sm">🧲 Snap All</button>
-                        <button id="savePositionsBtn" class="btn btn--primary btn--sm">💾 Save Layout</button>
-                        <button id="loadPositionsBtn" class="btn btn--secondary btn--sm">📂 Load Layout</button>
+                        <button id="saveLayoutBtn" class="btn btn--primary btn--sm">💾 Save</button>
+                        <select id="savedLayoutsSelect" class="form-control form-control--sm" title="Load a saved layout">
+                            <option value="">Load Layout...</option>
+                        </select>
                     </div>
                     <div class="grid-size-control">
                         <label>Grid Size: <span id="gridSizeLabel">50px</span></label>

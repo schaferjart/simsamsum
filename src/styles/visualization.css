@@ -61,6 +61,13 @@
   opacity: 1;
 }
 
+/* Selected links when nodes are multi-selected */
+.link.selected {
+  stroke: var(--color-primary);
+  stroke-width: 3px;
+  opacity: 1;
+}
+
 .link.dimmed {
   opacity: 0.1;
 }

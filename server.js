@@ -131,17 +131,115 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// --- Layout Endpoints ---
+
+const layoutsDir = path.join(__dirname, 'data', 'layouts');
+
+/**
+ * Ensures the layouts directory exists.
+ */
+const ensureLayoutsDir = async () => {
+    try {
+        await fs.access(layoutsDir);
+    } catch {
+        console.log(`Creating layouts directory: ${layoutsDir}`);
+        await fs.mkdir(layoutsDir, { recursive: true });
+    }
+};
+
+/**
+ * List available layouts
+ * GET /api/layouts
+ */
+app.get('/api/layouts', async (req, res) => {
+    await ensureLayoutsDir();
+    try {
+        const files = await fs.readdir(layoutsDir);
+        const layouts = files
+            .filter(file => path.extname(file) === '.json')
+            .map(file => path.basename(file, '.json'));
+        res.json(layouts);
+    } catch (error) {
+        console.error('❌ Error listing layouts:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+/**
+ * Load a specific layout
+ * GET /api/layouts/:name
+ */
+app.get('/api/layouts/:name', async (req, res) => {
+    await ensureLayoutsDir();
+    const layoutName = req.params.name;
+    // Basic sanitization to prevent directory traversal
+    if (!layoutName || layoutName.includes('..') || layoutName.includes('/')) {
+        return res.status(400).json({ success: false, error: 'Invalid layout name' });
+    }
+    const filePath = path.join(layoutsDir, `${layoutName}.json`);
+
+    try {
+        const data = await fs.readFile(filePath, 'utf8');
+        res.json(JSON.parse(data));
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return res.status(404).json({ success: false, error: 'Layout not found' });
+        }
+        console.error(`❌ Error loading layout "${layoutName}":`, error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+/**
+ * Save a layout
+ * POST /api/layouts/:name
+ * Body: { positions: { nodeId: { x, y } } }
+ */
+app.post('/api/layouts/:name', async (req, res) => {
+    await ensureLayoutsDir();
+    const layoutName = req.params.name;
+    if (!layoutName || layoutName.includes('..') || layoutName.includes('/')) {
+        return res.status(400).json({ success: false, error: 'Invalid layout name' });
+    }
+    const filePath = path.join(layoutsDir, `${layoutName}.json`);
+
+    try {
+        const { positions } = req.body;
+        if (!positions || typeof positions !== 'object') {
+            return res.status(400).json({ success: false, error: 'Invalid positions data in request body' });
+        }
+
+        await fs.writeFile(filePath, JSON.stringify(positions, null, 2));
+        console.log(`💾 Layout "${layoutName}" saved successfully.`);
+        res.json({ success: true, message: `Layout "${layoutName}" saved.` });
+
+    } catch (error) {
+        console.error(`❌ Error saving layout "${layoutName}":`, error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    // Ensure directories exist on startup
+    await ensureLayoutsDir();
+    const dataDir = path.join(__dirname, 'data');
+    try { await fs.access(dataDir); } catch { await fs.mkdir(dataDir); }
+
     console.log(`
 🚀 Workflow API Server running on http://localhost:${PORT}
 📁 Serving files from: ${__dirname}
 💾 Data directory: ${path.join(__dirname, 'data')}
+🎨 Layouts directory: ${layoutsDir}
 
 Available endpoints:
-  GET  /api/health - Health check
-  GET  /api/load-workflow - Load workflow data
-  POST /api/save-workflow - Save workflow data
+  GET  /api/health          - Health check
+  GET  /api/load-workflow   - Load main workflow data
+  POST /api/save-workflow   - Save main workflow data
+  GET  /api/layouts         - List all saved layouts
+  GET  /api/layouts/:name   - Load a specific layout
+  POST /api/layouts/:name   - Save a specific layout
     `);
 });
 

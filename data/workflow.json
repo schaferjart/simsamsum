@@ -1397,7 +1397,7 @@
       "name": "Creation Alan Account",
       "incomingNumber": 0,
       "variable": 1,
-      "type": "",
+      "type": "Action",
       "subType": "",
       "aOR": "",
       "execution": "Manual",
@@ -1800,6 +1800,6 @@
     "conversion_rate": 0.08,
     "retention_rate": 0.92
   },
-  "timestamp": "2025-09-29T21:36:49.192Z",
+  "timestamp": "2025-09-30T12:13:30.057Z",
   "version": "1.0"
 }

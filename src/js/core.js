@@ -1,9 +1,10 @@
 import * as d3 from 'd3';
 import { showStatus, calculateNodeSize, downloadJsonFile, snapToGrid } from './utils.js';
 import { processData, parseCSV, verifyConnections, computeDerivedFields as computeDerivedFieldsData } from './data.js';
-import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay } from './render.js';
+import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from './render.js';
 import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
+import * as layoutManager from './layoutManager.js';
 import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
@@ -53,7 +54,7 @@ class WorkflowVisualizer {
             allLinks: [],
             zoom: null,
             costBasedSizing: true,
-            currentLayout: 'force',
+            currentLayout: 'manual-grid',
             graphRotation: 0,
             graphTransform: { scaleX: 1, scaleY: 1 },
             gridSize: 50,
@@ -92,7 +93,12 @@ class WorkflowVisualizer {
         const { svg, zoomGroup, g, zoom, width, height } = initVisualization(
             container,
             (event) => interactions.handleZoom(event, this.state.zoomGroup),
-            () => {}
+            () => {
+                // Clear selection on background click and sync visuals/tables
+                this.selectionManager.clearSelection();
+                updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
+                ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
+            }
         );
 
         this.state.svg = svg;
@@ -104,10 +110,23 @@ class WorkflowVisualizer {
 
     ui.bindEventListeners(this.getEventHandlers());
 
+        // Set the initial state of the layout dropdown and controls
+        document.getElementById('layoutSelect').value = this.state.currentLayout;
+        this.handleLayoutChange(this.state.currentLayout);
+
         // Priority: 1) JSON files, 2) localStorage, 3) empty state
         const loaded = await this.loadFromJsonFiles() || this.loadFromLocalStorage();
         if (!loaded) {
             this.initializeEmptyState();
+        }
+
+        // Now that data is loaded, render the visualization
+        this.updateVisualization();
+
+        // After loading data, try to load the default layout
+        const defaultLayout = await layoutManager.loadLayout('default');
+        if (defaultLayout) {
+            this.applyPositions(defaultLayout);
         }
 
         // Initialize table editors (if available)
@@ -183,7 +202,7 @@ class WorkflowVisualizer {
         try {
             // Try to load via API server first
             try {
-                const apiResponse = await fetch('http://localhost:3001/api/load-workflow');
+                const apiResponse = await fetch('/api/load-workflow');
                 if (apiResponse.ok) {
                     const data = await apiResponse.json();
                     this.elements = Array.isArray(data.elements) ? data.elements : [];
@@ -210,7 +229,6 @@ class WorkflowVisualizer {
                     this.state.allLinks = vizLinks;
                     this.state.nodes = [...vizNodes];
                     this.state.links = [...vizLinks];
-                    this.updateVisualization();
                     this.refreshTables();
                     return true;
                 }
@@ -266,7 +284,6 @@ class WorkflowVisualizer {
             this.state.allLinks = vizLinks;
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
-            this.updateVisualization();
             
             // Refresh table data after loading from files
             this.refreshTables();
@@ -308,7 +325,6 @@ class WorkflowVisualizer {
             this.state.allLinks = vizLinks;
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
-            this.updateVisualization();
             return true;
         } catch (e) {
             console.warn('Failed to load from localStorage, using sample data instead.', e);
@@ -355,7 +371,7 @@ class WorkflowVisualizer {
             toggleGrid: () => this.toggleGrid(),
             snapAllToGrid: () => this.snapAllToGrid(),
             saveLayout: () => this.saveCurrentLayout(),
-            loadLayout: () => this.loadSavedLayout(),
+            loadLayout: (layoutName) => this.loadSavedLayout(layoutName),
             updateGridSize: (size) => this.updateGridSize(size),
             rotateGraph: (degrees) => this.rotateGraph(degrees),
             flipGraph: (direction) => this.flipGraph(direction),
@@ -377,10 +393,19 @@ class WorkflowVisualizer {
             showStatus('No data to display', 'info');
         }
 
-    // Filter out any links with missing endpoints before layout
-    const idSet2 = new Set(this.state.nodes.map(n => n.id));
-    this.state.links = this.state.links.filter(l => idSet2.has(l.source?.id ?? l.source) && idSet2.has(l.target?.id ?? l.target));
-    this.state.simulation = applyLayout(this.state.currentLayout, this.state);
+        // Filter out any links with missing endpoints before layout
+        const idSet2 = new Set(this.state.nodes.map(n => n.id));
+        this.state.links = this.state.links.filter(l => idSet2.has(l.source?.id ?? l.source) && idSet2.has(l.target?.id ?? l.target));
+
+        // Ensure link endpoints are node object references so non-force layouts can render connectors
+        const nodeById = new Map(this.state.nodes.map(n => [n.id, n]));
+        this.state.links = this.state.links.map(l => {
+            const source = (l.source && typeof l.source === 'object') ? l.source : nodeById.get(l.source);
+            const target = (l.target && typeof l.target === 'object') ? l.target : nodeById.get(l.target);
+            return { ...l, source, target };
+        });
+
+        this.state.simulation = applyLayout(this.state.currentLayout, this.state);
 
         if (this.state.simulation) {
             this.state.simulation.on('tick', () => updatePositions(this.state.g));
@@ -408,7 +433,11 @@ class WorkflowVisualizer {
                 nodeMouseOut: () => clearHighlight(this.state.g)
             }
         );
-        updatePositions(this.state.g);
+    updatePositions(this.state.g);
+
+    // Always sync selection/table highlights after re-render (handles empty selection too)
+    updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes || new Set());
+    ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes || new Set());
     }
 
     /**
@@ -687,8 +716,18 @@ class WorkflowVisualizer {
             idSet.has(l.source?.id ?? l.source) && idSet.has(l.target?.id ?? l.target)
         );
 
+        // Preserve existing node positions (x/y/fx/fy) across data edits
+        const prevById = new Map((this.state.allNodes || []).map(n => [n.id, n]));
+        const mergedNodes = (vizNodes || []).map(n => {
+            const prev = prevById.get(n.id);
+            if (prev && (typeof prev.x === 'number') && (typeof prev.y === 'number')) {
+                return { ...n, x: prev.x, y: prev.y, fx: prev.fx ?? prev.x, fy: prev.fy ?? prev.y };
+            }
+            return n;
+        });
+
         // Update visualization state
-        this.state.allNodes = vizNodes || [];
+        this.state.allNodes = mergedNodes;
         this.state.allLinks = sanitizedLinks;
         this.state.nodes = [...this.state.allNodes];
         this.state.links = [...this.state.allLinks];
@@ -783,67 +822,74 @@ class WorkflowVisualizer {
      * Saves the current layout of nodes to a JSON file.
      * Only saves the positions of the currently visible nodes.
      */
-    saveCurrentLayout() {
-        const layoutData = {
-            timestamp: new Date().toISOString(),
-            gridSize: this.state.gridSize,
-            dataFile: this.state.currentDataFile,
-            nodeCount: this.state.nodes.length,
-            positions: {}
-        };
+    /**
+     * Applies a set of node positions to the current graph.
+     * @param {object} positions - An object mapping node IDs to {x, y} coordinates.
+     * @private
+     */
+    applyPositions(positions) {
+        if (!positions) return;
+        let loadedCount = 0;
         this.state.nodes.forEach(node => {
-            layoutData.positions[node.id] = { x: node.x, y: node.y, name: node.Name || node.id };
+            if (positions[node.id]) {
+                const pos = positions[node.id];
+                node.x = pos.x;
+                node.y = pos.y;
+                node.fx = pos.x;
+                node.fy = pos.y;
+                loadedCount++;
+            }
         });
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-        const baseFileName = this.state.currentDataFile ? this.state.currentDataFile.replace('.csv', '') : 'workflow';
-        const fileName = `${baseFileName}_layout_${timestamp}.json`;
-        downloadJsonFile(layoutData, fileName);
-        showStatus(`Layout saved as "${fileName}"`, 'success');
+        if (this.state.g) {
+            updatePositions(this.state.g);
+        }
+        console.log(`Applied positions to ${loadedCount}/${this.state.nodes.length} nodes.`);
     }
 
     /**
-     * Loads a previously saved layout from a JSON file.
-     * Prompts the user to select a file.
+     * Saves the current node positions to a named layout on the server.
+     * Prompts the user for a layout name.
      */
-    loadSavedLayout() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        input.onchange = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const layoutData = JSON.parse(e.target.result);
-                    if (layoutData && layoutData.positions) {
-                        let loadedCount = 0;
-                        if (layoutData.gridSize) {
-                            this.updateGridSize(layoutData.gridSize);
-                            document.getElementById('gridSizeSlider').value = layoutData.gridSize;
-                        }
-                        this.state.nodes.forEach(node => {
-                            if (layoutData.positions[node.id]) {
-                                const pos = layoutData.positions[node.id];
-                                node.x = pos.x;
-                                node.y = pos.y;
-                                node.fx = pos.x;
-                                node.fy = pos.y;
-                                loadedCount++;
-                            }
-                        });
-                        updatePositions(this.state.g);
-                        showStatus(`Loaded layout from "${file.name}" (${loadedCount}/${this.state.nodes.length} nodes positioned)`, 'success');
-                    } else {
-                        showStatus('Invalid layout file format', 'error');
-                    }
-                } catch (error) {
-                    showStatus('Error loading layout file', 'error');
-                }
-            };
-            reader.readAsText(file);
-        };
-        input.click();
+    async saveCurrentLayout() {
+        const layoutName = prompt('Enter a name for this layout:', 'default');
+        if (!layoutName) {
+            showStatus('Save cancelled.', 'info');
+            return;
+        }
+
+        const positions = {};
+        this.state.nodes.forEach(node => {
+            positions[node.id] = { x: node.x, y: node.y };
+        });
+
+        const success = await layoutManager.saveLayout(layoutName, positions);
+        if (success) {
+            showStatus(`Layout "${layoutName}" saved successfully.`, 'success');
+            // Refresh the layouts dropdown
+            if (ui.populateLayoutsDropdown) {
+                ui.populateLayoutsDropdown();
+            }
+        } else {
+            showStatus(`Error saving layout "${layoutName}".`, 'error');
+        }
+    }
+
+    /**
+     * Loads a named layout from the server and applies it.
+     * @param {string} layoutName - The name of the layout to load.
+     */
+    async loadSavedLayout(layoutName) {
+        if (!layoutName) return;
+
+        showStatus(`Loading layout "${layoutName}"...`, 'loading');
+        const positions = await layoutManager.loadLayout(layoutName);
+
+        if (positions) {
+            this.applyPositions(positions);
+            showStatus(`Layout "${layoutName}" loaded successfully.`, 'success');
+        } else {
+            showStatus(`Failed to load layout "${layoutName}".`, 'error');
+        }
     }
 
     /**
