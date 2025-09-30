@@ -1,4 +1,6 @@
 import { highlightNodeById } from './render.js';
+import * as layoutManager from './layoutManager.js';
+
 /**
  * Binds all the UI event listeners to their respective DOM elements.
  * @param {object} handlers - An object containing the handler functions.
@@ -6,7 +8,9 @@ import { highlightNodeById } from './render.js';
 export function bindEventListeners(handlers) {
     // File and data loading
     document.getElementById('csvFile').addEventListener('change', handlers.handleFileSelect);
-        document.getElementById('uploadBtn').addEventListener('click', handlers.handleFileUpload);    // Search and filter
+    document.getElementById('uploadBtn').addEventListener('click', handlers.handleFileUpload);
+
+    // Search and filter
     document.getElementById('searchInput').addEventListener('input', (e) => handlers.handleSearch(e.target.value));
     document.getElementById('typeFilter').addEventListener('change', handlers.handleFilter);
     document.getElementById('executionFilter').addEventListener('change', handlers.handleFilter);
@@ -19,8 +23,13 @@ export function bindEventListeners(handlers) {
     // Grid controls
     document.getElementById('showGridBtn').addEventListener('click', handlers.toggleGrid);
     document.getElementById('snapToGridBtn').addEventListener('click', handlers.snapAllToGrid);
-    document.getElementById('savePositionsBtn').addEventListener('click', handlers.saveLayout);
-    document.getElementById('loadPositionsBtn').addEventListener('click', handlers.loadLayout);
+    document.getElementById('saveLayoutBtn').addEventListener('click', handlers.saveLayout);
+    document.getElementById('savedLayoutsSelect').addEventListener('change', (e) => {
+        if (e.target.value) {
+            handlers.loadLayout(e.target.value);
+            e.target.value = ''; // Reset dropdown after selection
+        }
+    });
     document.getElementById('gridSizeSlider').addEventListener('input', (e) => handlers.updateGridSize(parseInt(e.target.value, 10)));
 
     // Orientation controls
@@ -38,6 +47,9 @@ export function bindEventListeners(handlers) {
 
     // Window resize
     window.addEventListener('resize', handlers.handleResize);
+
+    // Initial population of the layouts dropdown
+    populateLayoutsDropdown();
 }
 
 /**
@@ -116,6 +128,29 @@ export function resetUI() {
     document.getElementById('sizeToggle').checked = true;
     toggleGridControls(false);
     updateGridUI(false);
+}
+
+/**
+ * Fetches layouts from the server and populates the layout selection dropdown.
+ */
+export async function populateLayoutsDropdown() {
+    const select = document.getElementById('savedLayoutsSelect');
+    if (!select) return;
+
+    const layouts = await layoutManager.getLayouts();
+
+    // Clear existing options except the first placeholder
+    while (select.options.length > 1) {
+        select.remove(1);
+    }
+
+    // Add new options
+    layouts.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+    });
 }
 
 // --- Table Editors (Handsontable) ---

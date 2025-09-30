@@ -73,19 +73,21 @@
                         <option value="force">Force-Directed</option>
                         <option value="hierarchical">Hierarchical</option>
                         <option value="hierarchical-orthogonal">Hierarchical (Orthogonal)</option>
-                        <option value="manual-grid">Manual (Grid Snap)</option>
+                        <option value="manual-snap">Manual Snap</option>
                         <option value="circular">Circular</option>
                         <option value="grid">Grid</option>
                     </select>
                 </div>
 
                 <div class="control-group" id="gridControls" style="display: none;">
-                    <label class="form-label">Grid Settings:</label>
+                    <label class="form-label">Manual Layout Settings:</label>
                     <div class="grid-controls">
                         <button id="showGridBtn" class="btn btn--outline btn--sm">📐 Show Grid</button>
                         <button id="snapToGridBtn" class="btn btn--outline btn--sm">🧲 Snap All</button>
-                        <button id="savePositionsBtn" class="btn btn--primary btn--sm">💾 Save Layout</button>
-                        <button id="loadPositionsBtn" class="btn btn--secondary btn--sm">📂 Load Layout</button>
+                        <button id="saveLayoutBtn" class="btn btn--primary btn--sm">💾 Save</button>
+                        <select id="savedLayoutsSelect" class="form-control form-control--sm" title="Load a saved layout">
+                            <option value="">Load Layout...</option>
+                        </select>
                     </div>
                     <div class="grid-size-control">
                         <label>Grid Size: <span id="gridSizeLabel">50px</span></label>

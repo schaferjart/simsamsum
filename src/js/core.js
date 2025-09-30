@@ -4,6 +4,7 @@ import { processData, parseCSV, verifyConnections, computeDerivedFields as compu
 import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay } from './render.js';
 import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
+import * as layoutManager from './layoutManager.js';
 import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
@@ -108,6 +109,17 @@ class WorkflowVisualizer {
         const loaded = await this.loadFromJsonFiles() || this.loadFromLocalStorage();
         if (!loaded) {
             this.initializeEmptyState();
+        }
+
+        // After loading data, try to load the default layout
+        const defaultLayout = await layoutManager.loadDefaultLayout();
+        if (defaultLayout) {
+            console.log('Applying default layout...');
+            this.applyPositions(defaultLayout);
+            // Switch to manual layout mode
+            this.state.currentLayout = 'manual-snap';
+            document.getElementById('layoutSelect').value = 'manual-snap';
+            ui.toggleGridControls(true);
         }
 
         // Initialize table editors (if available)
@@ -730,11 +742,11 @@ class WorkflowVisualizer {
      * @param {string} layoutType - The new layout type to apply.
      */
     handleLayoutChange(layoutType) {
-    this.state.currentLayout = layoutType;
-    // Enable grid controls for manual-grid and hierarchical-orthogonal layouts
-    const gridCapable = layoutType === 'manual-grid' || layoutType === 'hierarchical-orthogonal';
-    ui.toggleGridControls(gridCapable);
-    if (!gridCapable) {
+        this.state.currentLayout = layoutType;
+        // Enable grid controls for manual-snap layout
+        const gridCapable = layoutType === 'manual-snap';
+        ui.toggleGridControls(gridCapable);
+        if (!gridCapable) {
             this.state.showGrid = false;
             updateGridDisplay(this.state.svg, this.state.showGrid, this.state.width, this.state.height, this.state.gridSize);
             ui.updateGridUI(this.state.showGrid);
@@ -780,70 +792,73 @@ class WorkflowVisualizer {
     }
 
     /**
-     * Saves the current layout of nodes to a JSON file.
-     * Only saves the positions of the currently visible nodes.
+     * Applies a set of node positions to the current graph.
+     * @param {object} positions - An object mapping node IDs to {x, y} coordinates.
+     * @private
      */
-    saveCurrentLayout() {
-        const layoutData = {
-            timestamp: new Date().toISOString(),
-            gridSize: this.state.gridSize,
-            dataFile: this.state.currentDataFile,
-            nodeCount: this.state.nodes.length,
-            positions: {}
-        };
+    applyPositions(positions) {
+        if (!positions) return;
+        let loadedCount = 0;
         this.state.nodes.forEach(node => {
-            layoutData.positions[node.id] = { x: node.x, y: node.y, name: node.Name || node.id };
+            if (positions[node.id]) {
+                const pos = positions[node.id];
+                node.x = pos.x;
+                node.y = pos.y;
+                node.fx = pos.x;
+                node.fy = pos.y;
+                loadedCount++;
+            }
         });
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-        const baseFileName = this.state.currentDataFile ? this.state.currentDataFile.replace('.csv', '') : 'workflow';
-        const fileName = `${baseFileName}_layout_${timestamp}.json`;
-        downloadJsonFile(layoutData, fileName);
-        showStatus(`Layout saved as "${fileName}"`, 'success');
+        if (this.state.g) {
+            updatePositions(this.state.g);
+        }
+        console.log(`Applied positions to ${loadedCount}/${this.state.nodes.length} nodes.`);
     }
 
     /**
-     * Loads a previously saved layout from a JSON file.
-     * Prompts the user to select a file.
+     * Saves the current node positions to a named layout on the server.
+     * Prompts the user for a layout name.
      */
-    loadSavedLayout() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.json';
-        input.onchange = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const layoutData = JSON.parse(e.target.result);
-                    if (layoutData && layoutData.positions) {
-                        let loadedCount = 0;
-                        if (layoutData.gridSize) {
-                            this.updateGridSize(layoutData.gridSize);
-                            document.getElementById('gridSizeSlider').value = layoutData.gridSize;
-                        }
-                        this.state.nodes.forEach(node => {
-                            if (layoutData.positions[node.id]) {
-                                const pos = layoutData.positions[node.id];
-                                node.x = pos.x;
-                                node.y = pos.y;
-                                node.fx = pos.x;
-                                node.fy = pos.y;
-                                loadedCount++;
-                            }
-                        });
-                        updatePositions(this.state.g);
-                        showStatus(`Loaded layout from "${file.name}" (${loadedCount}/${this.state.nodes.length} nodes positioned)`, 'success');
-                    } else {
-                        showStatus('Invalid layout file format', 'error');
-                    }
-                } catch (error) {
-                    showStatus('Error loading layout file', 'error');
-                }
-            };
-            reader.readAsText(file);
-        };
-        input.click();
+    async saveCurrentLayout() {
+        const layoutName = prompt('Enter a name for this layout:', 'default');
+        if (!layoutName) {
+            showStatus('Save cancelled.', 'info');
+            return;
+        }
+
+        const positions = {};
+        this.state.nodes.forEach(node => {
+            positions[node.id] = { x: node.x, y: node.y };
+        });
+
+        const success = await layoutManager.saveLayout(layoutName, positions);
+        if (success) {
+            showStatus(`Layout "${layoutName}" saved successfully.`, 'success');
+            // Refresh the layouts dropdown
+            if (ui.populateLayoutsDropdown) {
+                ui.populateLayoutsDropdown();
+            }
+        } else {
+            showStatus(`Error saving layout "${layoutName}".`, 'error');
+        }
+    }
+
+    /**
+     * Loads a named layout from the server and applies it.
+     * @param {string} layoutName - The name of the layout to load.
+     */
+    async loadSavedLayout(layoutName) {
+        if (!layoutName) return;
+
+        showStatus(`Loading layout "${layoutName}"...`, 'loading');
+        const positions = await layoutManager.loadLayout(layoutName);
+
+        if (positions) {
+            this.applyPositions(positions);
+            showStatus(`Layout "${layoutName}" loaded successfully.`, 'success');
+        } else {
+            showStatus(`Failed to load layout "${layoutName}".`, 'error');
+        }
     }
 
     /**
