@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { showStatus, calculateNodeSize, downloadJsonFile, snapToGrid } from './utils.js';
 import { processData, parseCSV, verifyConnections, computeDerivedFields as computeDerivedFieldsData } from './data.js';
-import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay } from './render.js';
+import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from './render.js';
 import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
 import * as layoutManager from './layoutManager.js';
@@ -93,7 +93,12 @@ class WorkflowVisualizer {
         const { svg, zoomGroup, g, zoom, width, height } = initVisualization(
             container,
             (event) => interactions.handleZoom(event, this.state.zoomGroup),
-            () => {}
+            () => {
+                // Clear selection on background click and sync visuals/tables
+                this.selectionManager.clearSelection();
+                updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
+                ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
+            }
         );
 
         this.state.svg = svg;
@@ -428,7 +433,11 @@ class WorkflowVisualizer {
                 nodeMouseOut: () => clearHighlight(this.state.g)
             }
         );
-        updatePositions(this.state.g);
+    updatePositions(this.state.g);
+
+    // Always sync selection/table highlights after re-render (handles empty selection too)
+    updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes || new Set());
+    ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes || new Set());
     }
 
     /**

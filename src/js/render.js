@@ -364,12 +364,23 @@ export function updateGridDisplay(svg, showGrid, width, height, gridSize) {
  */
 export function updateSelectionVisuals(g, selectedNodeIds) {
     if (!g) return;
-    
+
+    // Selected nodes
     g.selectAll('.node')
         .classed('selected', d => selectedNodeIds.has(d.id))
         .select('rect, circle, path')
         .attr('stroke', d => selectedNodeIds.has(d.id) ? '#007bff' : '#000000')
         .attr('stroke-width', d => selectedNodeIds.has(d.id) ? 3 : 2);
+
+    // Links connected to any selected node
+    const anySelected = selectedNodeIds && selectedNodeIds.size > 0;
+    g.selectAll('.link')
+        .classed('selected', d => anySelected && (selectedNodeIds.has(d.source?.id ?? d.source) || selectedNodeIds.has(d.target?.id ?? d.target)))
+        .classed('dimmed', d => anySelected && !(selectedNodeIds.has(d.source?.id ?? d.source) || selectedNodeIds.has(d.target?.id ?? d.target)));
+
+    // Labels dim when any selection exists and the node isn't selected
+    g.selectAll('.node-label, .supplementary-info')
+        .classed('dimmed', d => anySelected && !selectedNodeIds.has(d.id));
 }
 
 /**

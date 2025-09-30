@@ -158,6 +158,8 @@ let _nodesHot = null;
 let _connectionsHot = null;
 let _variablesHot = null;
 let _debounceTimers = { nodes: null, connections: null, variables: null };
+// Track selection state for table highlighting (used by Handsontable cells() callbacks)
+let _selectedRowIds = new Set();
 
 function debounceTable(type, fn, delay = 200) {
     clearTimeout(_debounceTimers[type]);
@@ -338,6 +340,42 @@ export async function initEditorTables(core) {
         }
     });
 
+    // Configure cell-level highlighting with custom renderers to explicitly add/remove classes
+    const applyCellsHighlighting = () => {
+        const TextRenderer = Handsontable.renderers.TextRenderer;
+        if (_nodesHot) {
+            _nodesHot.updateSettings({
+                cells(row, col) {
+                    return {
+                        renderer(instance, td, r, c, prop, value, cellProperties) {
+                            TextRenderer.apply(this, arguments);
+                            const dataRow = instance.getSourceDataAtRow(r);
+                            const sel = dataRow && _selectedRowIds.has(String(dataRow.id || ''));
+                            td.classList.toggle('is-selected', !!sel);
+                        }
+                    };
+                }
+            }, false);
+        }
+        if (_connectionsHot) {
+            _connectionsHot.updateSettings({
+                cells(row, col) {
+                    return {
+                        renderer(instance, td, r, c, prop, value, cellProperties) {
+                            TextRenderer.apply(this, arguments);
+                            const dataRow = instance.getSourceDataAtRow(r);
+                            const fromId = String(dataRow?.fromId || '');
+                            const toId = String(dataRow?.toId || '');
+                            const sel = (fromId && _selectedRowIds.has(fromId)) || (toId && _selectedRowIds.has(toId));
+                            td.classList.toggle('is-selected', !!sel);
+                        }
+                    };
+                }
+            }, false);
+        }
+    };
+    applyCellsHighlighting();
+
     // Wire Save to Server button
     const saveToServerBtn = document.getElementById('save-to-server');
     if (saveToServerBtn) {
@@ -453,17 +491,50 @@ export function highlightTableRowByNodeId(nodeId) {
         const data = _nodesHot.getSourceData();
         const idx = data.findIndex(r => String(r.id) === String(nodeId));
         if (idx >= 0) {
-            _nodesHot.selectCell(idx, 0, idx, _nodesHot.countCols() - 1, true, true);
-            // Add a temporary CSS class to visualize highlight
+            // Select the first VISIBLE column to avoid jump issues when the first column is hidden
+            const hiddenPlugin = _nodesHot.getPlugin('hiddenColumns');
+            const cols = _nodesHot.getSettings()?.columns || [];
+            const hidden = hiddenPlugin?.getHiddenColumns?.() || [];
+            let firstVisibleCol = 0;
+            for (let c = 0; c < cols.length; c++) {
+                if (!hidden.includes(c)) { firstVisibleCol = c; break; }
+            }
+            _nodesHot.selectCell(idx, firstVisibleCol, idx, firstVisibleCol, true, true);
+            // Add a temporary CSS class to visualize hover/focus without clearing multi-selection
             const trs = _nodesHot.rootElement.querySelectorAll('tbody tr');
-            trs.forEach(tr => tr.classList.remove('is-selected'));
+            trs.forEach(tr => tr.classList.remove('is-hovered'));
             const tr = trs[idx];
             if (tr) {
-                tr.classList.add('is-selected');
+                tr.classList.add('is-hovered');
                 tr.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             }
         }
     } catch(_) { /* noop */ }
+}
+
+/**
+ * Clears transient hover/focus highlight from the Elements table.
+ */
+export function clearTableRowHoverHighlight() {
+    try {
+        if (!_nodesHot) return;
+        const trs = _nodesHot.rootElement.querySelectorAll('tbody tr');
+        trs.forEach(tr => tr.classList.remove('is-hovered'));
+    } catch (_) { /* noop */ }
+}
+
+/**
+ * Updates row highlights in the Elements and Connections tables based on a Set of selected node IDs.
+ * Elements whose id is in the set are marked selected; connections where either endpoint is in the set are marked selected.
+ * @param {Set<string>} selectedNodeIds
+ */
+export function updateTableSelectionHighlights(selectedNodeIds) {
+    // Replace selection set and re-render; cells() callback applies per-cell classes
+    _selectedRowIds = new Set(Array.from(selectedNodeIds || []));
+    if (_nodesHot) _nodesHot.render();
+    if (_connectionsHot) _connectionsHot.render();
+    // Ensure any transient hover is cleared if it doesn’t match selection anymore
+    clearTableRowHoverHighlight();
 }
 
 /**
