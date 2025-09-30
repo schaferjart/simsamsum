@@ -1,10 +1,303 @@
 {
-  "indeed": {
-    "x": 100,
-    "y": 150
-  },
-  "text_application": {
-    "x": 100,
-    "y": 300
+  "timestamp": "2025-09-29T18:33:40.716Z",
+  "gridSize": 100,
+  "dataFile": "sample-data.csv",
+  "nodeCount": 59,
+  "positions": {
+    "indeed": {
+      "x": 0,
+      "y": 200,
+      "name": "Indeed"
+    },
+    "text_application": {
+      "x": 200,
+      "y": 200,
+      "name": "Text Application"
+    },
+    "pre_call_sms": {
+      "x": 200,
+      "y": 0,
+      "name": "Pre Call SMS"
+    },
+    "ai_call": {
+      "x": 400,
+      "y": 0,
+      "name": "AI Call"
+    },
+    "pre_video_mail": {
+      "x": 400,
+      "y": 200,
+      "name": "Pre Video Mail"
+    },
+    "video_application": {
+      "x": 600,
+      "y": 200,
+      "name": "Video Application"
+    },
+    "ghost_1": {
+      "x": 600,
+      "y": 0,
+      "name": "Ghost 1"
+    },
+    "application_review_1": {
+      "x": 800,
+      "y": 200,
+      "name": "Application Review 1"
+    },
+    "rejection_1": {
+      "x": 800,
+      "y": 0,
+      "name": "Rejection 1"
+    },
+    "application_review_2": {
+      "x": 1000,
+      "y": 200,
+      "name": "Application Review 2"
+    },
+    "rejection_2": {
+      "x": 1000,
+      "y": 0,
+      "name": "Rejection 2"
+    },
+    "video_screening": {
+      "x": 1200,
+      "y": 200,
+      "name": "Video Screening"
+    },
+    "high_potential_candidate": {
+      "x": 1400,
+      "y": 1200,
+      "name": "High Potential Candidate"
+    },
+    "medium_potential_candidate": {
+      "x": 1400,
+      "y": 200,
+      "name": "Medium Potential Candidate"
+    },
+    "low_potential_candidate": {
+      "x": 1400,
+      "y": -800,
+      "name": "Low Potential Candidate"
+    },
+    "rejection_3": {
+      "x": 1200,
+      "y": 0,
+      "name": "Rejection 3"
+    },
+    "hp_call_1": {
+      "x": 1600,
+      "y": 1200,
+      "name": "HP Call 1"
+    },
+    "hp_reminder_mail_1": {
+      "x": 1800,
+      "y": 1200,
+      "name": "HP Reminder Mail 1"
+    },
+    "hp_call_2": {
+      "x": 2000,
+      "y": 1200,
+      "name": "HP Call 2"
+    },
+    "hp_reminder_mail_2": {
+      "x": 2200,
+      "y": 1200,
+      "name": "HP Reminder Mail 2"
+    },
+    "hp_call_3": {
+      "x": 2400,
+      "y": 1200,
+      "name": "HP Call 3"
+    },
+    "hp_reminder_mail_3": {
+      "x": 2600,
+      "y": 1200,
+      "name": "HP Reminder Mail 3"
+    },
+    "hp_call_4": {
+      "x": 2800,
+      "y": 1200,
+      "name": "HP Call 4"
+    },
+    "hp_reminder_mail_4": {
+      "x": 3000,
+      "y": 1200,
+      "name": "HP Reminder Mail 4"
+    },
+    "hp_interview_callback": {
+      "x": 3400,
+      "y": 1500,
+      "name": "HP Interview Callback"
+    },
+    "hp_interview": {
+      "x": 3400,
+      "y": 900,
+      "name": "HP Interview"
+    },
+    "hp_job_offer_accept": {
+      "x": 3600,
+      "y": 900,
+      "name": "HP Job Offer Accept"
+    },
+    "hp_call_rejection": {
+      "x": 3400,
+      "y": 700,
+      "name": "HP Call Rejection"
+    },
+    "hp_ghost": {
+      "x": 3200,
+      "y": 1200,
+      "name": "HP Ghost"
+    },
+    "mp_call_1": {
+      "x": 1600,
+      "y": 200,
+      "name": "MP Call 1"
+    },
+    "mp_reminder_mail_1": {
+      "x": 1800,
+      "y": 200,
+      "name": "MP Reminder Mail 1"
+    },
+    "mp_call_2": {
+      "x": 2000,
+      "y": 200,
+      "name": "MP Call 2"
+    },
+    "mp_reminder_mail_2": {
+      "x": 2200,
+      "y": 200,
+      "name": "MP Reminder Mail 2"
+    },
+    "mp_call_3": {
+      "x": 2400,
+      "y": 200,
+      "name": "MP Call 3"
+    },
+    "mp_reminder_mail_3": {
+      "x": 2600,
+      "y": 200,
+      "name": "MP Reminder Mail 3"
+    },
+    "mp_interview_callback": {
+      "x": 3000,
+      "y": 500,
+      "name": "MP Interview Callback"
+    },
+    "mp_interview": {
+      "x": 3000,
+      "y": -100,
+      "name": "MP Interview"
+    },
+    "mp_job_offer_accept": {
+      "x": 3200,
+      "y": -100,
+      "name": "MP Job Offer Accept"
+    },
+    "mp_call_rejection": {
+      "x": 3000,
+      "y": -300,
+      "name": "MP Call Rejection"
+    },
+    "mp_ghost": {
+      "x": 2800,
+      "y": 200,
+      "name": "MP Ghost"
+    },
+    "lp_call_1": {
+      "x": 1600,
+      "y": -800,
+      "name": "LP Call 1"
+    },
+    "lp_reminder_mail_1": {
+      "x": 1800,
+      "y": -800,
+      "name": "LP Reminder Mail 1"
+    },
+    "lp_call_2": {
+      "x": 2000,
+      "y": -800,
+      "name": "LP Call 2"
+    },
+    "lp_reminder_mail_2": {
+      "x": 2200,
+      "y": -800,
+      "name": "LP Reminder Mail 2"
+    },
+    "lp_interview_callback": {
+      "x": 2600,
+      "y": -500,
+      "name": "LP Interview Callback"
+    },
+    "lp_interview": {
+      "x": 2600,
+      "y": -1100,
+      "name": "LP Interview"
+    },
+    "lp_job_offer_accept": {
+      "x": 2800,
+      "y": -1100,
+      "name": "LP Job Offer Accept"
+    },
+    "lp_call_rejection": {
+      "x": 2600,
+      "y": -1300,
+      "name": "LP Call Rejection"
+    },
+    "lp_ghost": {
+      "x": 2400,
+      "y": -800,
+      "name": "LP Ghost"
+    },
+    "starting_date_definition": {
+      "x": 3600,
+      "y": 200,
+      "name": "Starting date definition"
+    },
+    "gs_onboarding_update": {
+      "x": 4200,
+      "y": -300,
+      "name": "GS Onboarding Update"
+    },
+    "inscription_onboarding": {
+      "x": 4200,
+      "y": 200,
+      "name": "Inscription Onboarding"
+    },
+    "make_payfit_account": {
+      "x": 4100,
+      "y": 800,
+      "name": "Make PayFit Account"
+    },
+    "make_payfit_conrtract": {
+      "x": 4500,
+      "y": 800,
+      "name": "Make PayFit Conrtract"
+    },
+    "mail_yousign": {
+      "x": 4700,
+      "y": 1300,
+      "name": "Mail YouSign"
+    },
+    "contract_sign": {
+      "x": 4800,
+      "y": 1000,
+      "name": "Contract Sign"
+    },
+    "contract_verification": {
+      "x": 4800,
+      "y": 900,
+      "name": "Contract Verification"
+    },
+    "contract_rejection": {
+      "x": 4900,
+      "y": 700,
+      "name": "Contract Rejection"
+    },
+    "creation_alan_account": {
+      "x": 0,
+      "y": 400,
+      "name": "Creation Alan Account"
+    }
   }
 }

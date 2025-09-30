@@ -366,7 +366,7 @@ class WorkflowVisualizer {
             toggleGrid: () => this.toggleGrid(),
             snapAllToGrid: () => this.snapAllToGrid(),
             saveLayout: () => this.saveCurrentLayout(),
-            loadLayout: () => this.loadSavedLayout(),
+            loadLayout: (layoutName) => this.loadSavedLayout(layoutName),
             updateGridSize: (size) => this.updateGridSize(size),
             rotateGraph: (degrees) => this.rotateGraph(degrees),
             flipGraph: (direction) => this.flipGraph(direction),
@@ -388,10 +388,19 @@ class WorkflowVisualizer {
             showStatus('No data to display', 'info');
         }
 
-    // Filter out any links with missing endpoints before layout
-    const idSet2 = new Set(this.state.nodes.map(n => n.id));
-    this.state.links = this.state.links.filter(l => idSet2.has(l.source?.id ?? l.source) && idSet2.has(l.target?.id ?? l.target));
-    this.state.simulation = applyLayout(this.state.currentLayout, this.state);
+        // Filter out any links with missing endpoints before layout
+        const idSet2 = new Set(this.state.nodes.map(n => n.id));
+        this.state.links = this.state.links.filter(l => idSet2.has(l.source?.id ?? l.source) && idSet2.has(l.target?.id ?? l.target));
+
+        // Ensure link endpoints are node object references so non-force layouts can render connectors
+        const nodeById = new Map(this.state.nodes.map(n => [n.id, n]));
+        this.state.links = this.state.links.map(l => {
+            const source = (l.source && typeof l.source === 'object') ? l.source : nodeById.get(l.source);
+            const target = (l.target && typeof l.target === 'object') ? l.target : nodeById.get(l.target);
+            return { ...l, source, target };
+        });
+
+        this.state.simulation = applyLayout(this.state.currentLayout, this.state);
 
         if (this.state.simulation) {
             this.state.simulation.on('tick', () => updatePositions(this.state.g));
@@ -698,8 +707,18 @@ class WorkflowVisualizer {
             idSet.has(l.source?.id ?? l.source) && idSet.has(l.target?.id ?? l.target)
         );
 
+        // Preserve existing node positions (x/y/fx/fy) across data edits
+        const prevById = new Map((this.state.allNodes || []).map(n => [n.id, n]));
+        const mergedNodes = (vizNodes || []).map(n => {
+            const prev = prevById.get(n.id);
+            if (prev && (typeof prev.x === 'number') && (typeof prev.y === 'number')) {
+                return { ...n, x: prev.x, y: prev.y, fx: prev.fx ?? prev.x, fy: prev.fy ?? prev.y };
+            }
+            return n;
+        });
+
         // Update visualization state
-        this.state.allNodes = vizNodes || [];
+        this.state.allNodes = mergedNodes;
         this.state.allLinks = sanitizedLinks;
         this.state.nodes = [...this.state.allNodes];
         this.state.links = [...this.state.allLinks];

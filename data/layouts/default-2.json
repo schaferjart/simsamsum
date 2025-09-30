@@ -1,0 +1,238 @@
+{
+  "indeed": {
+    "x": 0,
+    "y": 200
+  },
+  "text_application": {
+    "x": 200,
+    "y": 200
+  },
+  "pre_call_sms": {
+    "x": 200,
+    "y": 0
+  },
+  "ai_call": {
+    "x": 400,
+    "y": 0
+  },
+  "pre_video_mail": {
+    "x": 400,
+    "y": 200
+  },
+  "video_application": {
+    "x": 600,
+    "y": 200
+  },
+  "ghost_1": {
+    "x": 600,
+    "y": 0
+  },
+  "application_review_1": {
+    "x": 800,
+    "y": 200
+  },
+  "rejection_1": {
+    "x": 800,
+    "y": 0
+  },
+  "application_review_2": {
+    "x": 1000,
+    "y": 200
+  },
+  "rejection_2": {
+    "x": 1000,
+    "y": 0
+  },
+  "video_screening": {
+    "x": 1200,
+    "y": 200
+  },
+  "high_potential_candidate": {
+    "x": 1400,
+    "y": 1200
+  },
+  "medium_potential_candidate": {
+    "x": 1400,
+    "y": 200
+  },
+  "low_potential_candidate": {
+    "x": 1400,
+    "y": -800
+  },
+  "rejection_3": {
+    "x": 1200,
+    "y": 0
+  },
+  "hp_call_1": {
+    "x": 1600,
+    "y": 1200
+  },
+  "hp_reminder_mail_1": {
+    "x": 1800,
+    "y": 1200
+  },
+  "hp_call_2": {
+    "x": 2000,
+    "y": 1200
+  },
+  "hp_reminder_mail_2": {
+    "x": 2200,
+    "y": 1200
+  },
+  "hp_call_3": {
+    "x": 2400,
+    "y": 1200
+  },
+  "hp_reminder_mail_3": {
+    "x": 2600,
+    "y": 1200
+  },
+  "hp_call_4": {
+    "x": 2800,
+    "y": 1200
+  },
+  "hp_reminder_mail_4": {
+    "x": 3000,
+    "y": 1200
+  },
+  "hp_interview_callback": {
+    "x": 3400,
+    "y": 1500
+  },
+  "hp_interview": {
+    "x": 3400,
+    "y": 900
+  },
+  "hp_job_offer_accept": {
+    "x": 3600,
+    "y": 900
+  },
+  "hp_call_rejection": {
+    "x": 3400,
+    "y": 700
+  },
+  "hp_ghost": {
+    "x": 3200,
+    "y": 1200
+  },
+  "mp_call_1": {
+    "x": 1600,
+    "y": 200
+  },
+  "mp_reminder_mail_1": {
+    "x": 1800,
+    "y": 200
+  },
+  "mp_call_2": {
+    "x": 2000,
+    "y": 200
+  },
+  "mp_reminder_mail_2": {
+    "x": 2200,
+    "y": 200
+  },
+  "mp_call_3": {
+    "x": 2400,
+    "y": 200
+  },
+  "mp_reminder_mail_3": {
+    "x": 2600,
+    "y": 200
+  },
+  "mp_interview_callback": {
+    "x": 3000,
+    "y": 500
+  },
+  "mp_interview": {
+    "x": 3000,
+    "y": -100
+  },
+  "mp_job_offer_accept": {
+    "x": 3200,
+    "y": -100
+  },
+  "mp_call_rejection": {
+    "x": 3000,
+    "y": -300
+  },
+  "mp_ghost": {
+    "x": 2800,
+    "y": 200
+  },
+  "lp_call_1": {
+    "x": 1600,
+    "y": -800
+  },
+  "lp_reminder_mail_1": {
+    "x": 1800,
+    "y": -800
+  },
+  "lp_call_2": {
+    "x": 2000,
+    "y": -800
+  },
+  "lp_reminder_mail_2": {
+    "x": 2200,
+    "y": -800
+  },
+  "lp_interview_callback": {
+    "x": 2600,
+    "y": -500
+  },
+  "lp_interview": {
+    "x": 2600,
+    "y": -1100
+  },
+  "lp_job_offer_accept": {
+    "x": 2800,
+    "y": -1100
+  },
+  "lp_call_rejection": {
+    "x": 2600,
+    "y": -1300
+  },
+  "lp_ghost": {
+    "x": 2400,
+    "y": -800
+  },
+  "starting_date_definition": {
+    "x": 3600,
+    "y": 200
+  },
+  "gs_onboarding_update": {
+    "x": 4200,
+    "y": -300
+  },
+  "inscription_onboarding": {
+    "x": 4200,
+    "y": 200
+  },
+  "make_payfit_account": {
+    "x": 4100,
+    "y": 800
+  },
+  "make_payfit_conrtract": {
+    "x": 4500,
+    "y": 800
+  },
+  "mail_yousign": {
+    "x": 4700,
+    "y": 1300
+  },
+  "contract_sign": {
+    "x": 4800,
+    "y": 1000
+  },
+  "contract_verification": {
+    "x": 4800,
+    "y": 900
+  },
+  "contract_rejection": {
+    "x": 4900,
+    "y": 700
+  },
+  "creation_alan_account": {
+    "x": 1400,
+    "y": 650
+  }
+}
