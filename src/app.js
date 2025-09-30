@@ -1,4 +1,5 @@
 import { initializeApp } from './js/core.js';
+import { initGitInfo } from './js/gitInfo.js';
 
 /**
  * Main entry point for the application.
@@ -7,4 +8,6 @@ import { initializeApp } from './js/core.js';
  */
 document.addEventListener('DOMContentLoaded', async () => {
     await initializeApp();
+    // Initialize Git metadata in header (non-blocking)
+    initGitInfo({ refreshMs: 60000 });
 });

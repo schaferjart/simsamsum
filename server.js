@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs').promises;
 const path = require('path');
+const { execSync } = require('child_process');
 
 const app = express();
 const PORT = 3001;
@@ -128,6 +129,56 @@ app.get('/api/health', (req, res) => {
         status: 'ok', 
         timestamp: new Date().toISOString(),
         message: 'Workflow API server is running'
+    });
+});
+
+/**
+ * Git metadata endpoint
+ * GET /api/git-info
+ * Returns current branch name and last commit details. If not a git repo, returns available=false.
+ */
+app.get('/api/git-info', (req, res) => {
+    const safeExec = (cmd) => {
+        try {
+            return execSync(cmd, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+        } catch {
+            return null;
+        }
+    };
+
+    // Quick check: are we inside a git repo?
+    const isRepo = safeExec('git rev-parse --is-inside-work-tree') === 'true';
+    if (!isRepo) {
+        return res.json({ available: false });
+    }
+
+    const branch = safeExec('git rev-parse --abbrev-ref HEAD');
+    const shortSha = safeExec('git rev-parse --short HEAD');
+    const fullSha = safeExec('git rev-parse HEAD');
+    const message = safeExec('git log -1 --pretty=%s');
+    const author = safeExec('git log -1 --pretty=%an');
+    const date = safeExec('git log -1 --pretty=%cI');
+    const repoUrlRaw = safeExec('git config --get remote.origin.url');
+
+    // Normalize repo URL to https when possible
+    let repoUrl = repoUrlRaw || null;
+    if (repoUrl && repoUrl.startsWith('git@github.com:')) {
+        repoUrl = 'https://github.com/' + repoUrl.replace('git@github.com:', '').replace(/\.git$/, '');
+    } else if (repoUrl && repoUrl.startsWith('https://github.com/') && repoUrl.endsWith('.git')) {
+        repoUrl = repoUrl.replace(/\.git$/, '');
+    }
+
+    res.json({
+        available: true,
+        branch,
+        commit: {
+            shortSha,
+            fullSha,
+            message,
+            author,
+            date
+        },
+        repoUrl
     });
 });
 
