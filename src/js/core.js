@@ -115,6 +115,9 @@ class WorkflowVisualizer {
             this.initializeEmptyState();
         }
 
+        // Now that data is loaded, render the visualization
+        this.updateVisualization();
+
         // After loading data, try to load the default layout
         const defaultLayout = await layoutManager.loadLayout('default');
         if (defaultLayout) {
@@ -194,7 +197,7 @@ class WorkflowVisualizer {
         try {
             // Try to load via API server first
             try {
-                const apiResponse = await fetch('http://localhost:3001/api/load-workflow');
+                const apiResponse = await fetch('/api/load-workflow');
                 if (apiResponse.ok) {
                     const data = await apiResponse.json();
                     this.elements = Array.isArray(data.elements) ? data.elements : [];
@@ -221,7 +224,6 @@ class WorkflowVisualizer {
                     this.state.allLinks = vizLinks;
                     this.state.nodes = [...vizNodes];
                     this.state.links = [...vizLinks];
-                    this.updateVisualization();
                     this.refreshTables();
                     return true;
                 }
@@ -277,7 +279,6 @@ class WorkflowVisualizer {
             this.state.allLinks = vizLinks;
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
-            this.updateVisualization();
             
             // Refresh table data after loading from files
             this.refreshTables();
@@ -319,7 +320,6 @@ class WorkflowVisualizer {
             this.state.allLinks = vizLinks;
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
-            this.updateVisualization();
             return true;
         } catch (e) {
             console.warn('Failed to load from localStorage, using sample data instead.', e);
