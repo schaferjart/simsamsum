@@ -222,6 +222,9 @@ export function initShiftRectangleSelection(svg, g, selectionManager, getNodes) 
     let startPoint = null;
     let selectionRect = null;
     let isSelecting = false;
+    // Suppress the next background click after finishing a rectangle drag,
+    // so the onBackgroundClick handler in render.js doesn't clear the fresh selection.
+    let suppressNextClick = false;
 
     // Clean previous handlers to avoid duplicates
     if (svg) {
@@ -230,12 +233,21 @@ export function initShiftRectangleSelection(svg, g, selectionManager, getNodes) 
         svg.on('mouseup.selection', null);
     }
 
+    // Capture-phase click suppressor runs before render.js background click handler
+    svg.on('click.selectionSuppress', function(event) {
+        if (suppressNextClick) {
+            event.stopPropagation();
+            suppressNextClick = false;
+        }
+    }, true);
+
     svg.on('mousedown.selection', function(event) {
         // Begin only when Shift is held and not clicking on a node
         const isOnBackground = (event.target === svg.node()) || !event.target.closest || !event.target.closest('.node');
         if (!event.shiftKey || !isOnBackground) return;
 
         event.preventDefault();
+        event.stopPropagation();
         isSelecting = true;
 
         const transform = d3.zoomTransform(svg.node());
@@ -257,6 +269,7 @@ export function initShiftRectangleSelection(svg, g, selectionManager, getNodes) 
     svg.on('mousemove.selection', function(event) {
         if (!isSelecting || !startPoint || !selectionRect) return;
         event.preventDefault();
+        event.stopPropagation();
 
         const transform = d3.zoomTransform(svg.node());
         const [x, y] = transform.invert(d3.pointer(event, svg.node()));
@@ -276,6 +289,7 @@ export function initShiftRectangleSelection(svg, g, selectionManager, getNodes) 
     svg.on('mouseup.selection', function(event) {
         if (!isSelecting || !selectionRect) return;
         event.preventDefault();
+        event.stopPropagation();
 
         const transform = d3.zoomTransform(svg.node());
         const [x, y] = transform.invert(d3.pointer(event, svg.node()));
@@ -285,7 +299,10 @@ export function initShiftRectangleSelection(svg, g, selectionManager, getNodes) 
         const rectWidth = Math.abs(x - startPoint[0]);
         const rectHeight = Math.abs(y - startPoint[1]);
 
-        if (rectWidth > 5 && rectHeight > 5) {
+    // Always suppress the immediate background click after finishing selection mode
+    suppressNextClick = true;
+
+    if (rectWidth > 5 && rectHeight > 5) {
             const nodes = typeof getNodes === 'function' ? (getNodes() || []) : [];
             // Shift-drag adds to selection
             selectionManager.selectInRect(nodes, rectX, rectY, rectX + rectWidth, rectY + rectHeight, true);

@@ -436,7 +436,7 @@ class WorkflowVisualizer {
     updatePositions(this.state.g);
 
     // Always sync selection/table highlights after re-render (handles empty selection too)
-    updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes || new Set());
+        updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes || new Set());
     ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes || new Set());
     }
 
