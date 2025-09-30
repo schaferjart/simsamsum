@@ -53,6 +53,29 @@ export function bindEventListeners(handlers) {
 }
 
 /**
+ * Fetches layouts from the server and populates the layout selection dropdown.
+ */
+export async function populateLayoutsDropdown() {
+    const select = document.getElementById('savedLayoutsSelect');
+    if (!select) return;
+
+    const layouts = await layoutManager.getLayouts();
+
+    // Clear existing options except the first placeholder
+    while (select.options.length > 1) {
+        select.remove(1);
+    }
+
+    // Add new options
+    layouts.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+    });
+}
+
+/**
  * Shows the details panel with information about the selected node.
  * @param {object} node - The data object for the selected node.
  */
@@ -128,29 +151,6 @@ export function resetUI() {
     document.getElementById('sizeToggle').checked = true;
     toggleGridControls(false);
     updateGridUI(false);
-}
-
-/**
- * Fetches layouts from the server and populates the layout selection dropdown.
- */
-export async function populateLayoutsDropdown() {
-    const select = document.getElementById('savedLayoutsSelect');
-    if (!select) return;
-
-    const layouts = await layoutManager.getLayouts();
-
-    // Clear existing options except the first placeholder
-    while (select.options.length > 1) {
-        select.remove(1);
-    }
-
-    // Add new options
-    layouts.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.textContent = name;
-        select.appendChild(option);
-    });
 }
 
 // --- Table Editors (Handsontable) ---

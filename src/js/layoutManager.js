@@ -3,7 +3,7 @@
  * Manages saving, loading, and listing of graph layouts via API calls.
  */
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = '/api'; // Use relative path for Vite proxy
 
 /**
  * Fetches the list of available layout names from the server.
@@ -73,14 +73,4 @@ export async function saveLayout(name, positions) {
         console.error(`Error saving layout "${name}":`, error);
         return false;
     }
-}
-
-/**
- * Loads the default layout. For this application, we'll consider "default"
- * as the layout to load automatically.
- * @returns {Promise<object|null>} A promise that resolves to the default layout's positions or null.
- */
-export async function loadDefaultLayout() {
-    console.log('Attempting to load default layout...');
-    return await loadLayout('default');
 }

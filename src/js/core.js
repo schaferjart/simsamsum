@@ -54,7 +54,7 @@ class WorkflowVisualizer {
             allLinks: [],
             zoom: null,
             costBasedSizing: true,
-            currentLayout: 'force',
+            currentLayout: 'manual-grid',
             graphRotation: 0,
             graphTransform: { scaleX: 1, scaleY: 1 },
             gridSize: 50,
@@ -105,6 +105,10 @@ class WorkflowVisualizer {
 
     ui.bindEventListeners(this.getEventHandlers());
 
+        // Set the initial state of the layout dropdown and controls
+        document.getElementById('layoutSelect').value = this.state.currentLayout;
+        this.handleLayoutChange(this.state.currentLayout);
+
         // Priority: 1) JSON files, 2) localStorage, 3) empty state
         const loaded = await this.loadFromJsonFiles() || this.loadFromLocalStorage();
         if (!loaded) {
@@ -112,14 +116,9 @@ class WorkflowVisualizer {
         }
 
         // After loading data, try to load the default layout
-        const defaultLayout = await layoutManager.loadDefaultLayout();
+        const defaultLayout = await layoutManager.loadLayout('default');
         if (defaultLayout) {
-            console.log('Applying default layout...');
             this.applyPositions(defaultLayout);
-            // Switch to manual layout mode
-            this.state.currentLayout = 'manual-snap';
-            document.getElementById('layoutSelect').value = 'manual-snap';
-            ui.toggleGridControls(true);
         }
 
         // Initialize table editors (if available)
@@ -742,11 +741,11 @@ class WorkflowVisualizer {
      * @param {string} layoutType - The new layout type to apply.
      */
     handleLayoutChange(layoutType) {
-        this.state.currentLayout = layoutType;
-        // Enable grid controls for manual-snap layout
-        const gridCapable = layoutType === 'manual-snap';
-        ui.toggleGridControls(gridCapable);
-        if (!gridCapable) {
+    this.state.currentLayout = layoutType;
+    // Enable grid controls for manual-grid and hierarchical-orthogonal layouts
+    const gridCapable = layoutType === 'manual-grid' || layoutType === 'hierarchical-orthogonal';
+    ui.toggleGridControls(gridCapable);
+    if (!gridCapable) {
             this.state.showGrid = false;
             updateGridDisplay(this.state.svg, this.state.showGrid, this.state.width, this.state.height, this.state.gridSize);
             ui.updateGridUI(this.state.showGrid);
@@ -791,6 +790,10 @@ class WorkflowVisualizer {
         }
     }
 
+    /**
+     * Saves the current layout of nodes to a JSON file.
+     * Only saves the positions of the currently visible nodes.
+     */
     /**
      * Applies a set of node positions to the current graph.
      * @param {object} positions - An object mapping node IDs to {x, y} coordinates.
