@@ -38,34 +38,35 @@
         <div class="main-content">
             <!-- Controls Panel -->
             <div class="controls-panel">
+                <!-- Search -->
                 <div class="control-group">
                     <label class="form-label">Search Nodes:</label>
                     <input type="text" id="searchInput" class="form-control" placeholder="Search by name...">
                 </div>
-                
+
+                <!-- Advanced Column Filters -->
                 <div class="control-group">
-                    <label class="form-label">Filter by Type:</label>
-                    <select id="typeFilter" class="form-control">
-                        <option value="">All Types</option>
-                        <option value="Resource">Resource</option>
-                        <option value="Action">Action</option>
-                        <option value="State">State</option>
-                        <option value="Decision">Decision</option>
-                    </select>
+                    <label class="form-label">
+                        Filter by Columns:
+                        <button id="addColumnFilter" class="btn btn--outline btn--xs" style="margin-left: 8px;">+ Add Filter</button>
+                    </label>
+                    <div id="columnFilters" class="column-filters-container">
+                        <!-- Dynamic column filters will be added here -->
+                    </div>
                 </div>
 
+                <!-- Visual Styling Controls -->
                 <div class="control-group">
-                    <label class="form-label">Filter by Execution:</label>
-                    <select id="executionFilter" class="form-control">
-                        <option value="">All Executions</option>
-                        <option value="Automatic">Automatic</option>
-                        <option value="Applicant">Applicant</option>
-                        <option value="Manual">Manual</option>
-                        <option value="Noemie">Noemie</option>
-                        <option value="Gil">Gil</option>
-                    </select>
+                    <label class="form-label">
+                        Highlight Rules:
+                        <button id="addHighlightRule" class="btn btn--outline btn--xs" style="margin-left: 8px;">+ Add Rule</button>
+                    </label>
+                    <div id="highlightRules" class="highlight-rules-container">
+                        <!-- Dynamic highlight rules will be added here -->
+                    </div>
                 </div>
 
+                <!-- Element Size -->
                 <div class="control-group">
                     <label class="form-label">Element Size:</label>
                     <div class="toggle-container">

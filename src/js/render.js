@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import * as highlighting from './highlighting.js';
 
 let svg, zoomGroup, g, zoom;
 
@@ -119,16 +120,28 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
             .enter().append('path')
             .attr('class', 'link orthogonal-link')
             .attr('fill', 'none')
-            .attr('stroke', '#999')
-            .attr('stroke-width', 2)
+            .attr('stroke', d => {
+                const customStyle = highlighting.getLinkStyle(d, nodes);
+                return customStyle?.stroke || '#999';
+            })
+            .attr('stroke-width', d => {
+                const customStyle = highlighting.getLinkStyle(d, nodes);
+                return customStyle?.strokeWidth || 2;
+            })
             .attr('marker-end', 'url(#arrowhead)');
     } else {
         linkGroup.selectAll('line')
             .data(links)
             .enter().append('line')
             .attr('class', 'link')
-            .attr('stroke', '#999')
-            .attr('stroke-width', 2)
+            .attr('stroke', d => {
+                const customStyle = highlighting.getLinkStyle(d, nodes);
+                return customStyle?.stroke || '#999';
+            })
+            .attr('stroke-width', d => {
+                const customStyle = highlighting.getLinkStyle(d, nodes);
+                return customStyle?.strokeWidth || 2;
+            })
             .attr('marker-end', 'url(#arrowhead)');
     }
 
@@ -153,6 +166,9 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
         const nodeGroup = d3.select(this);
         const size = Math.max(10, d.size || 30);
         const borderStyle = d.borderStyle;
+        
+        // Get custom style from highlight rules
+        const customStyle = highlighting.getNodeStyle(d);
 
         let shape;
         switch (d.Type) {
@@ -182,9 +198,9 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
                     .attr('r', Math.max(5, size * 0.6));
         }
 
-        shape.attr('fill', 'rgba(255, 255, 255, 0.8)')
-            .attr('stroke', '#000000')
-            .attr('stroke-width', 2)
+        shape.attr('fill', customStyle?.fill || 'rgba(255, 255, 255, 0.8)')
+            .attr('stroke', customStyle ? (customStyle.fill || '#000000') : '#000000')
+            .attr('stroke-width', customStyle?.strokeWidth || 2)
             .attr('stroke-dasharray', borderStyle);
     });
 

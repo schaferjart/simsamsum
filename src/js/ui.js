@@ -10,10 +10,12 @@ export function bindEventListeners(handlers) {
     document.getElementById('csvFile').addEventListener('change', handlers.handleFileSelect);
     document.getElementById('uploadBtn').addEventListener('click', handlers.handleFileUpload);
 
-    // Search and filter
+    // Search
     document.getElementById('searchInput').addEventListener('input', (e) => handlers.handleSearch(e.target.value));
-    document.getElementById('typeFilter').addEventListener('change', handlers.handleFilter);
-    document.getElementById('executionFilter').addEventListener('change', handlers.handleFilter);
+
+    // Advanced filtering
+    document.getElementById('addColumnFilter')?.addEventListener('click', handlers.handleAddColumnFilter);
+    document.getElementById('addHighlightRule')?.addEventListener('click', handlers.handleAddHighlightRule);
 
     // View and layout controls
     document.getElementById('resetBtn').addEventListener('click', handlers.handleReset);
