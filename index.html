@@ -37,7 +37,8 @@
         <!-- Main Content -->
         <div class="main-content">
             <!-- Controls Panel -->
-            <div class="controls-panel">
+            <div class="controls-panel" id="controlsPanel">
+                <button id="toggleControlsBtn" class="controls-toggle-btn" title="Toggle Controls Panel (Ctrl+B)">‹</button>
 
                 <!-- Dynamic Filtering Section -->
                 <div class="control-group">
@@ -126,6 +127,8 @@
             <!-- Visualization Area -->
             <div class="viz-container">
                 <div id="networkGraph" class="network-graph"></div>
+                <!-- Floating button to show editor when hidden -->
+                <button id="showEditorBtn" class="show-editor-btn hidden" title="Show Editor Panel">›</button>
                 <div class="legend">
                     <h4>Node Types</h4>
                     <div class="legend-item">

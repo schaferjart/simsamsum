@@ -436,7 +436,7 @@ select.form-control {
 }
 
 .details-panel.hidden {
-  display: none;
+  display: none !important;
 }
 
 .panel-header {

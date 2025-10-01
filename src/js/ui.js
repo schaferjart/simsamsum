@@ -324,9 +324,20 @@ export function bindEventListeners(handlers) {
     document.getElementById('verifyBtn').addEventListener('click', handlers.handleVerify);
     document.getElementById('exportPdfBtn').addEventListener('click', handlers.handleExport);
     document.getElementById('closePanelBtn').addEventListener('click', hideDetailsPanel);
+    document.getElementById('showEditorBtn').addEventListener('click', hideDetailsPanel);
+    document.getElementById('toggleControlsBtn').addEventListener('click', toggleControlsPanel);
 
     // Window resize
     window.addEventListener('resize', handlers.handleResize);
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + B to toggle controls panel
+        if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+            e.preventDefault();
+            toggleControlsPanel();
+        }
+    });
 
     // Initial population of the layouts dropdown
     populateLayoutsDropdown();
@@ -381,9 +392,46 @@ export function showNodeDetails(node) {
  */
 export function hideDetailsPanel() {
     const panel = document.getElementById('detailsPanel');
+    const showBtn = document.getElementById('showEditorBtn');
     if (!panel) return;
-    // Toggle collapsed state to free space, not fully hidden for layout stability
-    panel.classList.toggle('hidden');
+    
+    // Toggle the hidden state
+    const isHidden = panel.classList.toggle('hidden');
+    
+    // Update close button text to indicate current state
+    const closeBtn = document.getElementById('closePanelBtn');
+    if (closeBtn) {
+        closeBtn.innerHTML = isHidden ? '↑' : '×';
+        closeBtn.title = isHidden ? 'Show Editor Panel' : 'Hide Editor Panel';
+    }
+    
+    // Toggle floating show button
+    if (showBtn) {
+        if (isHidden) {
+            showBtn.classList.remove('hidden');
+        } else {
+            showBtn.classList.add('hidden');
+        }
+    }
+    
+    // Trigger a resize event to ensure the visualization adjusts to the new space
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 100);
+}
+
+/**
+ * Toggles the visibility of the main controls panel.
+ */
+export function toggleControlsPanel() {
+    const panel = document.getElementById('controlsPanel');
+    if (!panel) return;
+    panel.classList.toggle('collapsed');
+    
+    // Trigger a resize event to ensure the visualization adjusts to the new space
+    setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+    }, 300); // Wait for CSS transition to complete
 }
 
 /**
