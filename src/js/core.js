@@ -160,14 +160,30 @@ class WorkflowVisualizer {
             });
         });
 
-        // Keyboard shortcuts including Undo (Cmd/Ctrl+Z)
+        // Keyboard shortcuts including Undo (Cmd/Ctrl+Z).
+        // Use capture to ensure it works even when focus is inside other panels/tables.
         document.addEventListener('keydown', (e) => {
             const isUndo = (e.metaKey || e.ctrlKey) && !e.shiftKey && (e.key === 'z' || e.key === 'Z');
-            if (isUndo) {
-                e.preventDefault();
-                this.undoLastAction();
+            if (!isUndo) return;
+
+            // If user is actively typing in an input/textarea/contentEditable, let that component handle undo.
+            const ae = document.activeElement;
+            const tag = (ae?.tagName || '').toLowerCase();
+            const isTyping = tag === 'input' || tag === 'textarea' || (ae && ae.isContentEditable);
+            if (isTyping) return; // Allow editors to own Cmd/Ctrl+Z
+
+            // If the event target is inside a Handsontable container, let HOT handle undo
+            // HOT root has class 'handsontable' on its container tree.
+            const target = e.target;
+            if (target && typeof target.closest === 'function' && target.closest('.handsontable')) {
+                return;
             }
-        });
+
+            // Otherwise, perform graph undo and prevent other handlers from consuming it.
+            e.preventDefault();
+            e.stopPropagation();
+            this.undoLastAction();
+        }, true);
 
         // Keyboard shortcuts for selection (keep)
         interactions.initKeyboardShortcuts(

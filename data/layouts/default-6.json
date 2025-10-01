@@ -196,40 +196,40 @@
     "y": -200
   },
   "starting_date_definition": {
-    "x": 3500,
+    "x": 3400,
     "y": -200
   },
   "gs_onboarding_update": {
-    "x": 3800,
-    "y": -200
+    "x": 4200,
+    "y": -300
   },
   "inscription_onboarding": {
-    "x": 3800,
-    "y": 400
+    "x": 4200,
+    "y": 200
   },
   "make_payfit_account": {
-    "x": 3800,
-    "y": 1000
+    "x": 4100,
+    "y": 800
   },
   "make_payfit_conrtract": {
-    "x": 4100,
-    "y": 1000
+    "x": 4500,
+    "y": 800
   },
   "mail_yousign": {
-    "x": 4400,
-    "y": 1000
+    "x": 4700,
+    "y": 1300
   },
   "contract_sign": {
-    "x": 4700,
+    "x": 4800,
     "y": 1000
   },
   "contract_verification": {
-    "x": 5000,
-    "y": 1000
+    "x": 4800,
+    "y": 900
   },
   "contract_rejection": {
-    "x": 5300,
-    "y": 1000
+    "x": 4900,
+    "y": 700
   },
   "creation_alan_account": {
     "x": 0,

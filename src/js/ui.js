@@ -160,6 +160,8 @@ let _variablesHot = null;
 let _debounceTimers = { nodes: null, connections: null, variables: null };
 // Track selection state for table highlighting (used by Handsontable cells() callbacks)
 let _selectedRowIds = new Set();
+// Track currently active table to route keyboard undo/redo
+let _activeHot = null;
 
 function debounceTable(type, fn, delay = 200) {
     clearTimeout(_debounceTimers[type]);
@@ -195,6 +197,7 @@ export async function initEditorTables(core) {
         height: '100%', // Stretch to container
         width: '100%',
         contextMenu: true,
+    undoRedo: true,
         minSpareRows: 1,
         hiddenColumns: true, // Enable plugin
         manualColumnResize: true, // Allow user resizing
@@ -446,11 +449,11 @@ export async function initEditorTables(core) {
     _connectionsHot.addHook('afterOnCellMouseDown', () => setActiveHot(_connectionsHot));
     _variablesHot.addHook('afterOnCellMouseDown', () => setActiveHot(_variablesHot));
 
-    let _activeHot = _nodesHot; // Default to the first table
-
     const setActiveHot = (hotInstance) => {
         _activeHot = hotInstance;
     };
+    // Default active table
+    _activeHot = _nodesHot;
 
     // Add Row: insert into the active table
     const addRowBtn = document.getElementById('add-row');
@@ -469,6 +472,25 @@ export async function initEditorTables(core) {
     // All tables are created, now initialize interactions
     initUIInteractions();
     loadUIPrefs(); // Load saved sizes on startup
+
+    // Ensure Cmd/Ctrl+Z and Shift+Cmd/Ctrl+Z work inside tables even if global listeners exist
+    document.addEventListener('keydown', (e) => {
+        const insideHot = e.target && typeof e.target.closest === 'function' && e.target.closest('.handsontable');
+        if (!insideHot) return;
+        const isZ = e.key === 'z' || e.key === 'Z';
+        if (!isZ || !_activeHot) return;
+        const isUndo = (e.metaKey || e.ctrlKey) && !e.shiftKey;
+        const isRedo = (e.metaKey || e.ctrlKey) && e.shiftKey;
+        if (isUndo) {
+            e.preventDefault();
+            e.stopPropagation();
+            try { _activeHot.undo(); } catch (_) { /* noop */ }
+        } else if (isRedo) {
+            e.preventDefault();
+            e.stopPropagation();
+            try { _activeHot.redo(); } catch (_) { /* noop */ }
+        }
+    }, true);
 }
 
 /**
