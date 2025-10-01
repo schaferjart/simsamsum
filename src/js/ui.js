@@ -166,7 +166,7 @@ export function addStylingRule(onChange) {
         </div>
         <div class="rule-style">
             Then set
-            <input type="color" class="form-control form-control--sm color-input" title="Color">
+            <input type="color" class="form-control form-control--sm color-input" title="Color" value="${getThemeAppropriateColor()}">
             <input type="number" class="form-control form-control--sm stroke-width-input" placeholder="Stroke Width" min="1" max="10">
             <button class="btn btn--danger btn--sm remove-rule-btn">&times;</button>
         </div>
@@ -326,6 +326,7 @@ export function bindEventListeners(handlers) {
     document.getElementById('closePanelBtn').addEventListener('click', hideDetailsPanel);
     document.getElementById('showEditorBtn').addEventListener('click', hideDetailsPanel);
     document.getElementById('toggleControlsBtn').addEventListener('click', toggleControlsPanel);
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
 
     // Window resize
     window.addEventListener('resize', handlers.handleResize);
@@ -337,10 +338,18 @@ export function bindEventListeners(handlers) {
             e.preventDefault();
             toggleControlsPanel();
         }
+        // Ctrl/Cmd + D to toggle dark theme
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
+        }
     });
 
     // Initial population of the layouts dropdown
     populateLayoutsDropdown();
+    
+    // Initialize theme
+    initializeTheme();
 }
 
 /**
@@ -432,6 +441,93 @@ export function toggleControlsPanel() {
     setTimeout(() => {
         window.dispatchEvent(new Event('resize'));
     }, 300); // Wait for CSS transition to complete
+}
+
+/**
+ * Toggles between light and dark theme.
+ */
+export function toggleTheme() {
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    
+    // Update button icon and tooltip
+    if (themeToggle) {
+        themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        themeToggle.title = `Switch to ${newTheme === 'dark' ? 'Light' : 'Dark'} Theme`;
+    }
+    
+    // Update color inputs for current theme
+    updateColorInputDefaults();
+    
+    // Save theme preference
+    localStorage.setItem('theme', newTheme);
+    
+    // Update any color inputs to use theme-appropriate defaults
+    updateColorInputDefaults();
+}
+
+/**
+ * Updates color input default values based on current theme.
+ */
+function updateColorInputDefaults() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const colorInputs = document.querySelectorAll('.color-input');
+    
+    colorInputs.forEach(input => {
+        const currentColor = input.value;
+        
+        // Auto-fix problematic colors for current theme
+        if (theme === 'dark' && (currentColor === '#000000' || currentColor === '' || !currentColor)) {
+            input.value = '#60a5fa';
+        } else if (theme === 'light' && currentColor === '#ffffff') {
+            input.value = '#3b82f6';
+        }
+    });
+}
+
+/**
+ * Gets a theme-appropriate default color for styling rules.
+ */
+function getThemeAppropriateColor() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    return theme === 'dark' ? '#60a5fa' : '#3b82f6';
+}
+
+/**
+ * Initializes the theme based on user preference or system preference.
+ */
+export function initializeTheme() {
+    const html = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    
+    // Get saved theme or default to system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const theme = savedTheme || systemTheme;
+    
+    html.setAttribute('data-theme', theme);
+    
+    // Update button icon and tooltip
+    if (themeToggle) {
+        themeToggle.textContent = theme === 'dark' ? 'd' : 'l';
+        themeToggle.title = `Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Theme`;
+    }
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            const newTheme = e.matches ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            if (themeToggle) {
+                themeToggle.textContent = newTheme === 'dark' ? 'l' : 'd';
+                themeToggle.title = `Switch to ${newTheme === 'dark' ? 'Light' : 'Dark'} Theme`;
+            }
+        }
+    });
 }
 
 /**

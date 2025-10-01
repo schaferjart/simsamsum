@@ -32,7 +32,7 @@ export function initVisualization(container, onZoom, onBackgroundClick) {
         .attr('orient', 'auto')
         .append('path')
         .attr('d', 'M0,-5L10,0L0,5')
-        .attr('fill', '#626c7c');
+        .attr('fill', getComputedStyle(document.documentElement).getPropertyValue('--color-text-secondary').trim() || '#626c7c');
 
     zoom = d3.zoom()
         .scaleExtent([0.1, 4])
@@ -111,17 +111,8 @@ function addZoomControls(svg, zoom) {
 export function renderVisualizationElements(g, nodes, links, currentLayout, eventHandlers) {
     g.selectAll('*').remove();
 
-    // Debug: Check if links have custom styles
+    // Check if links have custom styles  
     const styledLinks = links.filter(l => l.customStyle && (l.customStyle.color || l.customStyle.strokeWidth));
-    if (styledLinks.length > 0) {
-        console.log(`🎨 Rendering ${styledLinks.length} links with custom styles:`, 
-            styledLinks.slice(0, 3).map(l => ({
-                source: typeof l.source === 'object' ? l.source.id : l.source,
-                target: typeof l.target === 'object' ? l.target.id : l.target,
-                customStyle: l.customStyle
-            }))
-        );
-    }
 
     // Links
     const linkGroup = g.append('g').attr('class', 'links');
@@ -143,7 +134,8 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
                 if (d.customStyle && d.customStyle.color) {
                     return d.customStyle.color;
                 }
-                return '#999'; // Default color
+                // Use CSS custom property for theme-aware default color
+                return getComputedStyle(document.documentElement).getPropertyValue('--color-border').trim() || '#999';
             })
             .attr('stroke-width', d => {
                 // Custom style takes precedence over filter highlighting
@@ -154,18 +146,28 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
             })
             .attr('marker-end', 'url(#arrowhead)')
             .style('stroke', d => {
-                // Use inline style to override CSS !important
                 if (d.customStyle && d.customStyle.color) {
                     return d.customStyle.color;
                 }
                 return null;
             })
             .style('stroke-width', d => {
-                // Use inline style to override CSS !important
                 if (d.customStyle && d.customStyle.strokeWidth) {
                     return d.customStyle.strokeWidth + 'px';
                 }
                 return null;
+            })
+            .each(function(d) {
+                // Force custom styles by setting them directly on the element
+                if (d.customStyle) {
+                    const element = d3.select(this);
+                    if (d.customStyle.color) {
+                        element.node().style.setProperty('stroke', d.customStyle.color, 'important');
+                    }
+                    if (d.customStyle.strokeWidth) {
+                        element.node().style.setProperty('stroke-width', d.customStyle.strokeWidth + 'px', 'important');
+                    }
+                }
             });
     } else {
         linkGroup.selectAll('line')
@@ -194,19 +196,16 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
                 return 2; // Default width
             })
             .attr('marker-end', 'url(#arrowhead)')
-            .style('stroke', d => {
-                // Use inline style to override CSS !important
-                if (d.customStyle && d.customStyle.color) {
-                    return d.customStyle.color;
+            .each(function(d) {
+                // Force custom styles to override CSS !important
+                if (d.customStyle) {
+                    if (d.customStyle.color) {
+                        this.style.setProperty('stroke', d.customStyle.color, 'important');
+                    }
+                    if (d.customStyle.strokeWidth) {
+                        this.style.setProperty('stroke-width', d.customStyle.strokeWidth + 'px', 'important');
+                    }
                 }
-                return null;
-            })
-            .style('stroke-width', d => {
-                // Use inline style to override CSS !important
-                if (d.customStyle && d.customStyle.strokeWidth) {
-                    return d.customStyle.strokeWidth + 'px';
-                }
-                return null;
             });
     }
 
