@@ -146,7 +146,7 @@ function downloadJsonFile(data, filename) {
 }
 
 /**
- * Convert legacy CSV-style format to new structure
+ * Convert legacy flat array format to new structure
  */
 function convertLegacyFormat(legacyData) {
     const elements = legacyData.map((item, index) => {

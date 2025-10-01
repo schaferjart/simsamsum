@@ -34,16 +34,6 @@
   gap: var(--space-24);
 }
 
-.upload-section {
-  display: flex;
-  align-items: center;
-  gap: var(--space-12);
-}
-
-.file-input {
-  display: none;
-}
-
 .main-content {
   flex: 1;
   display: flex;

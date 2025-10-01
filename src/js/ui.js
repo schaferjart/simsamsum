@@ -278,10 +278,6 @@ export function getStylingRules() {
  * @param {object} handlers - An object containing the handler functions.
  */
 export function bindEventListeners(handlers) {
-    // File and data loading
-    document.getElementById('csvFile').addEventListener('change', handlers.handleFileSelect);
-    document.getElementById('uploadBtn').addEventListener('click', handlers.handleFileUpload);
-
     // Dynamic filtering and styling
     document.getElementById('add-filter-rule-btn').addEventListener('click', () => {
         addFilterRule(handlers.applyFiltersAndStyles);
@@ -456,7 +452,7 @@ export function toggleTheme() {
     
     // Update button icon and tooltip
     if (themeToggle) {
-        themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        themeToggle.textContent = newTheme === 'dark' ? 'Light' : 'Dark';
         themeToggle.title = `Switch to ${newTheme === 'dark' ? 'Light' : 'Dark'} Theme`;
     }
     

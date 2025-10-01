@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { showStatus, calculateNodeSize, downloadJsonFile, snapToGrid } from './utils.js';
-import { processData, parseCSV, verifyConnections, computeDerivedFields as computeDerivedFieldsData } from './data.js';
+import { processData, verifyConnections, computeDerivedFields as computeDerivedFieldsData } from './data.js';
 import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from './render.js';
 import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
@@ -397,11 +397,6 @@ class WorkflowVisualizer {
      */
     getEventHandlers() {
         return {
-            handleFileSelect: (e) => {
-                const fileName = e.target.files[0]?.name || 'No file selected';
-                showStatus(`Selected: ${fileName}`, 'info');
-            },
-            handleFileUpload: () => this.handleFileUpload(),
             applyFiltersAndStyles: () => this.applyFiltersAndStyles(),
             handleReset: () => this.resetView(),
             handleSizeToggle: (enabled) => this.handleSizeToggle(enabled),
@@ -554,38 +549,6 @@ class WorkflowVisualizer {
         applyStylingRules(this.state.nodes, this.state.links, stylingRules);
 
         this.updateVisualization();
-    }
-
-    /**
-     * Handles the user uploading a CSV file.
-     * It reads the file, processes the data, and updates the visualization.
-     */
-    async handleFileUpload() {
-        const fileInput = document.getElementById('csvFile');
-        const file = fileInput.files[0];
-        if (!file) {
-            showStatus('Please select a CSV file first', 'error');
-            return;
-        }
-        if (!file.name.toLowerCase().endsWith('.csv')) {
-            showStatus('Please select a valid CSV file', 'error');
-            return;
-        }
-
-        this.state.currentDataFile = file.name;
-        showStatus('Processing CSV file...', 'loading');
-        try {
-            const data = await parseCSV(file);
-            const { nodes, links } = processData(data, this.state.costBasedSizing);
-            this.state.allNodes = nodes;
-            this.state.allLinks = links;
-            this.state.nodes = [...this.state.allNodes];
-            this.state.links = [...this.state.allLinks];
-            this.updateVisualization();
-            showStatus('CSV loaded successfully!', 'success');
-        } catch (error) {
-            showStatus(error.message, 'error');
-        }
     }
 
     /**

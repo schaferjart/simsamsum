@@ -7,7 +7,7 @@ import * as d3 from 'd3';
  * @returns {d3.Simulation} The configured D3 simulation, or null if no simulation is used.
  */
 export function applyLayout(layoutType, state) {
-    console.log(`🎨 Applying layout: ${layoutType}`);
+    console.log(`Applying layout: ${layoutType}`);
     const { nodes, links, width, height } = state;
 
     if (state.simulation) {

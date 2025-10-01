@@ -19,7 +19,7 @@
 
 **Interactive Visualization**: Zoom, pan, and drag nodes with responsive design. Multiple layout algorithms including force-directed, hierarchical, circular, grid, and manual positioning with grid-snapping capabilities.
 
-**Data Management**: Support for CSV import, JSON persistence, real-time table editing with Handsontable integration, and automatic data synchronization between frontend and backend.
+**Data Management**: JSON persistence, real-time table editing with Handsontable integration, and automatic data synchronization between frontend and backend.
 
 **Advanced Controls**: Search and filter nodes by name, type, or execution method. Toggle between uniform and cost-based node sizing. Graph transformation tools including rotation, flipping, centering, and auto-fitting.
 
@@ -113,7 +113,6 @@ workflow-visualizer/
 ├── server.js               # Express API server for data persistence
 ├── LICENSE                 # MIT license
 ├── README.md               # This documentation
-└── WFR-Processes-Sep25.csv # Sample workflow data
 ```
 
 ### Source Code Architecture
@@ -173,14 +172,13 @@ The main `WorkflowVisualizer` class orchestrates the entire application lifecycl
 - `syncTableDataToVisualization()`: Bidirectional data synchronization
 
 ### data.js - Data Processing Engine
-Handles all data transformation, validation, and computation. Supports both legacy CSV format and modern JSON table format. Implements flow-based volume calculations for workflow analytics.
+Handles all data transformation, validation, and computation. Supports both legacy flat array format and modern JSON table format. Implements flow-based volume calculations for workflow analytics.
 
 **Key Functions**:
 - `processData()`: Main data transformation pipeline
 - `computeDerivedFields()`: Calculate node volumes and flow metrics
 - `verifyConnections()`: Data consistency validation
-- `parseCSV()`: CSV import and processing
-- Import/export functions for JSON and CSV formats
+- Import/export functions for JSON formats
 
 ### render.js - Visualization Engine
 D3.js-based rendering system for creating interactive network diagrams. Manages SVG creation, node and link rendering, and visual state updates.
@@ -220,11 +218,11 @@ Handles all UI components including control panels, tables, buttons, and modal d
 - Panel management and responsive behavior
 
 ### fileManager.js - File Operations
-Manages data persistence through API server communication. Handles file uploads, downloads, and synchronization with the backend storage system.
+Manages data persistence through API server communication. Handles downloads and synchronization with the backend storage system.
 
 **Key Functions**:
 - `saveToFiles()`: API-based data persistence
-- `loadFromFile()`: File upload and parsing
+- `loadFromFile()`: JSON file parsing
 - Auto-save functionality with change tracking
 
 ### export.js - Export System
@@ -318,7 +316,6 @@ npm run debug:table  # Table testing instructions
 **Export and Processing**:
 - jsPDF v3.0.3 (PDF generation)
 - html2canvas v1.4.1 (SVG capture)
-- PapaParse v5.5.3 (CSV parsing)
 
 **Development Tools**:
 - CORS v2.8.5 (cross-origin requests)

@@ -21,7 +21,6 @@
     "business-process",
     "network-diagram",
     "data-visualization",
-    "csv",
     "interactive",
     "responsive"
   ],
@@ -50,7 +49,6 @@
     "d3": "^7.9.0",
     "handsontable": "^14.3.0",
     "html2canvas": "^1.4.1",
-    "jspdf": "^3.0.3",
-    "papaparse": "^5.5.3"
+    "jspdf": "^3.0.3"
   }
 }

@@ -194,11 +194,6 @@
     display: none;
   }
 
-  .upload-section {
-    flex-wrap: wrap;
-    gap: var(--space-8);
-  }
-
   .legend {
     position: relative;
     top: 0;

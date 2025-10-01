@@ -1,4 +1,3 @@
-import Papa from 'papaparse';
 import { calculateNodeSize, getBorderStyle } from './utils.js';
 
 export const sampleData = [
@@ -140,13 +139,13 @@ export function resolveValue(value, variables = {}) {
 }
 
 /**
- * Processes raw data from CSV into nodes and links.
- * @param {Array<Object>} data - The raw data from PapaParse.
+ * Processes raw data into nodes and links.
+ * @param {Array<Object>} data - The raw data array.
  * @param {boolean} costBasedSizing - Whether to use cost-based sizing.
  * @returns {{nodes: Array<Object>, links: Array<Object>}}
  */
 export function processData(data, costBasedSizing, variables = {}) {
-    // Shape detection: legacy CSV rows array vs new model { nodes, connections, variables }
+    // Shape detection: legacy flat array vs new model { nodes, connections, variables }
     if (Array.isArray(data)) {
         // Legacy path (existing behavior)
         const cleanData = data.filter(row => row.Name && row.Name.trim() !== '')
@@ -303,34 +302,6 @@ export function processData(data, costBasedSizing, variables = {}) {
     console.log('📊 Generated nodes:', nodes.length, 'from elements:', tableNodes.length);
 
     return { nodes, links };
-}
-
-/**
- * Parses a CSV file.
- * @param {File} file - The CSV file to parse.
- * @returns {Promise<Array<Object>>} A promise that resolves with the parsed data.
- */
-export function parseCSV(file) {
-    return new Promise((resolve, reject) => {
-        Papa.parse(file, {
-            header: true,
-            skipEmptyLines: true,
-            complete: (results) => {
-                if (results.errors.length > 0) {
-                    console.error('CSV parsing errors:', results.errors);
-                    return reject(new Error('Error parsing CSV file'));
-                }
-                if (results.data.length === 0) {
-                    return reject(new Error('CSV file appears to be empty'));
-                }
-                resolve(results.data);
-            },
-            error: (error) => {
-                console.error('CSV parsing error:', error);
-                reject(new Error('Error reading CSV file'));
-            }
-        });
-    });
 }
 
 /**
@@ -577,52 +548,6 @@ export function importFromJson(json) {
  */
 export function exportToJson(data) {
     return JSON.stringify(data, null, 2);
-}
-
-/**
- * Import nodes and connections from CSV strings.
- * Variables are handled separately.
- */
-export function importFromCsv(nodesCsv, connectionsCsv) {
-    const parse = (csv) => Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
-    const rawNodes = parse(nodesCsv) || [];
-    const rawConns = parse(connectionsCsv) || [];
-    const nodes = rawNodes.map(n => ({
-        id: n.id || n.ID || n.Id,
-        name: n.name || n.Name || n.id,
-        type: n.type || n.Type || '',
-        platform: n.platform || n.Platform || '',
-        cost: typeof n.cost === 'number' ? n.cost : parseFloat(n.cost || n.Cost || 0) || 0,
-        volumeIn: typeof n.volumeIn === 'number' ? n.volumeIn : parseFloat(n.volumeIn || n.VolumeIn || 0) || 0,
-        description: n.description || n.Description || '',
-        x: typeof n.x === 'number' ? n.x : parseFloat(n.x || 0) || 0,
-        y: typeof n.y === 'number' ? n.y : parseFloat(n.y || 0) || 0
-    })).filter(n => n.id);
-    const connections = rawConns.map(c => {
-        const fromId = c.fromId || c.FromId || c.Source || '';
-        const toId = c.toId || c.ToId || c.Target || '';
-        return {
-            id: `${fromId}->${toId}`, // Auto-generate ID
-            fromId,
-            toId
-        };
-    }).filter(c => c.fromId && c.toId);
-    return { nodes, connections };
-}
-
-/**
- * Export nodes and connections as CSV strings. Includes a resolved probability column.
- */
-export function exportToCsv(data) {
-    const vars = data.variables || {};
-    const nodesCsv = Papa.unparse((data.nodes || []).map(n => ({
-        id: n.id, name: n.name, type: n.type, platform: n.platform,
-        cost: n.cost, volumeIn: n.volumeIn, description: n.description, x: n.x, y: n.y
-    })));
-    const connectionsCsv = Papa.unparse((data.connections || []).map(c => ({
-        id: c.id, fromId: c.fromId, toId: c.toId
-    })));
-    return { nodesCsv, connectionsCsv };
 }
 
 /**

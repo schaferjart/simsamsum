@@ -8,6 +8,9 @@ export async function initGitInfo({ refreshMs = 60000 } = {}) {
   const container = document.getElementById('gitMeta');
   if (!branchEl || !commitEl || !linkEl || !container) return;
 
+  // Preserve last successful info to avoid UI flicker on transient errors
+  let lastInfo = null;
+
   const render = (info) => {
     if (!info || info.available === false) {
       container.style.display = 'none';
@@ -20,6 +23,7 @@ export async function initGitInfo({ refreshMs = 60000 } = {}) {
     if (info.commit?.shortSha) parts.push(`(${info.commit.shortSha})`);
     commitEl.textContent = parts.join(' ');
     if (info.repoUrl) linkEl.href = info.repoUrl;
+    lastInfo = info;
   };
 
   async function fetchInfo() {
@@ -29,8 +33,8 @@ export async function initGitInfo({ refreshMs = 60000 } = {}) {
       const json = await res.json();
       render(json);
     } catch (e) {
-      // On error, hide the container to avoid showing stale or empty info
-      container.style.display = 'none';
+  // On transient error, keep last good render (avoid flicker). Hide only if never succeeded.
+  if (!lastInfo) container.style.display = 'none';
     }
   }
 

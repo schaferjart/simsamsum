@@ -279,10 +279,10 @@ app.listen(PORT, async () => {
     try { await fs.access(dataDir); } catch { await fs.mkdir(dataDir); }
 
     console.log(`
-🚀 Workflow API Server running on http://localhost:${PORT}
-📁 Serving files from: ${__dirname}
-💾 Data directory: ${path.join(__dirname, 'data')}
-🎨 Layouts directory: ${layoutsDir}
+Workflow API Server running on http://localhost:${PORT}
+Serving files from: ${__dirname}
+Data directory: ${path.join(__dirname, 'data')}
+Layouts directory: ${layoutsDir}
 
 Available endpoints:
   GET  /api/health          - Health check
