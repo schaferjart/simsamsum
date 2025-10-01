@@ -119,16 +119,16 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
             .enter().append('path')
             .attr('class', 'link orthogonal-link')
             .attr('fill', 'none')
-            .attr('stroke', '#999')
-            .attr('stroke-width', 2)
+            .attr('stroke', d => (d.customStyle && d.customStyle.color) || '#999')
+            .attr('stroke-width', d => (d.customStyle && d.customStyle.strokeWidth) || 2)
             .attr('marker-end', 'url(#arrowhead)');
     } else {
         linkGroup.selectAll('line')
             .data(links)
             .enter().append('line')
             .attr('class', 'link')
-            .attr('stroke', '#999')
-            .attr('stroke-width', 2)
+            .attr('stroke', d => (d.customStyle && d.customStyle.color) || '#999')
+            .attr('stroke-width', d => (d.customStyle && d.customStyle.strokeWidth) || 2)
             .attr('marker-end', 'url(#arrowhead)');
     }
 
@@ -182,9 +182,9 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
                     .attr('r', Math.max(5, size * 0.6));
         }
 
-        shape.attr('fill', 'rgba(255, 255, 255, 0.8)')
+        shape.attr('fill', (d.customStyle && d.customStyle.color) || 'rgba(255, 255, 255, 0.8)')
             .attr('stroke', '#000000')
-            .attr('stroke-width', 2)
+            .attr('stroke-width', (d.customStyle && d.customStyle.strokeWidth) || 2)
             .attr('stroke-dasharray', borderStyle);
     });
 

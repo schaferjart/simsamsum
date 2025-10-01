@@ -235,7 +235,7 @@ export function processData(data, costBasedSizing, variables = {}) {
 
         // 3. Resolve cost from multiple possible fields, then resolve variables
         const effectiveCostRaw = n.effectiveCost !== undefined ? n.effectiveCost : (n['Effective Cost'] !== undefined ? n['Effective Cost'] : 0);
-        const avgCostRaw = n.avgCost !== undefined ? n.avgCost : (n.AvgCost !== undefined ? n.AvgCost : (n.cost !== undefined ? n.cost : 0));
+        const avgCostRaw = n.avgCost !== undefined ? n.avgCost : (n.AvgCost !== undefined ? n.AvgCost : (n['Ø Cost'] !== undefined ? n['Ø Cost'] : (n.cost !== undefined ? n.cost : 0)));
         const costRaw = effectiveCostRaw !== undefined ? effectiveCostRaw : avgCostRaw;
         const resolvedCost = resolveValue(costRaw, vars);
 

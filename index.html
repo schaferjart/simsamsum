@@ -38,32 +38,23 @@
         <div class="main-content">
             <!-- Controls Panel -->
             <div class="controls-panel">
+
+                <!-- Dynamic Filtering Section -->
                 <div class="control-group">
-                    <label class="form-label">Search Nodes:</label>
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search by name...">
+                    <label class="form-label">Filters</label>
+                    <div id="filter-rules-container">
+                        <!-- Filter rules will be dynamically added here -->
+                    </div>
+                    <button id="add-filter-rule-btn" class="btn btn--outline btn--sm btn--block">+ Add Filter</button>
                 </div>
                 
+                <!-- Dynamic Styling Section -->
                 <div class="control-group">
-                    <label class="form-label">Filter by Type:</label>
-                    <select id="typeFilter" class="form-control">
-                        <option value="">All Types</option>
-                        <option value="Resource">Resource</option>
-                        <option value="Action">Action</option>
-                        <option value="State">State</option>
-                        <option value="Decision">Decision</option>
-                    </select>
-                </div>
-
-                <div class="control-group">
-                    <label class="form-label">Filter by Execution:</label>
-                    <select id="executionFilter" class="form-control">
-                        <option value="">All Executions</option>
-                        <option value="Automatic">Automatic</option>
-                        <option value="Applicant">Applicant</option>
-                        <option value="Manual">Manual</option>
-                        <option value="Noemie">Noemie</option>
-                        <option value="Gil">Gil</option>
-                    </select>
+                    <label class="form-label">Styling Rules</label>
+                    <div id="styling-rules-container">
+                        <!-- Styling rules will be dynamically added here -->
+                    </div>
+                    <button id="add-styling-rule-btn" class="btn btn--outline btn--sm btn--block">+ Add Styling Rule</button>
                 </div>
 
                 <div class="control-group">

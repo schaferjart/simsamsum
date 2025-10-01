@@ -1,6 +1,224 @@
 import { highlightNodeById } from './render.js';
 import * as layoutManager from './layoutManager.js';
 
+// --- DYNAMIC FILTER/STYLE CONSTANTS ---
+const NODE_COLUMNS = [
+    { id: 'Name', name: 'Name', type: 'text' },
+    { id: 'Type', name: 'Type', type: 'text' },
+    { id: 'Execution', name: 'Execution', type: 'text' },
+    { id: 'Platform', name: 'Platform', type: 'text' },
+    { id: 'Monitoring', name: 'Monitoring', type: 'text' },
+    { id: 'costValue', name: 'Cost', type: 'number' },
+];
+
+const CONNECTION_COLUMNS = [
+    { id: 'source.Name', name: 'Source Name', type: 'text' },
+    { id: 'target.Name', name: 'Target Name', type: 'text' },
+    { id: 'source.Platform', name: 'Source Platform', type: 'text' },
+    { id: 'target.Platform', name: 'Target Platform', type: 'text' },
+];
+
+const OPERATORS = {
+    text: [
+        { id: 'contains', name: 'contains' },
+        { id: 'not_contains', name: 'does not contain' },
+        { id: 'equals', name: 'equals' },
+        { id: 'not_equals', name: 'does not equal' },
+    ],
+    number: [
+        { id: 'gt', name: '>' },
+        { id: 'lt', name: '<' },
+        { id: 'eq', name: '=' },
+    ]
+};
+
+
+/**
+ * Adds a new filter rule to the UI.
+ * @param {function} onChange - Callback function to trigger when the rule changes.
+ */
+export function addFilterRule(onChange) {
+    const container = document.getElementById('filter-rules-container');
+    const ruleEl = document.createElement('div');
+    ruleEl.className = 'filter-rule';
+
+    ruleEl.innerHTML = `
+        <select class="form-control form-control--sm column-select">
+            <option value="">-- Select Column --</option>
+            <optgroup label="Nodes">
+                ${NODE_COLUMNS.map(c => `<option value="node:${c.id}">${c.name}</option>`).join('')}
+            </optgroup>
+            <optgroup label="Connections">
+                ${CONNECTION_COLUMNS.map(c => `<option value="connection:${c.id}">${c.name}</option>`).join('')}
+            </optgroup>
+        </select>
+        <select class="form-control form-control--sm operator-select" disabled></select>
+        <input type="text" class="form-control form-control--sm value-input" disabled placeholder="Value">
+        <button class="btn btn--danger btn--sm remove-rule-btn">&times;</button>
+    `;
+
+    container.appendChild(ruleEl);
+
+    const columnSelect = ruleEl.querySelector('.column-select');
+    const operatorSelect = ruleEl.querySelector('.operator-select');
+    const valueInput = ruleEl.querySelector('.value-input');
+
+    columnSelect.addEventListener('change', () => {
+        const selectedOption = columnSelect.value;
+        const [scope, columnId] = selectedOption.split(':');
+        const columns = scope === 'node' ? NODE_COLUMNS : CONNECTION_COLUMNS;
+        const column = columns.find(c => c.id === columnId);
+
+        operatorSelect.innerHTML = '';
+        if (column) {
+            const ops = OPERATORS[column.type] || OPERATORS.text;
+            ops.forEach(op => {
+                const option = document.createElement('option');
+                option.value = op.id;
+                option.textContent = op.name;
+                operatorSelect.appendChild(option);
+            });
+            operatorSelect.disabled = false;
+            valueInput.disabled = false;
+        } else {
+            operatorSelect.disabled = true;
+            valueInput.disabled = true;
+        }
+        onChange();
+    });
+
+    operatorSelect.addEventListener('change', onChange);
+    valueInput.addEventListener('input', onChange);
+
+    ruleEl.querySelector('.remove-rule-btn').addEventListener('click', () => {
+        ruleEl.remove();
+        onChange();
+    });
+}
+
+/**
+ * Adds a new styling rule to the UI.
+ * @param {function} onChange - Callback function to trigger when the rule changes.
+ */
+export function addStylingRule(onChange) {
+    const container = document.getElementById('styling-rules-container');
+    const ruleEl = document.createElement('div');
+    ruleEl.className = 'styling-rule';
+
+    ruleEl.innerHTML = `
+        <div class="rule-condition">
+            If
+            <select class="form-control form-control--sm column-select">
+                <option value="">-- Select Column --</option>
+                <optgroup label="Nodes">
+                    ${NODE_COLUMNS.map(c => `<option value="node:${c.id}">${c.name}</option>`).join('')}
+                </optgroup>
+                <optgroup label="Connections">
+                    ${CONNECTION_COLUMNS.map(c => `<option value="connection:${c.id}">${c.name}</option>`).join('')}
+                </optgroup>
+            </select>
+            <select class="form-control form-control--sm operator-select" disabled></select>
+            <input type="text" class="form-control form-control--sm value-input" disabled placeholder="Value">
+        </div>
+        <div class="rule-style">
+            Then set
+            <input type="color" class="form-control form-control--sm color-input" title="Color">
+            <input type="number" class="form-control form-control--sm stroke-width-input" placeholder="Stroke Width" min="1" max="10">
+            <button class="btn btn--danger btn--sm remove-rule-btn">&times;</button>
+        </div>
+    `;
+
+    container.appendChild(ruleEl);
+
+    const columnSelect = ruleEl.querySelector('.column-select');
+    const operatorSelect = ruleEl.querySelector('.operator-select');
+    const valueInput = ruleEl.querySelector('.value-input');
+
+    columnSelect.addEventListener('change', () => {
+        const selectedOption = columnSelect.value;
+        const [scope, columnId] = selectedOption.split(':');
+        const columns = scope === 'node' ? NODE_COLUMNS : CONNECTION_COLUMNS;
+        const column = columns.find(c => c.id === columnId);
+
+        operatorSelect.innerHTML = '';
+        if (column) {
+            const ops = OPERATORS[column.type] || OPERATORS.text;
+            ops.forEach(op => {
+                const option = document.createElement('option');
+                option.value = op.id;
+                option.textContent = op.name;
+                operatorSelect.appendChild(option);
+            });
+            operatorSelect.disabled = false;
+            valueInput.disabled = false;
+        } else {
+            operatorSelect.disabled = true;
+            valueInput.disabled = true;
+        }
+        onChange();
+    });
+
+    ruleEl.querySelectorAll('select, input').forEach(input => {
+        input.addEventListener('change', onChange);
+        if(input.type === 'text' || input.type === 'number') {
+            input.addEventListener('input', onChange);
+        }
+    });
+
+    ruleEl.querySelector('.remove-rule-btn').addEventListener('click', () => {
+        ruleEl.remove();
+        onChange();
+    });
+}
+
+/**
+ * Gathers all active filter rules from the UI.
+ * @returns {Array<object>} An array of filter rule objects.
+ */
+export function getFilterRules() {
+    const rules = [];
+    document.querySelectorAll('#filter-rules-container .filter-rule').forEach(ruleEl => {
+        const column = ruleEl.querySelector('.column-select').value;
+        const operator = ruleEl.querySelector('.operator-select').value;
+        const value = ruleEl.querySelector('.value-input').value;
+
+        if (column && operator && value) {
+            const [scope, columnId] = column.split(':');
+            rules.push({ scope, column: columnId, operator, value });
+        }
+    });
+    return rules;
+}
+
+
+/**
+ * Gathers all active styling rules from the UI.
+ * @returns {Array<object>} An array of styling rule objects.
+ */
+export function getStylingRules() {
+    const rules = [];
+    document.querySelectorAll('#styling-rules-container .styling-rule').forEach(ruleEl => {
+        const column = ruleEl.querySelector('.column-select').value;
+        const operator = ruleEl.querySelector('.operator-select').value;
+        const value = ruleEl.querySelector('.value-input').value;
+        const color = ruleEl.querySelector('.color-input').value;
+        const strokeWidth = ruleEl.querySelector('.stroke-width-input').value;
+
+        if (column && operator && value) {
+            const [scope, columnId] = column.split(':');
+            rules.push({
+                scope,
+                condition: { column: columnId, operator, value },
+                style: {
+                    color: color || null,
+                    strokeWidth: strokeWidth ? parseInt(strokeWidth) : null,
+                }
+            });
+        }
+    });
+    return rules;
+}
+
 /**
  * Binds all the UI event listeners to their respective DOM elements.
  * @param {object} handlers - An object containing the handler functions.
@@ -10,10 +228,13 @@ export function bindEventListeners(handlers) {
     document.getElementById('csvFile').addEventListener('change', handlers.handleFileSelect);
     document.getElementById('uploadBtn').addEventListener('click', handlers.handleFileUpload);
 
-    // Search and filter
-    document.getElementById('searchInput').addEventListener('input', (e) => handlers.handleSearch(e.target.value));
-    document.getElementById('typeFilter').addEventListener('change', handlers.handleFilter);
-    document.getElementById('executionFilter').addEventListener('change', handlers.handleFilter);
+    // Dynamic filtering and styling
+    document.getElementById('add-filter-rule-btn').addEventListener('click', () => {
+        addFilterRule(handlers.applyFiltersAndStyles);
+    });
+    document.getElementById('add-styling-rule-btn').addEventListener('click', () => {
+        addStylingRule(handlers.applyFiltersAndStyles);
+    });
 
     // View and layout controls
     document.getElementById('resetBtn').addEventListener('click', handlers.handleReset);
@@ -144,9 +365,8 @@ export function updateGridSizeLabel(newSize) {
  * Resets the UI filters and controls to their default state.
  */
 export function resetUI() {
-    document.getElementById('searchInput').value = '';
-    document.getElementById('typeFilter').value = '';
-    document.getElementById('executionFilter').value = '';
+    document.getElementById('filter-rules-container').innerHTML = '';
+    document.getElementById('styling-rules-container').innerHTML = '';
     document.getElementById('layoutSelect').value = 'force';
     document.getElementById('sizeToggle').checked = true;
     toggleGridControls(false);
@@ -185,7 +405,7 @@ export async function initEditorTables(core) {
     try {
         Handsontable = (await import('handsontable')).default;
     } catch (e) {
-        nodesEl.innerHTML = '<div style="padding:8px;">Handsontable not installed. Run: npm i handsontable</div>';
+        elementsEl.innerHTML = '<div style="padding:8px;">Handsontable not installed. Run: npm i handsontable</div>';
         connsEl.innerHTML = '';
         varsEl.innerHTML = '';
         return;

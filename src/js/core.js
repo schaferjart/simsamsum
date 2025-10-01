@@ -9,6 +9,7 @@ import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
 import { SelectionManager } from './selection.js';
+import { filterData, applyStylingRules } from './filtering.js';
 
 /**
  * Main class for the Workflow Visualizer application.
@@ -401,8 +402,7 @@ class WorkflowVisualizer {
                 showStatus(`Selected: ${fileName}`, 'info');
             },
             handleFileUpload: () => this.handleFileUpload(),
-            handleSearch: () => this.applyFilters(),
-            handleFilter: () => this.applyFilters(),
+            applyFiltersAndStyles: () => this.applyFiltersAndStyles(),
             handleReset: () => this.resetView(),
             handleSizeToggle: (enabled) => this.handleSizeToggle(enabled),
             handleLayoutChange: (layout) => this.handleLayoutChange(layout),
@@ -540,19 +540,18 @@ class WorkflowVisualizer {
     }
 
     /**
-     * Applies the current search and filter values to the dataset and updates the visualization.
+     * Applies the current filter and styling rules to the dataset and updates the visualization.
      */
-    applyFilters() {
-        const searchQuery = document.getElementById('searchInput').value;
-        const typeFilter = document.getElementById('typeFilter').value;
-        const executionFilter = document.getElementById('executionFilter').value;
-
-        const { filteredNodes, filteredLinks } = interactions.applyFilters(
-            searchQuery, typeFilter, executionFilter, this.state.allNodes, this.state.allLinks
-        );
+    applyFiltersAndStyles() {
+        const filterRules = ui.getFilterRules();
+        const { filteredNodes, filteredLinks } = filterData(this.state.allNodes, this.state.allLinks, filterRules);
 
         this.state.nodes = filteredNodes;
         this.state.links = filteredLinks;
+
+        const stylingRules = ui.getStylingRules();
+        applyStylingRules(this.state.nodes, this.state.links, stylingRules);
+
         this.updateVisualization();
     }
 
