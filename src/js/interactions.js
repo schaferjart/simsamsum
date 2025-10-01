@@ -397,3 +397,50 @@ export function handleResize(state, svg) {
         state.simulation.alpha(0.15).restart();
     }
 }
+
+/**
+ * Applies search and filter criteria to the node set.
+ * @param {string} searchQuery - The search query string.
+ * @param {string} typeFilter - The selected type filter.
+ * @param {string} executionFilter - The selected execution filter.
+ * @param {Array<Object>} allNodes - The complete list of nodes.
+ * @param {Array<Object>} allLinks - The complete list of links.
+ * @param {Object} [advancedFilters=null] - Advanced filtering options
+ * @returns {{filteredNodes: Array<Object>, filteredLinks: Array<Object>}}
+ */
+export function applyFilters(searchQuery, typeFilter, executionFilter, allNodes, allLinks, advancedFilters = null) {
+    let filteredNodes = [...allNodes];
+
+    if (searchQuery) {
+        filteredNodes = filteredNodes.filter(node =>
+            node.Name?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+
+    if (typeFilter) {
+        filteredNodes = filteredNodes.filter(node => node.Type === typeFilter);
+    }
+
+    if (executionFilter) {
+        filteredNodes = filteredNodes.filter(node => node.Execution === executionFilter);
+    }
+
+    // Apply advanced column-based filters if provided
+    if (advancedFilters) {
+        for (const [column, values] of Object.entries(advancedFilters)) {
+            if (values && values.length > 0) {
+                filteredNodes = filteredNodes.filter(node => 
+                    values.includes(node[column])
+                );
+            }
+        }
+    }
+
+    const filteredIds = new Set(filteredNodes.map(n => n.id));
+    const filteredLinks = allLinks.filter(link =>
+        filteredIds.has(link.source.id || link.source) &&
+        filteredIds.has(link.target.id || link.target)
+    );
+
+    return { filteredNodes, filteredLinks };
+}

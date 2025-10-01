@@ -9,6 +9,7 @@ import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
 import { SelectionManager } from './selection.js';
+import * as highlighting from './highlighting.js';
 
 /**
  * Main class for the Workflow Visualizer application.
@@ -267,6 +268,10 @@ class WorkflowVisualizer {
                     this.state.allLinks = vizLinks;
                     this.state.nodes = [...vizNodes];
                     this.state.links = [...vizLinks];
+                    
+                    // Initialize column filters with available data
+                    highlighting.initializeColumnFilters(this.state.allNodes);
+                    
                     this.refreshTables();
                     return true;
                 }
@@ -323,6 +328,9 @@ class WorkflowVisualizer {
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
             
+            // Initialize column filters with available data
+            highlighting.initializeColumnFilters(this.state.allNodes);
+            
             // Refresh table data after loading from files
             this.refreshTables();
             return true;
@@ -363,6 +371,10 @@ class WorkflowVisualizer {
             this.state.allLinks = vizLinks;
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
+            
+            // Initialize column filters with available data
+            highlighting.initializeColumnFilters(this.state.allNodes);
+            
             return true;
         } catch (e) {
             console.warn('Failed to load from localStorage, using sample data instead.', e);
@@ -402,7 +414,8 @@ class WorkflowVisualizer {
             },
             handleFileUpload: () => this.handleFileUpload(),
             handleSearch: () => this.applyFilters(),
-            handleFilter: () => this.applyFilters(),
+            handleAddColumnFilter: () => this.addColumnFilter(),
+            handleAddHighlightRule: () => this.addHighlightRule(),
             handleReset: () => this.resetView(),
             handleSizeToggle: (enabled) => this.handleSizeToggle(enabled),
             handleLayoutChange: (layout) => this.handleLayoutChange(layout),
@@ -543,17 +556,129 @@ class WorkflowVisualizer {
      * Applies the current search and filter values to the dataset and updates the visualization.
      */
     applyFilters() {
-        const searchQuery = document.getElementById('searchInput').value;
-        const typeFilter = document.getElementById('typeFilter').value;
-        const executionFilter = document.getElementById('executionFilter').value;
+        const searchQuery = document.getElementById('searchInput')?.value || '';
+        const advancedFilters = highlighting.getActiveColumnFilters();
 
         const { filteredNodes, filteredLinks } = interactions.applyFilters(
-            searchQuery, typeFilter, executionFilter, this.state.allNodes, this.state.allLinks
+            searchQuery, '', '', this.state.allNodes, this.state.allLinks, advancedFilters
         );
 
         this.state.nodes = filteredNodes;
         this.state.links = filteredLinks;
         this.updateVisualization();
+    }
+
+    /**
+     * Adds a new column filter widget to the UI
+     */
+    addColumnFilter() {
+        const container = document.getElementById('columnFilters');
+        if (!container) return;
+
+        const filterId = `filter-${Date.now()}`;
+        const filterHTML = highlighting.createColumnFilterHTML(filterId);
+        
+        const div = document.createElement('div');
+        div.innerHTML = filterHTML;
+        const filterElement = div.firstElementChild;
+        container.appendChild(filterElement);
+
+        // Bind events for this filter
+        const columnSelect = filterElement.querySelector('.column-select');
+        const valueSelect = filterElement.querySelector('.value-select');
+        const removeBtn = filterElement.querySelector('.remove-filter');
+
+        columnSelect.addEventListener('change', () => {
+            highlighting.updateValueSelect(columnSelect, valueSelect);
+        });
+
+        valueSelect.addEventListener('change', () => {
+            const column = columnSelect.value;
+            const values = Array.from(valueSelect.selectedOptions).map(opt => opt.value);
+            highlighting.addColumnFilter(column, values);
+            this.applyFilters();
+        });
+
+        removeBtn.addEventListener('click', () => {
+            const column = columnSelect.value;
+            if (column) {
+                highlighting.removeColumnFilter(column);
+            }
+            filterElement.remove();
+            this.applyFilters();
+        });
+    }
+
+    /**
+     * Adds a new highlight rule widget to the UI
+     */
+    addHighlightRule() {
+        const container = document.getElementById('highlightRules');
+        if (!container) return;
+
+        const ruleId = `rule-${Date.now()}`;
+        const ruleHTML = highlighting.createHighlightRuleHTML(ruleId);
+        
+        const div = document.createElement('div');
+        div.innerHTML = ruleHTML;
+        const ruleElement = div.firstElementChild;
+        container.appendChild(ruleElement);
+
+        // Bind events for this rule
+        const columnSelect = ruleElement.querySelector('.column-select');
+        const valueSelect = ruleElement.querySelector('.value-select');
+        const removeBtn = ruleElement.querySelector('.remove-rule');
+        const applyToNodes = ruleElement.querySelector('.apply-to-nodes');
+        const applyToLinks = ruleElement.querySelector('.apply-to-links');
+        const linkCondition = ruleElement.querySelector('.link-condition');
+        const nodeColor = ruleElement.querySelector('.node-color');
+        const linkColor = ruleElement.querySelector('.link-color');
+        const strokeWidth = ruleElement.querySelector('.stroke-width');
+
+        columnSelect.addEventListener('change', () => {
+            highlighting.updateValueSelect(columnSelect, valueSelect);
+        });
+
+        applyToLinks.addEventListener('change', (e) => {
+            linkCondition.style.display = e.target.checked ? 'inline-block' : 'none';
+            linkColor.style.display = e.target.checked ? 'inline-block' : 'none';
+        });
+
+        const createRule = () => {
+            const column = columnSelect.value;
+            if (!column) return null;
+            
+            const values = Array.from(valueSelect.selectedOptions).map(opt => opt.value);
+            if (values.length === 0) return null;
+
+            const rule = {
+                conditions: { [column]: values },
+                nodeStyle: applyToNodes.checked ? {
+                    fill: nodeColor.value,
+                    strokeWidth: parseInt(strokeWidth.value)
+                } : null,
+                linkStyle: applyToLinks.checked ? {
+                    stroke: linkColor.value,
+                    strokeWidth: parseInt(strokeWidth.value)
+                } : null,
+                linkCondition: linkCondition.value
+            };
+            return rule;
+        };
+
+        valueSelect.addEventListener('change', () => {
+            const rule = createRule();
+            if (rule) {
+                // For now, we'll store the rule and apply it during rendering
+                // This will be handled in the render module
+                this.updateVisualization();
+            }
+        });
+
+        removeBtn.addEventListener('click', () => {
+            ruleElement.remove();
+            this.updateVisualization();
+        });
     }
 
     /**
