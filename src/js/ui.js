@@ -3,19 +3,63 @@ import * as layoutManager from './layoutManager.js';
 
 // --- DYNAMIC FILTER/STYLE CONSTANTS ---
 const NODE_COLUMNS = [
+    // Core properties
     { id: 'Name', name: 'Name', type: 'text' },
     { id: 'Type', name: 'Type', type: 'text' },
+    { id: 'SubType', name: 'Sub Type', type: 'text' },
     { id: 'Execution', name: 'Execution', type: 'text' },
     { id: 'Platform', name: 'Platform', type: 'text' },
+    { id: 'Description', name: 'Description', type: 'text' },
+    
+    // Organizational properties
+    { id: 'AOR', name: 'Area of Responsibility', type: 'text' },
+    { id: 'Account', name: 'Account', type: 'text' },
     { id: 'Monitoring', name: 'Monitoring', type: 'text' },
-    { id: 'costValue', name: 'Cost', type: 'number' },
+    { id: 'MonitoredData', name: 'Monitored Data', type: 'text' },
+    { id: 'KPI', name: 'KPI', type: 'text' },
+    
+    // Cost and volume properties
+    { id: 'AvgCost', name: 'Average Cost', type: 'number' },
+    { id: 'costValue', name: 'Cost Value', type: 'number' },
+    { id: 'Effective Cost', name: 'Effective Cost', type: 'number' },
+    { id: 'incomingVolume', name: 'Incoming Volume', type: 'number' },
+    { id: 'IncomingNumber', name: 'Incoming Number', type: 'number' },
+    { id: 'Variable', name: 'Variable', type: 'number' },
+    
+    // Time and scheduling properties
+    { id: 'AvgCostTime', name: 'Average Cost Time', type: 'text' },
+    { id: 'LastUpdate', name: 'Last Update', type: 'text' },
+    { id: 'NextUpdate', name: 'Next Update', type: 'text' },
+    { id: 'ScheduleStart', name: 'Schedule Start', type: 'text' },
+    { id: 'ScheduleEnd', name: 'Schedule End', type: 'text' },
+    { id: 'Frequency', name: 'Frequency', type: 'text' }
 ];
 
 const CONNECTION_COLUMNS = [
+    // Direct connection properties
+    { id: 'source', name: 'Source ID', type: 'text' },
+    { id: 'target', name: 'Target ID', type: 'text' },
+    { id: 'type', name: 'Connection Type', type: 'text' },
+    
+    // Source node properties
     { id: 'source.Name', name: 'Source Name', type: 'text' },
-    { id: 'target.Name', name: 'Target Name', type: 'text' },
+    { id: 'source.Type', name: 'Source Type', type: 'text' },
+    { id: 'source.SubType', name: 'Source Sub Type', type: 'text' },
+    { id: 'source.Execution', name: 'Source Execution', type: 'text' },
     { id: 'source.Platform', name: 'Source Platform', type: 'text' },
+    { id: 'source.AOR', name: 'Source Area of Responsibility', type: 'text' },
+    { id: 'source.Account', name: 'Source Account', type: 'text' },
+    { id: 'source.Monitoring', name: 'Source Monitoring', type: 'text' },
+    
+    // Target node properties
+    { id: 'target.Name', name: 'Target Name', type: 'text' },
+    { id: 'target.Type', name: 'Target Type', type: 'text' },
+    { id: 'target.SubType', name: 'Target Sub Type', type: 'text' },
+    { id: 'target.Execution', name: 'Target Execution', type: 'text' },
     { id: 'target.Platform', name: 'Target Platform', type: 'text' },
+    { id: 'target.AOR', name: 'Target Area of Responsibility', type: 'text' },
+    { id: 'target.Account', name: 'Target Account', type: 'text' },
+    { id: 'target.Monitoring', name: 'Target Monitoring', type: 'text' },
 ];
 
 const OPERATORS = {
@@ -172,6 +216,15 @@ export function addStylingRule(onChange) {
 }
 
 /**
+ * Gets the current filter mode from the UI.
+ * @returns {string} Either 'highlight' or 'exclude'
+ */
+export function getFilterMode() {
+    const checkedRadio = document.querySelector('input[name="filter-mode"]:checked');
+    return checkedRadio ? checkedRadio.value : 'highlight';
+}
+
+/**
  * Gathers all active filter rules from the UI.
  * @returns {Array<object>} An array of filter rule objects.
  */
@@ -206,14 +259,15 @@ export function getStylingRules() {
 
         if (column && operator && value) {
             const [scope, columnId] = column.split(':');
-            rules.push({
+            const rule = {
                 scope,
                 condition: { column: columnId, operator, value },
                 style: {
                     color: color || null,
                     strokeWidth: strokeWidth ? parseInt(strokeWidth) : null,
                 }
-            });
+            };
+            rules.push(rule);
         }
     });
     return rules;
@@ -234,6 +288,11 @@ export function bindEventListeners(handlers) {
     });
     document.getElementById('add-styling-rule-btn').addEventListener('click', () => {
         addStylingRule(handlers.applyFiltersAndStyles);
+    });
+
+    // Filter mode change
+    document.querySelectorAll('input[name="filter-mode"]').forEach(radio => {
+        radio.addEventListener('change', handlers.applyFiltersAndStyles);
     });
 
     // View and layout controls

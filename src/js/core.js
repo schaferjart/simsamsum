@@ -544,7 +544,8 @@ class WorkflowVisualizer {
      */
     applyFiltersAndStyles() {
         const filterRules = ui.getFilterRules();
-        const { filteredNodes, filteredLinks } = filterData(this.state.allNodes, this.state.allLinks, filterRules);
+        const filterMode = ui.getFilterMode();
+        const { filteredNodes, filteredLinks } = filterData(this.state.allNodes, this.state.allLinks, filterRules, filterMode);
 
         this.state.nodes = filteredNodes;
         this.state.links = filteredLinks;

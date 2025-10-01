@@ -1,5 +1,12 @@
-/* D3 Network Styles */
-.node {
+/* D3 Network Styl.node.highlighted {
+  stroke-width: 3px;
+  filter: brightness(1.3) drop-shadow(0 0 8px rgba(102, 167, 255, 0.8));
+  opacity: 1 !important;
+}
+
+.node.dimmed {
+  opacity: 0.3;
+}ode {
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -46,6 +53,19 @@
   stroke-width: 2px;
   opacity: 0.6;
   marker-end: url(#arrowhead);
+  transition: all 0.2s ease;
+}
+
+.link.highlighted {
+  stroke: var(--color-primary);
+  stroke-width: 3px;
+  opacity: 1;
+  filter: drop-shadow(0 0 2px rgba(102, 167, 255, 0.5));
+}
+
+.link.dimmed {
+  opacity: 0.2;
+  stroke-width: 1px;
 }
 
 .link.orthogonal-link {

@@ -111,25 +111,103 @@ function addZoomControls(svg, zoom) {
 export function renderVisualizationElements(g, nodes, links, currentLayout, eventHandlers) {
     g.selectAll('*').remove();
 
+    // Debug: Check if links have custom styles
+    const styledLinks = links.filter(l => l.customStyle && (l.customStyle.color || l.customStyle.strokeWidth));
+    if (styledLinks.length > 0) {
+        console.log(`🎨 Rendering ${styledLinks.length} links with custom styles:`, 
+            styledLinks.slice(0, 3).map(l => ({
+                source: typeof l.source === 'object' ? l.source.id : l.source,
+                target: typeof l.target === 'object' ? l.target.id : l.target,
+                customStyle: l.customStyle
+            }))
+        );
+    }
+
     // Links
     const linkGroup = g.append('g').attr('class', 'links');
     if (currentLayout === 'hierarchical-orthogonal') {
         linkGroup.selectAll('path')
             .data(links)
             .enter().append('path')
-            .attr('class', 'link orthogonal-link')
+            .attr('class', d => {
+                let classes = 'link orthogonal-link';
+                if (d.filterStyle) {
+                    if (d.filterStyle.highlighted) classes += ' highlighted';
+                    if (d.filterStyle.dimmed) classes += ' dimmed';
+                }
+                return classes;
+            })
             .attr('fill', 'none')
-            .attr('stroke', d => (d.customStyle && d.customStyle.color) || '#999')
-            .attr('stroke-width', d => (d.customStyle && d.customStyle.strokeWidth) || 2)
-            .attr('marker-end', 'url(#arrowhead)');
+            .attr('stroke', d => {
+                // Custom style takes precedence over filter highlighting
+                if (d.customStyle && d.customStyle.color) {
+                    return d.customStyle.color;
+                }
+                return '#999'; // Default color
+            })
+            .attr('stroke-width', d => {
+                // Custom style takes precedence over filter highlighting
+                if (d.customStyle && d.customStyle.strokeWidth) {
+                    return d.customStyle.strokeWidth;
+                }
+                return 2; // Default width
+            })
+            .attr('marker-end', 'url(#arrowhead)')
+            .style('stroke', d => {
+                // Use inline style to override CSS !important
+                if (d.customStyle && d.customStyle.color) {
+                    return d.customStyle.color;
+                }
+                return null;
+            })
+            .style('stroke-width', d => {
+                // Use inline style to override CSS !important
+                if (d.customStyle && d.customStyle.strokeWidth) {
+                    return d.customStyle.strokeWidth + 'px';
+                }
+                return null;
+            });
     } else {
         linkGroup.selectAll('line')
             .data(links)
             .enter().append('line')
-            .attr('class', 'link')
-            .attr('stroke', d => (d.customStyle && d.customStyle.color) || '#999')
-            .attr('stroke-width', d => (d.customStyle && d.customStyle.strokeWidth) || 2)
-            .attr('marker-end', 'url(#arrowhead)');
+            .attr('class', d => {
+                let classes = 'link';
+                if (d.filterStyle) {
+                    if (d.filterStyle.highlighted) classes += ' highlighted';
+                    if (d.filterStyle.dimmed) classes += ' dimmed';
+                }
+                return classes;
+            })
+            .attr('stroke', d => {
+                // Custom style takes precedence over filter highlighting
+                if (d.customStyle && d.customStyle.color) {
+                    return d.customStyle.color;
+                }
+                return '#999'; // Default color
+            })
+            .attr('stroke-width', d => {
+                // Custom style takes precedence over filter highlighting
+                if (d.customStyle && d.customStyle.strokeWidth) {
+                    return d.customStyle.strokeWidth;
+                }
+                return 2; // Default width
+            })
+            .attr('marker-end', 'url(#arrowhead)')
+            .style('stroke', d => {
+                // Use inline style to override CSS !important
+                if (d.customStyle && d.customStyle.color) {
+                    return d.customStyle.color;
+                }
+                return null;
+            })
+            .style('stroke-width', d => {
+                // Use inline style to override CSS !important
+                if (d.customStyle && d.customStyle.strokeWidth) {
+                    return d.customStyle.strokeWidth + 'px';
+                }
+                return null;
+            });
     }
 
     // Nodes
@@ -138,7 +216,14 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
         .selectAll('g')
         .data(nodes)
     .enter().append('g')
-    .attr('class', d => (currentLayout === 'manual-grid' || currentLayout === 'hierarchical-orthogonal') ? 'node draggable' : 'node')
+    .attr('class', d => {
+        let classes = (currentLayout === 'manual-grid' || currentLayout === 'hierarchical-orthogonal') ? 'node draggable' : 'node';
+        if (d.filterStyle) {
+            if (d.filterStyle.highlighted) classes += ' highlighted';
+            if (d.filterStyle.dimmed) classes += ' dimmed';
+        }
+        return classes;
+    })
         .call(d3.drag()
             .on('start', eventHandlers.dragStarted)
             .on('drag', eventHandlers.dragged)

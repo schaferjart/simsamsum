@@ -286,6 +286,38 @@ select.form-control {
   user-select: none;
 }
 
+/* Radio Button Styles */
+.filter-mode-selector {
+  display: flex;
+  gap: var(--space-16);
+  margin-bottom: var(--space-12);
+  padding: var(--space-12);
+  background-color: var(--color-gray-50);
+  border-radius: var(--radius-base);
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  user-select: none;
+}
+
+.radio-label input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.radio-label:hover span {
+  color: var(--color-primary);
+}
+
 
 /* Legend */
 .legend {

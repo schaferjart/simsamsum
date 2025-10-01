@@ -1,0 +1,6 @@
+element,type,subType,execution
+HR-System,Activity,Manual,Human
+Database,Resource,Storage,Automatic
+API,Activity,Automatic,System
+User-Interface,Resource,Display,Human
+Authentication,Activity,Security,Automatic

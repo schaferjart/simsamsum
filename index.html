@@ -42,6 +42,16 @@
                 <!-- Dynamic Filtering Section -->
                 <div class="control-group">
                     <label class="form-label">Filters</label>
+                    <div class="filter-mode-selector">
+                        <label class="radio-label">
+                            <input type="radio" name="filter-mode" value="highlight" checked>
+                            <span>Highlight matching</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="filter-mode" value="exclude">
+                            <span>Hide non-matching</span>
+                        </label>
+                    </div>
                     <div id="filter-rules-container">
                         <!-- Filter rules will be dynamically added here -->
                     </div>
