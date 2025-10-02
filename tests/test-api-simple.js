@@ -25,7 +25,7 @@ function makeRequest(options) {
 }
 
 async function testAPI() {
-    console.log('TEST: Testing API endpoints...\n');
+    console.log('🧪 Testing API endpoints...\n');
     
     try {
         // Test health endpoint
@@ -36,7 +36,7 @@ async function testAPI() {
             path: '/api/health',
             method: 'GET'
         });
-        console.log('SUCCESS: Health:', health);
+        console.log('✅ Health:', health);
         
         // Test load workflow endpoint
         console.log('\nTesting /api/load-workflow...');
@@ -46,20 +46,20 @@ async function testAPI() {
             path: '/api/load-workflow',
             method: 'GET'
         });
-        console.log('SUCCESS: Workflow loaded:');
+        console.log('✅ Workflow loaded:');
         console.log(`   Elements: ${workflow.elements?.length || 0}`);
         console.log(`   Connections: ${workflow.connections?.length || 0}`);
         console.log(`   Variables: ${Object.keys(workflow.variables || {}).length}`);
         
         if (workflow.elements && workflow.elements.length > 0) {
-            console.log('\nINIT: Sample loaded element:');
+            console.log('\n📋 Sample loaded element:');
             console.log(JSON.stringify(workflow.elements[0], null, 2));
         }
         
-        console.log('\nSUCCESS: API test completed successfully!');
+        console.log('\n✅ API test completed successfully!');
         
     } catch (error) {
-        console.error('ERROR: API test failed:', error.message);
+        console.error('❌ API test failed:', error.message);
         if (error.code === 'ECONNREFUSED') {
             console.error('   Make sure the API server is running on port 3001');
         }

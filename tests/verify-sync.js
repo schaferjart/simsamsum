@@ -32,7 +32,7 @@ function makeRequest(options, postData = null) {
 }
 
 async function verifyDataSync() {
-    console.log('SEARCH: COMPREHENSIVE DATA SYNC VERIFICATION REPORT');
+    console.log('🔍 COMPREHENSIVE DATA SYNC VERIFICATION REPORT');
     console.log('=' .repeat(60));
     
     const dataDir = path.join(__dirname, '..', 'data');
@@ -40,7 +40,7 @@ async function verifyDataSync() {
     
     try {
         // Test 1: JSON File Integrity
-        console.log('\nFILES: TEST 1: JSON File Integrity');
+        console.log('\n📁 TEST 1: JSON File Integrity');
         console.log('-'.repeat(40));
         
         const elements = JSON.parse(await fs.readFile(path.join(dataDir, 'elements.json'), 'utf8'));
@@ -48,13 +48,13 @@ async function verifyDataSync() {
         const variables = JSON.parse(await fs.readFile(path.join(dataDir, 'variables.json'), 'utf8'));
         const workflow = JSON.parse(await fs.readFile(path.join(dataDir, 'workflow.json'), 'utf8'));
         
-        console.log(`SUCCESS: elements.json: ${elements.length} items`);
-        console.log(`SUCCESS: connections.json: ${connections.length} items`);
-        console.log(`SUCCESS: variables.json: ${Object.keys(variables).length} items`);
-        console.log(`SUCCESS: workflow.json: Combined file with timestamp ${workflow.timestamp}`);
+        console.log(`✅ elements.json: ${elements.length} items`);
+        console.log(`✅ connections.json: ${connections.length} items`);
+        console.log(`✅ variables.json: ${Object.keys(variables).length} items`);
+        console.log(`✅ workflow.json: Combined file with timestamp ${workflow.timestamp}`);
         
         // Test 2: Data Consistency
-        console.log('\nLINKS: TEST 2: Data Consistency Check');
+        console.log('\n🔗 TEST 2: Data Consistency Check');
         console.log('-'.repeat(40));
         
         const elementIds = new Set(elements.map(e => e.id));
@@ -63,9 +63,9 @@ async function verifyDataSync() {
         );
         
         if (invalidConnections.length === 0) {
-            console.log('SUCCESS: All connections reference valid elements');
+            console.log('✅ All connections reference valid elements');
         } else {
-            console.log(`ERROR: ${invalidConnections.length} invalid connections found:`);
+            console.log(`❌ ${invalidConnections.length} invalid connections found:`);
             invalidConnections.forEach(c => console.log(`   ${c.id}: ${c.fromId} -> ${c.toId}`));
             allTestsPassed = false;
         }
@@ -89,14 +89,14 @@ async function verifyDataSync() {
         });
         
         if (undefinedVars.size === 0) {
-            console.log('SUCCESS: All variable references are valid');
+            console.log('✅ All variable references are valid');
         } else {
-            console.log(`ERROR: Undefined variables: [${Array.from(undefinedVars).join(', ')}]`);
+            console.log(`❌ Undefined variables: [${Array.from(undefinedVars).join(', ')}]`);
             allTestsPassed = false;
         }
         
         // Test 3: API Server Response
-        console.log('\n TEST 3: API Server Response');
+        console.log('\n🌐 TEST 3: API Server Response');
         console.log('-'.repeat(40));
         
         try {
@@ -108,11 +108,11 @@ async function verifyDataSync() {
             });
             
             if (healthResp.status === 200) {
-                console.log('SUCCESS: API health check successful');
+                console.log('✅ API health check successful');
                 console.log(`   Server status: ${healthResp.data.status}`);
                 console.log(`   Timestamp: ${healthResp.data.timestamp}`);
             } else {
-                console.log(`ERROR: API health check failed with status ${healthResp.status}`);
+                console.log(`❌ API health check failed with status ${healthResp.status}`);
                 allTestsPassed = false;
             }
             
@@ -124,13 +124,13 @@ async function verifyDataSync() {
             });
             
             if (workflowResp.status === 200) {
-                console.log('SUCCESS: API workflow data loading successful');
+                console.log('✅ API workflow data loading successful');
                 console.log(`   Elements returned: ${workflowResp.data.elements?.length || 0}`);
                 console.log(`   Connections returned: ${workflowResp.data.connections?.length || 0}`);
                 console.log(`   Variables returned: ${Object.keys(workflowResp.data.variables || {}).length}`);
                 
                 // Test 4: API vs File Data Consistency
-                console.log('\nSYNC: TEST 4: API vs File Data Consistency');
+                console.log('\n🔄 TEST 4: API vs File Data Consistency');
                 console.log('-'.repeat(40));
                 
                 const apiElements = workflowResp.data.elements || [];
@@ -138,23 +138,23 @@ async function verifyDataSync() {
                 const apiVariables = workflowResp.data.variables || {};
                 
                 if (apiElements.length === elements.length) {
-                    console.log('SUCCESS: Element count matches between API and files');
+                    console.log('✅ Element count matches between API and files');
                 } else {
-                    console.log(`ERROR: Element count mismatch: API=${apiElements.length}, Files=${elements.length}`);
+                    console.log(`❌ Element count mismatch: API=${apiElements.length}, Files=${elements.length}`);
                     allTestsPassed = false;
                 }
                 
                 if (apiConnections.length === connections.length) {
-                    console.log('SUCCESS: Connection count matches between API and files');
+                    console.log('✅ Connection count matches between API and files');
                 } else {
-                    console.log(`ERROR: Connection count mismatch: API=${apiConnections.length}, Files=${connections.length}`);
+                    console.log(`❌ Connection count mismatch: API=${apiConnections.length}, Files=${connections.length}`);
                     allTestsPassed = false;
                 }
                 
                 if (Object.keys(apiVariables).length === Object.keys(variables).length) {
-                    console.log('SUCCESS: Variable count matches between API and files');
+                    console.log('✅ Variable count matches between API and files');
                 } else {
-                    console.log(`ERROR: Variable count mismatch: API=${Object.keys(apiVariables).length}, Files=${Object.keys(variables).length}`);
+                    console.log(`❌ Variable count mismatch: API=${Object.keys(apiVariables).length}, Files=${Object.keys(variables).length}`);
                     allTestsPassed = false;
                 }
                 
@@ -165,31 +165,31 @@ async function verifyDataSync() {
                 const extraInApi = [...apiElementIds].filter(id => !fileElementIds.has(id));
                 
                 if (missingFromApi.length === 0 && extraInApi.length === 0) {
-                    console.log('SUCCESS: Element IDs match perfectly between API and files');
+                    console.log('✅ Element IDs match perfectly between API and files');
                 } else {
                     if (missingFromApi.length > 0) {
-                        console.log(`ERROR: Missing from API: [${missingFromApi.join(', ')}]`);
+                        console.log(`❌ Missing from API: [${missingFromApi.join(', ')}]`);
                         allTestsPassed = false;
                     }
                     if (extraInApi.length > 0) {
-                        console.log(`ERROR: Extra in API: [${extraInApi.join(', ')}]`);
+                        console.log(`❌ Extra in API: [${extraInApi.join(', ')}]`);
                         allTestsPassed = false;
                     }
                 }
                 
             } else {
-                console.log(`ERROR: API workflow data loading failed with status ${workflowResp.status}`);
+                console.log(`❌ API workflow data loading failed with status ${workflowResp.status}`);
                 allTestsPassed = false;
             }
             
         } catch (apiError) {
-            console.log(`ERROR: API server connection failed: ${apiError.message}`);
+            console.log(`❌ API server connection failed: ${apiError.message}`);
             console.log('   Make sure the server is running on port 3001');
             allTestsPassed = false;
         }
         
         // Test 5: Sample Data Analysis
-        console.log('\nSTATS: TEST 5: Sample Data Analysis');
+        console.log('\n📊 TEST 5: Sample Data Analysis');
         console.log('-'.repeat(40));
         
         const sampleElement = elements[0];
@@ -213,7 +213,7 @@ async function verifyDataSync() {
         });
         
         // Test 6: Workflow Types Analysis
-        console.log('\n️ TEST 6: Workflow Structure Analysis');
+        console.log('\n🏗️ TEST 6: Workflow Structure Analysis');
         console.log('-'.repeat(40));
         
         const typeDistribution = {};
@@ -243,11 +243,11 @@ async function verifyDataSync() {
         
         // Summary
         console.log('\\n' + '='.repeat(60));
-        console.log('INIT: VERIFICATION SUMMARY');
+        console.log('📋 VERIFICATION SUMMARY');
         console.log('='.repeat(60));
         
         if (allTestsPassed) {
-            console.log('SUCCESS: ALL TESTS PASSED!');
+            console.log('✅ ALL TESTS PASSED!');
             console.log('');
             console.log('Data synchronization is working correctly:');
             console.log('• JSON files are valid and consistent');
@@ -262,20 +262,20 @@ async function verifyDataSync() {
             console.log(`• Interactive features powered by ${Object.keys(variables).length} variables`);
             
         } else {
-            console.log('ERROR: SOME TESTS FAILED!');
+            console.log('❌ SOME TESTS FAILED!');
             console.log('');
             console.log('There are issues with data synchronization.');
             console.log('Please review the test results above and fix any issues.');
         }
         
-        console.log('\\n Frontend Verification:');
+        console.log('\\n🌐 Frontend Verification:');
         console.log('• Open http://localhost:5174/ to see the main application');
         console.log('• Open http://localhost:5174/debug.html to run browser-side tests');
         console.log('• Check browser console for any JavaScript errors');
         console.log('• Verify that nodes and connections are visible in the visualization');
         
     } catch (error) {
-        console.error('ERROR: Verification failed:', error.message);
+        console.error('❌ Verification failed:', error.message);
         process.exit(1);
     }
 }

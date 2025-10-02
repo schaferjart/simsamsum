@@ -278,6 +278,17 @@ export function getStylingRules() {
  * @param {object} handlers - An object containing the handler functions.
  */
 export function bindEventListeners(handlers) {
+    // Query bar
+    const queryInput = document.getElementById('query-input');
+    if (queryInput) {
+        queryInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Stop default form submission
+                handlers.handleQueryChange(e.target.value);
+            }
+        });
+    }
+
     // Dynamic filtering and styling
     document.getElementById('add-filter-rule-btn').addEventListener('click', () => {
         addFilterRule(handlers.applyFiltersAndStyles);
@@ -347,142 +358,183 @@ export function bindEventListeners(handlers) {
     // Initialize theme
     initializeTheme();
 
-    // Symbology Toolbar
-    const symbologyToolbar = document.getElementById('symbology-toolbar');
-    if (symbologyToolbar) {
-        symbologyToolbar.addEventListener('change', handlers.applySymbology);
-
-        // Also listen for input events on sliders and text fields for real-time updates
-        const realTimeControls = symbologyToolbar.querySelectorAll('input[type="range"], input[type="text"], input[type="number"], input[type="color"]');
-        realTimeControls.forEach(control => {
-            control.addEventListener('input', handlers.applySymbology);
-        });
-
-        // Special handling for the text location grid
-        const textLocationGrid = document.getElementById('text-location-grid');
-        if (textLocationGrid) {
-            textLocationGrid.addEventListener('click', (e) => {
-                if (e.target.classList.contains('grid-cell')) {
-                    textLocationGrid.querySelector('.active')?.classList.remove('active');
-                    e.target.classList.add('active');
-                    handlers.applySymbology();
-                }
-            });
-        }
-
-        // Save/Load style buttons
-        document.getElementById('save-style-btn').addEventListener('click', handlers.saveStyles);
-        document.getElementById('clear-selection-btn').addEventListener('click', handlers.clearSelection);
-
-        const loadStyleBtn = document.getElementById('load-style-btn');
-        const styleFileInput = document.getElementById('style-file-input');
-
-        loadStyleBtn.addEventListener('click', () => {
-            styleFileInput.click();
-        });
-
-        styleFileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const styles = JSON.parse(e.target.result);
-                    handlers.loadStyles(styles);
-                } catch (err) {
-                    console.error('Error parsing style file:', err);
-                    alert('Could not parse style file. Make sure it is a valid JSON file.');
-                }
-            };
-            reader.readAsText(file);
-
-            // Reset the input so the same file can be loaded again
-            event.target.value = '';
-        });
-    }
-
-    // SQL Command Input
-    const sqlInput = document.getElementById('sql-command-input');
-    if (sqlInput) {
-        sqlInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                handlers.selectByQuery(sqlInput.value);
+    // Initialize Symbology Toolbar
+    const toolbar = document.getElementById('symbology-toolbar');
+    if (toolbar) {
+        // Use event delegation for simplicity and performance
+        toolbar.addEventListener('change', (e) => {
+             // Only trigger for form elements that should cause a style change
+            if (e.target.matches('select, input[type="color"], input[type="number"]')) {
+                handlers.handleStyleChange();
             }
         });
+        toolbar.addEventListener('input', (e) => {
+            // Handle real-time updates from range sliders
+            if (e.target.matches('input[type="range"]')) {
+                handlers.handleStyleChange();
+            }
+        });
+
+        document.getElementById('text-bold-btn')?.addEventListener('click', (e) => {
+            e.currentTarget.classList.toggle('btn--active');
+            handlers.handleStyleChange();
+        });
+        document.getElementById('text-italic-btn')?.addEventListener('click', (e) => {
+            e.currentTarget.classList.toggle('btn--active');
+            handlers.handleStyleChange();
+        });
+
+        initTextLocationGrid(handlers.handleStyleChange);
+
+        document.getElementById('save-style-btn')?.addEventListener('click', handlers.handleSaveStyle);
+        document.getElementById('load-style-btn')?.addEventListener('click', handlers.handleLoadStyle);
     }
 }
 
 /**
- * Updates the selection status bar with the number of selected items and their IDs.
- * @param {number} count - The number of selected items.
- * @param {Array<string>} ids - The IDs of the selected items.
- * @param {string|null} error - An error message, if any.
+ * Gathers the current style settings from the symbology toolbar.
+ * @returns {object} An object containing all the style values.
  */
-export function updateSelectionStatus(count, ids, error = null) {
-    const statusBar = document.getElementById('selection-status-bar');
-    if (!statusBar) return;
+export function getToolbarStyles() {
+    const shape = document.getElementById('shape-select')?.value;
+    const connectionLineType = document.getElementById('connection-linetype-select')?.value;
+    const color = document.getElementById('color-picker')?.value;
+    const opacity = document.getElementById('opacity-slider')?.value;
+    const borderColor = document.getElementById('border-color-picker')?.value;
+    const borderStyle = document.getElementById('border-style-select')?.value;
+    const borderWeight = document.getElementById('border-weight-input')?.value;
+    const textSize = document.getElementById('text-size-input')?.value;
+    const textBold = document.getElementById('text-bold-btn')?.classList.contains('btn--active');
+    const textItalic = document.getElementById('text-italic-btn')?.classList.contains('btn--active');
+    const fontFamily = document.getElementById('font-family-select')?.value;
 
-    if (error) {
-        statusBar.textContent = `Error: ${error}`;
-        statusBar.style.color = 'var(--color-error)';
-        return;
-    }
-
-    statusBar.style.color = 'var(--color-text-secondary)';
-    if (count === 0) {
-        statusBar.textContent = 'No elements selected.';
-    } else {
-        const idList = ids.length > 5 ? `${ids.slice(0, 5).join(', ')}...` : ids.join(', ');
-        statusBar.textContent = `Selected ${count} element(s): [${idList}]`;
-    }
-}
-
-/**
- * Gathers all active symbology rules from the UI.
- * @returns {object} A symbology object.
- */
-export function getSymbology() {
-    const shape = document.getElementById('shape-select').value;
-    const color = document.getElementById('color-picker').value;
-    const opacity = document.getElementById('opacity-slider').value;
-    const borderColor = document.getElementById('border-color-picker').value;
-    const borderStyle = document.getElementById('border-style-select').value;
-    const borderWidth = document.getElementById('border-weight-input').value;
-    const textLocation = document.querySelector('#text-location-grid .active')?.dataset.location || 'middle-center';
-    const textContent = document.getElementById('text-content-input').value;
-    const textSize = document.getElementById('text-size-input').value;
-    const fontFamily = document.getElementById('font-family-select').value;
-    const isBold = document.getElementById('font-bold-checkbox').checked;
-    const isItalic = document.getElementById('font-italic-checkbox').checked;
+    const selectedCell = document.querySelector('#text-location-grid .grid-cell.selected');
+    const textLocation = selectedCell ? selectedCell.dataset.position : 'center';
 
     return {
         shape,
+        connectionLineType,
         color,
-        opacity,
+        opacity: parseFloat(opacity),
         borderColor,
         borderStyle,
-        borderWidth: parseInt(borderWidth, 10),
-        text: {
-            location: textLocation,
-            content: textContent,
-            size: parseInt(textSize, 10),
-            family: fontFamily,
-            bold: isBold,
-            italic: isItalic,
-        }
+        borderWeight: borderWeight ? parseInt(borderWeight) : null,
+        textSize: textSize ? parseInt(textSize) : null,
+        textBold,
+        textItalic,
+        fontFamily,
+        textLocation
     };
 }
 
 /**
- * Updates the SQL command input field with a given query string.
- * @param {string} query - The SQL query to display.
+ * Sets the style controls in the symbology toolbar to the given values.
+ * @param {object} styles - An object containing the style values to set.
  */
-export function updateSqlCommand(query) {
-    const sqlInput = document.getElementById('sql-command-input');
-    if (sqlInput) {
-        sqlInput.value = query;
+export function setToolbarStyles(styles) {
+    if (!styles) return;
+
+    const shapeSelect = document.getElementById('shape-select');
+    if (shapeSelect && styles.shape) shapeSelect.value = styles.shape;
+
+    const connectionLineTypeSelect = document.getElementById('connection-linetype-select');
+    if (connectionLineTypeSelect && styles.connectionLineType) connectionLineTypeSelect.value = styles.connectionLineType;
+
+    const colorPicker = document.getElementById('color-picker');
+    if (colorPicker && styles.color) colorPicker.value = styles.color;
+
+    const opacitySlider = document.getElementById('opacity-slider');
+    if (opacitySlider && styles.opacity) opacitySlider.value = styles.opacity;
+
+    const borderColorPicker = document.getElementById('border-color-picker');
+    if (borderColorPicker && styles.borderColor) borderColorPicker.value = styles.borderColor;
+
+    const borderStyleSelect = document.getElementById('border-style-select');
+    if (borderStyleSelect && styles.borderStyle) borderStyleSelect.value = styles.borderStyle;
+
+    const borderWeightInput = document.getElementById('border-weight-input');
+    if (borderWeightInput && styles.borderWeight) borderWeightInput.value = styles.borderWeight;
+
+    const textSizeInput = document.getElementById('text-size-input');
+    if (textSizeInput && styles.textSize) textSizeInput.value = styles.textSize;
+
+    const textBoldBtn = document.getElementById('text-bold-btn');
+    if (textBoldBtn) textBoldBtn.classList.toggle('btn--active', !!styles.textBold);
+
+    const textItalicBtn = document.getElementById('text-italic-btn');
+    if (textItalicBtn) textItalicBtn.classList.toggle('btn--active', !!styles.textItalic);
+
+    const fontFamilySelect = document.getElementById('font-family-select');
+    if (fontFamilySelect && styles.fontFamily) fontFamilySelect.value = styles.fontFamily;
+
+    const grid = document.getElementById('text-location-grid');
+    if (grid && styles.textLocation) {
+        grid.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('selected'));
+        const selectedCell = grid.querySelector(`[data-position="${styles.textLocation}"]`);
+        if (selectedCell) {
+            selectedCell.classList.add('selected');
+        }
+    }
+}
+
+/**
+ * Initializes the 3x3 text location grid.
+ * @param {function} onChange - Callback function to trigger when the selection changes.
+ */
+function initTextLocationGrid(onChange) {
+    const grid = document.getElementById('text-location-grid');
+    if (!grid) return;
+
+    grid.innerHTML = ''; // Clear existing
+    const positions = [
+        'top-left', 'top-center', 'top-right',
+        'middle-left', 'center', 'middle-right',
+        'bottom-left', 'bottom-center', 'bottom-right'
+    ];
+
+    positions.forEach(pos => {
+        const cell = document.createElement('div');
+        cell.className = 'grid-cell';
+        cell.dataset.position = pos;
+        if (pos === 'center') {
+            cell.classList.add('selected');
+        }
+        grid.appendChild(cell);
+
+        cell.addEventListener('click', () => {
+            grid.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('selected'));
+            cell.classList.add('selected');
+            onChange();
+        });
+    });
+}
+
+/**
+ * Updates the query input field with a new query string.
+ * @param {string} query - The query string to display.
+ */
+export function updateQueryInput(query) {
+    const queryInput = document.getElementById('query-input');
+    if (queryInput) {
+        queryInput.value = query;
+    }
+}
+
+/**
+ * Updates the selection status bar with the number of selected elements.
+ * @param {number} count - The number of selected elements.
+ * @param {Array<string>} selectedIds - The IDs of the selected elements.
+ */
+export function updateSelectionStatusBar(count, selectedIds = []) {
+    const statusBar = document.getElementById('selection-status-bar');
+    if (statusBar) {
+        let message = `Selected ${count} element${count !== 1 ? 's' : ''}.`;
+        if (count > 0 && count <= 10) {
+            message += ` IDs: [${selectedIds.join(', ')}]`;
+        } else if (count > 10) {
+            message += ` IDs: [${selectedIds.slice(0, 10).join(', ')}, ...]`;
+        }
+        statusBar.textContent = message;
     }
 }
 
@@ -682,7 +734,7 @@ export function toggleGridControls(visible) {
 export function updateGridUI(showGrid) {
     const btn = document.getElementById('showGridBtn');
     if (btn) {
-        btn.textContent = showGrid ? 'Hide Grid' : 'Show Grid';
+        btn.textContent = showGrid ? '📐 Hide Grid' : '📐 Show Grid';
         btn.classList.toggle('btn--active', showGrid);
     }
 }
@@ -793,9 +845,9 @@ export async function initEditorTables(core) {
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
-            console.log('SYNC: Elements table changed:', changes, 'source:', source);
+            console.log('🔄 Elements table changed:', changes, 'source:', source);
             debounceTable('elements', () => {
-                console.log('PROCESS: Processing elements table changes...');
+                console.log('📝 Processing elements table changes...');
                 const nextElements = _nodesHot.getSourceData().map(r => ({
                     id: String(r.id || '').trim(),
                     name: String(r.name || '').trim(),
@@ -820,7 +872,7 @@ export async function initEditorTables(core) {
                     scheduleEnd: String(r.scheduleEnd || '').trim(),
                     frequency: String(r.frequency || '').trim()
                 })).filter(e => e.id);
-                console.log('LAUNCH: Calling updateFromTable with:', nextElements.length, 'elements');
+                console.log('🚀 Calling updateFromTable with:', nextElements.length, 'elements');
                 core.updateFromTable('elements', nextElements);
                 // Refresh connection dropdown sources with updated element IDs
                 if (_connectionsHot) {
@@ -855,15 +907,15 @@ export async function initEditorTables(core) {
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
-            console.log('SYNC: Connections table changed:', changes, 'source:', source);
+            console.log('🔄 Connections table changed:', changes, 'source:', source);
             debounceTable('connections', () => {
-                console.log('PROCESS: Processing connections table changes...');
+                console.log('📝 Processing connections table changes...');
                 const nextConns = _connectionsHot.getSourceData().map(r => ({
                     id: String(r.id || `${r.fromId || ''}->${r.toId || ''}`).trim(),
                     fromId: String(r.fromId || '').trim(),
                     toId: String(r.toId || '').trim()
                 })).filter(c => c.fromId && c.toId);
-                console.log('LAUNCH: Calling updateFromTable with:', nextConns.length, 'connections');
+                console.log('🚀 Calling updateFromTable with:', nextConns.length, 'connections');
                 core.updateFromTable('connections', nextConns);
             });
         }
@@ -944,15 +996,15 @@ export async function initEditorTables(core) {
             const success = await saveToFiles(core.elements || core.nodes, core.connections, core.variables);
             
             const statusMsg = success 
-                ? 'Saved to server!' 
-                : 'Server unavailable';
+                ? '✅ Saved to server!'
+                : '⚠️ Server unavailable';
             
             // Show status temporarily
             saveToServerBtn.textContent = statusMsg;
             saveToServerBtn.style.backgroundColor = success ? '#28a745' : '#dc3545';
             
             setTimeout(() => {
-                saveToServerBtn.textContent = 'Save to Server';
+                saveToServerBtn.textContent = '💾 Save to Server';
                 saveToServerBtn.style.backgroundColor = '';
             }, 2000);
         };
@@ -981,11 +1033,11 @@ export async function initEditorTables(core) {
             downloadJsonFile(combined, `workflow_${timestamp}.json`);
             
             // Show status temporarily
-            exportDataBtn.textContent = 'Downloaded!';
+            exportDataBtn.textContent = '✅ Downloaded!';
             exportDataBtn.style.backgroundColor = '#28a745';
             
             setTimeout(() => {
-                exportDataBtn.textContent = 'Export Data';
+                exportDataBtn.textContent = '📤 Export Data';
                 exportDataBtn.style.backgroundColor = '';
             }, 2000);
         };
@@ -997,24 +1049,10 @@ export async function initEditorTables(core) {
         const row = coords?.row;
         if (row == null || row < 0) return;
         const data = _nodesHot.getSourceDataAtRow(row);
-
         if (data && data.id) {
-            // Replicate the selection logic from graph clicks
-            const selectionManager = core.selectionManager;
-            const allNodes = core.state.allNodes; // We need all nodes for range selection
-            const g = core.state.g;
-
-            if (event.shiftKey && selectionManager.lastSelectedId) {
-                selectionManager.selectRange(allNodes, selectionManager.lastSelectedId, data.id);
-            } else if (event.ctrlKey || event.metaKey) {
-                selectionManager.toggleSelection(data.id);
-            } else {
-                selectionManager.selectSingle(data.id);
-            }
-
-            // The selectionManager.onChange handler in core.js will now automatically
-            // update the visuals, table highlights, and the SQL command line.
-            // So, explicit calls to highlightNodeById are no longer needed here.
+            try {
+                highlightNodeById(data.id);
+            } catch (_) { /* ignore */ }
         }
     });
     _connectionsHot.addHook('afterOnCellMouseDown', () => setActiveHot(_connectionsHot));
@@ -1135,7 +1173,7 @@ export function updateTableSelectionHighlights(selectedNodeIds) {
  * Keeps event handlers and DOM intact.
  */
 export function refreshEditorData(core) {
-    console.log('SYNC: Refreshing editor data with:', {
+    console.log('🔄 Refreshing editor data with:', {
         elements: (core.elements || core.nodes || []).length,
         connections: (core.connections || []).length,
         variables: Object.keys(core.variables || {}).length
@@ -1349,13 +1387,13 @@ function initMaximizeButtons() {
                 c.classList.remove('maximized', 'hidden');
             });
             document.querySelectorAll('[data-action="toggle-maximize"]').forEach(b => {
-                b.textContent = 'Maximize'; // Restore maximize text
+                b.textContent = '⛶'; // Restore maximize icon
             });
 
             if (!isMaximized) {
                 // Maximize the target
                 targetContainer.classList.add('maximized');
-                button.textContent = 'Minimize'; // Change to minimize text
+                button.textContent = '❐'; // Change to minimize icon
                 // Hide others
                 document.querySelectorAll('.table-container').forEach(c => {
                     if (c !== targetContainer) {

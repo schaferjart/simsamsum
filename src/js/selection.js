@@ -118,20 +118,6 @@ export class SelectionManager {
     }
 
     /**
-     * Replaces the current selection with a new set of node IDs.
-     * @param {Array<string>} nodeIds - Array of node IDs to select.
-     */
-    replaceAll(nodeIds) {
-        const before = this.getSelectedIds();
-        this.selectedNodes.clear();
-        nodeIds.forEach(id => this.selectedNodes.add(id));
-        if (nodeIds.length > 0) {
-            this.lastSelectedId = nodeIds[nodeIds.length - 1];
-        }
-        this._emitChange(before);
-    }
-
-    /**
      * Select nodes within a rectangular area
      * @param {Array<Object>} nodes - All nodes to check
      * @param {number} x1 - Rectangle left

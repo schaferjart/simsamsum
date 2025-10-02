@@ -40,14 +40,14 @@ export async function saveToFiles(elements, connections, variables) {
 
         if (response.ok) {
             const result = await response.json();
-            console.log('SUCCESS: Workflow data saved to actual files via API server');
+            console.log('✅ Workflow data saved to actual files via API server');
             return true;
         } else {
             throw new Error(`API server error: ${response.status}`);
         }
 
     } catch (error) {
-        console.warn('WARNING: API server not available, falling back to downloads:', error.message);
+        console.warn('⚠️ API server not available, falling back to downloads:', error.message);
         
         // Fallback: download files
         downloadJsonFile(data.elements, 'elements.json');
@@ -55,7 +55,7 @@ export async function saveToFiles(elements, connections, variables) {
         downloadJsonFile(data.variables, 'variables.json');
         downloadJsonFile(data, 'workflow.json');
         
-        console.log('DOWNLOAD: Workflow data downloaded as files (fallback)');
+        console.log('📥 Workflow data downloaded as files (fallback)');
         return false;
     }
 }
@@ -86,7 +86,7 @@ export async function loadFromFile(file) {
             return data;
         }
     } catch (error) {
-        console.error('ERROR: Failed to load from file:', error);
+        console.error('❌ Failed to load from file:', error);
         throw new Error('Invalid JSON file format');
     }
 }

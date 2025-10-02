@@ -7,7 +7,7 @@ import * as/**
  * @param {object} selectionManager - The selection manager instance.
  */
 export function dragStarted(event, d, simulation, currentLayout, selectionManager = null) {
-    console.log(`DEBUG: Drag started for node: ${d.id}, layout: ${currentLayout}`);
+    console.log(`🔥 Drag started for node: ${d.id}, layout: ${currentLayout}`);
     
     // Handle selection if selectionManager is available
     if (selectionManager) {
@@ -34,7 +34,7 @@ const dragState = {
  * @param {Array<object>} allNodes - All nodes for reference.
  */
 export function dragStarted(event, d, simulation, currentLayout, selectionManager = null, allNodes = []) {
-    console.log(`DEBUG: Drag started for node: ${d.id}, layout: ${currentLayout}`);
+    console.log(`🔥 Drag started for node: ${d.id}, layout: ${currentLayout}`);
     
     // Handle selection if selectionManager is available
     if (selectionManager) {

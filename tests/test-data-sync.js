@@ -8,13 +8,13 @@ const fs = require('fs').promises;
 const path = require('path');
 
 async function testDataSync() {
-    console.log('TEST: Testing data synchronization...\n');
+    console.log('🧪 Testing data synchronization...\n');
     
     const dataDir = path.join(__dirname, '..', 'data');
     
     try {
         // Test 1: Check if data files exist
-        console.log('FILES: Checking data files existence...');
+        console.log('📁 Checking data files existence...');
         const files = ['elements.json', 'connections.json', 'variables.json', 'workflow.json'];
         
         for (const file of files) {
@@ -22,25 +22,25 @@ async function testDataSync() {
             try {
                 await fs.access(filePath);
                 const stats = await fs.stat(filePath);
-                console.log(`SUCCESS: ${file}: ${stats.size} bytes, modified: ${stats.mtime.toISOString()}`);
+                console.log(`✅ ${file}: ${stats.size} bytes, modified: ${stats.mtime.toISOString()}`);
             } catch (error) {
-                console.log(`ERROR: ${file}: NOT FOUND`);
+                console.log(`❌ ${file}: NOT FOUND`);
             }
         }
         
-        console.log('\nSTATS: Loading and analyzing data...');
+        console.log('\n📊 Loading and analyzing data...');
         
         // Test 2: Load and validate data structure
         const elements = JSON.parse(await fs.readFile(path.join(dataDir, 'elements.json'), 'utf8'));
         const connections = JSON.parse(await fs.readFile(path.join(dataDir, 'connections.json'), 'utf8'));
         const variables = JSON.parse(await fs.readFile(path.join(dataDir, 'variables.json'), 'utf8'));
         
-        console.log(`SUCCESS: Elements: ${elements.length} items`);
-        console.log(`SUCCESS: Connections: ${connections.length} items`);
-        console.log(`SUCCESS: Variables: ${Object.keys(variables).length} items`);
+        console.log(`✅ Elements: ${elements.length} items`);
+        console.log(`✅ Connections: ${connections.length} items`);
+        console.log(`✅ Variables: ${Object.keys(variables).length} items`);
         
         // Test 3: Verify data consistency
-        console.log('\nSEARCH: Verifying data consistency...');
+        console.log('\n🔍 Verifying data consistency...');
         
         const elementIds = new Set(elements.map(e => e.id));
         const connectionIds = new Set();
@@ -57,14 +57,14 @@ async function testDataSync() {
         });
         
         if (invalidConnections.length > 0) {
-            console.log('ERROR: Invalid connections found:');
+            console.log('❌ Invalid connections found:');
             invalidConnections.forEach(err => console.log(`   ${err}`));
         } else {
-            console.log('SUCCESS: All connections reference valid elements');
+            console.log('✅ All connections reference valid elements');
         }
         
         // Test 4: Check for variable references
-        console.log('\nLINKS: Checking variable references...');
+        console.log('\n🔗 Checking variable references...');
         const variableNames = Object.keys(variables);
         const usedVariables = new Set();
         const undefinedVariables = new Set();
@@ -84,25 +84,25 @@ async function testDataSync() {
             }
         });
         
-        console.log(`SUCCESS: Variables defined: [${variableNames.join(', ')}]`);
-        console.log(`SUCCESS: Variables used: [${Array.from(usedVariables).join(', ')}]`);
+        console.log(`✅ Variables defined: [${variableNames.join(', ')}]`);
+        console.log(`✅ Variables used: [${Array.from(usedVariables).join(', ')}]`);
         
         if (undefinedVariables.size > 0) {
-            console.log(`ERROR: Undefined variables used: [${Array.from(undefinedVariables).join(', ')}]`);
+            console.log(`❌ Undefined variables used: [${Array.from(undefinedVariables).join(', ')}]`);
         } else {
-            console.log('SUCCESS: All used variables are defined');
+            console.log('✅ All used variables are defined');
         }
         
         // Test 5: Sample data structure
-        console.log('\nINIT: Sample data structure:');
+        console.log('\n📋 Sample data structure:');
         console.log('First element:', JSON.stringify(elements[0], null, 2));
         console.log('First connection:', JSON.stringify(connections[0], null, 2));
         console.log('Variables:', JSON.stringify(variables, null, 2));
         
-        console.log('\nSUCCESS: Data synchronization test completed successfully!');
+        console.log('\n✅ Data synchronization test completed successfully!');
         
     } catch (error) {
-        console.error('ERROR: Data synchronization test failed:', error.message);
+        console.error('❌ Data synchronization test failed:', error.message);
         process.exit(1);
     }
 }

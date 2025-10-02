@@ -46,7 +46,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "alasql": "^4.1.2",
+    "alasql": "^4.6.6",
     "d3": "^7.9.0",
     "handsontable": "^14.3.0",
     "html2canvas": "^1.4.1",

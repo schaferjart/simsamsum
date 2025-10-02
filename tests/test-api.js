@@ -4,15 +4,15 @@
  */
 
 async function testAPI() {
-    console.log('TEST: Testing API server...');
+    console.log('🧪 Testing API server...');
     
     // Test health endpoint
     try {
         const health = await fetch('http://localhost:3001/api/health');
         const healthData = await health.json();
-        console.log('SUCCESS: Health check:', healthData);
+        console.log('✅ Health check:', healthData);
     } catch (error) {
-        console.error('ERROR: Health check failed:', error);
+        console.error('❌ Health check failed:', error);
         return;
     }
     
@@ -53,18 +53,18 @@ async function testAPI() {
             body: JSON.stringify(testData)
         });
         const saveResult = await saveResponse.json();
-        console.log('SUCCESS: Save test:', saveResult);
+        console.log('✅ Save test:', saveResult);
     } catch (error) {
-        console.error('ERROR: Save test failed:', error);
+        console.error('❌ Save test failed:', error);
     }
     
     // Test load endpoint
     try {
         const loadResponse = await fetch('http://localhost:3001/api/load-workflow');
         const loadData = await loadResponse.json();
-        console.log('SUCCESS: Load test:', loadData);
+        console.log('✅ Load test:', loadData);
     } catch (error) {
-        console.error('ERROR: Load test failed:', error);
+        console.error('❌ Load test failed:', error);
     }
 }
 

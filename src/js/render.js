@@ -108,58 +108,54 @@ function addZoomControls(svg, zoom) {
  * @param {string} currentLayout - The current layout type.
  * @param {object} eventHandlers - Object containing event handlers (drag, click, hover).
  */
-function getLinkPath(d, layout) {
-    const shape = d.customStyle?.shape;
+/**
+ * Converts a hex color string to an RGBA string.
+ * @param {string} hex - The hex color (e.g., "#RRGGBB").
+ * @param {number} alpha - The alpha value (0-1).
+ * @returns {string} The RGBA color string.
+ */
+function hexToRgba(hex, alpha) {
+    if (!/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) return hex;
+    let c = hex.substring(1).split('');
+    if (c.length === 3) {
+        c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+    c = '0x' + c.join('');
+    return `rgba(${(c >> 16) & 255}, ${(c >> 8) & 255}, ${c & 255}, ${alpha})`;
+}
 
-    // Custom style takes precedence
-    if (shape === 'curved') {
-        const dx = d.target.x - d.source.x;
-        const dy = d.target.y - d.source.y;
-        const dr = Math.sqrt(dx * dx + dy * dy) * 1.5;
-        return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
-    }
-    if (shape === 'elbowed') {
-        return createOrthogonalPath(d);
-    }
-    if (shape === 'straight') {
-        return `M${d.source.x},${d.source.y}L${d.target.x},${d.target.y}`;
-    }
-
-    // Default behavior if no custom style, based on layout
-    if (layout === 'hierarchical-orthogonal') {
-        return createOrthogonalPath(d);
-    }
-
-    // Default to a straight line path
-    return `M${d.source.x},${d.source.y}L${d.target.x},${d.target.y}`;
+/**
+ * Applies a set of styles to a D3 selection of links.
+ * @param {d3.Selection} selection - The D3 selection of links.
+ */
+function applyLinkStyles(selection) {
+    selection
+        .style('stroke', d => (d.customStyle && d.customStyle.borderColor) || '#999')
+        .style('stroke-width', d => (d.customStyle && d.customStyle.borderWeight) || 2)
+        .style('stroke-dasharray', d => {
+            const style = d.customStyle && d.customStyle.borderStyle;
+            if (style === 'dashed') return '5,5';
+            if (style === 'dotted') return '2,2';
+            return null;
+        })
+        .attr('marker-end', 'url(#arrowhead)')
+        .attr('fill', 'none');
 }
 
 export function renderVisualizationElements(g, nodes, links, currentLayout, eventHandlers) {
     g.selectAll('*').remove();
 
-    // Links - always use PATH for consistency
+    // Links
     const linkGroup = g.append('g').attr('class', 'links');
-    linkGroup.selectAll('path.link')
-        .data(links)
-        .enter()
-        .append('path')
-        .attr('class', d => {
-            let classes = 'link';
-            if (d.filterStyle?.highlighted) classes += ' highlighted';
-            if (d.filterStyle?.dimmed) classes += ' dimmed';
-            return classes;
-        })
-        .attr('marker-end', 'url(#arrowhead)')
-        .attr('stroke', d => d.customStyle?.color || '#999')
-        .attr('stroke-opacity', d => d.customStyle?.opacity ?? 1)
-        .attr('stroke-width', d => d.customStyle?.borderWidth ?? 2)
-        .attr('stroke-dasharray', d => {
-            if (!d.customStyle?.borderStyle) return null;
-            if (d.customStyle.borderStyle === 'dashed') return '5,5';
-            if (d.customStyle.borderStyle === 'dotted') return '2,2';
-            return null; // solid
-        })
-        .attr('fill', 'none');
+    const defaultLinetype = currentLayout === 'hierarchical-orthogonal' ? 'elbowed' : 'straight';
+
+    const straightLinks = links.filter(l => (l.customStyle?.connectionLineType || defaultLinetype) === 'straight');
+    const curvedLinks = links.filter(l => (l.customStyle?.connectionLineType) === 'curved');
+    const elbowedLinks = links.filter(l => (l.customStyle?.connectionLineType || defaultLinetype) === 'elbowed');
+
+    applyLinkStyles(linkGroup.selectAll('line.link').data(straightLinks).enter().append('line').attr('class', 'link'));
+    applyLinkStyles(linkGroup.selectAll('path.curved-link').data(curvedLinks).enter().append('path').attr('class', 'link curved-link'));
+    applyLinkStyles(linkGroup.selectAll('path.elbowed-link').data(elbowedLinks).enter().append('path').attr('class', 'link elbowed-link'));
 
     // Nodes
     const node = g.append('g')
@@ -168,9 +164,11 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
         .data(nodes)
         .enter().append('g')
         .attr('class', d => {
-            let classes = (currentLayout === 'manual-grid' || currentLayout === 'hierarchical-orthogonal') ? 'node draggable' : 'node';
-            if (d.filterStyle?.highlighted) classes += ' highlighted';
-            if (d.filterStyle?.dimmed) classes += ' dimmed';
+            let classes = 'node draggable';
+            if (d.filterStyle) {
+                if (d.filterStyle.highlighted) classes += ' highlighted';
+                if (d.filterStyle.dimmed) classes += ' dimmed';
+            }
             return classes;
         })
         .call(d3.drag()
@@ -182,109 +180,102 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
     node.on('mouseover', eventHandlers.nodeMouseOver)
         .on('mouseout', eventHandlers.nodeMouseOut);
 
-    // Node shapes and text
+    // Node shapes
     node.each(function (d) {
         const nodeGroup = d3.select(this);
+        const style = d.customStyle || {};
         const size = Math.max(10, d.size || 30);
+
+        const shapeType = style.shape || d.Type;
         let shape;
 
-        // Determine shape: custom style > type-based > default
-        const shapeType = d.customStyle?.shape || d.Type;
-
         switch (shapeType) {
+            case 'rect':
             case 'Resource':
-            case 'square':
                 shape = nodeGroup.append('rect')
-                    .attr('width', size * 1.2)
-                    .attr('height', size * 1.2)
-                    .attr('x', -size * 0.6)
-                    .attr('y', -size * 0.6);
+                    .attr('width', size * 1.2).attr('height', size * 0.8)
+                    .attr('x', -size * 0.6).attr('y', -size * 0.4);
                 break;
-            case 'Action':
             case 'triangle':
-                const tSize = size * 0.8;
+            case 'Action':
                 shape = nodeGroup.append('path')
-                    .attr('d', `M0,${-tSize} L${tSize * 0.866},${tSize * 0.5} L${-tSize * 0.866},${tSize * 0.5} Z`);
+                    .attr('d', `M0,${-size * 0.8} L${size * 0.7},${size * 0.4} L${-size * 0.7},${size * 0.4} Z`);
                 break;
-            case 'Decision':
             case 'diamond':
-                const dSize = size * 0.7;
+            case 'Decision':
                 shape = nodeGroup.append('path')
-                    .attr('d', `M0,${-dSize} L${dSize},0 L0,${dSize} L${-dSize},0 Z`);
+                    .attr('d', `M0,${-size * 0.7} L${size * 0.7},0 L0,${size * 0.7} L${-size * 0.7},0 Z`);
                 break;
-            case 'State':
             case 'circle':
+            case 'State':
             default:
-                shape = nodeGroup.append('circle')
-                    .attr('r', Math.max(5, size * 0.6));
-                break;
+                shape = nodeGroup.append('circle').attr('r', size * 0.6);
         }
 
-        // Apply fill and stroke styles
-        shape.attr('fill', d.customStyle?.color || 'rgba(255, 255, 255, 0.8)')
-            .attr('fill-opacity', d.customStyle?.opacity ?? 0.8)
-            .attr('stroke', d.customStyle?.borderColor || '#000000')
-            .attr('stroke-width', d.customStyle?.borderWidth ?? 2)
-            .attr('stroke-dasharray', () => {
-                if (!d.customStyle?.borderStyle) return null;
-                if (d.customStyle.borderStyle === 'dashed') return '5,5';
-                if (d.customStyle.borderStyle === 'dotted') return '2,2';
-                return null;
-            });
+        const fillColor = style.color ? hexToRgba(style.color, style.opacity ?? 1.0) : 'rgba(255, 255, 255, 0.8)';
+        let strokeDashArray = '';
+        if (style.borderStyle === 'dashed') strokeDashArray = '5,5';
+        else if (style.borderStyle === 'dotted') strokeDashArray = '2,2';
 
-        // Node labels
-        const style = d.customStyle?.text;
-        let textContent = d.Name; // Default
-
-        if (style?.content) {
-            textContent = style.content.replace(/\{(.+?)\}/g, (match, prop) => d[prop] ?? match);
-        }
-
-        if (textContent) {
-            const textLabel = nodeGroup.append('text')
-                .attr('class', 'node-label')
-                .text(textContent);
-
-            if (style) {
-                textLabel
-                    .attr('font-size', style.size ? `${style.size}px` : '12px')
-                    .attr('font-family', style.family || 'sans-serif')
-                    .attr('font-weight', style.bold ? 'bold' : 'normal')
-                    .attr('font-style', style.italic ? 'italic' : 'normal');
-
-                const [yAlign, xAlign] = (style.location || 'middle-center').split('-');
-                let dx = 0, dy = 0, textAnchor = 'middle';
-                const yOffset = style.size ? style.size / 2 : 6;
-
-                if (yAlign === 'top') dy = -size * 0.8;
-                if (yAlign === 'bottom') dy = size * 0.8 + yOffset;
-                if (yAlign === 'middle') dy = yOffset / 2;
-
-                if (xAlign === 'left') {
-                    textAnchor = 'end';
-                    dx = -size * 0.8;
-                }
-                if (xAlign === 'right') {
-                    textAnchor = 'start';
-                    dx = size * 0.8;
-                }
-
-                textLabel.attr('transform', `translate(${dx}, ${dy})`).attr('text-anchor', textAnchor);
-            } else {
-                // Default text styling if no custom style
-                textLabel
-                    .attr('dy', size + 20)
-                    .attr('text-anchor', 'middle');
-            }
-        }
+        shape.attr('fill', fillColor)
+            .attr('stroke', style.borderColor || '#000000')
+            .attr('stroke-width', style.borderWeight ?? 2)
+            .attr('stroke-dasharray', strokeDashArray);
     });
+
+    // Node labels
+    node.append('text')
+        .attr('class', 'node-label')
+        .text(d => d.Name)
+        .each(function(d) {
+            const style = d.customStyle || {};
+            const size = Math.max(10, d.size || 30) * 0.6;
+            const textElement = d3.select(this);
+
+            textElement
+                .attr('font-size', style.textSize ? `${style.textSize}px` : null)
+                .attr('font-weight', style.textBold ? 'bold' : null)
+                .attr('font-style', style.textItalic ? 'italic' : null)
+                .attr('font-family', style.fontFamily || null);
+
+            const posConfig = {
+                'top-left': { anchor: 'start', x: -size, y: -size, dy: '1em' },
+                'top-center': { anchor: 'middle', x: 0, y: -size, dy: '1em' },
+                'top-right': { anchor: 'end', x: size, y: -size, dy: '1em' },
+                'middle-left': { anchor: 'start', x: -size, y: 0, dy: '0.35em' },
+                'center': { anchor: 'middle', x: 0, y: 0, dy: '0.35em' },
+                'middle-right': { anchor: 'end', x: size, y: 0, dy: '0.35em' },
+                'bottom-left': { anchor: 'start', x: -size, y: size, dy: '-0.2em' },
+                'bottom-center': { anchor: 'middle', x: 0, y: size, dy: '-0.2em' },
+                'bottom-right': { anchor: 'end', x: size, y: size, dy: '-0.2em' },
+                'default': { anchor: 'middle', x: 0, y: d.size, dy: '0.71em' }
+            };
+            const config = posConfig[style.textLocation] || posConfig['default'];
+            textElement.attr('text-anchor', config.anchor).attr('x', config.x).attr('y', config.y).attr('dy', config.dy);
+        });
 }
 
-export function updatePositions(g, layout) {
+
+/**
+ * Updates the positions of nodes and links.
+ * @param {d3.Selection} g - The main D3 group element.
+ */
+export function updatePositions(g) {
     if (!g) return;
     g.selectAll('.node').attr('transform', d => `translate(${d.x},${d.y})`);
 
-    g.selectAll('path.link').attr('d', d => getLinkPath(d, layout));
+    g.selectAll('line.link')
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+
+    g.selectAll('path.curved-link').attr('d', d => {
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const dr = Math.sqrt(dx * dx + dy * dy) * 1.5; // Make curve less pronounced
+        return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+    });
+
+    g.selectAll('path.elbowed-link').attr('d', createOrthogonalPath);
 }
 
 /**

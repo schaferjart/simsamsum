@@ -134,12 +134,12 @@ function applyHierarchicalLayout(nodes, links, width, height) {
  * @private
  */
 function applyHierarchicalOrthogonalLayout(nodes, links, width, height) {
-    console.log('TARGET: Starting advanced hierarchical orthogonal layout...');
+    console.log('🎯 Starting advanced hierarchical orthogonal layout...');
     const hierarchy = buildAdvancedHierarchy(nodes, links);
     positionNodesInHierarchy(hierarchy, width, height, nodes, links);
     minimizeEdgeCrossings(hierarchy, width, nodes, links);
     applyHierarchicalPositions(nodes);
-    console.log('SUCCESS: Hierarchical orthogonal layout complete');
+    console.log('✅ Hierarchical orthogonal layout complete');
 }
 
 /**
@@ -204,7 +204,7 @@ function applyGridLayout(nodes, width, height) {
  * @private
  */
 function applyManualGridLayout(nodes, gridSize) {
-    console.log('TARGET: Applying manual grid layout...');
+    console.log('🎯 Applying manual grid layout...');
     // Initial placement if no position is set
     if (nodes.some(n => n.x === undefined || n.y === undefined)) {
         initializeManualLayout(nodes, gridSize);

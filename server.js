@@ -23,7 +23,7 @@ app.post('/api/save-workflow', async (req, res) => {
     try {
         const { elements, connections, variables } = req.body;
         
-        console.log('SAVE: Saving workflow data:', {
+        console.log('💾 Saving workflow data:', {
             elements: elements?.length || 0,
             connections: connections?.length || 0,
             variables: Object.keys(variables || {}).length
@@ -68,7 +68,7 @@ app.post('/api/save-workflow', async (req, res) => {
 
         await Promise.all(saves);
 
-        console.log('SUCCESS: Workflow data saved successfully');
+        console.log('✅ Workflow data saved successfully');
         res.json({ 
             success: true, 
             message: 'Workflow data saved successfully',
@@ -76,7 +76,7 @@ app.post('/api/save-workflow', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('ERROR: Error saving workflow data:', error);
+        console.error('❌ Error saving workflow data:', error);
         res.status(500).json({ 
             success: false, 
             error: error.message 
@@ -104,7 +104,7 @@ app.get('/api/load-workflow', async (req, res) => {
             variables: variables.status === 'fulfilled' ? variables.value : {}
         };
 
-        console.log(' Loaded workflow data:', {
+        console.log('📂 Loaded workflow data:', {
             elements: result.elements.length,
             connections: result.connections.length,
             variables: Object.keys(result.variables).length
@@ -113,7 +113,7 @@ app.get('/api/load-workflow', async (req, res) => {
         res.json(result);
 
     } catch (error) {
-        console.error('ERROR: Error loading workflow data:', error);
+        console.error('❌ Error loading workflow data:', error);
         res.status(500).json({ 
             success: false, 
             error: error.message 
@@ -213,7 +213,7 @@ app.get('/api/layouts', async (req, res) => {
             .map(file => path.basename(file, '.json'));
         res.json(layouts);
     } catch (error) {
-        console.error('ERROR: Error listing layouts:', error);
+        console.error('❌ Error listing layouts:', error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
@@ -238,7 +238,7 @@ app.get('/api/layouts/:name', async (req, res) => {
         if (error.code === 'ENOENT') {
             return res.status(404).json({ success: false, error: 'Layout not found' });
         }
-        console.error(`ERROR: Error loading layout "${layoutName}":`, error);
+        console.error(`❌ Error loading layout "${layoutName}":`, error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
@@ -263,11 +263,11 @@ app.post('/api/layouts/:name', async (req, res) => {
         }
 
         await fs.writeFile(filePath, JSON.stringify(positions, null, 2));
-        console.log(`SAVE: Layout "${layoutName}" saved successfully.`);
+        console.log(`💾 Layout "${layoutName}" saved successfully.`);
         res.json({ success: true, message: `Layout "${layoutName}" saved.` });
 
     } catch (error) {
-        console.error(`ERROR: Error saving layout "${layoutName}":`, error);
+        console.error(`❌ Error saving layout "${layoutName}":`, error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
