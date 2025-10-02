@@ -248,7 +248,7 @@ class WorkflowVisualizer {
                     this.connections = Array.isArray(data.connections) ? data.connections : [];
                     this.variables = data.variables && typeof data.variables === 'object' ? data.variables : {};
                     
-                    console.log('✅ Loaded from API server:', { 
+                    console.log('SUCCESS: Loaded from API server:', { 
                         elements: this.elements.length, 
                         connections: this.connections.length,
                         variables: Object.keys(this.variables).length 
@@ -272,7 +272,7 @@ class WorkflowVisualizer {
                     return true;
                 }
             } catch (apiError) {
-                console.log('📁 API server not available, trying direct file access...');
+                console.log('FILES: API server not available, trying direct file access...');
             }
 
             // Fallback: try to load from data directory files directly
@@ -285,7 +285,7 @@ class WorkflowVisualizer {
             // Check if all files loaded successfully
             const [elementsRes, connectionsRes, variablesRes] = responses;
             if (elementsRes.status !== 'fulfilled' || !elementsRes.value.ok) {
-                console.log('📁 No data/elements.json found, falling back to localStorage/sample');
+                console.log('FILES: No data/elements.json found, falling back to localStorage/sample');
                 return false;
             }
             
@@ -301,7 +301,7 @@ class WorkflowVisualizer {
             this.connections = Array.isArray(connections) ? connections : [];
             this.variables = variables && typeof variables === 'object' ? variables : {};
             
-            console.log('✅ Loaded from JSON files:', { 
+            console.log('SUCCESS: Loaded from JSON files:', { 
                 elements: this.elements.length, 
                 connections: this.connections.length,
                 variables: Object.keys(this.variables).length 
@@ -329,7 +329,7 @@ class WorkflowVisualizer {
             return true;
             
         } catch (error) {
-            console.log('📁 Failed to load from JSON files:', error.message);
+            console.log('FILES: Failed to load from JSON files:', error.message);
             return false;
         }
     }
@@ -555,7 +555,7 @@ class WorkflowVisualizer {
      * Initializes empty state when no data files are found.
      */
     initializeEmptyState() {
-        console.log('📋 Initializing empty workspace...');
+        console.log('INIT: Initializing empty workspace...');
         this.elements = [];
         this.connections = [];
         this.variables = {};
@@ -629,11 +629,11 @@ class WorkflowVisualizer {
      * @param {any} data - The new data to apply.
      */
     updateFromTable(type, data) {
-        console.log('🎯 updateFromTable called:', type, 'with', Array.isArray(data) ? data.length : typeof data, 'items');
+        console.log('TARGET: updateFromTable called:', type, 'with', Array.isArray(data) ? data.length : typeof data, 'items');
         
         if (type === 'elements' || type === 'nodes') {
             this.elements = Array.isArray(data) ? [...data] : [];
-            console.log('✅ Updated elements:', this.elements.length);
+            console.log('SUCCESS: Updated elements:', this.elements.length);
         } else if (type === 'connections') {
             this.connections = Array.isArray(data) ? [...data] : [];
             // Resolve any variable references within connection probabilities
@@ -736,7 +736,7 @@ class WorkflowVisualizer {
             }
         });
         
-        console.log('🔄 Computing volumes with:', {
+        console.log('SYNC: Computing volumes with:', {
             elements: mappedElements.length,
             connections: mappedConnections.length,
             variables: Object.keys(this.variables).length
@@ -751,7 +751,7 @@ class WorkflowVisualizer {
             this.elements[index].incomingNumber = Math.round(calculatedVolume);
         });
         
-        console.log('✅ Volume calculation completed for', this.elements.length, 'elements');
+        console.log('SUCCESS: Volume calculation completed for', this.elements.length, 'elements');
     }
 
     /**
@@ -759,7 +759,7 @@ class WorkflowVisualizer {
      * This converts table format to the format expected by the visualization.
      */
     syncTableDataToVisualization() {
-        console.log('🔄 Syncing table data to visualization...', {
+        console.log('SYNC: Syncing table data to visualization...', {
             elements: this.elements.length,
             connections: this.connections.length,
             variables: Object.keys(this.variables).length
@@ -794,7 +794,7 @@ class WorkflowVisualizer {
         this.state.nodes = [...this.state.allNodes];
         this.state.links = [...this.state.allLinks];
 
-        console.log('✅ Synced to visualization:', {
+        console.log('SUCCESS: Synced to visualization:', {
             nodes: this.state.nodes.length,
             links: this.state.links.length
         });
@@ -1046,10 +1046,10 @@ class WorkflowVisualizer {
      */
     showConnectionReport() {
         const report = verifyConnections(this.state.allNodes, this.state.allLinks);
-        let message = `📊 Connection Report: Total Nodes: ${report.totalNodes}, Total Links: ${report.totalLinks}, Broken Connections: ${report.brokenConnections.length}, Orphaned Nodes: ${report.orphanedNodes.length}, Dead-end Nodes: ${report.deadEndNodes.length}, Validation Errors: ${report.validationErrors.length}`;
+        let message = `Connection Report: Total Nodes: ${report.totalNodes}, Total Links: ${report.totalLinks}, Broken Connections: ${report.brokenConnections.length}, Orphaned Nodes: ${report.orphanedNodes.length}, Dead-end Nodes: ${report.deadEndNodes.length}, Validation Errors: ${report.validationErrors.length}`;
         if (report.brokenConnections.length > 0 || report.validationErrors.length > 0) {
             showStatus('Connection issues found - check console for details', 'error');
-            console.warn('❌ Connection Issues Found:');
+            console.warn('Connection Issues Found:');
             report.brokenConnections.forEach(issue => console.warn('  -', issue.error));
             report.validationErrors.forEach(issue => console.warn('  -', issue.error));
         } else {
@@ -1085,7 +1085,7 @@ export async function initializeApp() {
     
     // Expose for debugging
     window.workflowApp = app;
-    console.log('🎯 App instance available as window.workflowApp for debugging');
+    console.log('TARGET: App instance available as window.workflowApp for debugging');
     
     return app;
 }

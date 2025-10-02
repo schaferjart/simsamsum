@@ -5,7 +5,7 @@
 
 console.log('🧹 Clearing localStorage...');
 localStorage.removeItem('workflowData');
-console.log('✅ localStorage cleared');
+console.log('SUCCESS: localStorage cleared');
 
-console.log('🔄 Reloading page...');
+console.log('SYNC: Reloading page...');
 window.location.reload();

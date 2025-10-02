@@ -298,8 +298,8 @@ export function processData(data, costBasedSizing, variables = {}) {
         };
     }).filter(c => c.source && c.target); // Filter out links with missing source or target
 
-    console.log('🔗 Generated links:', links.length, 'from connections:', tableConns.length);
-    console.log('📊 Generated nodes:', nodes.length, 'from elements:', tableNodes.length);
+    console.log('LINKS: Generated links:', links.length, 'from connections:', tableConns.length);
+    console.log('STATS: Generated nodes:', nodes.length, 'from elements:', tableNodes.length);
 
     return { nodes, links };
 }
@@ -321,7 +321,7 @@ function verifyConnectionsLegacy(allNodes, allLinks) {
         validationErrors: []
     };
 
-    console.log('🔍 Starting connection verification...');
+    console.log('SEARCH: Starting connection verification...');
 
     const nodeMap = new Map(allNodes.map(node => [node.Name, node]));
 
@@ -379,8 +379,8 @@ function verifyConnectionsLegacy(allNodes, allLinks) {
     verifyBidirectionalConnections(report, nodeMap);
     generateConnectionStats(report);
 
-    console.log('✅ Connection verification completed');
-    console.log('📊 Verification Report:', report);
+    console.log('SUCCESS: Connection verification completed');
+    console.log('STATS: Verification Report:', report);
     return report;
 }
 
@@ -393,7 +393,7 @@ function verifyConnectionsLegacy(allNodes, allLinks) {
  * @private
  */
 function verifyBidirectionalConnections(report, nodeMap) {
-    console.log('🔗 Verifying bidirectional consistency...');
+    console.log('LINKS: Verifying bidirectional consistency...');
     Object.values(report.connectionSummary).forEach(nodeConn => {
         nodeConn.outgoing.forEach(outgoing => {
             const targetNode = nodeMap.get(outgoing.name);
@@ -611,7 +611,7 @@ export function computeDerivedFields(nodes, connections, variables = {}) {
                 sourceNodes.push(node.id);
             }
             
-            console.log(`📊 ${hasIncoming ? 'Node with initial volume' : 'Source node'} ${node.id}: ${node.incomingVolume} × ${nodeMultiplier} = ${finalVolume}`);
+            console.log(`STATS: ${hasIncoming ? 'Node with initial volume' : 'Source node'} ${node.id}: ${node.incomingVolume} × ${nodeMultiplier} = ${finalVolume}`);
         } else {
             nodeVolumes.set(node.id, 0); // Will be calculated
         }
@@ -627,7 +627,7 @@ export function computeDerivedFields(nodes, connections, variables = {}) {
         }
         
         if (calculating.has(nodeId)) {
-            console.warn(`🔄 Cycle detected involving node ${nodeId}`);
+            console.warn(`SYNC: Cycle detected involving node ${nodeId}`);
             return nodeVolumes.get(nodeId) || 0;
         }
         
@@ -649,7 +649,7 @@ export function computeDerivedFields(nodes, connections, variables = {}) {
             const flowVolume = fromVolume * incoming.probability;
             totalIncomingVolume += flowVolume;
             
-            console.log(`📈 Flow: ${incoming.fromId}(${fromVolume}) → ${nodeId}: ${fromVolume} × ${incoming.probability} = ${flowVolume}`);
+            console.log(`FLOW: Flow: ${incoming.fromId}(${fromVolume}) → ${nodeId}: ${fromVolume} × ${incoming.probability} = ${flowVolume}`);
         });
         
         // Apply node multiplier if it exists
@@ -661,7 +661,7 @@ export function computeDerivedFields(nodes, connections, variables = {}) {
         visited.add(nodeId);
         calculating.delete(nodeId);
         
-        console.log(`✅ Node ${nodeId}: incoming ${totalIncomingVolume} × multiplier ${nodeMultiplier} = ${finalVolume}`);
+        console.log(`SUCCESS: Node ${nodeId}: incoming ${totalIncomingVolume} × multiplier ${nodeMultiplier} = ${finalVolume}`);
         
         return finalVolume;
     }
@@ -682,6 +682,6 @@ export function computeDerivedFields(nodes, connections, variables = {}) {
         }
     });
 
-    console.log('📊 Final volumes:', Object.fromEntries(nodeVolumes));
+    console.log('STATS: Final volumes:', Object.fromEntries(nodeVolumes));
     return nodes;
 }

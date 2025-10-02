@@ -2,25 +2,25 @@
 // Run this in the browser console after loading data
 
 function testConnectionStyling() {
-    console.log('🧪 Testing connection styling...');
+    console.log('TEST: Testing connection styling...');
     
     if (!window.workflowApp) {
-        console.error('❌ App not loaded - load data first');
+        console.error('ERROR: App not loaded - load data first');
         return;
     }
     
     const nodes = window.workflowApp.state.nodes;
     const links = window.workflowApp.state.links;
     
-    console.log('📊 Available nodes:', nodes.length);
-    console.log('🔗 Available links:', links.length);
+    console.log('STATS: Available nodes:', nodes.length);
+    console.log('LINKS: Available links:', links.length);
     
     // Test: Find nodes by type
     const actionNodes = nodes.filter(n => n.Type === 'Action');
     const resourceNodes = nodes.filter(n => n.Type === 'Resource');
     
-    console.log('🎭 Action nodes:', actionNodes.length);
-    console.log('📦 Resource nodes:', resourceNodes.length);
+    console.log('MASK: Action nodes:', actionNodes.length);
+    console.log('PACKAGE: Resource nodes:', resourceNodes.length);
     
     // Test: Create a simple styling rule
     const testRule = {
@@ -36,13 +36,13 @@ function testConnectionStyling() {
         
         // Count styled links
         const styledLinks = links.filter(l => l.customStyle && l.customStyle.color);
-        console.log('🎨 Links with custom styling:', styledLinks.length);
+        console.log('STYLE: Links with custom styling:', styledLinks.length);
         
         // Update visualization
         window.workflowApp.updateVisualization();
-        console.log('✅ Test complete - check for red thick connections from Action nodes');
+        console.log('SUCCESS: Test complete - check for red thick connections from Action nodes');
     } else {
-        console.error('❌ Styling functions not available');
+        console.error('ERROR: Styling functions not available');
     }
 }
 

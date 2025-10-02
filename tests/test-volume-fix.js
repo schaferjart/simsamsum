@@ -3,7 +3,7 @@
  * Run this in the browser console to verify the calculation
  */
 
-console.log('🧪 Testing Volume Calculation Fix');
+console.log('TEST: Testing Volume Calculation Fix');
 console.log('=' .repeat(50));
 
 if (window.workflowApp) {
@@ -11,7 +11,7 @@ if (window.workflowApp) {
     const connections = window.workflowApp.connections || [];
     const variables = window.workflowApp.variables || {};
     
-    console.log('📊 Key nodes and their variables:');
+    console.log('STATS: Key nodes and their variables:');
     const keyNodes = ['indeed', 'text_application', 'pre_call_sms', 'ai_call', 'pre_video_mail'];
     keyNodes.forEach(nodeId => {
         const node = elements.find(e => e.id === nodeId);
@@ -20,7 +20,7 @@ if (window.workflowApp) {
         }
     });
     
-    console.log('\n🔗 Key connections:');
+    console.log('\nLINKS: Key connections:');
     const keyConnections = connections.filter(c => 
         keyNodes.includes(c.fromId) && keyNodes.includes(c.toId)
     );
@@ -29,14 +29,14 @@ if (window.workflowApp) {
         console.log(`  ${conn.fromId} → ${conn.toId} (target variable: ${targetNode?.variable || 'N/A'})`);
     });
     
-    console.log('\n📊 Variables from variables.json:');
+    console.log('\nSTATS: Variables from variables.json:');
     console.log(variables);
     
-    console.log('\n🔄 Triggering volume calculation...');
+    console.log('\nSYNC: Triggering volume calculation...');
     window.workflowApp.computeDerivedFields();
     
     setTimeout(() => {
-        console.log('\n✅ Updated volumes:');
+        console.log('\nSUCCESS: Updated volumes:');
         keyNodes.forEach(nodeId => {
             const node = elements.find(e => e.id === nodeId);
             if (node) {
@@ -44,7 +44,7 @@ if (window.workflowApp) {
             }
         });
         
-        console.log('\n🎯 Expected vs Actual:');
+        console.log('\nTARGET: Expected vs Actual:');
         console.log('Expected:');
         console.log('  indeed: 2000');
         console.log('  text_application: 2000');
@@ -62,5 +62,5 @@ if (window.workflowApp) {
     }, 1000);
     
 } else {
-    console.log('❌ workflowApp not found');
+    console.log('ERROR: workflowApp not found');
 }

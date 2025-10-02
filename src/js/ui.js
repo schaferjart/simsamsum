@@ -544,7 +544,7 @@ export function toggleGridControls(visible) {
 export function updateGridUI(showGrid) {
     const btn = document.getElementById('showGridBtn');
     if (btn) {
-        btn.textContent = showGrid ? '📐 Hide Grid' : '📐 Show Grid';
+        btn.textContent = showGrid ? 'Hide Grid' : 'Show Grid';
         btn.classList.toggle('btn--active', showGrid);
     }
 }
@@ -655,9 +655,9 @@ export async function initEditorTables(core) {
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
-            console.log('🔄 Elements table changed:', changes, 'source:', source);
+            console.log('SYNC: Elements table changed:', changes, 'source:', source);
             debounceTable('elements', () => {
-                console.log('📝 Processing elements table changes...');
+                console.log('PROCESS: Processing elements table changes...');
                 const nextElements = _nodesHot.getSourceData().map(r => ({
                     id: String(r.id || '').trim(),
                     name: String(r.name || '').trim(),
@@ -682,7 +682,7 @@ export async function initEditorTables(core) {
                     scheduleEnd: String(r.scheduleEnd || '').trim(),
                     frequency: String(r.frequency || '').trim()
                 })).filter(e => e.id);
-                console.log('🚀 Calling updateFromTable with:', nextElements.length, 'elements');
+                console.log('LAUNCH: Calling updateFromTable with:', nextElements.length, 'elements');
                 core.updateFromTable('elements', nextElements);
                 // Refresh connection dropdown sources with updated element IDs
                 if (_connectionsHot) {
@@ -717,15 +717,15 @@ export async function initEditorTables(core) {
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
-            console.log('🔄 Connections table changed:', changes, 'source:', source);
+            console.log('SYNC: Connections table changed:', changes, 'source:', source);
             debounceTable('connections', () => {
-                console.log('📝 Processing connections table changes...');
+                console.log('PROCESS: Processing connections table changes...');
                 const nextConns = _connectionsHot.getSourceData().map(r => ({
                     id: String(r.id || `${r.fromId || ''}->${r.toId || ''}`).trim(),
                     fromId: String(r.fromId || '').trim(),
                     toId: String(r.toId || '').trim()
                 })).filter(c => c.fromId && c.toId);
-                console.log('🚀 Calling updateFromTable with:', nextConns.length, 'connections');
+                console.log('LAUNCH: Calling updateFromTable with:', nextConns.length, 'connections');
                 core.updateFromTable('connections', nextConns);
             });
         }
@@ -806,15 +806,15 @@ export async function initEditorTables(core) {
             const success = await saveToFiles(core.elements || core.nodes, core.connections, core.variables);
             
             const statusMsg = success 
-                ? '✅ Saved to server!' 
-                : '⚠️ Server unavailable';
+                ? 'Saved to server!' 
+                : 'Server unavailable';
             
             // Show status temporarily
             saveToServerBtn.textContent = statusMsg;
             saveToServerBtn.style.backgroundColor = success ? '#28a745' : '#dc3545';
             
             setTimeout(() => {
-                saveToServerBtn.textContent = '💾 Save to Server';
+                saveToServerBtn.textContent = 'Save to Server';
                 saveToServerBtn.style.backgroundColor = '';
             }, 2000);
         };
@@ -843,11 +843,11 @@ export async function initEditorTables(core) {
             downloadJsonFile(combined, `workflow_${timestamp}.json`);
             
             // Show status temporarily
-            exportDataBtn.textContent = '✅ Downloaded!';
+            exportDataBtn.textContent = 'Downloaded!';
             exportDataBtn.style.backgroundColor = '#28a745';
             
             setTimeout(() => {
-                exportDataBtn.textContent = '📤 Export Data';
+                exportDataBtn.textContent = 'Export Data';
                 exportDataBtn.style.backgroundColor = '';
             }, 2000);
         };
@@ -983,7 +983,7 @@ export function updateTableSelectionHighlights(selectedNodeIds) {
  * Keeps event handlers and DOM intact.
  */
 export function refreshEditorData(core) {
-    console.log('🔄 Refreshing editor data with:', {
+    console.log('SYNC: Refreshing editor data with:', {
         elements: (core.elements || core.nodes || []).length,
         connections: (core.connections || []).length,
         variables: Object.keys(core.variables || {}).length
@@ -1197,13 +1197,13 @@ function initMaximizeButtons() {
                 c.classList.remove('maximized', 'hidden');
             });
             document.querySelectorAll('[data-action="toggle-maximize"]').forEach(b => {
-                b.textContent = '⛶'; // Restore maximize icon
+                b.textContent = 'Maximize'; // Restore maximize text
             });
 
             if (!isMaximized) {
                 // Maximize the target
                 targetContainer.classList.add('maximized');
-                button.textContent = '❐'; // Change to minimize icon
+                button.textContent = 'Minimize'; // Change to minimize text
                 // Hide others
                 document.querySelectorAll('.table-container').forEach(c => {
                     if (c !== targetContainer) {
