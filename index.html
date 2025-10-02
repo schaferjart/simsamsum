@@ -124,6 +124,81 @@
 
             <!-- Visualization Area -->
             <div class="viz-container">
+                <div class="editor-toolbar">
+                    <div class="sql-command-container">
+                        <input type="text" id="sql-command-input" class="sql-command-input" placeholder="Enter SQL query to select elements (e.g., SELECT * FROM ? WHERE Type = 'Action') and press Enter">
+                    </div>
+                    <div id="selection-status-bar" class="selection-status-bar">
+                        No elements selected.
+                    </div>
+                    <div id="symbology-toolbar" class="symbology-toolbar">
+                        <!-- Shape -->
+                        <div class="symbology-group">
+                            <label for="shape-select">Shape</label>
+                            <select id="shape-select" class="form-control form-control--sm">
+                                <option value="">-- Node --</option>
+                                <option value="circle">Circle</option>
+                                <option value="triangle">Triangle</option>
+                                <option value="diamond">Diamond</option>
+                                <option value="square">Square</option>
+                                <option value="">-- Connection --</option>
+                                <option value="straight">Straight</option>
+                                <option value="curved">Curved</option>
+                                <option value="elbowed">Elbowed</option>
+                            </select>
+                        </div>
+                        <!-- Color -->
+                        <div class="symbology-group">
+                            <label for="color-picker">Color</label>
+                            <input type="color" id="color-picker" class="form-control form-control--sm" value="#3b82f6">
+                            <input type="range" id="opacity-slider" min="0" max="1" step="0.1" value="1" title="Opacity">
+                        </div>
+                        <!-- Border -->
+                        <div class="symbology-group">
+                            <label>Border</label>
+                            <input type="color" id="border-color-picker" class="form-control form-control--sm" value="#000000">
+                            <select id="border-style-select" class="form-control form-control--sm">
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                            </select>
+                            <input type="number" id="border-weight-input" class="form-control form-control--sm" min="0" value="1" title="Border Weight (px)">
+                        </div>
+                        <!-- Text Location -->
+                        <div class="symbology-group">
+                            <label>Text Location</label>
+                            <div id="text-location-grid" class="text-location-grid">
+                                <div class="grid-cell" data-location="top-left"></div>
+                                <div class="grid-cell" data-location="top-center"></div>
+                                <div class="grid-cell" data-location="top-right"></div>
+                                <div class="grid-cell" data-location="middle-left"></div>
+                                <div class="grid-cell active" data-location="middle-center"></div>
+                                <div class="grid-cell" data-location="middle-right"></div>
+                                <div class="grid-cell" data-location="bottom-left"></div>
+                                <div class="grid-cell" data-location="bottom-center"></div>
+                                <div class="grid-cell" data-location="bottom-right"></div>
+                            </div>
+                            <input type="text" id="text-content-input" class="form-control form-control--sm" placeholder="e.g. {Name}">
+                        </div>
+                        <!-- Text Options -->
+                        <div class="symbology-group">
+                            <label>Text Style</label>
+                            <input type="number" id="text-size-input" class="form-control form-control--sm" min="8" value="12" title="Font Size (px)">
+                            <select id="font-family-select" class="form-control form-control--sm">
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times</option>
+                                <option value="Courier New">Courier</option>
+                            </select>
+                            <label class="checkbox-label"><input type="checkbox" id="font-bold-checkbox"> B</label>
+                            <label class="checkbox-label"><input type="checkbox" id="font-italic-checkbox"> I</label>
+                        </div>
+                        <!-- Save/Load -->
+                        <div class="symbology-group">
+                            <button id="save-style-btn" class="btn btn--outline btn--sm">Save Style</button>
+                            <button id="load-style-btn" class="btn btn--outline btn--sm">Load Style</button>
+                        </div>
+                    </div>
+                </div>
                 <div id="networkGraph" class="network-graph"></div>
                 <!-- Floating button to show editor when hidden -->
                 <button id="showEditorBtn" class="show-editor-btn hidden" title="Show Editor Panel">›</button>
@@ -229,6 +304,7 @@
         </div>
     </div>
 
+    <input type="file" id="style-file-input" class="file-input" accept=".json">
     <script type="module" src="./src/app.js"></script>
 </body>
 </html>

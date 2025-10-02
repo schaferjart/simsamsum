@@ -630,3 +630,117 @@ select.form-control {
   border: 1px solid #ccc;
   margin: 10px 0;
 }
+
+/* Symbology Toolbar */
+.symbology-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-border);
+}
+
+.symbology-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.symbology-group label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+}
+
+.symbology-group .form-control--sm {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.symbology-group input[type="color"] {
+    width: 32px;
+    height: 24px;
+    padding: 2px;
+}
+
+.symbology-group input[type="number"] {
+    width: 60px;
+}
+
+.symbology-group input[type="range"] {
+    width: 80px;
+}
+
+.text-location-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+}
+
+.grid-cell {
+    background-color: var(--color-surface-alt);
+    cursor: pointer;
+    transition: background-color var(--duration-fast);
+}
+
+.grid-cell:hover {
+    background-color: var(--color-primary-muted);
+}
+
+.grid-cell.active {
+    background-color: var(--color-primary);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    user-select: none;
+}
+
+/* Editor Toolbar */
+.editor-toolbar {
+    padding: 8px;
+    background-color: var(--color-surface-alt);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sql-command-container {
+    width: 100%;
+}
+
+.sql-command-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-family-base);
+    font-size: 14px;
+}
+
+.sql-command-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-focus);
+}
+
+.selection-status-bar {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    padding: 4px 8px;
+    background-color: var(--color-surface);
+    border-radius: 4px;
+    min-height: 24px;
+}

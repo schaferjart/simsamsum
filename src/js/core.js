@@ -10,6 +10,7 @@ import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
 import { SelectionManager } from './selection.js';
 import { filterData, applyStylingRules } from './filtering.js';
+import alasql from 'alasql';
 
 /**
  * Main class for the Workflow Visualizer application.
@@ -151,7 +152,7 @@ class WorkflowVisualizer {
             );
         }
 
-        // Hook selection changes for undo tracking
+        // Hook selection changes for undo tracking and UI sync
         this.selectionManager.setOnChange((beforeIds, afterIds) => {
             // Push selection change action if it actually changed
             this._pushUndo({
@@ -159,6 +160,17 @@ class WorkflowVisualizer {
                 before: beforeIds,
                 after: afterIds
             });
+
+            // Update the SQL command line
+            if (afterIds.length > 0) {
+                const idsString = afterIds.map(id => `'${id.replace(/'/g, "''")}'`).join(',');
+                const query = `SELECT * FROM ? WHERE id IN (${idsString})`;
+                ui.updateSqlCommand(query);
+            } else {
+                ui.updateSqlCommand('');
+            }
+            // Also update the status bar
+            ui.updateSelectionStatus(afterIds.length, afterIds);
         });
 
         // Keyboard shortcuts including Undo (Cmd/Ctrl+Z).
@@ -412,8 +424,149 @@ class WorkflowVisualizer {
             fitToScreen: () => this.fitToScreen(),
             handleVerify: () => this.showConnectionReport(),
             handleExport: () => exportToPDF(this.state),
-            handleResize: () => interactions.handleResize(this.state, this.state.svg)
+            handleResize: () => interactions.handleResize(this.state, this.state.svg),
+            selectByQuery: (query) => this.selectByQuery(query),
+            applySymbology: () => this.applySymbology(),
+            saveStyles: () => this.saveStyles(),
+            loadStyles: (styles) => this.loadStyles(styles)
         };
+    }
+
+    /**
+     * Saves the custom styles of all nodes and links to a JSON file.
+     */
+    saveStyles() {
+        const styledNodes = this.state.allNodes
+            .filter(n => n.customStyle)
+            .map(n => ({ id: n.id, style: n.customStyle }));
+
+        const styledLinks = this.state.allLinks
+            .filter(l => l.customStyle)
+            .map(l => ({ id: l.id || `${l.source.id}->${l.target.id}`, style: l.customStyle }));
+
+        if (styledNodes.length === 0 && styledLinks.length === 0) {
+            showStatus('No custom styles to save.', 'info');
+            return;
+        }
+
+        const stylesToSave = {
+            nodes: styledNodes,
+            links: styledLinks,
+            createdAt: new Date().toISOString()
+        };
+
+        downloadJsonFile(stylesToSave, 'workflow-styles.json');
+        showStatus('Styles saved successfully.', 'success');
+    }
+
+    /**
+     * Loads custom styles from a JSON object and applies them to the graph.
+     * @param {object} styles - The styles object loaded from a file.
+     */
+    loadStyles(styles) {
+        if (!styles || (!styles.nodes && !styles.links)) {
+            showStatus('Invalid style file format.', 'error');
+            return;
+        }
+
+        let stylesApplied = 0;
+        const nodeMap = new Map(this.state.allNodes.map(n => [n.id, n]));
+        const linkMap = new Map(this.state.allLinks.map(l => [l.id || `${l.source.id}->${l.target.id}`, l]));
+
+        if (styles.nodes) {
+            styles.nodes.forEach(nodeStyle => {
+                const node = nodeMap.get(nodeStyle.id);
+                if (node) {
+                    node.customStyle = { ...(node.customStyle || {}), ...nodeStyle.style };
+                    stylesApplied++;
+                }
+            });
+        }
+
+        if (styles.links) {
+            styles.links.forEach(linkStyle => {
+                const link = linkMap.get(linkStyle.id);
+                if (link) {
+                    link.customStyle = { ...(link.customStyle || {}), ...linkStyle.style };
+                    stylesApplied++;
+                }
+            });
+        }
+
+        if (stylesApplied > 0) {
+            this.updateVisualization();
+            showStatus(`Successfully loaded and applied ${stylesApplied} styles.`, 'success');
+        } else {
+            showStatus('No matching elements found for the loaded styles.', 'info');
+        }
+    }
+
+    /**
+     * Applies the current symbology from the toolbar to the selected elements.
+     */
+    applySymbology() {
+        const styles = ui.getSymbology();
+        const selectedIds = this.selectionManager.getSelectedIds();
+
+        if (selectedIds.length === 0) {
+            showStatus('No elements selected to apply styles.', 'info');
+            return;
+        }
+
+        // Apply styles to the data
+        this.state.nodes.forEach(node => {
+            if (selectedIds.includes(node.id)) {
+                if (!node.customStyle) node.customStyle = {};
+                Object.assign(node.customStyle, styles);
+            }
+        });
+
+        this.state.links.forEach(link => {
+            const sourceId = link.source.id || link.source;
+            const targetId = link.target.id || link.target;
+            if (selectedIds.includes(sourceId) || selectedIds.includes(targetId)) {
+                if (!link.customStyle) link.customStyle = {};
+                Object.assign(link.customStyle, styles);
+            }
+        });
+
+        // Re-render the visualization to show the new styles
+        this.updateVisualization();
+        showStatus(`Applied styles to ${selectedIds.length} element(s).`, 'success');
+    }
+
+    /**
+     * Selects nodes and connections based on an AlaSQL query.
+     * @param {string} query - The SQL query to execute.
+     */
+    selectByQuery(query) {
+        if (!query) {
+            this.selectionManager.clearSelection();
+            updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
+            ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
+            ui.updateSelectionStatus(0, []);
+            return;
+        }
+
+        try {
+            // The '?' in the query refers to the data array passed as the second argument.
+            // The 'elements' array holds all the node data suitable for querying.
+            const results = alasql(query, [this.elements]);
+            const selectedIds = results.map(r => r.id);
+
+            this.selectionManager.replaceAll(selectedIds);
+
+            // Update visuals
+            updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
+            ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
+            ui.updateSelectionStatus(this.selectionManager.getSelectionCount(), selectedIds);
+
+            showStatus(`${selectedIds.length} elements selected.`, 'info');
+        } catch (error) {
+            console.error('SQL Query Error:', error);
+            showStatus(`Error in SQL query: ${error.message}`, 'error');
+            ui.updateSelectionStatus(this.selectionManager.getSelectionCount(), this.selectionManager.getSelectedIds(), error.message);
+        }
     }
 
     /**
@@ -441,7 +594,7 @@ class WorkflowVisualizer {
         this.state.simulation = applyLayout(this.state.currentLayout, this.state);
 
         if (this.state.simulation) {
-            this.state.simulation.on('tick', () => updatePositions(this.state.g));
+            this.state.simulation.on('tick', () => updatePositions(this.state.g, this.state.currentLayout));
         }
 
         renderVisualizationElements(
@@ -465,7 +618,7 @@ class WorkflowVisualizer {
                 },
                 dragged: (event, d) => {
                     interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.state.gridSize, this.selectionManager, this.state.nodes)
-                    updatePositions(this.state.g);
+                    updatePositions(this.state.g, this.state.currentLayout);
                 },
                 dragEnded: (event, d) => {
                     interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes);
@@ -497,7 +650,7 @@ class WorkflowVisualizer {
                 nodeMouseOut: () => clearHighlight(this.state.g)
             }
         );
-    updatePositions(this.state.g);
+    updatePositions(this.state.g, this.state.currentLayout);
 
     // Always sync selection/table highlights after re-render (handles empty selection too)
         updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes || new Set());
@@ -529,7 +682,7 @@ class WorkflowVisualizer {
                     node.fx = pos.x; node.fy = pos.y;
                 }
             });
-            updatePositions(this.state.g);
+            updatePositions(this.state.g, this.state.currentLayout);
             if (this.state.simulation) this.state.simulation.alpha(0.15).restart();
         }
     }

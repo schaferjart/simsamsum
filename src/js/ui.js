@@ -346,6 +346,143 @@ export function bindEventListeners(handlers) {
     
     // Initialize theme
     initializeTheme();
+
+    // Symbology Toolbar
+    const symbologyToolbar = document.getElementById('symbology-toolbar');
+    if (symbologyToolbar) {
+        symbologyToolbar.addEventListener('change', handlers.applySymbology);
+
+        // Also listen for input events on sliders and text fields for real-time updates
+        const realTimeControls = symbologyToolbar.querySelectorAll('input[type="range"], input[type="text"], input[type="number"], input[type="color"]');
+        realTimeControls.forEach(control => {
+            control.addEventListener('input', handlers.applySymbology);
+        });
+
+        // Special handling for the text location grid
+        const textLocationGrid = document.getElementById('text-location-grid');
+        if (textLocationGrid) {
+            textLocationGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('grid-cell')) {
+                    textLocationGrid.querySelector('.active')?.classList.remove('active');
+                    e.target.classList.add('active');
+                    handlers.applySymbology();
+                }
+            });
+        }
+
+        // Save/Load style buttons
+        document.getElementById('save-style-btn').addEventListener('click', handlers.saveStyles);
+
+        const loadStyleBtn = document.getElementById('load-style-btn');
+        const styleFileInput = document.getElementById('style-file-input');
+
+        loadStyleBtn.addEventListener('click', () => {
+            styleFileInput.click();
+        });
+
+        styleFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const styles = JSON.parse(e.target.result);
+                    handlers.loadStyles(styles);
+                } catch (err) {
+                    console.error('Error parsing style file:', err);
+                    alert('Could not parse style file. Make sure it is a valid JSON file.');
+                }
+            };
+            reader.readAsText(file);
+
+            // Reset the input so the same file can be loaded again
+            event.target.value = '';
+        });
+    }
+
+    // SQL Command Input
+    const sqlInput = document.getElementById('sql-command-input');
+    if (sqlInput) {
+        sqlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handlers.selectByQuery(sqlInput.value);
+            }
+        });
+    }
+}
+
+/**
+ * Updates the selection status bar with the number of selected items and their IDs.
+ * @param {number} count - The number of selected items.
+ * @param {Array<string>} ids - The IDs of the selected items.
+ * @param {string|null} error - An error message, if any.
+ */
+export function updateSelectionStatus(count, ids, error = null) {
+    const statusBar = document.getElementById('selection-status-bar');
+    if (!statusBar) return;
+
+    if (error) {
+        statusBar.textContent = `Error: ${error}`;
+        statusBar.style.color = 'var(--color-error)';
+        return;
+    }
+
+    statusBar.style.color = 'var(--color-text-secondary)';
+    if (count === 0) {
+        statusBar.textContent = 'No elements selected.';
+    } else {
+        const idList = ids.length > 5 ? `${ids.slice(0, 5).join(', ')}...` : ids.join(', ');
+        statusBar.textContent = `Selected ${count} element(s): [${idList}]`;
+    }
+}
+
+/**
+ * Gathers all active symbology rules from the UI.
+ * @returns {object} A symbology object.
+ */
+export function getSymbology() {
+    const shape = document.getElementById('shape-select').value;
+    const color = document.getElementById('color-picker').value;
+    const opacity = document.getElementById('opacity-slider').value;
+    const borderColor = document.getElementById('border-color-picker').value;
+    const borderStyle = document.getElementById('border-style-select').value;
+    const borderWidth = document.getElementById('border-weight-input').value;
+    const textLocation = document.querySelector('#text-location-grid .active')?.dataset.location || 'middle-center';
+    const textContent = document.getElementById('text-content-input').value;
+    const textSize = document.getElementById('text-size-input').value;
+    const fontFamily = document.getElementById('font-family-select').value;
+    const isBold = document.getElementById('font-bold-checkbox').checked;
+    const isItalic = document.getElementById('font-italic-checkbox').checked;
+
+    return {
+        shape,
+        color,
+        opacity,
+        borderColor,
+        borderStyle,
+        borderWidth: parseInt(borderWidth, 10),
+        text: {
+            location: textLocation,
+            content: textContent,
+            size: parseInt(textSize, 10),
+            family: fontFamily,
+            bold: isBold,
+            italic: isItalic,
+        }
+    };
+}
+
+/**
+ * Updates the SQL command input field with a given query string.
+ * @param {string} query - The SQL query to display.
+ */
+export function updateSqlCommand(query) {
+    const sqlInput = document.getElementById('sql-command-input');
+    if (sqlInput) {
+        sqlInput.value = query;
+    }
 }
 
 /**
@@ -859,10 +996,24 @@ export async function initEditorTables(core) {
         const row = coords?.row;
         if (row == null || row < 0) return;
         const data = _nodesHot.getSourceDataAtRow(row);
+
         if (data && data.id) {
-            try {
-                highlightNodeById(data.id);
-            } catch (_) { /* ignore */ }
+            // Replicate the selection logic from graph clicks
+            const selectionManager = core.selectionManager;
+            const allNodes = core.state.allNodes; // We need all nodes for range selection
+            const g = core.state.g;
+
+            if (event.shiftKey && selectionManager.lastSelectedId) {
+                selectionManager.selectRange(allNodes, selectionManager.lastSelectedId, data.id);
+            } else if (event.ctrlKey || event.metaKey) {
+                selectionManager.toggleSelection(data.id);
+            } else {
+                selectionManager.selectSingle(data.id);
+            }
+
+            // The selectionManager.onChange handler in core.js will now automatically
+            // update the visuals, table highlights, and the SQL command line.
+            // So, explicit calls to highlightNodeById are no longer needed here.
         }
     });
     _connectionsHot.addHook('afterOnCellMouseDown', () => setActiveHot(_connectionsHot));
