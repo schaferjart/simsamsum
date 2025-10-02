@@ -57,15 +57,6 @@
                     <button id="add-filter-rule-btn" class="btn btn--outline btn--sm btn--block">+ Add Filter</button>
                 </div>
                 
-                <!-- Dynamic Styling Section -->
-                <div class="control-group">
-                    <label class="form-label">Styling Rules</label>
-                    <div id="styling-rules-container">
-                        <!-- Styling rules will be dynamically added here -->
-                    </div>
-                    <button id="add-styling-rule-btn" class="btn btn--outline btn--sm btn--block">+ Add Styling Rule</button>
-                </div>
-
                 <div class="control-group">
                     <label class="form-label">Element Size:</label>
                     <div class="toggle-container">
@@ -169,6 +160,37 @@
                     <h3>Editor</h3>
                     <button id="closePanelBtn" class="close-btn" title="Hide/Show">&times;</button>
                 </div>
+
+                <!-- Symbology Editor -->
+                <div class="symbology-editor">
+                    <div class="sql-command-line">
+                        <input type="text" id="sql-input" class="form-control" placeholder="SELECT * FROM Elements WHERE Type = 'Action'">
+                    </div>
+                    <div class="symbology-toolbar">
+                        <div class="symbology-group">
+                            <button class="symbology-btn" id="shape-btn" title="Shape">SH</button>
+                            <button class="symbology-btn" id="color-btn" title="Color">CO</button>
+                            <button class="symbology-btn" id="border-btn" title="Border Color">BO</button>
+                            <input type="number" id="border-width-input" class="form-control form-control--sm" title="Border Width" value="2" min="0" max="20" style="width: 55px;">
+                        </div>
+                        <div class="symbology-group">
+                            <button class="symbology-btn" id="text-location-btn" title="Text Location">TL</button>
+                            <input type="number" id="font-size-input" class="form-control form-control--sm" title="Font Size" value="12" min="6" max="36" style="width: 55px;">
+                            <button class="symbology-btn" id="font-bold-btn" title="Bold">B</button>
+                            <button class="symbology-btn" id="font-italic-btn" title="Italic">I</button>
+                        </div>
+                        <div class="symbology-group">
+                            <button id="save-style-btn" class="btn btn--outline btn--sm">Save</button>
+                            <label for="load-style-input" id="load-style-btn" class="btn btn--outline btn--sm">Load</label>
+                            <input type="file" id="load-style-input" style="display: none;" accept=".json">
+                        </div>
+                    </div>
+                    <!-- Shape Picker Popup -->
+                    <div id="shape-picker-popup" class="symbology-popup"></div>
+                    <!-- Text Location Picker Popup -->
+                    <div id="text-location-picker-popup" class="symbology-popup"></div>
+                </div>
+
                 <div class="panel-content">
                     <div id="editor-panel" class="editor-panel" aria-label="Table Editor">
 

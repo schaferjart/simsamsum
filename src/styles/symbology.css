@@ -1,0 +1,116 @@
+/* --- Symbology Editor --- */
+.symbology-editor {
+    padding: var(--space-12);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-surface-alt);
+}
+
+.sql-command-line {
+    margin-bottom: var(--space-12);
+}
+
+#sql-input {
+    width: 100%;
+    font-family: var(--font-mono);
+}
+
+.symbology-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-12);
+}
+
+.symbology-group {
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+}
+
+.symbology-btn {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    padding: var(--space-6) var(--space-8);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.symbology-btn:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-hover);
+}
+
+.symbology-btn.active {
+    background-color: var(--color-primary-muted);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+/* --- Symbology Popups (for pickers) --- */
+.symbology-popup {
+    display: none;
+    position: absolute;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-8);
+    z-index: 1000;
+    border-radius: var(--radius-md);
+}
+
+#shape-picker-popup {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8);
+    width: 200px;
+}
+
+.shape-picker-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.shape-picker-item:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.shape-picker-item svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-text-primary);
+}
+
+#text-location-picker-popup {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    width: 120px;
+    padding: 4px;
+}
+
+.text-location-item {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.text-location-item:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.text-location-item.active {
+    background-color: var(--color-primary-muted);
+    border-color: var(--color-primary);
+}

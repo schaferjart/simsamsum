@@ -196,6 +196,32 @@ function applyExcludeMode(nodes, links, nodeRules, connectionRules) {
  * @param {Array<object>} links - The array of links to style.
  * @param {Array<object>} rules - The array of styling rules from the UI.
  */
+/**
+ * Applies a direct style object to a specific set of nodes and links.
+ * This is used for direct manipulation from the symbology editor, as opposed to rule-based styling.
+ * @param {Array<object>} elements - The nodes or links to apply styles to.
+ * @param {Set<string>} elementIds - A set of IDs for the elements to be styled.
+ * @param {object} style - The style object to apply (e.g., { color: '#ff0000' }).
+ */
+export function applyDirectStyling(elements, elementIds, style) {
+    elements.forEach(element => {
+        if (elementIds.has(element.id)) {
+            if (!element.customStyle) {
+                element.customStyle = {};
+            }
+            // Merge the new style into the existing customStyle object.
+            Object.assign(element.customStyle, style);
+        }
+    });
+}
+
+/**
+ * Applies a set of styling rules to nodes and links.
+ * This function modifies the node and link objects directly by adding a `customStyle` property.
+ * @param {Array<object>} nodes - The array of nodes to style.
+ * @param {Array<object>} links - The array of links to style.
+ * @param {Array<object>} rules - The array of styling rules from the UI.
+ */
 export function applyStylingRules(nodes, links, rules) {
     // Reset any existing custom styles
     nodes.forEach(node => node.customStyle = {});

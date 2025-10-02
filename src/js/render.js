@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import { generateShapeDefs } from './shapes.js';
 
 let svg, zoomGroup, g, zoom;
 
@@ -19,6 +20,10 @@ export function initVisualization(container, onZoom, onBackgroundClick) {
         .append('svg')
         .attr('width', width)
         .attr('height', height);
+
+    // Add shape definitions for custom node shapes
+    const shapeDefs = generateShapeDefs();
+    svg.node().appendChild(shapeDefs);
 
     svg.append('defs').selectAll('marker')
         .data(['arrowhead'])
@@ -233,41 +238,53 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
         .on('mouseout', eventHandlers.nodeMouseOut);
 
     // Node shapes
-    node.each(function (d) {
+    node.each(function(d) {
         const nodeGroup = d3.select(this);
         const size = Math.max(10, d.size || 30);
         const borderStyle = d.borderStyle;
-
         let shape;
-        switch (d.Type) {
-            case 'Resource':
-                shape = nodeGroup.append('rect')
-                    .attr('width', size * 1.2)
-                    .attr('height', size * 0.8)
-                    .attr('x', -size * 0.6)
-                    .attr('y', -size * 0.4);
-                break;
-            case 'Action':
-                const triangleSize = size * 0.8;
-                shape = nodeGroup.append('path')
-                    .attr('d', `M0,${-triangleSize} L${triangleSize * 0.866},${triangleSize * 0.5} L${-triangleSize * 0.866},${triangleSize * 0.5} Z`);
-                break;
-            case 'State':
-                shape = nodeGroup.append('circle')
-                    .attr('r', Math.max(5, size * 0.6));
-                break;
-            case 'Decision':
-                const diamondSize = size * 0.7;
-                shape = nodeGroup.append('path')
-                    .attr('d', `M0,${-diamondSize} L${diamondSize},0 L0,${diamondSize} L${-diamondSize},0 Z`);
-                break;
-            default:
-                shape = nodeGroup.append('circle')
-                    .attr('r', Math.max(5, size * 0.6));
+
+        // Use custom shape if defined, otherwise fall back to type-based shape
+        if (d.customStyle && d.customStyle.shape) {
+            shape = nodeGroup.append('use')
+                .attr('href', `#shape-${d.customStyle.shape}`)
+                .attr('width', size)
+                .attr('height', size)
+                .attr('x', -size / 2)
+                .attr('y', -size / 2);
+        } else {
+            // Fallback to original type-based shapes
+            switch (d.Type) {
+                case 'Resource':
+                    shape = nodeGroup.append('rect')
+                        .attr('width', size * 1.2)
+                        .attr('height', size * 0.8)
+                        .attr('x', -size * 0.6)
+                        .attr('y', -size * 0.4);
+                    break;
+                case 'Action':
+                    const triangleSize = size * 0.8;
+                    shape = nodeGroup.append('path')
+                        .attr('d', `M0,${-triangleSize} L${triangleSize * 0.866},${triangleSize * 0.5} L${-triangleSize * 0.866},${triangleSize * 0.5} Z`);
+                    break;
+                case 'State':
+                    shape = nodeGroup.append('circle')
+                        .attr('r', Math.max(5, size * 0.6));
+                    break;
+                case 'Decision':
+                    const diamondSize = size * 0.7;
+                    shape = nodeGroup.append('path')
+                        .attr('d', `M0,${-diamondSize} L${diamondSize},0 L0,${diamondSize} L${-diamondSize},0 Z`);
+                    break;
+                default:
+                    shape = nodeGroup.append('circle')
+                        .attr('r', Math.max(5, size * 0.6));
+            }
         }
 
+        // Apply styles to the created shape
         shape.attr('fill', (d.customStyle && d.customStyle.color) || 'rgba(255, 255, 255, 0.8)')
-            .attr('stroke', '#000000')
+            .attr('stroke', (d.customStyle && d.customStyle.borderColor) || '#000000')
             .attr('stroke-width', (d.customStyle && d.customStyle.strokeWidth) || 2)
             .attr('stroke-dasharray', borderStyle);
     });
@@ -275,8 +292,38 @@ export function renderVisualizationElements(g, nodes, links, currentLayout, even
     // Node labels
     node.append('text')
         .attr('class', 'node-label')
-        .attr('dy', d => d.size + 20)
-        .attr('text-anchor', 'middle')
+        .attr('text-anchor', d => {
+            if (d.customStyle && d.customStyle.textLocation) {
+                const [_, horizontal] = d.customStyle.textLocation.split('-');
+                if (horizontal === 'left') return 'end';
+                if (horizontal === 'right') return 'start';
+            }
+            return 'middle';
+        })
+        .attr('transform', d => {
+            const size = d.size || 30;
+            let x = 0;
+            let y = size * 0.5 + 20; // Default: bottom-center
+
+            if (d.customStyle && d.customStyle.textLocation) {
+                const [vertical, horizontal] = d.customStyle.textLocation.split('-');
+                const offset = size * 0.7;
+
+                // Vertical positioning
+                if (vertical === 'top') y = -offset;
+                if (vertical === 'middle') y = 0;
+                if (vertical === 'bottom') y = offset;
+
+                // Horizontal positioning
+                if (horizontal === 'left') x = -offset;
+                if (horizontal === 'center') x = 0;
+                if (horizontal === 'right') x = offset;
+            }
+            return `translate(${x}, ${y})`;
+        })
+        .style('font-size', d => (d.customStyle && d.customStyle.fontSize) ? `${d.customStyle.fontSize}px` : null)
+        .style('font-weight', d => (d.customStyle && d.customStyle.fontWeight) || null)
+        .style('font-style', d => (d.customStyle && d.customStyle.fontStyle) || null)
         .text(d => d.Name.length > 15 ? d.Name.substring(0, 15) + '...' : d.Name);
 
     node.append('text')

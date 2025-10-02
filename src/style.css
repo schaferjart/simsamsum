@@ -2,6 +2,7 @@
 @import url('./styles/layout.css');
 @import url('./styles/components.css');
 @import url('./styles/visualization.css');
+@import url('./styles/symbology.css');
 @import url('./styles/responsive.css');
 
 /* --- Editor Panel (Tabular Data) --- */

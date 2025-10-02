@@ -9,7 +9,7 @@ import * as ui from './ui.js';
 import { exportToPDF } from './export.js';
 import { initFileManager, saveToFiles, loadFromFile } from './fileManager.js';
 import { SelectionManager } from './selection.js';
-import { filterData, applyStylingRules } from './filtering.js';
+import { filterData, applyStylingRules, applyDirectStyling } from './filtering.js';
 
 /**
  * Main class for the Workflow Visualizer application.
@@ -87,6 +87,74 @@ class WorkflowVisualizer {
     }
 
     /**
+     * Applies a set of custom styles from a loaded file.
+     * @param {object} styles - The parsed style object from a JSON file.
+     */
+    loadStyles(styles) {
+        if (!styles || (!styles.nodes && !styles.links)) {
+            showStatus('Invalid or empty style file.', 'error');
+            return;
+        }
+
+        let nodesStyled = 0;
+        if (styles.nodes) {
+            this.state.allNodes.forEach(node => {
+                if (styles.nodes[node.id]) {
+                    if (!node.customStyle) node.customStyle = {};
+                    Object.assign(node.customStyle, styles.nodes[node.id]);
+                    nodesStyled++;
+                }
+            });
+        }
+
+        let linksStyled = 0;
+        if (styles.links) {
+            this.state.allLinks.forEach(link => {
+                const linkId = `${link.source.id || link.source}->${link.target.id || link.target}`;
+                if (styles.links[linkId]) {
+                    if (!link.customStyle) link.customStyle = {};
+                    Object.assign(link.customStyle, styles.links[linkId]);
+                    linksStyled++;
+                }
+            });
+        }
+
+        this.updateVisualization();
+        showStatus(`Loaded styles for ${nodesStyled} nodes and ${linksStyled} links.`, 'success');
+    }
+
+    /**
+     * Gathers all custom styles from nodes and links and triggers a download.
+     */
+    saveStyles() {
+        const styles = {
+            nodes: {},
+            links: {}
+        };
+
+        this.state.allNodes.forEach(node => {
+            if (node.customStyle && Object.keys(node.customStyle).length > 0) {
+                styles.nodes[node.id] = node.customStyle;
+            }
+        });
+
+        this.state.allLinks.forEach(link => {
+            if (link.customStyle && Object.keys(link.customStyle).length > 0) {
+                const linkId = `${link.source.id || link.source}->${link.target.id || link.target}`;
+                styles.links[linkId] = link.customStyle;
+            }
+        });
+
+        if (Object.keys(styles.nodes).length === 0 && Object.keys(styles.links).length === 0) {
+            showStatus('No custom styles to save.', 'info');
+            return;
+        }
+
+        downloadJsonFile(styles, 'styles.json');
+        showStatus('Styles saved successfully.', 'success');
+    }
+
+    /**
      * Sets up the initial visualization, binds event listeners, and loads sample data.
      * @private
      */
@@ -151,7 +219,7 @@ class WorkflowVisualizer {
             );
         }
 
-        // Hook selection changes for undo tracking
+        // Hook selection changes for undo tracking and UI updates
         this.selectionManager.setOnChange((beforeIds, afterIds) => {
             // Push selection change action if it actually changed
             this._pushUndo({
@@ -159,6 +227,10 @@ class WorkflowVisualizer {
                 before: beforeIds,
                 after: afterIds
             });
+
+            // Update the SQL query display
+            const selectedNodesData = afterIds.map(id => this.state.allNodes.find(n => n.id === id)).filter(Boolean);
+            ui.updateQueryDisplay(selectedNodesData);
         });
 
         // Keyboard shortcuts including Undo (Cmd/Ctrl+Z).
@@ -412,8 +484,30 @@ class WorkflowVisualizer {
             fitToScreen: () => this.fitToScreen(),
             handleVerify: () => this.showConnectionReport(),
             handleExport: () => exportToPDF(this.state),
-            handleResize: () => interactions.handleResize(this.state, this.state.svg)
+            handleResize: () => interactions.handleResize(this.state, this.state.svg),
+            handleDirectStyleChange: (style) => this.handleDirectStyleChange(style),
+            saveStyles: () => this.saveStyles(),
+            loadStyles: (styles) => this.loadStyles(styles)
         };
+    }
+
+    /**
+     * Applies a direct style to the currently selected elements.
+     * @param {object} style - The style object to apply (e.g., { color: '#ff0000' }).
+     */
+    handleDirectStyleChange(style) {
+        const selectedIds = this.selectionManager.getSelectedIds();
+        if (selectedIds.length === 0) {
+            showStatus('No elements selected. Select elements to apply a style.', 'info');
+            return;
+        }
+
+        // For now, we only support styling nodes. This can be expanded later.
+        applyDirectStyling(this.state.allNodes, new Set(selectedIds), style);
+
+        // A full re-render is needed to apply the new customStyle.
+        this.updateVisualization();
+        showStatus(`Applied style to ${selectedIds.length} element(s).`, 'success');
     }
 
     /**
@@ -545,8 +639,8 @@ class WorkflowVisualizer {
         this.state.nodes = filteredNodes;
         this.state.links = filteredLinks;
 
-        const stylingRules = ui.getStylingRules();
-        applyStylingRules(this.state.nodes, this.state.links, stylingRules);
+        // The old styling rules system is deprecated and replaced by direct styling.
+        // applyStylingRules(this.state.nodes, this.state.links, stylingRules);
 
         this.updateVisualization();
     }

@@ -1,5 +1,6 @@
 import { highlightNodeById } from './render.js';
 import * as layoutManager from './layoutManager.js';
+import { SHAPE_LIBRARY } from './shapes.js';
 
 // --- DYNAMIC FILTER/STYLE CONSTANTS ---
 const NODE_COLUMNS = [
@@ -141,81 +142,6 @@ export function addFilterRule(onChange) {
 }
 
 /**
- * Adds a new styling rule to the UI.
- * @param {function} onChange - Callback function to trigger when the rule changes.
- */
-export function addStylingRule(onChange) {
-    const container = document.getElementById('styling-rules-container');
-    const ruleEl = document.createElement('div');
-    ruleEl.className = 'styling-rule';
-
-    ruleEl.innerHTML = `
-        <div class="rule-condition">
-            If
-            <select class="form-control form-control--sm column-select">
-                <option value="">-- Select Column --</option>
-                <optgroup label="Nodes">
-                    ${NODE_COLUMNS.map(c => `<option value="node:${c.id}">${c.name}</option>`).join('')}
-                </optgroup>
-                <optgroup label="Connections">
-                    ${CONNECTION_COLUMNS.map(c => `<option value="connection:${c.id}">${c.name}</option>`).join('')}
-                </optgroup>
-            </select>
-            <select class="form-control form-control--sm operator-select" disabled></select>
-            <input type="text" class="form-control form-control--sm value-input" disabled placeholder="Value">
-        </div>
-        <div class="rule-style">
-            Then set
-            <input type="color" class="form-control form-control--sm color-input" title="Color" value="${getThemeAppropriateColor()}">
-            <input type="number" class="form-control form-control--sm stroke-width-input" placeholder="Stroke Width" min="1" max="10">
-            <button class="btn btn--danger btn--sm remove-rule-btn">&times;</button>
-        </div>
-    `;
-
-    container.appendChild(ruleEl);
-
-    const columnSelect = ruleEl.querySelector('.column-select');
-    const operatorSelect = ruleEl.querySelector('.operator-select');
-    const valueInput = ruleEl.querySelector('.value-input');
-
-    columnSelect.addEventListener('change', () => {
-        const selectedOption = columnSelect.value;
-        const [scope, columnId] = selectedOption.split(':');
-        const columns = scope === 'node' ? NODE_COLUMNS : CONNECTION_COLUMNS;
-        const column = columns.find(c => c.id === columnId);
-
-        operatorSelect.innerHTML = '';
-        if (column) {
-            const ops = OPERATORS[column.type] || OPERATORS.text;
-            ops.forEach(op => {
-                const option = document.createElement('option');
-                option.value = op.id;
-                option.textContent = op.name;
-                operatorSelect.appendChild(option);
-            });
-            operatorSelect.disabled = false;
-            valueInput.disabled = false;
-        } else {
-            operatorSelect.disabled = true;
-            valueInput.disabled = true;
-        }
-        onChange();
-    });
-
-    ruleEl.querySelectorAll('select, input').forEach(input => {
-        input.addEventListener('change', onChange);
-        if(input.type === 'text' || input.type === 'number') {
-            input.addEventListener('input', onChange);
-        }
-    });
-
-    ruleEl.querySelector('.remove-rule-btn').addEventListener('click', () => {
-        ruleEl.remove();
-        onChange();
-    });
-}
-
-/**
  * Gets the current filter mode from the UI.
  * @returns {string} Either 'highlight' or 'exclude'
  */
@@ -245,35 +171,6 @@ export function getFilterRules() {
 
 
 /**
- * Gathers all active styling rules from the UI.
- * @returns {Array<object>} An array of styling rule objects.
- */
-export function getStylingRules() {
-    const rules = [];
-    document.querySelectorAll('#styling-rules-container .styling-rule').forEach(ruleEl => {
-        const column = ruleEl.querySelector('.column-select').value;
-        const operator = ruleEl.querySelector('.operator-select').value;
-        const value = ruleEl.querySelector('.value-input').value;
-        const color = ruleEl.querySelector('.color-input').value;
-        const strokeWidth = ruleEl.querySelector('.stroke-width-input').value;
-
-        if (column && operator && value) {
-            const [scope, columnId] = column.split(':');
-            const rule = {
-                scope,
-                condition: { column: columnId, operator, value },
-                style: {
-                    color: color || null,
-                    strokeWidth: strokeWidth ? parseInt(strokeWidth) : null,
-                }
-            };
-            rules.push(rule);
-        }
-    });
-    return rules;
-}
-
-/**
  * Binds all the UI event listeners to their respective DOM elements.
  * @param {object} handlers - An object containing the handler functions.
  */
@@ -281,9 +178,6 @@ export function bindEventListeners(handlers) {
     // Dynamic filtering and styling
     document.getElementById('add-filter-rule-btn').addEventListener('click', () => {
         addFilterRule(handlers.applyFiltersAndStyles);
-    });
-    document.getElementById('add-styling-rule-btn').addEventListener('click', () => {
-        addStylingRule(handlers.applyFiltersAndStyles);
     });
 
     // Filter mode change
@@ -346,6 +240,211 @@ export function bindEventListeners(handlers) {
     
     // Initialize theme
     initializeTheme();
+
+    // Symbology Editor
+    const colorBtn = document.getElementById('color-btn');
+    if (colorBtn) {
+        colorBtn.addEventListener('click', () => {
+            // Create a temporary, hidden color input
+            const colorInput = document.createElement('input');
+            colorInput.type = 'color';
+            colorInput.style.visibility = 'hidden';
+            document.body.appendChild(colorInput);
+
+            // When a color is selected, call the handler and clean up
+            colorInput.addEventListener('change', (e) => {
+                if (handlers.handleDirectStyleChange) {
+                    handlers.handleDirectStyleChange({ color: e.target.value });
+                }
+                document.body.removeChild(colorInput);
+            }, { once: true });
+
+            // Programmatically open the color picker
+            colorInput.click();
+        });
+    }
+
+    const borderBtn = document.getElementById('border-btn');
+    if (borderBtn) {
+        borderBtn.addEventListener('click', () => {
+            const colorInput = document.createElement('input');
+            colorInput.type = 'color';
+            colorInput.style.visibility = 'hidden';
+            document.body.appendChild(colorInput);
+
+            colorInput.addEventListener('change', (e) => {
+                if (handlers.handleDirectStyleChange) {
+                    handlers.handleDirectStyleChange({ borderColor: e.target.value });
+                }
+                document.body.removeChild(colorInput);
+            }, { once: true });
+
+            colorInput.click();
+        });
+    }
+
+    const borderWidthInput = document.getElementById('border-width-input');
+    if (borderWidthInput) {
+        borderWidthInput.addEventListener('change', (e) => {
+            const width = parseInt(e.target.value, 10);
+            if (!isNaN(width) && handlers.handleDirectStyleChange) {
+                handlers.handleDirectStyleChange({ strokeWidth: width });
+            }
+        });
+    }
+
+    const shapeBtn = document.getElementById('shape-btn');
+    const shapePicker = document.getElementById('shape-picker-popup');
+
+    if (shapeBtn && shapePicker) {
+        shapeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isVisible = shapePicker.style.display === 'block';
+
+            if (isVisible) {
+                shapePicker.style.display = 'none';
+            } else {
+                // Populate the picker
+                shapePicker.innerHTML = ''; // Clear previous items
+                for (const shapeName in SHAPE_LIBRARY) {
+                    const item = document.createElement('div');
+                    item.className = 'shape-picker-item';
+                    item.dataset.shape = shapeName;
+                    item.innerHTML = `<svg viewBox="0 0 24 24"><use href="#shape-${shapeName}"></use></svg>`;
+
+                    item.addEventListener('click', () => {
+                        if (handlers.handleDirectStyleChange) {
+                            handlers.handleDirectStyleChange({ shape: shapeName });
+                        }
+                        shapePicker.style.display = 'none';
+                    });
+                    shapePicker.appendChild(item);
+                }
+
+                // Position and show
+                const btnRect = shapeBtn.getBoundingClientRect();
+                shapePicker.style.left = `${btnRect.left}px`;
+                shapePicker.style.top = `${btnRect.bottom + 5}px`;
+                shapePicker.style.display = 'block';
+            }
+        });
+
+        // Hide popup when clicking elsewhere
+        window.addEventListener('click', (e) => {
+            if (shapePicker.style.display === 'block' && !shapePicker.contains(e.target)) {
+                shapePicker.style.display = 'none';
+            }
+        });
+    }
+
+    const fontSizeInput = document.getElementById('font-size-input');
+    if (fontSizeInput) {
+        fontSizeInput.addEventListener('change', (e) => {
+            const size = parseInt(e.target.value, 10);
+            if (!isNaN(size) && handlers.handleDirectStyleChange) {
+                handlers.handleDirectStyleChange({ fontSize: size });
+            }
+        });
+    }
+
+    const fontBoldBtn = document.getElementById('font-bold-btn');
+    if (fontBoldBtn) {
+        fontBoldBtn.addEventListener('click', (e) => {
+            const isActive = e.currentTarget.classList.toggle('active');
+            if (handlers.handleDirectStyleChange) {
+                handlers.handleDirectStyleChange({ fontWeight: isActive ? 'bold' : 'normal' });
+            }
+        });
+    }
+
+    const fontItalicBtn = document.getElementById('font-italic-btn');
+    if (fontItalicBtn) {
+        fontItalicBtn.addEventListener('click', (e) => {
+            const isActive = e.currentTarget.classList.toggle('active');
+            if (handlers.handleDirectStyleChange) {
+                handlers.handleDirectStyleChange({ fontStyle: isActive ? 'italic' : 'normal' });
+            }
+        });
+    }
+
+    const textLocationBtn = document.getElementById('text-location-btn');
+    const textLocationPicker = document.getElementById('text-location-picker-popup');
+
+    if (textLocationBtn && textLocationPicker) {
+        textLocationBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isVisible = textLocationPicker.style.display === 'grid';
+
+            if (isVisible) {
+                textLocationPicker.style.display = 'none';
+            } else {
+                // Populate the picker
+                textLocationPicker.innerHTML = ''; // Clear previous items
+                const locations = [
+                    'top-left', 'top-center', 'top-right',
+                    'middle-left', 'middle-center', 'middle-right',
+                    'bottom-left', 'bottom-center', 'bottom-right'
+                ];
+
+                locations.forEach(location => {
+                    const item = document.createElement('div');
+                    item.className = 'text-location-item';
+                    item.dataset.location = location;
+
+                    item.addEventListener('click', () => {
+                        if (handlers.handleDirectStyleChange) {
+                            handlers.handleDirectStyleChange({ textLocation: location });
+                        }
+                        textLocationPicker.style.display = 'none';
+                    });
+                    textLocationPicker.appendChild(item);
+                });
+
+                // Position and show
+                const btnRect = textLocationBtn.getBoundingClientRect();
+                textLocationPicker.style.left = `${btnRect.left}px`;
+                textLocationPicker.style.top = `${btnRect.bottom + 5}px`;
+                textLocationPicker.style.display = 'grid';
+            }
+        });
+
+        // Hide popup when clicking elsewhere
+        window.addEventListener('click', (e) => {
+            if (textLocationPicker.style.display === 'grid' && !textLocationPicker.contains(e.target)) {
+                textLocationPicker.style.display = 'none';
+            }
+        });
+    }
+
+    const saveStyleBtn = document.getElementById('save-style-btn');
+    if (saveStyleBtn) {
+        saveStyleBtn.addEventListener('click', handlers.saveStyles);
+    }
+
+    const loadStyleInput = document.getElementById('load-style-input');
+    if (loadStyleInput) {
+        loadStyleInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const styles = JSON.parse(event.target.result);
+                    if (handlers.loadStyles) {
+                        handlers.loadStyles(styles);
+                    }
+                } catch (error) {
+                    console.error('Error parsing style file:', error);
+                    // You could show a status message to the user here
+                }
+            };
+            reader.readAsText(file);
+
+            // Reset the input so the same file can be loaded again
+            e.target.value = '';
+        });
+    }
 }
 
 /**
@@ -1025,6 +1124,30 @@ function initUIInteractions() {
     initResizers();
     initColumnToggles();
     initMaximizeButtons();
+}
+
+/**
+ * Updates the SQL command line with a query based on the selected nodes.
+ * @param {Array<object>} selectedNodesData - An array of the full data objects for selected nodes.
+ */
+export function updateQueryDisplay(selectedNodesData) {
+    const sqlInput = document.getElementById('sql-input');
+    if (!sqlInput) return;
+
+    if (!selectedNodesData || selectedNodesData.length === 0) {
+        sqlInput.value = 'SELECT * FROM Elements';
+        sqlInput.placeholder = 'SELECT * FROM Elements';
+        return;
+    }
+
+    if (selectedNodesData.length === 1) {
+        const node = selectedNodesData[0];
+        // Use a simple, specific query for a single node.
+        sqlInput.value = `SELECT * FROM Elements WHERE id = '${node.id}'`;
+    } else {
+        const selectedIds = selectedNodesData.map(n => `'${n.id}'`).join(', ');
+        sqlInput.value = `SELECT * FROM Elements WHERE id IN (${selectedIds})`;
+    }
 }
 
 // --- UI Preferences ---
