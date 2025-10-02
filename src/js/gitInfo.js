@@ -3,10 +3,11 @@
  */
 export async function initGitInfo({ refreshMs = 60000 } = {}) {
   const branchEl = document.getElementById('gitBranch');
+  const tagEl = document.getElementById('gitTag');
   const commitEl = document.getElementById('gitCommit');
   const linkEl = document.getElementById('repoLink');
   const container = document.getElementById('gitMeta');
-  if (!branchEl || !commitEl || !linkEl || !container) return;
+  if (!branchEl || !tagEl || !commitEl || !linkEl || !container) return;
 
   // Preserve last successful info to avoid UI flicker on transient errors
   let lastInfo = null;
@@ -18,6 +19,15 @@ export async function initGitInfo({ refreshMs = 60000 } = {}) {
     }
     container.style.display = 'inline-flex';
     branchEl.textContent = info.branch || 'unknown';
+    
+    // Handle tag display
+    if (info.tag) {
+      tagEl.textContent = info.tag;
+      tagEl.style.display = 'inline';
+    } else {
+      tagEl.style.display = 'none';
+    }
+    
     const parts = [];
     if (info.commit?.message) parts.push(info.commit.message);
     if (info.commit?.shortSha) parts.push(`(${info.commit.shortSha})`);

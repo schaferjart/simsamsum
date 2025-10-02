@@ -158,6 +158,7 @@ app.get('/api/git-info', (req, res) => {
     const message = safeExec('git log -1 --pretty=%s');
     const author = safeExec('git log -1 --pretty=%an');
     const date = safeExec('git log -1 --pretty=%cI');
+    const tag = safeExec('git describe --tags --exact-match HEAD 2>/dev/null') || safeExec('git describe --tags --abbrev=0 2>/dev/null');
     const repoUrlRaw = safeExec('git config --get remote.origin.url');
 
     // Normalize repo URL to https when possible
@@ -171,6 +172,7 @@ app.get('/api/git-info', (req, res) => {
     res.json({
         available: true,
         branch,
+        tag,
         commit: {
             shortSha,
             fullSha,

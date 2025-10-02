@@ -150,6 +150,11 @@
 }
 .git-meta .git-link:hover { opacity: 1; }
 .git-meta .git-branch { font-weight: 600; }
+.git-meta .git-tag { 
+    color: var(--color-primary, #007acc); 
+    font-weight: 600; 
+    margin-left: 4px;
+}
 .git-meta .git-sep { opacity: 0.6; }
 .git-meta .git-commit { opacity: 0.9; }
 
