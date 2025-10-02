@@ -113,7 +113,14 @@ class WorkflowVisualizer {
         this.state.width = width;
         this.state.height = height;
 
-    ui.bindEventListeners(this.getEventHandlers());
+        // Bind event listeners immediately
+        ui.bindEventListeners(this.getEventHandlers());
+        
+        // Also try binding again after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            console.log('DEBUG: Re-binding event listeners after delay...');
+            ui.bindEventListeners(this.getEventHandlers());
+        }, 100);
 
         // Set the initial state of the layout dropdown and controls
         document.getElementById('layoutSelect').value = this.state.currentLayout;
@@ -540,6 +547,8 @@ class WorkflowVisualizer {
      * @param {string} query - The SQL query to execute.
      */
     selectByQuery(query) {
+        console.log('DEBUG: selectByQuery called with:', query);
+        
         if (!query) {
             this.selectionManager.clearSelection();
             updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
@@ -549,9 +558,18 @@ class WorkflowVisualizer {
         }
 
         try {
+            // Replace 'elements' or 'element' with '?' for AlaSQL compatibility
+            // Both "SELECT * FROM elements" and "SELECT * FROM ?" should work
+            const normalizedQuery = query.replace(/\bFROM\s+elements?\b/gi, 'FROM ?');
+            console.log('DEBUG: Normalized query:', normalizedQuery);
+            console.log('DEBUG: Elements array length:', this.elements?.length);
+            
             // The '?' in the query refers to the data array passed as the second argument.
             // The 'elements' array holds all the node data suitable for querying.
-            const results = alasql(query, [this.elements]);
+            const results = alasql(normalizedQuery, [this.elements]);
+            console.log('DEBUG: Query results:', results);
+            console.log('DEBUG: Sample element structure:', this.elements[0]);
+            console.log('DEBUG: Available fields:', Object.keys(this.elements[0] || {}));
             const selectedIds = results.map(r => r.id);
 
             this.selectionManager.replaceAll(selectedIds);
