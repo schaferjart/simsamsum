@@ -372,6 +372,7 @@ export function bindEventListeners(handlers) {
 
         // Save/Load style buttons
         document.getElementById('save-style-btn').addEventListener('click', handlers.saveStyles);
+        document.getElementById('clear-selection-btn').addEventListener('click', handlers.clearSelection);
 
         const loadStyleBtn = document.getElementById('load-style-btn');
         const styleFileInput = document.getElementById('style-file-input');
@@ -402,42 +403,14 @@ export function bindEventListeners(handlers) {
     }
 
     // SQL Command Input
-    // SQL query functionality
     const sqlInput = document.getElementById('sql-command-input');
-    console.log('DEBUG: Looking for SQL input element...');
-    console.log('DEBUG: SQL input element:', sqlInput);
-    console.log('DEBUG: Document ready state:', document.readyState);
-    
     if (sqlInput) {
-        console.log('DEBUG: SQL input element found, adding event listener');
-        
-        // Try multiple event types to ensure we catch the input
         sqlInput.addEventListener('keydown', (e) => {
-            console.log('DEBUG: Key pressed:', e.key);
             if (e.key === 'Enter') {
-                console.log('DEBUG: Enter key pressed, query value:', sqlInput.value);
                 e.preventDefault();
                 handlers.selectByQuery(sqlInput.value);
             }
         });
-        
-        // Also add keyup as backup
-        sqlInput.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                console.log('DEBUG: Enter key released, query value:', sqlInput.value);
-                e.preventDefault();
-                handlers.selectByQuery(sqlInput.value);
-            }
-        });
-        
-        // Test if the element is actually focusable
-        console.log('DEBUG: Input element tab index:', sqlInput.tabIndex);
-        console.log('DEBUG: Input element disabled:', sqlInput.disabled);
-        
-    } else {
-        console.log('DEBUG: SQL input element NOT found');
-        console.log('DEBUG: Available elements with sql-command:', document.querySelectorAll('[id*="sql-command"]'));
-        console.log('DEBUG: All input elements:', document.querySelectorAll('input'));
     }
 }
 

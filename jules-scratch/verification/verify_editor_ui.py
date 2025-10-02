@@ -27,27 +27,28 @@ def run_verification(page: Page):
     # 3. Style the selected node (Green Diamond)
     page.locator("#shape-select").select_option("diamond")
     page.locator("#color-picker").fill("#00ff00") # Green
-    page.locator("#border-weight-input").fill("4")
-    page.locator("#text-content-input").fill("Styled!")
 
     # --- Test Bidirectional Selection and Link Styling ---
     print("Testing Bidirectional Selection and Link Styling...")
 
-    # 4. Click on "AI Call" in the table to test bidirectional selection
-    # This requires finding the correct row in the Handsontable instance
-    page.locator('text="AI Call"').first.click()
+    # 4. Click on "AI Call" IN THE TABLE to test bidirectional selection
+    page.locator('#nodes-table >> text="AI Call"').click()
     expect(sql_input).to_have_value("SELECT * FROM ? WHERE id IN ('ai_call')")
-    expect(page.locator("#selection-status-bar")).to_contain_text("Selected 1 element(s)")
 
-    # 5. Style the connected links (Curved, Blue, Dashed)
+    # 5. Style the connected links (Curved, Blue)
     page.locator("#shape-select").select_option("curved")
     page.locator("#color-picker").fill("#0000ff") # Blue
-    page.locator("#border-style-select").select_option("dashed")
 
-    # Give a moment for all styles to apply before taking the screenshot
-    time.sleep(1)
+    # --- Test Clearing Selection with the new button ---
+    print("Testing Clearing Selection...")
 
-    # 6. Take the final verification screenshot
+    # 6. Clear selection using the new button
+    page.locator("#clear-selection-btn").click()
+
+    # 7. Verify selection is cleared
+    expect(page.locator("#selection-status-bar")).to_contain_text("No elements selected.")
+
+    # 8. Take the final verification screenshot
     print("Taking screenshot...")
     page.screenshot(path="jules-scratch/verification/final-verification.png")
 

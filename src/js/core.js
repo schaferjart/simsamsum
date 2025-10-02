@@ -113,14 +113,7 @@ class WorkflowVisualizer {
         this.state.width = width;
         this.state.height = height;
 
-        // Bind event listeners immediately
-        ui.bindEventListeners(this.getEventHandlers());
-        
-        // Also try binding again after a short delay to ensure DOM is ready
-        setTimeout(() => {
-            console.log('DEBUG: Re-binding event listeners after delay...');
-            ui.bindEventListeners(this.getEventHandlers());
-        }, 100);
+    ui.bindEventListeners(this.getEventHandlers());
 
         // Set the initial state of the layout dropdown and controls
         document.getElementById('layoutSelect').value = this.state.currentLayout;
@@ -167,6 +160,10 @@ class WorkflowVisualizer {
                 before: beforeIds,
                 after: afterIds
             });
+
+            // Centralized UI updates on selection change
+            updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
+            ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
 
             // Update the SQL command line
             if (afterIds.length > 0) {
@@ -435,7 +432,8 @@ class WorkflowVisualizer {
             selectByQuery: (query) => this.selectByQuery(query),
             applySymbology: () => this.applySymbology(),
             saveStyles: () => this.saveStyles(),
-            loadStyles: (styles) => this.loadStyles(styles)
+            loadStyles: (styles) => this.loadStyles(styles),
+            clearSelection: () => this.selectionManager.clearSelection()
         };
     }
 
@@ -515,29 +513,56 @@ class WorkflowVisualizer {
         const styles = ui.getSymbology();
         const selectedIds = this.selectionManager.getSelectedIds();
 
-        if (selectedIds.length === 0) {
-            showStatus('No elements selected to apply styles.', 'info');
-            return;
+        if (selectedIds.length === 0) return;
+
+        const nodeShapes = ['circle', 'triangle', 'diamond', 'square'];
+        const linkShapes = ['straight', 'curved', 'elbowed'];
+
+        const isNodeShapeSelected = nodeShapes.includes(styles.shape);
+        const isLinkShapeSelected = linkShapes.includes(styles.shape);
+
+        // Determine context: are we styling nodes or links?
+        // Heuristic: If a link-specific shape is chosen, we are in link-styling mode.
+        // Otherwise, we are in node-styling mode.
+        const stylingLinks = isLinkShapeSelected;
+
+        if (stylingLinks) {
+            // Apply styles to selected links
+            this.state.links.forEach(link => {
+                const sourceId = link.source.id || link.source;
+                const targetId = link.target.id || link.target;
+                if (selectedIds.includes(sourceId) || selectedIds.includes(targetId)) {
+                    if (!link.customStyle) link.customStyle = {};
+                    // Apply only relevant styles for links
+                    link.customStyle.shape = styles.shape;
+                    link.customStyle.color = styles.color;
+                    link.customStyle.opacity = styles.opacity;
+                    link.customStyle.borderWidth = styles.borderWidth;
+                    link.customStyle.borderStyle = styles.borderStyle;
+                }
+            });
+        } else {
+            // Apply styles to selected nodes
+            this.state.nodes.forEach(node => {
+                if (selectedIds.includes(node.id)) {
+                    if (!node.customStyle) node.customStyle = {};
+                    // Apply only relevant styles for nodes
+                    if (isNodeShapeSelected || !styles.shape) { // Allow shape change or other style changes
+                        if(styles.shape) node.customStyle.shape = styles.shape;
+                        node.customStyle.color = styles.color;
+                        node.customStyle.opacity = styles.opacity;
+                        node.customStyle.borderColor = styles.borderColor;
+                        node.customStyle.borderWidth = styles.borderWidth;
+                        node.customStyle.borderStyle = styles.borderStyle;
+
+                        // Deep merge for text styles
+                        if (!node.customStyle.text) node.customStyle.text = {};
+                        Object.assign(node.customStyle.text, styles.text);
+                    }
+                }
+            });
         }
 
-        // Apply styles to the data
-        this.state.nodes.forEach(node => {
-            if (selectedIds.includes(node.id)) {
-                if (!node.customStyle) node.customStyle = {};
-                Object.assign(node.customStyle, styles);
-            }
-        });
-
-        this.state.links.forEach(link => {
-            const sourceId = link.source.id || link.source;
-            const targetId = link.target.id || link.target;
-            if (selectedIds.includes(sourceId) || selectedIds.includes(targetId)) {
-                if (!link.customStyle) link.customStyle = {};
-                Object.assign(link.customStyle, styles);
-            }
-        });
-
-        // Re-render the visualization to show the new styles
         this.updateVisualization();
         showStatus(`Applied styles to ${selectedIds.length} element(s).`, 'success');
     }
@@ -547,8 +572,6 @@ class WorkflowVisualizer {
      * @param {string} query - The SQL query to execute.
      */
     selectByQuery(query) {
-        console.log('DEBUG: selectByQuery called with:', query);
-        
         if (!query) {
             this.selectionManager.clearSelection();
             updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
@@ -558,32 +581,17 @@ class WorkflowVisualizer {
         }
 
         try {
-            // Replace 'elements' or 'element' with '?' for AlaSQL compatibility
-            // Both "SELECT * FROM elements" and "SELECT * FROM ?" should work
-            const normalizedQuery = query.replace(/\bFROM\s+elements?\b/gi, 'FROM ?');
-            console.log('DEBUG: Normalized query:', normalizedQuery);
-            console.log('DEBUG: Elements array length:', this.elements?.length);
-            
             // The '?' in the query refers to the data array passed as the second argument.
             // The 'elements' array holds all the node data suitable for querying.
-            const results = alasql(normalizedQuery, [this.elements]);
-            console.log('DEBUG: Query results:', results);
-            console.log('DEBUG: Sample element structure:', this.elements[0]);
-            console.log('DEBUG: Available fields:', Object.keys(this.elements[0] || {}));
+            const results = alasql(query, [this.elements]);
             const selectedIds = results.map(r => r.id);
 
             this.selectionManager.replaceAll(selectedIds);
-
-            // Update visuals
-            updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
-            ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
-            ui.updateSelectionStatus(this.selectionManager.getSelectionCount(), selectedIds);
-
             showStatus(`${selectedIds.length} elements selected.`, 'info');
         } catch (error) {
             console.error('SQL Query Error:', error);
             showStatus(`Error in SQL query: ${error.message}`, 'error');
-            ui.updateSelectionStatus(this.selectionManager.getSelectionCount(), this.selectionManager.getSelectedIds(), error.message);
+            ui.updateSelectionStatus(0, [], error.message);
         }
     }
 
