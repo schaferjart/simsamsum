@@ -554,7 +554,10 @@ class WorkflowVisualizer {
         this.state.nodes = filteredNodes;
         this.state.links = filteredLinks;
 
-        const stylingRules = ui.getStylingRules();
+        const stylingRules = [
+            ...ui.getDerivedStylingRules(filterRules),
+            ...ui.getStylingRules()
+        ];
         applyStylingRules(this.state.nodes, this.state.links, stylingRules);
 
         this.updateVisualization();

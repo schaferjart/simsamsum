@@ -1,0 +1,34 @@
+{
+  "filters": [
+    {
+      "scope": "node",
+      "column": "Type",
+      "operator": "equals",
+      "value": [
+        "Decision",
+        "Resource",
+        "State"
+      ],
+      "style": {
+        "color": "#3bf73e",
+        "strokeWidth": 3
+      }
+    }
+  ],
+  "styling": [
+    {
+      "scope": "node",
+      "column": "Type",
+      "operator": "equals",
+      "value": [
+        "Decision",
+        "Resource",
+        "State"
+      ],
+      "color": "#3bf73e",
+      "strokeWidth": 3,
+      "fromFilter": true
+    }
+  ],
+  "timestamp": "2025-10-03T16:50:04.007Z"
+}

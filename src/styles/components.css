@@ -318,6 +318,45 @@ select.form-control {
   color: var(--color-primary);
 }
 
+/* Filter rules */
+.filter-rule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-8) 0;
+}
+
+.filter-rule__row,
+.filter-rule__styling {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.filter-rule__row .form-control--sm {
+  min-width: 120px;
+}
+
+.filter-rule__row .remove-rule-btn {
+  margin-left: auto;
+}
+
+.filter-style-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  user-select: none;
+}
+
+.filter-rule__styling input[type="color"] {
+  padding: 0;
+  width: 44px;
+  height: 32px;
+}
+
 
 /* Legend */
 .legend {

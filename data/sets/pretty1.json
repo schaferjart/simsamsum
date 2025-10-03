@@ -1,0 +1,64 @@
+{
+  "filters": [
+    {
+      "scope": "connection",
+      "column": "source",
+      "operator": "contains",
+      "value": "MP",
+      "style": {
+        "color": "#60fb62",
+        "strokeWidth": 3
+      }
+    },
+    {
+      "scope": "connection",
+      "column": "source",
+      "operator": "contains",
+      "value": "HP",
+      "style": {
+        "color": "#00fbff",
+        "strokeWidth": 3
+      }
+    },
+    {
+      "scope": "connection",
+      "column": "source",
+      "operator": "contains",
+      "value": "LP",
+      "style": {
+        "color": "#ffea00",
+        "strokeWidth": 3
+      }
+    }
+  ],
+  "styling": [
+    {
+      "scope": "connection",
+      "column": "source",
+      "operator": "contains",
+      "value": "MP",
+      "color": "#60fb62",
+      "strokeWidth": 3,
+      "fromFilter": true
+    },
+    {
+      "scope": "connection",
+      "column": "source",
+      "operator": "contains",
+      "value": "HP",
+      "color": "#00fbff",
+      "strokeWidth": 3,
+      "fromFilter": true
+    },
+    {
+      "scope": "connection",
+      "column": "source",
+      "operator": "contains",
+      "value": "LP",
+      "color": "#ffea00",
+      "strokeWidth": 3,
+      "fromFilter": true
+    }
+  ],
+  "timestamp": "2025-10-03T16:53:41.346Z"
+}
