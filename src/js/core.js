@@ -133,6 +133,11 @@ class WorkflowVisualizer {
             this.applyPositions(defaultLayout);
         }
 
+        // Fit the graph to screen on initial load
+        setTimeout(() => {
+            this.fitToScreen();
+        }, 500);
+
         // Initialize table editors (if available)
         if (typeof ui.initEditorTables === 'function') {
             ui.initEditorTables(this);
@@ -151,7 +156,7 @@ class WorkflowVisualizer {
             );
         }
 
-        // Hook selection changes for undo tracking
+        // Hook selection changes for undo tracking and visual updates
         this.selectionManager.setOnChange((beforeIds, afterIds) => {
             // Push selection change action if it actually changed
             this._pushUndo({
@@ -159,6 +164,10 @@ class WorkflowVisualizer {
                 before: beforeIds,
                 after: afterIds
             });
+            
+            // Update visualization and table highlights
+            updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
+            ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
         });
 
         // Keyboard shortcuts including Undo (Cmd/Ctrl+Z).

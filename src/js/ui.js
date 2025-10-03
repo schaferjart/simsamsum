@@ -1,5 +1,8 @@
 import { highlightNodeById } from './render.js';
 import * as layoutManager from './layoutManager.js';
+import { showStatus } from './utils.js';
+
+const FILTER_SETS_API_BASE = '/api/filter-sets';
 
 // --- DYNAMIC FILTER/STYLE CONSTANTS ---
 const NODE_COLUMNS = [
@@ -72,9 +75,88 @@ const OPERATORS = {
     number: [
         { id: 'gt', name: '>' },
         { id: 'lt', name: '<' },
+        { id: 'between', name: 'between' },
         { id: 'eq', name: '=' },
     ]
 };
+
+function isPlainObject(value) {
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function normalizeRangeBoundary(value) {
+    if (value === undefined || value === null) return null;
+    if (typeof value === 'object' && value !== null) {
+        if (Object.prototype.hasOwnProperty.call(value, 'value')) {
+            return normalizeRangeBoundary(value.value);
+        }
+        if (Object.prototype.hasOwnProperty.call(value, 'input')) {
+            return normalizeRangeBoundary(value.input);
+        }
+    }
+    const str = String(value).trim();
+    return str === '' ? null : str;
+}
+
+function createRangeValue(min, max) {
+    return {
+        min: normalizeRangeBoundary(min),
+        max: normalizeRangeBoundary(max)
+    };
+}
+
+function formatRangeDisplay(range) {
+    if (!isPlainObject(range)) return '';
+    const min = normalizeRangeBoundary(range.min ?? range.from ?? range.start);
+    const max = normalizeRangeBoundary(range.max ?? range.to ?? range.end);
+    if (min !== null && max !== null) return `${min} - ${max}`;
+    if (min !== null) return `>= ${min}`;
+    if (max !== null) return `<= ${max}`;
+    return '';
+}
+
+function parseRangeInput(input) {
+    if (input === undefined || input === null) {
+        return createRangeValue(null, null);
+    }
+    const text = String(input).trim();
+    if (!text) {
+        return createRangeValue(null, null);
+    }
+
+    const gteMatch = text.match(/^>=?\s*(.+)$/);
+    if (gteMatch) {
+        return createRangeValue(gteMatch[1], null);
+    }
+
+    const lteMatch = text.match(/^<=?\s*(.+)$/);
+    if (lteMatch) {
+        return createRangeValue(null, lteMatch[1]);
+    }
+
+    const dashIndex = text.indexOf('-') >= 0 ? text.indexOf('-') : text.indexOf('–');
+    if (dashIndex !== -1) {
+        const min = text.slice(0, dashIndex).trim();
+        const max = text.slice(dashIndex + 1).trim();
+        return createRangeValue(min, max);
+    }
+
+    if (text.includes(',')) {
+        const parts = text.split(',').map(part => part.trim()).filter(Boolean);
+        if (parts.length === 0) return createRangeValue(null, null);
+        if (parts.length === 1) return createRangeValue(parts[0], null);
+        return createRangeValue(parts[0], parts[1]);
+    }
+
+    return createRangeValue(text, null);
+}
+
+function rangeIsEmpty(range) {
+    if (!isPlainObject(range)) return true;
+    const min = normalizeRangeBoundary(range.min ?? range.from ?? range.start);
+    const max = normalizeRangeBoundary(range.max ?? range.to ?? range.end);
+    return min === null && max === null;
+}
 
 
 /**
@@ -85,6 +167,8 @@ export function addFilterRule(onChange) {
     const container = document.getElementById('filter-rules-container');
     const ruleEl = document.createElement('div');
     ruleEl.className = 'filter-rule';
+    ruleEl._valueFormat = 'primitive';
+    ruleEl._rawValue = '';
 
     ruleEl.innerHTML = `
         <select class="form-control form-control--sm column-select">
@@ -107,7 +191,43 @@ export function addFilterRule(onChange) {
     const operatorSelect = ruleEl.querySelector('.operator-select');
     const valueInput = ruleEl.querySelector('.value-input');
 
-    columnSelect.addEventListener('change', () => {
+    const syncValueFormat = () => {
+        const operatorValue = operatorSelect.value;
+        if (operatorValue === 'between') {
+            valueInput.placeholder = 'min - max';
+            valueInput.dataset.valueFormat = 'range';
+            ruleEl._valueFormat = 'range';
+            if (!isPlainObject(ruleEl._rawValue)) {
+                ruleEl._rawValue = createRangeValue(null, null);
+            }
+        } else {
+            valueInput.placeholder = 'Value';
+            if (valueInput.dataset.valueFormat === 'range') {
+                delete valueInput.dataset.valueFormat;
+                ruleEl._valueFormat = 'primitive';
+                ruleEl._rawValue = valueInput.value;
+            }
+        }
+    };
+
+    const parseAndStoreValue = () => {
+        if (valueInput.dataset.valueFormat === 'range' || ruleEl._valueFormat === 'range') {
+            ruleEl._valueFormat = 'range';
+            ruleEl._rawValue = parseRangeInput(valueInput.value);
+        } else if (valueInput.dataset.valueFormat === 'array' || ruleEl._valueFormat === 'array') {
+            const parsed = valueInput.value
+                .split(',')
+                .map(v => v.trim())
+                .filter(v => v.length > 0);
+            ruleEl._rawValue = parsed;
+            ruleEl._valueFormat = 'array';
+        } else {
+            ruleEl._valueFormat = 'primitive';
+            ruleEl._rawValue = valueInput.value;
+        }
+    };
+
+    const updateOperators = () => {
         const selectedOption = columnSelect.value;
         const [scope, columnId] = selectedOption.split(':');
         const columns = scope === 'node' ? NODE_COLUMNS : CONNECTION_COLUMNS;
@@ -128,11 +248,25 @@ export function addFilterRule(onChange) {
             operatorSelect.disabled = true;
             valueInput.disabled = true;
         }
+        syncValueFormat();
+    };
+
+    columnSelect.addEventListener('change', () => {
+        updateOperators();
+        parseAndStoreValue();
         onChange();
     });
 
-    operatorSelect.addEventListener('change', onChange);
-    valueInput.addEventListener('input', onChange);
+    operatorSelect.addEventListener('change', () => {
+        syncValueFormat();
+        parseAndStoreValue();
+        onChange();
+    });
+
+    valueInput.addEventListener('input', () => {
+        parseAndStoreValue();
+        onChange();
+    });
 
     ruleEl.querySelector('.remove-rule-btn').addEventListener('click', () => {
         ruleEl.remove();
@@ -233,11 +367,18 @@ export function getFilterRules() {
     document.querySelectorAll('#filter-rules-container .filter-rule').forEach(ruleEl => {
         const column = ruleEl.querySelector('.column-select').value;
         const operator = ruleEl.querySelector('.operator-select').value;
-        const value = ruleEl.querySelector('.value-input').value;
+        const valueInput = ruleEl.querySelector('.value-input');
+        const hasRawValue = Object.prototype.hasOwnProperty.call(ruleEl, '_rawValue');
+        const rawValue = hasRawValue ? ruleEl._rawValue : valueInput.value;
 
-        if (column && operator && value) {
+        const isArray = Array.isArray(rawValue);
+        const isRange = !isArray && isPlainObject(rawValue);
+        const isEmptyRange = isRange ? rangeIsEmpty(rawValue) : false;
+        const isEmpty = isRange ? isEmptyRange : (isArray ? rawValue.length === 0 : rawValue === '' || rawValue == null);
+
+        if (column && operator && !isEmpty) {
             const [scope, columnId] = column.split(':');
-            rules.push({ scope, column: columnId, operator, value });
+            rules.push({ scope, column: columnId, operator, value: rawValue });
         }
     });
     return rules;
@@ -289,6 +430,37 @@ export function bindEventListeners(handlers) {
     // Filter mode change
     document.querySelectorAll('input[name="filter-mode"]').forEach(radio => {
         radio.addEventListener('change', handlers.applyFiltersAndStyles);
+    });
+
+    // Filter set management
+    document.getElementById('saveFilterSetBtn').addEventListener('click', async () => {
+        const name = prompt('Enter a name for this filter set:');
+        if (name) {
+            await saveFilterSet(name.trim());
+            handlers.applyFiltersAndStyles();
+        }
+    });
+    
+    document.getElementById('filterSetsSelect').addEventListener('change', async (e) => {
+        if (e.target.value) {
+            const loaded = await loadFilterSet(e.target.value);
+            if (loaded) {
+                handlers.applyFiltersAndStyles();
+            } else {
+                e.target.value = '';
+            }
+        }
+    });
+    
+    document.getElementById('deleteFilterSetBtn').addEventListener('click', async () => {
+        const select = document.getElementById('filterSetsSelect');
+        const name = select.value;
+        if (name && confirm(`Delete filter set "${name}"?`)) {
+            const deleted = await deleteFilterSet(name);
+            if (deleted) {
+                select.value = '';
+            }
+        }
     });
 
     // View and layout controls
@@ -572,6 +744,624 @@ export function resetUI() {
     updateGridUI(false);
 }
 
+// --- Filter Set Management ---
+
+let _filterSets = {}; // Stores named filter sets
+
+/**
+ * Sync Handsontable column filters to filter rules
+ */
+function syncTableFiltersToRules(hot, scope, onChange) {
+    if (!hot) return;
+    
+    const filtersPlugin = hot.getPlugin('filters');
+    if (!filtersPlugin) return;
+    
+    const conditionCollection = filtersPlugin.conditionCollection;
+    const columns = hot.getSettings().columns;
+    
+    console.log(`🔍 Syncing ${scope} table filters...`);
+    
+    // Clear existing auto-generated rules for this scope
+    document.querySelectorAll(`#filter-rules-container .filter-rule[data-auto="${scope}"]`).forEach(el => el.remove());
+    
+    let rulesAdded = 0;
+    
+    // Convert each filter condition to a rule
+    conditionCollection.exportAllConditions().forEach((columnData) => {
+        const { column, conditions } = columnData;
+        const columnDef = columns[column];
+        const columnId = columnDef?.data;
+        
+        if (!columnId || !conditions || conditions.length === 0) return;
+        
+        conditions.forEach(({ name, args }) => {
+            const rule = convertFilterToRule(scope, columnId, name, args);
+            if (rule) {
+                console.log(`➕ Adding filter rule:`, rule);
+                addFilterRuleFromData(rule, onChange, scope);
+                rulesAdded++;
+            }
+        });
+    });
+    
+    console.log(`✅ Added ${rulesAdded} filter rules from table`);
+    
+    // Trigger the visualization update
+    if (rulesAdded > 0 && onChange) {
+        console.log(`🔄 Triggering filter application...`);
+        onChange();
+    }
+}
+
+/**
+ * Convert Handsontable filter condition to rule format
+ */
+function convertFilterToRule(scope, columnId, conditionName, args) {
+    console.log('🔍 convertFilterToRule called:', {scope, columnId, conditionName, args});
+    
+    // Map table column names to visualization property names
+    const columnMapping = {
+        'incomingNumber': 'incomingVolume',  // Table uses incomingNumber, viz uses incomingVolume
+        'incomingVolume': 'incomingVolume',
+        'variable': 'Variable',
+        'type': 'Type',
+        'subType': 'SubType',
+        'execution': 'Execution',
+        'platform': 'Platform',
+        'name': 'Name',
+        'id': 'id',
+        'aOR': 'AOR',
+        'account': 'Account',
+        'monitoring': 'Monitoring',
+        'monitoredData': 'MonitoredData',
+        'description': 'Description',
+        'avgCostTime': 'AvgCostTime',
+        'avgCost': 'AvgCost',
+        'effectiveCost': 'Effective Cost',
+        'lastUpdate': 'LastUpdate',
+        'nextUpdate': 'NextUpdate',
+        'kPI': 'KPI',
+        'scheduleStart': 'ScheduleStart',
+        'scheduleEnd': 'ScheduleEnd',
+        'frequency': 'Frequency',
+        'fromId': 'source',
+        'toId': 'target'
+    };
+    
+    const operatorMap = {
+        'contains': 'contains',
+        'not_contains': 'not_contains',
+        'eq': 'equals',
+        'neq': 'not_equals',
+        'gt': 'gt',
+        'gte': 'gt',
+        'lt': 'lt',
+        'lte': 'lt',
+        'begins_with': 'contains',
+        'ends_with': 'contains',
+        'between': 'between',
+        'by_value': 'equals',
+    };
+    
+    const operator = operatorMap[conditionName];
+    if (!operator || !args || args.length === 0) return null;
+    
+    // Map column ID to visualization property
+    const mappedColumnId = columnMapping[columnId] || columnId;
+    
+    let value;
+    if (conditionName === 'between') {
+        const rangeArg = args[0];
+        let min = null;
+        let max = null;
+        if (Array.isArray(rangeArg)) {
+            [min, max] = rangeArg;
+        } else if (typeof rangeArg === 'object' && rangeArg !== null) {
+            min = rangeArg.from ?? rangeArg.start ?? rangeArg.min ?? rangeArg.value ?? rangeArg.lt ?? null;
+            max = rangeArg.to ?? rangeArg.end ?? rangeArg.max ?? rangeArg.secondValue ?? rangeArg.gt ?? null;
+            if ((min === null || min === undefined) && Object.prototype.hasOwnProperty.call(rangeArg, '0')) {
+                min = rangeArg[0];
+            }
+            if ((max === null || max === undefined) && Object.prototype.hasOwnProperty.call(rangeArg, '1')) {
+                max = rangeArg[1];
+            }
+        } else {
+            min = rangeArg;
+        }
+        value = createRangeValue(min, max);
+        if (rangeIsEmpty(value)) return null;
+    } else {
+        value = args[0];
+        if (Array.isArray(value)) {
+            value = value.filter(v => v !== '' && v != null);
+            if (value.length === 0) return null;
+        }
+    }
+    
+    return {
+        scope,
+        column: mappedColumnId,
+        operator,
+        value
+    };
+}
+
+/**
+ * Add a filter rule from data object (used for loading/syncing)
+ */
+function addFilterRuleFromData(rule, onChange, autoScope = null) {
+    const container = document.getElementById('filter-rules-container');
+    const ruleEl = document.createElement('div');
+    ruleEl.className = 'filter-rule';
+    if (autoScope) ruleEl.setAttribute('data-auto', autoScope);
+
+    const scopePrefix = rule.scope === 'node' ? 'node:' : 'connection:';
+    const fullColumn = scopePrefix + rule.column;
+
+    const isRangeValue = isPlainObject(rule.value) && !Array.isArray(rule.value);
+    const isArrayValue = Array.isArray(rule.value);
+    const displayValue = isArrayValue
+        ? rule.value.join(', ')
+        : isRangeValue
+            ? formatRangeDisplay(rule.value)
+            : (rule.value || '');
+    
+    ruleEl.innerHTML = `
+        <select class="form-control form-control--sm column-select">
+            <option value="">-- Select Column --</option>
+            <optgroup label="Nodes">
+                ${NODE_COLUMNS.map(c => `<option value="node:${c.id}" ${fullColumn === `node:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
+            </optgroup>
+            <optgroup label="Connections">
+                ${CONNECTION_COLUMNS.map(c => `<option value="connection:${c.id}" ${fullColumn === `connection:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
+            </optgroup>
+        </select>
+        <select class="form-control form-control--sm operator-select"></select>
+        <input type="text" class="form-control form-control--sm value-input" value="${displayValue}" placeholder="Value">
+        <button class="btn btn--danger btn--sm remove-rule-btn" title="Remove rule">×</button>
+    `;
+    
+    container.appendChild(ruleEl);
+    
+    const columnSelect = ruleEl.querySelector('.column-select');
+    const operatorSelect = ruleEl.querySelector('.operator-select');
+    const valueInput = ruleEl.querySelector('.value-input');
+
+    if (isRangeValue) {
+        ruleEl._valueFormat = 'range';
+        ruleEl._rawValue = createRangeValue(rule.value?.min ?? rule.value?.from ?? rule.value?.start, rule.value?.max ?? rule.value?.to ?? rule.value?.end);
+        valueInput.dataset.valueFormat = 'range';
+        valueInput.placeholder = 'min - max';
+        valueInput.value = displayValue;
+    } else if (isArrayValue) {
+        ruleEl._valueFormat = 'array';
+        ruleEl._rawValue = [...rule.value];
+        valueInput.dataset.valueFormat = 'array';
+    } else {
+        ruleEl._valueFormat = 'primitive';
+        ruleEl._rawValue = rule.value;
+    }
+    
+    // Setup operator dropdown based on column type
+    const updateOperators = () => {
+        const selected = columnSelect.value;
+        if (!selected) {
+            operatorSelect.disabled = true;
+            valueInput.disabled = true;
+            return;
+        }
+        
+        const [scope, colId] = selected.split(':');
+        const columns = scope === 'node' ? NODE_COLUMNS : CONNECTION_COLUMNS;
+        const col = columns.find(c => c.id === colId);
+        
+        operatorSelect.disabled = false;
+        valueInput.disabled = false;
+        
+        const ops = OPERATORS[col?.type || 'text'];
+        operatorSelect.innerHTML = ops.map(op =>
+            `<option value="${op.id}" ${op.id === rule.operator ? 'selected' : ''}>${op.name}</option>`
+        ).join('');
+    };
+    
+    const syncOperatorFormatting = (preserveDisplay = false) => {
+        const operatorValue = operatorSelect.value;
+        if (operatorValue === 'between') {
+            valueInput.placeholder = 'min - max';
+            valueInput.dataset.valueFormat = 'range';
+            ruleEl._valueFormat = 'range';
+            if (!isPlainObject(ruleEl._rawValue)) {
+                ruleEl._rawValue = createRangeValue(null, null);
+            }
+            if (!preserveDisplay) {
+                valueInput.value = formatRangeDisplay(ruleEl._rawValue);
+            }
+        } else {
+            valueInput.placeholder = 'Value';
+            if (valueInput.dataset.valueFormat === 'range') {
+                delete valueInput.dataset.valueFormat;
+            }
+            if (ruleEl._valueFormat === 'range') {
+                const fallback = formatRangeDisplay(ruleEl._rawValue);
+                ruleEl._rawValue = fallback;
+                ruleEl._valueFormat = 'primitive';
+                if (!preserveDisplay) {
+                    valueInput.value = fallback;
+                }
+            }
+        }
+    };
+
+    updateOperators();
+    syncOperatorFormatting(true);
+    
+    columnSelect.addEventListener('change', () => {
+        updateOperators();
+        syncOperatorFormatting();
+        if (onChange) onChange();
+    });
+    
+    operatorSelect.addEventListener('change', () => {
+        syncOperatorFormatting();
+        if (onChange) onChange();
+    });
+    
+    valueInput.addEventListener('input', () => {
+        if (valueInput.dataset.valueFormat === 'range' || ruleEl._valueFormat === 'range') {
+            ruleEl._rawValue = parseRangeInput(valueInput.value);
+            ruleEl._valueFormat = 'range';
+        } else if (valueInput.dataset.valueFormat === 'array' || ruleEl._valueFormat === 'array') {
+            const parsed = valueInput.value
+                .split(',')
+                .map(v => v.trim())
+                .filter(v => v.length > 0);
+            ruleEl._rawValue = parsed;
+            ruleEl._valueFormat = 'array';
+        } else {
+            ruleEl._rawValue = valueInput.value;
+            ruleEl._valueFormat = 'primitive';
+        }
+        if (onChange) onChange();
+    });
+    
+    ruleEl.querySelector('.remove-rule-btn').addEventListener('click', () => {
+        ruleEl.remove();
+        if (onChange) onChange();
+    });
+}
+
+/**
+ * Add styling rule from data (for loading)
+ */
+function addStylingRuleFromData(rule, onChange) {
+    const container = document.getElementById('styling-rules-container');
+    const ruleEl = document.createElement('div');
+    ruleEl.className = 'styling-rule';
+    
+    const scopePrefix = rule.scope === 'node' ? 'node:' : 'connection:';
+    const fullColumn = scopePrefix + rule.column;
+    
+    ruleEl.innerHTML = `
+        <select class="form-control form-control--sm column-select">
+            <option value="">-- Select Column --</option>
+            <optgroup label="Nodes">
+                ${NODE_COLUMNS.map(c => `<option value="node:${c.id}" ${fullColumn === `node:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
+            </optgroup>
+            <optgroup label="Connections">
+                ${CONNECTION_COLUMNS.map(c => `<option value="connection:${c.id}" ${fullColumn === `connection:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
+            </optgroup>
+        </select>
+        <select class="form-control form-control--sm operator-select"></select>
+        <input type="text" class="form-control form-control--sm value-input" value="${rule.value || ''}" placeholder="Value">
+        <input type="color" class="color-input" value="${rule.color || '#ff6b6b'}" title="Node/Link color">
+        <button class="btn btn--danger btn--sm remove-rule-btn" title="Remove rule">×</button>
+    `;
+    
+    container.appendChild(ruleEl);
+    
+    const columnSelect = ruleEl.querySelector('.column-select');
+    const operatorSelect = ruleEl.querySelector('.operator-select');
+    const valueInput = ruleEl.querySelector('.value-input');
+    
+    const updateOperators = () => {
+        const selected = columnSelect.value;
+        if (!selected) {
+            operatorSelect.disabled = true;
+            valueInput.disabled = true;
+            return;
+        }
+        
+        const [scope, colId] = selected.split(':');
+        const columns = scope === 'node' ? NODE_COLUMNS : CONNECTION_COLUMNS;
+        const col = columns.find(c => c.id === colId);
+        
+        operatorSelect.disabled = false;
+        valueInput.disabled = false;
+        
+        const ops = OPERATORS[col?.type || 'text'];
+        operatorSelect.innerHTML = ops.map(op => 
+            `<option value="${op.id}" ${op.id === rule.operator ? 'selected' : ''}>${op.name}</option>`
+        ).join('');
+    };
+    
+    updateOperators();
+    
+    columnSelect.addEventListener('change', () => {
+        updateOperators();
+        if (onChange) onChange();
+    });
+    
+    operatorSelect.addEventListener('change', () => {
+        if (onChange) onChange();
+    });
+    
+    valueInput.addEventListener('input', () => {
+        if (onChange) onChange();
+    });
+    
+    ruleEl.querySelector('.color-input').addEventListener('input', () => {
+        if (onChange) onChange();
+    });
+    
+    ruleEl.querySelector('.remove-rule-btn').addEventListener('click', () => {
+        ruleEl.remove();
+        if (onChange) onChange();
+    });
+}
+
+/**
+ * Collect current filter rules from the UI
+ */
+function collectFilterRules() {
+    const rules = [];
+    document.querySelectorAll('#filter-rules-container .filter-rule').forEach(ruleEl => {
+        const columnSelect = ruleEl.querySelector('.column-select');
+        const operatorSelect = ruleEl.querySelector('.operator-select');
+        const valueInput = ruleEl.querySelector('.value-input');
+        
+        const selected = columnSelect.value;
+        if (!selected) return;
+        
+        const [scope, column] = selected.split(':');
+        const operator = operatorSelect.value;
+        const hasRawValue = Object.prototype.hasOwnProperty.call(ruleEl, '_rawValue');
+        const rawValue = hasRawValue ? ruleEl._rawValue : valueInput.value;
+        const isArray = Array.isArray(rawValue);
+        const isRange = !isArray && isPlainObject(rawValue);
+        const isEmptyRange = isRange ? rangeIsEmpty(rawValue) : false;
+        const isEmpty = isRange ? isEmptyRange : (isArray ? rawValue.length === 0 : rawValue === '' || rawValue == null);
+        
+        if (operator && !isEmpty) {
+            rules.push({ scope, column, operator, value: rawValue });
+        }
+    });
+    return rules;
+}
+
+/**
+ * Collect current styling rules from the UI
+ */
+function collectStylingRules() {
+    const rules = [];
+    document.querySelectorAll('#styling-rules-container .styling-rule').forEach(ruleEl => {
+        const columnSelect = ruleEl.querySelector('.column-select');
+        const operatorSelect = ruleEl.querySelector('.operator-select');
+        const valueInput = ruleEl.querySelector('.value-input');
+        const colorInput = ruleEl.querySelector('.color-input');
+        
+        const selected = columnSelect.value;
+        if (!selected) return;
+        
+        const [scope, column] = selected.split(':');
+        const operator = operatorSelect.value;
+        const value = valueInput.value;
+        const color = colorInput.value;
+        
+        if (operator && value) {
+            rules.push({ scope, column, operator, value, color });
+        }
+    });
+    return rules;
+}
+
+/**
+ * Save current filter rules as a named set
+ */
+export async function saveFilterSet(name) {
+    if (!name || !name.trim()) return false;
+
+    const normalizedName = name.trim();
+    const filters = collectFilterRules();
+    const styling = collectStylingRules();
+
+    try {
+        const response = await fetch(`${FILTER_SETS_API_BASE}/${encodeURIComponent(normalizedName)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filters, styling })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+        const savedSet = result?.filterSet || {};
+
+        _filterSets[normalizedName] = {
+            filters: Array.isArray(savedSet.filters) ? savedSet.filters : filters,
+            styling: Array.isArray(savedSet.styling) ? savedSet.styling : styling,
+            timestamp: savedSet.timestamp || new Date().toISOString()
+        };
+
+        try { localStorage.setItem('workflow-filter-sets', JSON.stringify(_filterSets)); } catch {}
+
+        showStatus(`Filter set "${normalizedName}" saved`, 'success');
+        updateFilterSetDropdown();
+        return true;
+    } catch (error) {
+        console.warn(`Filter set save fallback for "${normalizedName}":`, error);
+
+        const timestamp = new Date().toISOString();
+        _filterSets[normalizedName] = { filters, styling, timestamp };
+
+        try {
+            localStorage.setItem('workflow-filter-sets', JSON.stringify(_filterSets));
+            showStatus(`Filter set "${normalizedName}" saved locally`, 'warning');
+            updateFilterSetDropdown();
+            return false;
+        } catch (storageError) {
+            console.error('Failed to persist filter set locally:', storageError);
+            showStatus('Failed to save filter set', 'error');
+            return false;
+        }
+    }
+}
+
+/**
+ * Load a named filter set
+ */
+export async function loadFilterSet(name) {
+    if (!name) return false;
+
+    const normalizedName = name.trim();
+    if (!normalizedName) return false;
+
+    if (!_filterSets[normalizedName]) {
+        try {
+            const response = await fetch(`${FILTER_SETS_API_BASE}/${encodeURIComponent(normalizedName)}`);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            const result = await response.json();
+            const set = result?.filterSet;
+            if (set) {
+                _filterSets[normalizedName] = {
+                    filters: Array.isArray(set.filters) ? set.filters : [],
+                    styling: Array.isArray(set.styling) ? set.styling : [],
+                    timestamp: set.timestamp || null
+                };
+                try { localStorage.setItem('workflow-filter-sets', JSON.stringify(_filterSets)); } catch {}
+            }
+        } catch (error) {
+            console.error(`Failed to load filter set "${normalizedName}" from API:`, error);
+            if (!_filterSets[normalizedName]) {
+                showStatus('Failed to load filter set', 'error');
+                return false;
+            }
+        }
+    }
+
+    const set = _filterSets[normalizedName];
+    if (!set) {
+        showStatus('Filter set not found', 'error');
+        return false;
+    }
+
+    document.getElementById('filter-rules-container').innerHTML = '';
+    document.getElementById('styling-rules-container').innerHTML = '';
+
+    (set.filters || []).forEach(rule => {
+        addFilterRuleFromData(rule, null);
+    });
+
+    (set.styling || []).forEach(rule => {
+        addStylingRuleFromData(rule, null);
+    });
+
+    showStatus(`Filter set "${normalizedName}" loaded`, 'success');
+    return true;
+}
+
+/**
+ * Delete a named filter set
+ */
+export async function deleteFilterSet(name) {
+    if (!name) return false;
+
+    const normalizedName = name.trim();
+    if (!normalizedName) return false;
+
+    try {
+        const response = await fetch(`${FILTER_SETS_API_BASE}/${encodeURIComponent(normalizedName)}`, {
+            method: 'DELETE'
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+    } catch (error) {
+        console.error(`Failed to delete filter set "${normalizedName}" via API:`, error);
+        showStatus('Failed to delete filter set', 'error');
+        return false;
+    }
+
+    delete _filterSets[normalizedName];
+    try { localStorage.setItem('workflow-filter-sets', JSON.stringify(_filterSets)); } catch {}
+    showStatus(`Filter set "${normalizedName}" deleted`, 'success');
+    updateFilterSetDropdown();
+    return true;
+}
+
+/**
+ * Update the filter set dropdown
+ */
+function updateFilterSetDropdown() {
+    const select = document.getElementById('filterSetsSelect');
+    if (!select) return;
+    
+    const currentValue = select.value;
+    select.innerHTML = '<option value="">Load Filter Set...</option>';
+    
+    Object.keys(_filterSets).sort().forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        if (name === currentValue) option.selected = true;
+        select.appendChild(option);
+    });
+}
+
+/**
+ * Initialize filter sets from localStorage
+ */
+async function initFilterSets() {
+    try {
+        const response = await fetch(FILTER_SETS_API_BASE);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const payload = await response.json();
+        const setsArray = Array.isArray(payload) ? payload : payload.filterSets || [];
+
+        const mapped = {};
+        setsArray.forEach(item => {
+            if (item && item.name) {
+                mapped[item.name] = {
+                    filters: Array.isArray(item.filters) ? item.filters : [],
+                    styling: Array.isArray(item.styling) ? item.styling : [],
+                    timestamp: item.timestamp || null
+                };
+            }
+        });
+
+        _filterSets = mapped;
+        updateFilterSetDropdown();
+        try { localStorage.setItem('workflow-filter-sets', JSON.stringify(_filterSets)); } catch {}
+    } catch (error) {
+        console.warn('Filter set API unavailable, falling back to localStorage:', error);
+        try {
+            const stored = localStorage.getItem('workflow-filter-sets');
+            _filterSets = stored ? JSON.parse(stored) || {} : {};
+            updateFilterSetDropdown();
+        } catch (e) {
+            console.error('Failed to load filter sets:', e);
+            _filterSets = {};
+        }
+    }
+}
+
 // --- Table Editors (Handsontable) ---
 let _nodesHot = null;
 let _connectionsHot = null;
@@ -581,6 +1371,8 @@ let _debounceTimers = { nodes: null, connections: null, variables: null };
 let _selectedRowIds = new Set();
 // Track currently active table to route keyboard undo/redo
 let _activeHot = null;
+// Flag to prevent selection sync during initialization/programmatic operations
+let _allowSelectionSync = false;
 
 function debounceTable(type, fn, delay = 200) {
     clearTimeout(_debounceTimers[type]);
@@ -620,6 +1412,8 @@ export async function initEditorTables(core) {
         minSpareRows: 1,
         hiddenColumns: true, // Enable plugin
         manualColumnResize: true, // Allow user resizing
+        filters: true, // Enable column filters
+        dropdownMenu: ['filter_by_condition', 'filter_by_value', 'filter_action_bar'],
     };
 
     // Elements table (formerly nodes)
@@ -629,10 +1423,71 @@ export async function initEditorTables(core) {
     _nodesHot = new Handsontable(elementsEl, {
         ...baseSettings,
         data: (core.elements || core.nodes || []).map(e => ({ ...e })),
+        afterFilter: () => {
+            // Temporarily disable selection sync during filter operations
+            const wasAllowed = _allowSelectionSync;
+            _allowSelectionSync = false;
+            
+            syncTableFiltersToRules(_nodesHot, 'node', () => core.applyFiltersAndStyles());
+            
+            // Re-enable after a short delay
+            setTimeout(() => {
+                _allowSelectionSync = wasAllowed;
+            }, 100);
+        },
+        afterSelectionEnd: (row, column, row2, column2, selectionLayerLevel) => {
+            // Sync table row selection to visualization
+            // Only sync on user selection, not programmatic (like filter-based selections)
+            if (!_allowSelectionSync) return; // Ignore during initialization
+            if (!core || !core.selectionManager) return;
+            if (selectionLayerLevel !== 0) return; // Ignore non-primary selections
+            
+            // Validate row indices
+            if (row === undefined || row2 === undefined || row < 0 || row2 < 0) return;
+            
+            const selectedRows = new Set();
+            
+            // Only get the current selection layer, not all selections
+            const minRow = Math.min(row, row2);
+            const maxRow = Math.max(row, row2);
+            
+            // Get PHYSICAL (visible) row indices, not logical source indices
+            for (let visualRow = minRow; visualRow <= maxRow; visualRow++) {
+                const physicalRow = _nodesHot.toPhysicalRow(visualRow);
+                if (physicalRow !== null && physicalRow !== undefined && physicalRow >= 0) {
+                    selectedRows.add(physicalRow);
+                }
+            }
+            
+            // Convert physical row indices to node IDs
+            const data = _nodesHot.getSourceData();
+            const nodeIds = Array.from(selectedRows)
+                .map(physicalIdx => data[physicalIdx]?.id)
+                .filter(id => id);
+            
+            // Count visible rows to detect if this is a genuine selection or accidental "all"
+            const countRows = _nodesHot.countRows();
+            const selectedCount = maxRow - minRow + 1;
+            
+            // Only sync if:
+            // 1. We have IDs to select
+            // 2. Selection is reasonable (not all source data when table shows filtered subset)
+            if (nodeIds.length > 0) {
+                // Prevent sync if selecting way more than visible rows (indicates wrong index mapping)
+                if (nodeIds.length > countRows * 2) {
+                    console.warn('⚠️ Selection anomaly detected, skipping sync:', nodeIds.length, 'IDs from', selectedCount, 'rows');
+                    return;
+                }
+                console.log('📋 Table selection → Visualization:', nodeIds);
+                core.selectionManager.selectMultiple(nodeIds);
+            } else {
+                core.selectionManager.clearSelection();
+            }
+        },
         columns: [
             { data: 'id', title: 'ID' },
             { data: 'name', title: 'Name' },
-            { data: 'incomingNumber', title: 'Incoming Number' },
+            { data: 'incomingNumber', title: 'Incoming Number', type: 'numeric', numericFormat: { pattern: '0' } },
             { data: 'variable', title: 'Variable', type: 'numeric', numericFormat: { pattern: '0[.]000' } },
             { data: 'type', title: 'Type', type: 'dropdown', source: elementTypes },
             { data: 'subType', title: 'Sub Type', type: 'dropdown', source: subTypes },
@@ -707,6 +1562,9 @@ export async function initEditorTables(core) {
     _connectionsHot = new Handsontable(connsEl, {
         ...baseSettings,
         data: core.connections.map(c => ({ ...c })),
+        afterFilter: () => {
+            syncTableFiltersToRules(_connectionsHot, 'connection', () => core.applyFiltersAndStyles());
+        },
         columns: [
             { data: 'id', title: 'ID' },
             { data: 'fromId', title: 'From', type: 'dropdown', source: elementIds },
@@ -797,6 +1655,9 @@ export async function initEditorTables(core) {
         }
     };
     applyCellsHighlighting();
+
+    // Initialize filter sets
+    await initFilterSets();
 
     // Wire Save to Server button
     const saveToServerBtn = document.getElementById('save-to-server');
@@ -891,6 +1752,13 @@ export async function initEditorTables(core) {
     // All tables are created, now initialize interactions
     initUIInteractions();
     loadUIPrefs(); // Load saved sizes on startup
+
+    // Enable selection sync after preferences load and all async operations complete
+    // Delay must be longer than loadUIPrefs setTimeout (100ms) + render time
+    setTimeout(() => {
+        _allowSelectionSync = true;
+        console.log('✅ Table selection sync enabled');
+    }, 1000);
 
     // Ensure Cmd/Ctrl+Z and Shift+Cmd/Ctrl+Z work inside tables even if global listeners exist
     document.addEventListener('keydown', (e) => {

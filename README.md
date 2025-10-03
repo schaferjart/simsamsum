@@ -295,9 +295,12 @@ npm run server       # Start API server
 npm run test         # Run comprehensive verification
 npm run test:data    # Test data consistency
 npm run test:api     # Test API connectivity
+npm run filter:set -- <name>   # Apply a saved filter set to data and preview matches
 npm run debug:cache  # Clear browser cache instructions
 npm run debug:table  # Table testing instructions
 ```
+
+Use `npm run filter:set -- --list` to show the saved set names before applying one.
 
 ## Browser Compatibility
 

@@ -55,6 +55,17 @@
                         <!-- Filter rules will be dynamically added here -->
                     </div>
                     <button id="add-filter-rule-btn" class="btn btn--outline btn--sm btn--block">+ Add Filter</button>
+                    
+                    <!-- Filter Set Management -->
+                    <div class="filter-set-controls" style="margin-top: 12px; display: flex; gap: 4px; flex-direction: column;">
+                        <select id="filterSetsSelect" class="form-control form-control--sm">
+                            <option value="">Load Filter Set...</option>
+                        </select>
+                        <div style="display: flex; gap: 4px;">
+                            <button id="saveFilterSetBtn" class="btn btn--primary btn--sm" style="flex: 1;" title="Save current filters as a set">💾 Save Set</button>
+                            <button id="deleteFilterSetBtn" class="btn btn--danger btn--sm" style="flex: 1;" title="Delete selected set">🗑️ Delete</button>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Dynamic Styling Section -->

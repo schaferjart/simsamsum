@@ -187,6 +187,7 @@ app.get('/api/git-info', (req, res) => {
 // --- Layout Endpoints ---
 
 const layoutsDir = path.join(__dirname, 'data', 'layouts');
+const filterSetsDir = path.join(__dirname, 'data', 'sets');
 
 /**
  * Ensures the layouts directory exists.
@@ -197,6 +198,15 @@ const ensureLayoutsDir = async () => {
     } catch {
         console.log(`Creating layouts directory: ${layoutsDir}`);
         await fs.mkdir(layoutsDir, { recursive: true });
+    }
+};
+
+const ensureFilterSetsDir = async () => {
+    try {
+        await fs.access(filterSetsDir);
+    } catch {
+    console.log(`Creating filter sets directory: ${filterSetsDir}`);
+        await fs.mkdir(filterSetsDir, { recursive: true });
     }
 };
 
@@ -272,11 +282,125 @@ app.post('/api/layouts/:name', async (req, res) => {
     }
 });
 
+// --- Filter Set Endpoints ---
+
+const isValidFilterSetName = (value) => {
+    return Boolean(value) && !value.includes('..') && !/[\\/]/.test(value);
+};
+
+app.get('/api/filter-sets', async (req, res) => {
+    await ensureFilterSetsDir();
+    try {
+        const files = await fs.readdir(filterSetsDir);
+        const filterSets = [];
+
+        for (const file of files) {
+            if (path.extname(file) !== '.json') continue;
+            const name = path.basename(file, '.json');
+            try {
+                const contents = await fs.readFile(path.join(filterSetsDir, file), 'utf8');
+                const parsed = JSON.parse(contents);
+                filterSets.push({
+                    name,
+                    filters: Array.isArray(parsed.filters) ? parsed.filters : [],
+                    styling: Array.isArray(parsed.styling) ? parsed.styling : [],
+                    timestamp: parsed.timestamp || null
+                });
+            } catch (error) {
+                console.error(`❌ Error reading filter set "${file}":`, error);
+            }
+        }
+
+        res.json({ success: true, filterSets });
+    } catch (error) {
+        console.error('❌ Error listing filter sets:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.get('/api/filter-sets/:name', async (req, res) => {
+    await ensureFilterSetsDir();
+    const setName = req.params.name;
+    if (!isValidFilterSetName(setName)) {
+        return res.status(400).json({ success: false, error: 'Invalid filter set name' });
+    }
+
+    const filePath = path.join(filterSetsDir, `${setName}.json`);
+    try {
+        const data = await fs.readFile(filePath, 'utf8');
+        const parsed = JSON.parse(data);
+        res.json({
+            success: true,
+            filterSet: {
+                name: setName,
+                filters: Array.isArray(parsed.filters) ? parsed.filters : [],
+                styling: Array.isArray(parsed.styling) ? parsed.styling : [],
+                timestamp: parsed.timestamp || null
+            }
+        });
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return res.status(404).json({ success: false, error: 'Filter set not found' });
+        }
+        console.error(`❌ Error loading filter set "${setName}":`, error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.post('/api/filter-sets/:name', async (req, res) => {
+    await ensureFilterSetsDir();
+    const setName = req.params.name;
+    if (!isValidFilterSetName(setName)) {
+        return res.status(400).json({ success: false, error: 'Invalid filter set name' });
+    }
+
+    const { filters, styling } = req.body || {};
+    if (!Array.isArray(filters) || !Array.isArray(styling)) {
+        return res.status(400).json({ success: false, error: 'Filters and styling must be arrays' });
+    }
+
+    const payload = {
+        filters,
+        styling,
+        timestamp: new Date().toISOString()
+    };
+
+    try {
+        await fs.writeFile(path.join(filterSetsDir, `${setName}.json`), JSON.stringify(payload, null, 2));
+        console.log(`💾 Filter set "${setName}" saved successfully.`);
+        res.json({ success: true, filterSet: { name: setName, ...payload } });
+    } catch (error) {
+        console.error(`❌ Error saving filter set "${setName}":`, error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.delete('/api/filter-sets/:name', async (req, res) => {
+    await ensureFilterSetsDir();
+    const setName = req.params.name;
+    if (!isValidFilterSetName(setName)) {
+        return res.status(400).json({ success: false, error: 'Invalid filter set name' });
+    }
+
+    try {
+        await fs.unlink(path.join(filterSetsDir, `${setName}.json`));
+        console.log(`🗑️ Filter set "${setName}" deleted.`);
+        res.json({ success: true });
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            return res.status(404).json({ success: false, error: 'Filter set not found' });
+        }
+        console.error(`❌ Error deleting filter set "${setName}":`, error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 
 // Start server
 app.listen(PORT, async () => {
     // Ensure directories exist on startup
     await ensureLayoutsDir();
+    await ensureFilterSetsDir();
     const dataDir = path.join(__dirname, 'data');
     try { await fs.access(dataDir); } catch { await fs.mkdir(dataDir); }
 
@@ -293,6 +417,10 @@ Available endpoints:
   GET  /api/layouts         - List all saved layouts
   GET  /api/layouts/:name   - Load a specific layout
   POST /api/layouts/:name   - Save a specific layout
+    GET  /api/filter-sets     - List saved filter sets
+    GET  /api/filter-sets/:name - Load a specific filter set
+    POST /api/filter-sets/:name - Save a specific filter set
+    DELETE /api/filter-sets/:name - Delete a specific filter set
     `);
 });
 

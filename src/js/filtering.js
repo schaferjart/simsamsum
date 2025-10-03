@@ -1,11 +1,47 @@
 /**
  * A helper function to safely get a nested property from an object.
+ * Tries case-insensitive matching if exact match not found.
  * @param {object} obj - The object to query.
  * @param {string} path - The path to the property (e.g., 'source.name').
  * @returns {*} The value of the property, or undefined if not found.
  */
 function getProperty(obj, path) {
-    return path.split('.').reduce((o, i) => (o ? o[i] : undefined), obj);
+    // Try exact match first
+    const exactValue = path.split('.').reduce((o, i) => (o ? o[i] : undefined), obj);
+    if (exactValue !== undefined) return exactValue;
+    
+    // Try case-insensitive match
+    const parts = path.split('.');
+    let current = obj;
+    for (const part of parts) {
+        if (!current) return undefined;
+        
+        // Try exact match
+        if (current[part] !== undefined) {
+            current = current[part];
+            continue;
+        }
+        
+        // Try case-insensitive match
+        const lowerPart = part.toLowerCase();
+        const key = Object.keys(current).find(k => k.toLowerCase() === lowerPart);
+        if (key) {
+            current = current[key];
+        } else {
+            return undefined;
+        }
+    }
+    return current;
+}
+
+function toNumeric(value) {
+    if (value === undefined || value === null) return null;
+    if (typeof value === 'number' && !Number.isNaN(value)) return value;
+    const str = String(value).trim();
+    if (str === '') return null;
+    const normalized = str.replace(/,/g, '');
+    const num = Number(normalized);
+    return Number.isNaN(num) ? null : num;
 }
 
 /**
@@ -19,13 +55,50 @@ function evaluateRule(item, rule) {
     const ruleValue = rule.value;
 
     if (itemValue === undefined) {
+        console.log(`⚠️ Property "${rule.column}" not found on item:`, item.id || item);
         return false;
     }
 
     const itemStr = String(itemValue).toLowerCase();
-    const ruleStr = String(ruleValue).toLowerCase();
 
-    switch (rule.operator) {
+    if (rule.operator === 'between') {
+        return evaluateSimpleRule(itemStr, itemValue, null, ruleValue, rule.operator);
+    }
+    
+    // Handle array of values (from dropdown filters)
+    if (Array.isArray(ruleValue)) {
+        console.log(`🚨 ARRAY DETECTED for ${item.id}: column=${rule.column}, values=`, ruleValue);
+        // For 'equals' with array, check if item value is in the array
+        if (rule.operator === 'equals') {
+            console.log(`🔍 Array comparison for ${item.id}:`, 
+                '\n  itemValue:', itemValue, 
+                '\n  itemStr:', itemStr,
+                '\n  ruleValue:', ruleValue,
+                '\n  lowercased:', ruleValue.map(v => String(v).toLowerCase()),
+                '\n  checking comparisons:',
+                ruleValue.map(v => ({
+                    original: v,
+                    lowered: String(v).toLowerCase(),
+                    matches: String(v).toLowerCase() === itemStr
+                })));
+            const match = ruleValue.some(v => String(v).toLowerCase() === itemStr);
+            console.log(`  🎯 Final match result:`, match);
+            return match;
+        }
+        // For other operators with arrays, use first value
+        const ruleStr = String(ruleValue[0]).toLowerCase();
+        return evaluateSimpleRule(itemStr, itemValue, ruleStr, ruleValue[0], rule.operator);
+    }
+    
+    const ruleStr = String(ruleValue).toLowerCase();
+    return evaluateSimpleRule(itemStr, itemValue, ruleStr, ruleValue, rule.operator);
+}
+
+/**
+ * Helper function to evaluate simple (non-array) rule comparisons
+ */
+function evaluateSimpleRule(itemStr, itemValue, ruleStr, ruleValue, operator) {
+    switch (operator) {
         case 'contains':
             return itemStr.includes(ruleStr);
         case 'not_contains':
@@ -34,12 +107,34 @@ function evaluateRule(item, rule) {
             return itemStr === ruleStr;
         case 'not_equals':
             return itemStr !== ruleStr;
-        case 'gt':
-            return parseFloat(itemValue) > parseFloat(ruleValue);
-        case 'lt':
-            return parseFloat(itemValue) < parseFloat(ruleValue);
-        case 'eq':
-            return parseFloat(itemValue) === parseFloat(ruleValue);
+        case 'gt': {
+            const itemNum = toNumeric(itemValue);
+            const ruleNum = toNumeric(ruleValue);
+            if (itemNum === null || ruleNum === null) return false;
+            return itemNum > ruleNum;
+        }
+        case 'lt': {
+            const itemNum = toNumeric(itemValue);
+            const ruleNum = toNumeric(ruleValue);
+            if (itemNum === null || ruleNum === null) return false;
+            return itemNum < ruleNum;
+        }
+        case 'eq': {
+            const itemNum = toNumeric(itemValue);
+            const ruleNum = toNumeric(ruleValue);
+            if (itemNum === null || ruleNum === null) return false;
+            return itemNum === ruleNum;
+        }
+        case 'between': {
+            if (!ruleValue || typeof ruleValue !== 'object') return false;
+            const min = toNumeric(ruleValue.min ?? ruleValue.from ?? ruleValue.start ?? ruleValue.lower ?? null);
+            const max = toNumeric(ruleValue.max ?? ruleValue.to ?? ruleValue.end ?? ruleValue.upper ?? null);
+            const itemNum = toNumeric(itemValue);
+            if (itemNum === null) return false;
+            if (min !== null && itemNum < min) return false;
+            if (max !== null && itemNum > max) return false;
+            return true;
+        }
         default:
             return false;
     }
@@ -94,7 +189,21 @@ function applyHighlightMode(nodes, links, nodeRules, connectionRules) {
     const matchingNodeIds = new Set();
     if (nodeRules.length > 0) {
         nodes.forEach(node => {
-            const matches = nodeRules.every(rule => evaluateRule(node, rule));
+            // Group rules by column - within a column use OR, between columns use AND
+            const rulesByColumn = {};
+            nodeRules.forEach(rule => {
+                if (!rulesByColumn[rule.column]) {
+                    rulesByColumn[rule.column] = [];
+                }
+                rulesByColumn[rule.column].push(rule);
+            });
+            
+            // For each column, at least one rule must match (OR within column)
+            // All columns must have a match (AND between columns)
+            const matches = Object.values(rulesByColumn).every(columnRules => 
+                columnRules.some(rule => evaluateRule(node, rule))
+            );
+            
             if (matches) {
                 matchingNodeIds.add(node.id);
                 node.filterStyle.highlighted = true;
@@ -156,10 +265,38 @@ function applyExcludeMode(nodes, links, nodeRules, connectionRules) {
     const nodeById = new Map(nodes.map(n => [n.id, n]));
 
     // Apply node filters
+    // Group rules by column - within a column use OR, between columns use AND
     if (nodeRules.length > 0) {
+        console.log('🔍 Applying node filters:', nodeRules);
+        
+        // Debug: Show first few nodes' Type values
+        console.log('📋 Sample node Type values:', nodes.slice(0, 5).map(n => ({ id: n.id, type: n.type, Type: n.Type })));
+        
         filteredNodes = nodes.filter(node => {
-            return nodeRules.every(rule => evaluateRule(node, rule));
+            // Group rules by column
+            const rulesByColumn = {};
+            nodeRules.forEach(rule => {
+                if (!rulesByColumn[rule.column]) {
+                    rulesByColumn[rule.column] = [];
+                }
+                rulesByColumn[rule.column].push(rule);
+            });
+            
+            // For each column, at least one rule must match (OR within column)
+            // All columns must have a match (AND between columns)
+            const result = Object.values(rulesByColumn).every(columnRules => 
+                columnRules.some(rule => {
+                    const match = evaluateRule(node, rule);
+                    if (!match && node.id === 'indeed') {
+                        // Debug first node to see why it fails
+                        console.log('❌ Node', node.id, 'failed rule:', rule.column, rule.operator, rule.value, '| actual:', getProperty(node, rule.column));
+                    }
+                    return match;
+                })
+            );
+            return result;
         });
+        console.log('✅ Filtered to', filteredNodes.length, 'nodes');
     }
 
     // Apply connection filters
@@ -258,27 +395,24 @@ function evaluateLinkRule(link, rule, nodeById) {
         return false;
     }
 
-    const itemStr = String(itemValue).toLowerCase();
-    const ruleStr = String(rule.value).toLowerCase();
+    const ruleValue = rule.value;
 
-    switch (rule.operator) {
-        case 'contains':
-            return itemStr.includes(ruleStr);
-        case 'not_contains':
-            return !itemStr.includes(ruleStr);
-        case 'equals':
-            return itemStr === ruleStr;
-        case 'not_equals':
-            return itemStr !== ruleStr;
-        case 'gt':
-            return parseFloat(itemValue) > parseFloat(rule.value);
-        case 'lt':
-            return parseFloat(itemValue) < parseFloat(rule.value);
-        case 'eq':
-            return parseFloat(itemValue) === parseFloat(rule.value);
-        default:
-            return false;
+    if (Array.isArray(ruleValue)) {
+        if (rule.operator === 'equals') {
+            const lowered = ruleValue.map(v => String(v).toLowerCase());
+            return lowered.includes(String(itemValue).toLowerCase());
+        }
+        const fallback = ruleValue.length > 0 ? ruleValue[0] : null;
+        return evaluateSimpleRule(String(itemValue).toLowerCase(), itemValue, fallback ? String(fallback).toLowerCase() : '', fallback, rule.operator);
     }
+
+    if (rule.operator === 'between') {
+        return evaluateSimpleRule(String(itemValue).toLowerCase(), itemValue, null, ruleValue, 'between');
+    }
+
+    const itemStr = String(itemValue).toLowerCase();
+    const ruleStr = String(ruleValue).toLowerCase();
+    return evaluateSimpleRule(itemStr, itemValue, ruleStr, ruleValue, rule.operator);
 }
 
 /**

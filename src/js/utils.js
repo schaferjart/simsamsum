@@ -9,7 +9,7 @@ export function showStatus(message, type = 'info') {
     statusEl.textContent = message;
     statusEl.className = `status-message ${type}`;
 
-    if (type === 'success' || type === 'error') {
+    if (type === 'success' || type === 'error' || type === 'warning') {
         setTimeout(() => {
             statusEl.textContent = '';
             statusEl.className = 'status-message';
