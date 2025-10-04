@@ -1196,31 +1196,42 @@ function addStylingRuleFromData(rule, onChange) {
     const container = document.getElementById('styling-rules-container');
     const ruleEl = document.createElement('div');
     ruleEl.className = 'styling-rule';
-    
+
     const scopePrefix = rule.scope === 'node' ? 'node:' : 'connection:';
     const fullColumn = scopePrefix + rule.column;
-    
+    const strokeValue = (typeof rule.strokeWidth === 'number' && rule.strokeWidth > 0) ? String(rule.strokeWidth) : '';
+    const fallbackColor = rule.color || getThemeAppropriateColor();
+
     ruleEl.innerHTML = `
-        <select class="form-control form-control--sm column-select">
-            <option value="">-- Select Column --</option>
-            <optgroup label="Nodes">
-                ${NODE_COLUMNS.map(c => `<option value="node:${c.id}" ${fullColumn === `node:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
-            </optgroup>
-            <optgroup label="Connections">
-                ${CONNECTION_COLUMNS.map(c => `<option value="connection:${c.id}" ${fullColumn === `connection:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
-            </optgroup>
-        </select>
-        <select class="form-control form-control--sm operator-select"></select>
-        <input type="text" class="form-control form-control--sm value-input" value="${rule.value || ''}" placeholder="Value">
-        <input type="color" class="color-input" value="${rule.color || '#ff6b6b'}" title="Node/Link color">
-        <button class="btn btn--danger btn--sm remove-rule-btn" title="Remove rule">×</button>
+        <div class="rule-condition">
+            If
+            <select class="form-control form-control--sm column-select">
+                <option value="">-- Select Column --</option>
+                <optgroup label="Nodes">
+                    ${NODE_COLUMNS.map(c => `<option value="node:${c.id}" ${fullColumn === `node:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
+                </optgroup>
+                <optgroup label="Connections">
+                    ${CONNECTION_COLUMNS.map(c => `<option value="connection:${c.id}" ${fullColumn === `connection:${c.id}` ? 'selected' : ''}>${c.name}</option>`).join('')}
+                </optgroup>
+            </select>
+            <select class="form-control form-control--sm operator-select" disabled></select>
+            <input type="text" class="form-control form-control--sm value-input" value="${rule.value || ''}" placeholder="Value" disabled>
+        </div>
+        <div class="rule-style">
+            Then set
+            <input type="color" class="form-control form-control--sm color-input" title="Color" value="${fallbackColor}">
+            <input type="number" class="form-control form-control--sm stroke-width-input" placeholder="Stroke Width" min="1" max="10" value="${strokeValue}">
+            <button class="btn btn--danger btn--sm remove-rule-btn" title="Remove rule">×</button>
+        </div>
     `;
-    
+
     container.appendChild(ruleEl);
-    
+
     const columnSelect = ruleEl.querySelector('.column-select');
     const operatorSelect = ruleEl.querySelector('.operator-select');
     const valueInput = ruleEl.querySelector('.value-input');
+    const colorInput = ruleEl.querySelector('.color-input');
+    const strokeInput = ruleEl.querySelector('.stroke-width-input');
     
     const updateOperators = () => {
         const selected = columnSelect.value;
@@ -1258,15 +1269,13 @@ function addStylingRuleFromData(rule, onChange) {
         if (onChange) onChange();
     });
     
-    ruleEl.querySelector('.color-input').addEventListener('input', () => {
+    colorInput.addEventListener('input', () => {
         if (onChange) onChange();
     });
 
-    if (strokeInput) {
-        strokeInput.addEventListener('input', () => {
-            if (onChange) onChange();
-        });
-    }
+    strokeInput.addEventListener('input', () => {
+        if (onChange) onChange();
+    });
     
     ruleEl.querySelector('.remove-rule-btn').addEventListener('click', () => {
         ruleEl.remove();
