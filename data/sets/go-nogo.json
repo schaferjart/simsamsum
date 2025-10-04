@@ -1,0 +1,35 @@
+{
+  "filters": [
+    {
+      "scope": "connection",
+      "column": "target.SubType",
+      "operator": "contains",
+      "value": "out",
+      "style": {
+        "color": "#ff0000",
+        "strokeWidth": 3
+      }
+    },
+    {
+      "scope": "connection",
+      "column": "target.SubType",
+      "operator": "not_contains",
+      "value": "Out",
+      "style": {
+        "color": "#11ff00"
+      }
+    }
+  ],
+  "styling": [
+    {
+      "scope": "connection",
+      "column": "target.SubType",
+      "operator": "contains",
+      "value": "out",
+      "color": "#ff0000",
+      "strokeWidth": 3,
+      "fromFilter": true
+    }
+  ],
+  "timestamp": "2025-10-04T12:22:25.773Z"
+}
