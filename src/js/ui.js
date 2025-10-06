@@ -30,13 +30,16 @@ const NODE_COLUMNS = [
     { id: 'Variable', name: 'Variable', type: 'number' },
     
     // Time and scheduling properties
-    { id: 'AvgCostTime', name: 'Average Cost Time', type: 'text' },
+    { id: 'AvgCostTime', name: 'Average Cost Time', type: 'number' },
     { id: 'LastUpdate', name: 'Last Update', type: 'text' },
     { id: 'NextUpdate', name: 'Next Update', type: 'text' },
     { id: 'ScheduleStart', name: 'Schedule Start', type: 'text' },
     { id: 'ScheduleEnd', name: 'Schedule End', type: 'text' },
     { id: 'Frequency', name: 'Frequency', type: 'text' }
 ];
+
+const NUMERIC_NODE_COLUMNS = NODE_COLUMNS.filter(col => col.type === 'number');
+const DEFAULT_SIZE_COLUMN = 'incomingVolume';
 
 const CONNECTION_COLUMNS = [
     // Direct connection properties
@@ -611,6 +614,7 @@ export function bindEventListeners(handlers) {
     // View and layout controls
     document.getElementById('resetBtn').addEventListener('click', handlers.handleReset);
     document.getElementById('sizeToggle').addEventListener('change', (e) => handlers.handleSizeToggle(e.target.checked));
+    document.getElementById('sizeColumnSelect').addEventListener('change', (e) => handlers.handleSizeColumnChange(e.target.value));
     document.getElementById('layoutSelect').addEventListener('change', (e) => handlers.handleLayoutChange(e.target.value));
 
     // Grid controls
@@ -884,9 +888,74 @@ export function resetUI() {
     document.getElementById('filter-rules-container').innerHTML = '';
     document.getElementById('styling-rules-container').innerHTML = '';
     document.getElementById('layoutSelect').value = 'force';
-    document.getElementById('sizeToggle').checked = true;
+    updateSizeControlUI({ enabled: true, column: DEFAULT_SIZE_COLUMN });
     toggleGridControls(false);
     updateGridUI(false);
+}
+
+export function getNumericNodeColumns() {
+    return NUMERIC_NODE_COLUMNS.map(col => ({ ...col }));
+}
+
+export function getDefaultSizeColumn() {
+    return DEFAULT_SIZE_COLUMN;
+}
+
+export function updateSizeControlUI(state = {}, columns = null) {
+    const enabled = state?.enabled !== false;
+    const desiredColumn = state?.column || DEFAULT_SIZE_COLUMN;
+    const toggle = document.getElementById('sizeToggle');
+    const select = document.getElementById('sizeColumnSelect');
+    const label = document.querySelector('.size-toggle-label');
+
+    if (toggle) {
+        toggle.checked = enabled;
+    }
+
+    if (!select) {
+        if (label) {
+            label.textContent = enabled ? `Scale by ${desiredColumn}` : 'Uniform size';
+        }
+        return;
+    }
+
+    const optionsSource = Array.isArray(columns) && columns.length ? columns : NUMERIC_NODE_COLUMNS;
+    const uniqueIds = new Set();
+    const normalizedOptions = optionsSource.filter(col => {
+        if (!col || !col.id || uniqueIds.has(col.id)) return false;
+        uniqueIds.add(col.id);
+        return true;
+    });
+
+    select.innerHTML = '';
+
+    if (normalizedOptions.length === 0) {
+        const option = document.createElement('option');
+        option.value = '';
+        option.textContent = 'No numeric columns';
+        select.appendChild(option);
+        select.value = '';
+        select.disabled = true;
+        if (label) label.textContent = 'Uniform size';
+        return;
+    }
+
+    normalizedOptions.forEach(col => {
+        const option = document.createElement('option');
+        option.value = col.id;
+        option.textContent = col.name;
+        select.appendChild(option);
+    });
+
+    const selectedOption = normalizedOptions.find(col => col.id === desiredColumn) || normalizedOptions[0];
+    select.value = selectedOption?.id ?? normalizedOptions[0].id;
+    select.disabled = !enabled;
+
+    if (label) {
+        label.textContent = enabled && selectedOption
+            ? `Scale by ${selectedOption.name}`
+            : 'Uniform size';
+    }
 }
 
 // --- Filter Set Management ---

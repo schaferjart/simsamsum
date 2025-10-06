@@ -230,6 +230,22 @@ select.form-control {
   gap: var(--space-8);
 }
 
+.size-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.size-column-select {
+  width: 100%;
+}
+
+.size-toggle-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -249,6 +265,13 @@ select.form-control {
   top: 0;
   left: 0;
   right: 0;
+.size-control {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
   bottom: 0;
   background-color: var(--color-gray-300);
   transition: var(--duration-fast);

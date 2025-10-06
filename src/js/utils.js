@@ -18,27 +18,76 @@ export function showStatus(message, type = 'info') {
 }
 
 /**
- * Calculates the size of a node based on its cost.
- * Uses logarithmic scaling to keep sizes within a reasonable range.
- * @param {number} cost - The cost value of the node.
- * @param {boolean} useCostBasedSizing - Flag to determine if sizing is based on cost or uniform.
- * @returns {number} The calculated size of the node.
+ * Calculates the size of a node based on a numeric value.
+ * Uses logarithmic scaling to balance large ranges and keeps output
+ * constrained between configured minimum and maximum sizes.
+ *
+ * @param {number|null|undefined} rawValue - The numeric value to scale.
+ * @param {object} [sizingConfig={}] - Configuration controlling scaling behaviour.
+ * @param {boolean} [sizingConfig.enabled=true] - Whether dynamic sizing is active.
+ * @param {number|null} [sizingConfig.minValue=null] - Minimum dataset value for scaling.
+ * @param {number|null} [sizingConfig.maxValue=null] - Maximum dataset value for scaling.
+ * @param {number} [sizingConfig.baseSize=40] - Size to use when sizing disabled or value missing.
+ * @param {number} [sizingConfig.minSize=24] - Minimum rendered size when sizing enabled.
+ * @param {number} [sizingConfig.maxSize=90] - Maximum rendered size when sizing enabled.
+ * @returns {number} The calculated node size in pixels.
  */
-export function calculateNodeSize(cost, useCostBasedSizing) {
-    if (!useCostBasedSizing) {
-        return 40; // Uniform size
+export function calculateNodeSize(rawValue, sizingConfig = {}) {
+    const {
+        enabled = true,
+        minValue = null,
+        maxValue = null,
+        baseSize = 40,
+        minSize = 24,
+        maxSize = 90,
+        zeroSize = 10
+    } = sizingConfig || {};
+
+    if (!enabled) {
+        return baseSize;
     }
 
-    if (cost === null || cost === undefined || isNaN(cost) || cost <= 0) {
-        return 30; // Default size for nodes without a valid cost
+    const numericValue = (() => {
+        if (typeof rawValue === 'number' && !Number.isNaN(rawValue)) return rawValue;
+        if (typeof rawValue === 'string') {
+            const cleaned = rawValue.replace(/,/g, '').trim();
+            if (cleaned === '') return null;
+            const parsed = Number(cleaned);
+            return Number.isNaN(parsed) ? null : parsed;
+        }
+        const coerced = Number(rawValue);
+        return Number.isNaN(coerced) ? null : coerced;
+    })();
+
+    if (numericValue === null || Number.isNaN(numericValue)) {
+        return baseSize;
     }
 
-    const minSize = 20;
-    const maxSize = 80;
-    const maxCost = 120; // Based on sample data max, can be adjusted
+    if (numericValue <= 0) {
+        return Math.max(0, zeroSize);
+    }
 
-    const logScale = Math.log(cost + 1) / Math.log(maxCost + 1);
-    return minSize + (logScale * (maxSize - minSize));
+    const safeMin = (typeof minValue === 'number' && !Number.isNaN(minValue)) ? minValue : numericValue;
+    const safeMaxCandidate = (typeof maxValue === 'number' && !Number.isNaN(maxValue)) ? maxValue : numericValue;
+    const safeMax = safeMaxCandidate > safeMin ? safeMaxCandidate : safeMin + 1;
+
+    const clampedValue = Math.max(numericValue, safeMin);
+    const span = safeMax - safeMin;
+
+    let normalized;
+    if (span <= 0 || !Number.isFinite(span)) {
+        normalized = 0.5;
+    } else {
+        const relative = clampedValue - safeMin;
+        normalized = Math.log(relative + 1) / Math.log(span + 1);
+    }
+
+    if (!Number.isFinite(normalized)) {
+        normalized = 0.5;
+    }
+
+    const scaled = minSize + normalized * (maxSize - minSize);
+    return Math.max(minSize, Math.min(maxSize, scaled));
 }
 
 /**

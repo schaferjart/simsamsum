@@ -78,14 +78,15 @@
                 </div>
 
                 <div class="control-group">
-                    <label class="form-label">Element Size:</label>
-                    <div class="toggle-container">
+                    <label class="form-label">Element Size</label>
+                    <div class="size-control">
                         <label class="toggle-switch">
                             <input type="checkbox" id="sizeToggle" checked>
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="toggle-label">Cost-based sizing</span>
+                        <span class="toggle-label size-toggle-label">Scale by Incoming Volume</span>
                     </div>
+                    <select id="sizeColumnSelect" class="form-control form-control--sm size-column-select" aria-label="Select column for node sizing"></select>
                 </div>
 
                 <div class="control-group">

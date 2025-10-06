@@ -1,4 +1,4 @@
-import { calculateNodeSize, getBorderStyle } from './utils.js';
+import { getBorderStyle } from './utils.js';
 
 export const sampleData = [
     {
@@ -141,10 +141,11 @@ export function resolveValue(value, variables = {}) {
 /**
  * Processes raw data into nodes and links.
  * @param {Array<Object>} data - The raw data array.
- * @param {boolean} costBasedSizing - Whether to use cost-based sizing.
+ * @param {object} sizingConfig - Optional sizing preferences (base size, column selection handled elsewhere).
  * @returns {{nodes: Array<Object>, links: Array<Object>}}
  */
-export function processData(data, costBasedSizing, variables = {}) {
+export function processData(data, sizingConfig = {}, variables = {}) {
+    const baseSize = sizingConfig?.baseSize ?? 40;
     // Shape detection: legacy flat array vs new model { nodes, connections, variables }
     if (Array.isArray(data)) {
         // Legacy path (existing behavior)
@@ -174,7 +175,7 @@ export function processData(data, costBasedSizing, variables = {}) {
 
         const nodes = cleanData.map((row) => ({
             id: row.Name,
-            size: calculateNodeSize(row.costValue, costBasedSizing),
+            size: baseSize,
             borderStyle: getBorderStyle(row.Execution),
             ...row
         }));
@@ -272,7 +273,7 @@ export function processData(data, costBasedSizing, variables = {}) {
             Frequency: n.frequency || n.Frequency || '',
 
             // Properties for d3 and rendering logic
-            size: calculateNodeSize(resolvedCost, costBasedSizing),
+            size: baseSize,
             borderStyle: getBorderStyle(execution),
             x: typeof n.x === 'number' ? n.x : undefined,
             y: typeof n.y === 'number' ? n.y : undefined,

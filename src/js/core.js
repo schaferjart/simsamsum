@@ -34,7 +34,7 @@ class WorkflowVisualizer {
          * @property {Array<Object>} allNodes - The complete set of nodes from the data source.
          * @property {Array<Object>} allLinks - The complete set of links from the data source.
          * @property {d3.ZoomBehavior} zoom - The D3 zoom behavior.
-         * @property {boolean} costBasedSizing - Whether node size is based on cost.
+         * @property {{enabled:boolean,column:string|null,minValue:number|null,maxValue:number|null,minSize:number,maxSize:number,baseSize:number,zeroSize:number}} nodeSizing - Configuration for dynamic node sizing.
          * @property {string} currentLayout - The name of the currently active layout.
          * @property {number} graphRotation - The current rotation of the graph in degrees.
          * @property {Object} graphTransform - The current scale transform of the graph.
@@ -53,14 +53,28 @@ class WorkflowVisualizer {
             links: [],
             allNodes: [],
             allLinks: [],
-            zoom: null,
-            costBasedSizing: true,
+            nodeSizing: null,
             currentLayout: 'manual-grid',
             graphRotation: 0,
             graphTransform: { scaleX: 1, scaleY: 1 },
             gridSize: 50,
             showGrid: false,
             currentDataFile: 'sample-data.csv'
+        };
+
+        const defaultSizingColumn = typeof ui.getDefaultSizeColumn === 'function'
+            ? ui.getDefaultSizeColumn()
+            : 'incomingVolume';
+
+        this.state.nodeSizing = {
+            enabled: true,
+            column: defaultSizingColumn,
+            minValue: null,
+            maxValue: null,
+            minSize: 24,
+            maxSize: 90,
+            baseSize: 40,
+            zeroSize: 10
         };
 
         // Initialize selection manager for multi-select drag and drop
@@ -73,16 +87,9 @@ class WorkflowVisualizer {
      * Table-oriented state for editing/importing raw elements, connections, and variables
      * independent of the visualization's internal state. These are intentionally kept
      * outside of this.state to avoid collisions with the rendering pipeline.
-     * @type {Array<{ id: string, name: string, type: string, area: string, platform: string, cost: number, incomingVolume: number, description: string, x: number, y: number }>}
      */
     this.elements = [];
-    /**
-     * @type {Array<{ id: string, fromId: string, toId: string }>}
-     */
     this.connections = [];
-    /**
-     * @type {{ [key: string]: number }}
-     */
     this.variables = {};
     }
 
@@ -105,18 +112,22 @@ class WorkflowVisualizer {
             }
         );
 
-    this.state.svg = svg;
+        this.state.svg = svg;
         this.state.zoomGroup = zoomGroup;
         this.state.g = g;
         this.state.zoom = zoom;
         this.state.width = width;
         this.state.height = height;
 
-    ui.bindEventListeners(this.getEventHandlers());
+        ui.bindEventListeners(this.getEventHandlers());
 
         // Set the initial state of the layout dropdown and controls
         document.getElementById('layoutSelect').value = this.state.currentLayout;
         this.handleLayoutChange(this.state.currentLayout);
+
+        if (typeof ui.updateSizeControlUI === 'function') {
+            ui.updateSizeControlUI(this.state.nodeSizing, ui.getNumericNodeColumns?.());
+        }
 
         // Priority: 1) JSON files, 2) localStorage, 3) empty state
         const loaded = await this.loadFromJsonFiles() || this.loadFromLocalStorage();
@@ -264,11 +275,12 @@ class WorkflowVisualizer {
                     });
                     
                     this.computeDerivedFields();
+                    const sizingConfig = this.getProcessDataSizingConfig();
                     let { nodes: vizNodes, links: vizLinks } = processData({
                         nodes: this.elements,
                         connections: this.connections,
                         variables: this.variables
-                    }, this.state.costBasedSizing);
+                    }, sizingConfig, this.variables);
 
                     const idSet = new Set((vizNodes || []).map(n => n.id));
                     vizLinks = (vizLinks || []).filter(l => idSet.has(l.source?.id ?? l.source) && idSet.has(l.target?.id ?? l.target));
@@ -277,6 +289,7 @@ class WorkflowVisualizer {
                     this.state.allLinks = vizLinks;
                     this.state.nodes = [...vizNodes];
                     this.state.links = [...vizLinks];
+                    this.refreshNodeSizing();
                     this.refreshTables();
                     return true;
                 }
@@ -318,11 +331,12 @@ class WorkflowVisualizer {
             
             // Compute derived fields and hydrate visualization
             this.computeDerivedFields();
+            const sizingConfigFallback = this.getProcessDataSizingConfig();
             let { nodes: vizNodes, links: vizLinks } = processData({
                 nodes: this.elements,
                 connections: this.connections,
                 variables: this.variables
-            }, this.state.costBasedSizing);
+            }, sizingConfigFallback, this.variables);
 
             // Sanitize links
             const idSet = new Set((vizNodes || []).map(n => n.id));
@@ -332,6 +346,7 @@ class WorkflowVisualizer {
             this.state.allLinks = vizLinks;
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
+            this.refreshNodeSizing();
             
             // Refresh table data after loading from files
             this.refreshTables();
@@ -359,11 +374,12 @@ class WorkflowVisualizer {
 
             // Compute derived fields and hydrate visualization state from table model
             this.computeDerivedFields();
+            const sizingConfig = this.getProcessDataSizingConfig();
             let { nodes: vizNodes, links: vizLinks } = processData({
                 nodes: this.elements, // processData still expects 'nodes' key
                 connections: this.connections,
                 variables: this.variables
-            }, this.state.costBasedSizing);
+            }, sizingConfig, this.variables);
 
             // Sanitize links against resolved node ids to avoid d3 force errors on stale endpoints
             const idSet = new Set((vizNodes || []).map(n => n.id));
@@ -373,6 +389,7 @@ class WorkflowVisualizer {
             this.state.allLinks = vizLinks;
             this.state.nodes = [...vizNodes];
             this.state.links = [...vizLinks];
+            this.refreshNodeSizing();
             return true;
         } catch (e) {
             console.warn('Failed to load from localStorage, using sample data instead.', e);
@@ -409,6 +426,7 @@ class WorkflowVisualizer {
             applyFiltersAndStyles: () => this.applyFiltersAndStyles(),
             handleReset: () => this.resetView(),
             handleSizeToggle: (enabled) => this.handleSizeToggle(enabled),
+            handleSizeColumnChange: (column) => this.handleSizeColumnChange(column),
             handleLayoutChange: (layout) => this.handleLayoutChange(layout),
             toggleGrid: () => this.toggleGrid(),
             snapAllToGrid: () => this.snapAllToGrid(),
@@ -577,7 +595,8 @@ class WorkflowVisualizer {
         this.state.nodes = [];
         this.state.links = [];
         this.state.currentDataFile = 'new-workflow';
-        
+        this.refreshNodeSizing();
+
         this.updateVisualization();
         showStatus('Ready to create new workflow', 'info');
     }
@@ -778,11 +797,12 @@ class WorkflowVisualizer {
         });
 
         // Convert table data to visualization format using processData
+        const sizingConfig = this.getProcessDataSizingConfig();
         const { nodes: vizNodes, links: vizLinks } = processData({
             nodes: this.elements,
             connections: this.connections,
             variables: this.variables
-        }, this.state.costBasedSizing);
+        }, sizingConfig, this.variables);
 
         // Sanitize links against resolved node ids
         const idSet = new Set((vizNodes || []).map(n => n.id));
@@ -806,6 +826,8 @@ class WorkflowVisualizer {
         this.state.nodes = [...this.state.allNodes];
         this.state.links = [...this.state.allLinks];
 
+        this.refreshNodeSizing();
+
         console.log('✅ Synced to visualization:', {
             nodes: this.state.nodes.length,
             links: this.state.links.length
@@ -822,20 +844,131 @@ class WorkflowVisualizer {
         }
     }
 
+    getProcessDataSizingConfig() {
+        const sizing = this.state.nodeSizing || {};
+        return {
+            baseSize: sizing.baseSize ?? 40,
+            minSize: sizing.minSize ?? 24,
+            maxSize: sizing.maxSize ?? 90
+        };
+    }
+
+    getNodeValueForSizing(node, column) {
+        if (!node || !column) return null;
+        const direct = node[column];
+        if (direct !== undefined) return direct;
+        const camel = column.charAt(0).toLowerCase() + column.slice(1);
+        if (node[camel] !== undefined) return node[camel];
+        const pascal = column.charAt(0).toUpperCase() + column.slice(1);
+        if (node[pascal] !== undefined) return node[pascal];
+        return null;
+    }
+
+    recomputeNodeSizingExtents() {
+        const sizing = this.state.nodeSizing;
+        if (!sizing) return;
+
+        const column = sizing.column;
+        if (!column || !Array.isArray(this.state.allNodes) || this.state.allNodes.length === 0) {
+            sizing.minValue = null;
+            sizing.maxValue = null;
+            return;
+        }
+
+        const values = this.state.allNodes
+            .map(node => this.getNodeValueForSizing(node, column))
+            .map(value => {
+                if (typeof value === 'number') {
+                    return Number.isFinite(value) ? value : null;
+                }
+                if (typeof value === 'string') {
+                    const cleaned = value.replace(/,/g, '').trim();
+                    if (!cleaned) return null;
+                    const parsed = Number(cleaned);
+                    return Number.isFinite(parsed) ? parsed : null;
+                }
+                const coerced = Number(value);
+                return Number.isFinite(coerced) ? coerced : null;
+            })
+            .filter(value => value !== null);
+
+        if (values.length === 0) {
+            sizing.minValue = null;
+            sizing.maxValue = null;
+            return;
+        }
+
+        sizing.minValue = Math.min(...values);
+        sizing.maxValue = Math.max(...values);
+    }
+
+    applyNodeSizingToNodes(nodes) {
+        if (!Array.isArray(nodes) || nodes.length === 0) return;
+        const sizing = this.state.nodeSizing || {};
+        const column = sizing.column;
+        nodes.forEach(node => {
+            const value = column ? this.getNodeValueForSizing(node, column) : null;
+            node.size = calculateNodeSize(value, sizing);
+        });
+    }
+
+    refreshNodeSizing() {
+        this.recomputeNodeSizingExtents();
+        this.applyNodeSizingToNodes(this.state.allNodes);
+        if (this.state.nodes !== this.state.allNodes) {
+            this.applyNodeSizingToNodes(this.state.nodes);
+        }
+    }
+
+    getSizeColumnDisplayName(columnId) {
+        if (!columnId) return 'value';
+        if (typeof ui.getNumericNodeColumns === 'function') {
+            const columns = ui.getNumericNodeColumns();
+            const match = columns.find(col => col.id === columnId);
+            if (match?.name) return match.name;
+        }
+        return columnId;
+    }
+
     /**
-     * Handles the toggling of cost-based node sizing.
-     * @param {boolean} enabled - Whether cost-based sizing should be enabled.
+     * Handles the toggling of node sizing.
+     * @param {boolean} enabled - Whether dynamic sizing should be enabled.
      */
     handleSizeToggle(enabled) {
-        this.state.costBasedSizing = enabled;
-        this.state.allNodes.forEach(node => {
-            node.size = calculateNodeSize(node.costValue, this.state.costBasedSizing);
-        });
-        this.state.nodes.forEach(node => {
-            node.size = calculateNodeSize(node.costValue, this.state.costBasedSizing);
-        });
+        if (!this.state.nodeSizing) return;
+        this.state.nodeSizing.enabled = !!enabled;
+        ui.updateSizeControlUI?.(this.state.nodeSizing);
+        this.refreshNodeSizing();
         this.updateVisualization();
-        showStatus(enabled ? 'Cost-based sizing enabled' : 'Uniform sizing enabled', 'info');
+
+        const columnName = this.getSizeColumnDisplayName(this.state.nodeSizing.column);
+        showStatus(enabled ? `Scaling nodes by ${columnName}` : 'Uniform sizing enabled', 'info');
+    }
+
+    handleSizeColumnChange(columnId) {
+        if (!this.state.nodeSizing) return;
+
+        const numericColumns = typeof ui.getNumericNodeColumns === 'function'
+            ? ui.getNumericNodeColumns()
+            : [];
+
+        let resolvedColumn = columnId || this.state.nodeSizing.column;
+        if (!resolvedColumn && numericColumns.length > 0) {
+            resolvedColumn = numericColumns[0].id;
+        }
+
+        this.state.nodeSizing.column = resolvedColumn;
+        ui.updateSizeControlUI?.(this.state.nodeSizing, numericColumns);
+
+        this.refreshNodeSizing();
+        this.updateVisualization();
+
+        if (resolvedColumn) {
+            const columnName = this.getSizeColumnDisplayName(resolvedColumn);
+            showStatus(`Scaling nodes by ${columnName}`, 'info');
+        } else {
+            showStatus('Uniform sizing enabled', 'info');
+        }
     }
 
     /**
