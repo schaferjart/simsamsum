@@ -865,7 +865,7 @@ export function toggleGridControls(visible) {
 export function updateGridUI(showGrid) {
     const btn = document.getElementById('showGridBtn');
     if (btn) {
-        btn.textContent = showGrid ? '📐 Hide Grid' : '📐 Show Grid';
+        btn.textContent = showGrid ? 'Hide Grid' : 'Show Grid';
         btn.classList.toggle('btn--active', showGrid);
     }
 }
@@ -2070,7 +2070,7 @@ export async function initEditorTables(core) {
             saveToServerBtn.style.backgroundColor = success ? '#28a745' : '#dc3545';
             
             setTimeout(() => {
-                saveToServerBtn.textContent = '💾 Save to Server';
+                saveToServerBtn.textContent = 'Save to Server';
                 saveToServerBtn.style.backgroundColor = '';
             }, 2000);
         };
@@ -2103,7 +2103,7 @@ export async function initEditorTables(core) {
             exportDataBtn.style.backgroundColor = '#28a745';
             
             setTimeout(() => {
-                exportDataBtn.textContent = '📤 Export Data';
+                exportDataBtn.textContent = 'Export Data';
                 exportDataBtn.style.backgroundColor = '';
             }, 2000);
         };

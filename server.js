@@ -23,7 +23,7 @@ app.post('/api/save-workflow', async (req, res) => {
     try {
         const { elements, connections, variables } = req.body;
         
-        console.log('💾 Saving workflow data:', {
+    console.log('Saving workflow data:', {
             elements: elements?.length || 0,
             connections: connections?.length || 0,
             variables: Object.keys(variables || {}).length
@@ -272,8 +272,8 @@ app.post('/api/layouts/:name', async (req, res) => {
             return res.status(400).json({ success: false, error: 'Invalid positions data in request body' });
         }
 
-        await fs.writeFile(filePath, JSON.stringify(positions, null, 2));
-        console.log(`💾 Layout "${layoutName}" saved successfully.`);
+    await fs.writeFile(filePath, JSON.stringify(positions, null, 2));
+    console.log(`Layout "${layoutName}" saved successfully.`);
         res.json({ success: true, message: `Layout "${layoutName}" saved.` });
 
     } catch (error) {
@@ -366,8 +366,8 @@ app.post('/api/filter-sets/:name', async (req, res) => {
     };
 
     try {
-        await fs.writeFile(path.join(filterSetsDir, `${setName}.json`), JSON.stringify(payload, null, 2));
-        console.log(`💾 Filter set "${setName}" saved successfully.`);
+    await fs.writeFile(path.join(filterSetsDir, `${setName}.json`), JSON.stringify(payload, null, 2));
+    console.log(`Filter set "${setName}" saved successfully.`);
         res.json({ success: true, filterSet: { name: setName, ...payload } });
     } catch (error) {
         console.error(`❌ Error saving filter set "${setName}":`, error);
@@ -383,8 +383,8 @@ app.delete('/api/filter-sets/:name', async (req, res) => {
     }
 
     try {
-        await fs.unlink(path.join(filterSetsDir, `${setName}.json`));
-        console.log(`🗑️ Filter set "${setName}" deleted.`);
+    await fs.unlink(path.join(filterSetsDir, `${setName}.json`));
+    console.log(`Filter set "${setName}" deleted.`);
         res.json({ success: true });
     } catch (error) {
         if (error.code === 'ENOENT') {

@@ -117,8 +117,8 @@ Added filter set controls in Filters section:
 ```html
 <div class="filter-set-controls">
   <select id="filterSetsSelect">...</select>
-  <button id="saveFilterSetBtn">💾 Save Set</button>
-  <button id="deleteFilterSetBtn">🗑️ Delete</button>
+  <button id="saveFilterSetBtn">Save Set</button>
+  <button id="deleteFilterSetBtn">Delete</button>
 </div>
 ```
 
