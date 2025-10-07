@@ -19,10 +19,10 @@ export const NUMERIC_NODE_COLUMNS = NODE_COLUMNS.filter(col => col.type === 'num
 export const DEFAULT_SIZE_COLUMN = 'incomingVolume';
 
 // Filter UI
-export const { addFilterRule, getFilterMode, getFilterRules } = filterUI;
+export const { addFilterRule, addFilterRuleFromData, getFilterMode, getFilterRules } = filterUI;
 
 // Styling UI
-export const { addStylingRule, getStylingRules, getDerivedStylingRules } = stylingUI;
+export const { addStylingRule, addStylingRuleFromData, getStylingRules, getDerivedStylingRules } = stylingUI;
 
 // Panel Management
 export const { showNodeDetails, hideDetailsPanel, toggleControlsPanel } = panelManager;
@@ -40,6 +40,9 @@ export const {
     clearTableRowHoverHighlight,
     showVariablesUI,
 } = handsontableManager;
+
+// API Client (Filter Sets)
+export const { populateFilterSetsDropdown, initializeApiClient } = apiClient;
 
 // --- Functions that remain in the main UI module ---
 
@@ -74,6 +77,14 @@ export async function populateLayoutsDropdown() {
  * @param {object} handlers - An object containing the handler functions.
  */
 export function bindEventListeners(handlers) {
+    // Initialize API client with dependencies
+    initializeApiClient({
+        getFilterRules: filterUI.getFilterRules,
+        getStylingRules: stylingUI.getStylingRules,
+        addFilterRule: filterUI.addFilterRuleFromData,
+        addStylingRule: stylingUI.addStylingRuleFromData
+    });
+
     // Dynamic filtering and styling
     document.getElementById('add-filter-rule-btn').addEventListener('click', () => {
         addFilterRule(handlers.applyFiltersAndStyles);
@@ -171,6 +182,9 @@ export function bindEventListeners(handlers) {
 
     // Initial population of the layouts dropdown
     populateLayoutsDropdown();
+    
+    // Initial population of the filter sets dropdown
+    populateFilterSetsDropdown();
 
     // Initialize theme
     initializeTheme();
