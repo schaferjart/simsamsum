@@ -11,6 +11,9 @@
     "test": "node tests/verify-sync.js",
     "test:data": "node tests/test-data-sync.js",
     "test:api": "node tests/test-api-simple.js",
+    "test:expressions": "node tests/test-expression-handling.js",
+    "test:volumes": "node tests/test-volume-calculations.js",
+    "recalculate": "node scripts/recalculate-volumes.js",
   "filter:set": "node scripts/apply-filter-set.js",
     "debug:cache": "echo 'Copy contents of tests/debug-clear-cache.js to browser console'",
     "debug:table": "echo 'Copy contents of tests/debug-test-table.js to browser console'"

@@ -3,7 +3,7 @@
     {
       "id": "indeed",
       "name": "Indeed",
-      "incomingNumber": 2000,
+      "incomingNumber": "incoming_volume",
       "variable": 1,
       "type": "Resource",
       "subType": "Job Portal",
@@ -16,7 +16,7 @@
       "description": "Indeed, biggest Jobplatform in France",
       "avgCostTime": "",
       "avgCost": 0.3,
-      "effectiveCost": 0,
+      "effectiveCost": 3000,
       "lastUpdate": "01.01.2025",
       "nextUpdate": "01.01.2026",
       "kPI": "",
@@ -27,7 +27,7 @@
     {
       "id": "text_application",
       "name": "Text Application",
-      "incomingNumber": 2000,
+      "incomingNumber": 10000,
       "variable": 1,
       "type": "Action",
       "subType": "Form Incoming",
@@ -40,7 +40,7 @@
       "description": "Application Form. Applicants respond to X Y Z",
       "avgCostTime": "",
       "avgCost": 0.2,
-      "effectiveCost": 0,
+      "effectiveCost": 2000,
       "lastUpdate": "01.01.2025",
       "nextUpdate": "01.01.2026",
       "kPI": "",
@@ -51,7 +51,7 @@
     {
       "id": "pre_call_sms",
       "name": "Pre Call SMS",
-      "incomingNumber": 500,
+      "incomingNumber": 8000,
       "variable": 0.25,
       "type": "Action",
       "subType": "SMS",
@@ -64,7 +64,7 @@
       "description": "Applicant receives Msg in regards to AI Call",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 800,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -75,7 +75,7 @@
     {
       "id": "ai_call",
       "name": "AI Call",
-      "incomingNumber": 500,
+      "incomingNumber": 8000,
       "variable": 1,
       "type": "Action",
       "subType": "Call",
@@ -88,7 +88,7 @@
       "description": "Apllicant receives AI Call to inform more about the job",
       "avgCostTime": "",
       "avgCost": 0.4,
-      "effectiveCost": 0,
+      "effectiveCost": 3200,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -99,7 +99,7 @@
     {
       "id": "pre_video_mail",
       "name": "Pre Video Mail",
-      "incomingNumber": 2000,
+      "incomingNumber": 14000,
       "variable": 0.75,
       "type": "Action",
       "subType": "Mail",
@@ -112,7 +112,7 @@
       "description": "Applicants receive a link by mail to selfrecord a video of why they should be hired",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 1400,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -123,7 +123,7 @@
     {
       "id": "video_application",
       "name": "Video Application",
-      "incomingNumber": 2000,
+      "incomingNumber": 14000,
       "variable": 1,
       "type": "Action",
       "subType": "Video Incoming",
@@ -136,7 +136,7 @@
       "description": "Applicants selfrecord a video of why they should be hired",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 1400,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -147,7 +147,7 @@
     {
       "id": "ghost_1",
       "name": "Ghost 1",
-      "incomingNumber": 1200,
+      "incomingNumber": 12600,
       "variable": 0.6,
       "type": "State",
       "subType": "Out",
@@ -171,7 +171,7 @@
     {
       "id": "application_review_1",
       "name": "Application Review 1",
-      "incomingNumber": 800,
+      "incomingNumber": 1400,
       "variable": 0.4,
       "type": "Decision",
       "subType": "Automation",
@@ -184,7 +184,7 @@
       "description": "If not want to live with others OR If inflexible with location",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 140,
       "lastUpdate": "01.01.2025",
       "nextUpdate": "01.01.2026",
       "kPI": "",
@@ -195,7 +195,7 @@
     {
       "id": "rejection_1",
       "name": "Rejection 1",
-      "incomingNumber": 400,
+      "incomingNumber": 1400,
       "variable": 0.5,
       "type": "State",
       "subType": "Out",
@@ -208,7 +208,7 @@
       "description": "Automation inside TT, paired with Recrutement Gmail",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 140,
       "lastUpdate": "01.01.2025",
       "nextUpdate": "01.01.2026",
       "kPI": "",
@@ -219,7 +219,7 @@
     {
       "id": "application_review_2",
       "name": "Application Review 2",
-      "incomingNumber": 400,
+      "incomingNumber": 560,
       "variable": 0.5,
       "type": "Decision",
       "subType": "Manual Verification",
@@ -243,7 +243,7 @@
     {
       "id": "rejection_2",
       "name": "Rejection 2",
-      "incomingNumber": 200,
+      "incomingNumber": 280,
       "variable": 0.5,
       "type": "State",
       "subType": "Out",
@@ -256,7 +256,7 @@
       "description": "Automation inside TT, paired with Recrutement Gmail",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 28,
       "lastUpdate": "01.01.2025",
       "nextUpdate": "01.01.2026",
       "kPI": "",
@@ -267,7 +267,7 @@
     {
       "id": "video_screening",
       "name": "Video Screening",
-      "incomingNumber": 200,
+      "incomingNumber": 280,
       "variable": 0.5,
       "type": "Decision",
       "subType": "Manual Verification",
@@ -291,7 +291,7 @@
     {
       "id": "high_potential_candidate",
       "name": "High Potential Candidate",
-      "incomingNumber": 20,
+      "incomingNumber": 28,
       "variable": 0.1,
       "type": "State",
       "subType": "Checkpoint",
@@ -315,7 +315,7 @@
     {
       "id": "medium_potential_candidate",
       "name": "Medium Potential Candidate",
-      "incomingNumber": 40,
+      "incomingNumber": 84,
       "variable": 0.2,
       "type": "State",
       "subType": "Checkpoint",
@@ -339,7 +339,7 @@
     {
       "id": "low_potential_candidate",
       "name": "Low Potential Candidate",
-      "incomingNumber": 20,
+      "incomingNumber": 28,
       "variable": 0.1,
       "type": "State",
       "subType": "Checkpoint",
@@ -363,7 +363,7 @@
     {
       "id": "rejection_3",
       "name": "Rejection 3",
-      "incomingNumber": 120,
+      "incomingNumber": 140,
       "variable": 0.6,
       "type": "State",
       "subType": "Out",
@@ -387,8 +387,8 @@
     {
       "id": "hp_call_1",
       "name": "HP Call 1",
-      "incomingNumber": 10,
-      "variable": 0.5,
+      "incomingNumber": 28,
+      "variable": "1",
       "type": "Action",
       "subType": "Call",
       "aOR": "",
@@ -400,7 +400,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -411,8 +411,8 @@
     {
       "id": "hp_reminder_mail_1",
       "name": "HP Reminder Mail 1",
-      "incomingNumber": 5,
-      "variable": 0.5,
+      "incomingNumber": 11.2,
+      "variable": "1-pickup_rate",
       "type": "Action",
       "subType": "Mail",
       "aOR": "",
@@ -424,7 +424,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 1.12,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -435,8 +435,8 @@
     {
       "id": "hp_call_2",
       "name": "HP Call 2",
-      "incomingNumber": 3,
-      "variable": 0.5,
+      "incomingNumber": 6.72,
+      "variable": "1-call_back_rate",
       "type": "Action",
       "subType": "Call",
       "aOR": "",
@@ -448,7 +448,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -459,8 +459,8 @@
     {
       "id": "hp_reminder_mail_2",
       "name": "HP Reminder Mail 2",
-      "incomingNumber": 1,
-      "variable": 0.5,
+      "incomingNumber": 2.69,
+      "variable": "1-pickup_rate",
       "type": "Action",
       "subType": "Mail",
       "aOR": "",
@@ -472,7 +472,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.27,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -483,8 +483,8 @@
     {
       "id": "hp_call_3",
       "name": "HP Call 3",
-      "incomingNumber": 1,
-      "variable": 0.5,
+      "incomingNumber": 1.61,
+      "variable": "1-call_back_rate",
       "type": "Action",
       "subType": "Call",
       "aOR": "",
@@ -496,7 +496,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -507,8 +507,8 @@
     {
       "id": "hp_reminder_mail_3",
       "name": "HP Reminder Mail 3",
-      "incomingNumber": 0,
-      "variable": 0.5,
+      "incomingNumber": 0.65,
+      "variable": "1-pickup_rate",
       "type": "Action",
       "subType": "Mail",
       "aOR": "",
@@ -520,7 +520,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.07,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -531,8 +531,8 @@
     {
       "id": "hp_call_4",
       "name": "HP Call 4",
-      "incomingNumber": 0,
-      "variable": 0.5,
+      "incomingNumber": 0.39,
+      "variable": "1-call_back_rate",
       "type": "Action",
       "subType": "Call",
       "aOR": "",
@@ -544,7 +544,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -555,8 +555,8 @@
     {
       "id": "hp_reminder_mail_4",
       "name": "HP Reminder Mail 4",
-      "incomingNumber": 0,
-      "variable": 0.5,
+      "incomingNumber": 0.15,
+      "variable": "1-pickup_rate",
       "type": "Action",
       "subType": "Mail",
       "aOR": "",
@@ -568,7 +568,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.01,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -579,8 +579,8 @@
     {
       "id": "hp_interview_callback",
       "name": "HP Interview Callback",
-      "incomingNumber": 7,
-      "variable": 0.5,
+      "incomingNumber": 5.88,
+      "variable": "1",
       "type": "Action",
       "subType": "Call",
       "aOR": "",
@@ -603,8 +603,8 @@
     {
       "id": "hp_interview",
       "name": "HP Interview",
-      "incomingNumber": 20,
-      "variable": 0.8,
+      "incomingNumber": 27.91,
+      "variable": "1",
       "type": "Decision",
       "subType": "Checkpoint",
       "aOR": "",
@@ -627,8 +627,8 @@
     {
       "id": "hp_job_offer_accept",
       "name": "HP Job Offer Accept",
-      "incomingNumber": 20,
-      "variable": 1,
+      "incomingNumber": 22.33,
+      "variable": ".8",
       "type": "State",
       "subType": "Checkpoint",
       "aOR": "",
@@ -651,8 +651,8 @@
     {
       "id": "hp_call_rejection",
       "name": "HP Call Rejection",
-      "incomingNumber": 20,
-      "variable": 1,
+      "incomingNumber": 5.58,
+      "variable": ".2",
       "type": "State",
       "subType": "Out",
       "aOR": "",
@@ -675,7 +675,7 @@
     {
       "id": "hp_ghost",
       "name": "HP Ghost",
-      "incomingNumber": 0,
+      "incomingNumber": 0.09,
       "variable": 1,
       "type": "State",
       "subType": "Out",
@@ -688,7 +688,7 @@
       "description": "Automatic Deletion after 10 days",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.01,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -699,7 +699,7 @@
     {
       "id": "mp_call_1",
       "name": "MP Call 1",
-      "incomingNumber": 20,
+      "incomingNumber": 84,
       "variable": 0.5,
       "type": "Action",
       "subType": "Call",
@@ -712,7 +712,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -723,7 +723,7 @@
     {
       "id": "mp_reminder_mail_1",
       "name": "MP Reminder Mail 1",
-      "incomingNumber": 10,
+      "incomingNumber": 33.6,
       "variable": 0.5,
       "type": "Action",
       "subType": "Mail",
@@ -736,7 +736,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 3.36,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -747,7 +747,7 @@
     {
       "id": "mp_call_2",
       "name": "MP Call 2",
-      "incomingNumber": 5,
+      "incomingNumber": 20.16,
       "variable": 0.5,
       "type": "Action",
       "subType": "Call",
@@ -760,7 +760,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -771,7 +771,7 @@
     {
       "id": "mp_reminder_mail_2",
       "name": "MP Reminder Mail 2",
-      "incomingNumber": 3,
+      "incomingNumber": 8.06,
       "variable": 0.5,
       "type": "Action",
       "subType": "Mail",
@@ -784,7 +784,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.81,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -795,7 +795,7 @@
     {
       "id": "mp_call_3",
       "name": "MP Call 3",
-      "incomingNumber": 1,
+      "incomingNumber": 4.84,
       "variable": 0.5,
       "type": "Action",
       "subType": "Call",
@@ -808,7 +808,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -819,7 +819,7 @@
     {
       "id": "mp_reminder_mail_3",
       "name": "MP Reminder Mail 3",
-      "incomingNumber": 1,
+      "incomingNumber": 1.94,
       "variable": 0.5,
       "type": "Action",
       "subType": "Mail",
@@ -832,7 +832,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.19,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -843,7 +843,7 @@
     {
       "id": "mp_interview_callback",
       "name": "MP Interview Callback",
-      "incomingNumber": 13,
+      "incomingNumber": 17.44,
       "variable": 0.5,
       "type": "Action",
       "subType": "Call",
@@ -867,7 +867,7 @@
     {
       "id": "mp_interview",
       "name": "MP Interview",
-      "incomingNumber": 39,
+      "incomingNumber": 82.84,
       "variable": 0.6,
       "type": "Decision",
       "subType": "Checkpoint",
@@ -891,7 +891,7 @@
     {
       "id": "mp_job_offer_accept",
       "name": "MP Job Offer Accept",
-      "incomingNumber": 39,
+      "incomingNumber": 57.99,
       "variable": 1,
       "type": "State",
       "subType": "Checkpoint",
@@ -915,7 +915,7 @@
     {
       "id": "mp_call_rejection",
       "name": "MP Call Rejection",
-      "incomingNumber": 39,
+      "incomingNumber": 24.85,
       "variable": 1,
       "type": "State",
       "subType": "Out",
@@ -939,7 +939,7 @@
     {
       "id": "mp_ghost",
       "name": "MP Ghost",
-      "incomingNumber": 1,
+      "incomingNumber": 1.16,
       "variable": 1,
       "type": "State",
       "subType": "Out",
@@ -952,7 +952,7 @@
       "description": "Automatic Deletion after 10 days",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.12,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -963,7 +963,7 @@
     {
       "id": "lp_call_1",
       "name": "LP Call 1",
-      "incomingNumber": 10,
+      "incomingNumber": 28,
       "variable": 0.5,
       "type": "Action",
       "subType": "Call",
@@ -976,7 +976,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -987,7 +987,7 @@
     {
       "id": "lp_reminder_mail_1",
       "name": "LP Reminder Mail 1",
-      "incomingNumber": 5,
+      "incomingNumber": 11.2,
       "variable": 0.5,
       "type": "Action",
       "subType": "Mail",
@@ -1000,7 +1000,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 1.12,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -1011,7 +1011,7 @@
     {
       "id": "lp_call_2",
       "name": "LP Call 2",
-      "incomingNumber": 3,
+      "incomingNumber": 6.72,
       "variable": 0.5,
       "type": "Action",
       "subType": "Call",
@@ -1024,7 +1024,7 @@
       "description": "Waiting for someone to pick up the phone takes on average half a minute",
       "avgCostTime": "0.5",
       "avgCost": 0,
-      "effectiveCost": 0.5,
+      "effectiveCost": 0,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -1035,7 +1035,7 @@
     {
       "id": "lp_reminder_mail_2",
       "name": "LP Reminder Mail 2",
-      "incomingNumber": 1,
+      "incomingNumber": 2.69,
       "variable": 0.5,
       "type": "Action",
       "subType": "Mail",
@@ -1048,7 +1048,7 @@
       "description": "Automatic Mail, trigered on Team Tailor when if applicant did not respond",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.27,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -1059,7 +1059,7 @@
     {
       "id": "lp_interview_callback",
       "name": "LP Interview Callback",
-      "incomingNumber": 6,
+      "incomingNumber": 5.56,
       "variable": 0.5,
       "type": "Action",
       "subType": "Call",
@@ -1083,7 +1083,7 @@
     {
       "id": "lp_interview",
       "name": "LP Interview",
-      "incomingNumber": 19,
+      "incomingNumber": 26.39,
       "variable": 0.4,
       "type": "Decision",
       "subType": "Checkpoint",
@@ -1107,7 +1107,7 @@
     {
       "id": "lp_job_offer_accept",
       "name": "LP Job Offer Accept",
-      "incomingNumber": 19,
+      "incomingNumber": 15.83,
       "variable": 1,
       "type": "State",
       "subType": "Checkpoint",
@@ -1131,7 +1131,7 @@
     {
       "id": "lp_call_rejection",
       "name": "LP Call Rejection",
-      "incomingNumber": 19,
+      "incomingNumber": 10.55,
       "variable": 1,
       "type": "State",
       "subType": "Out",
@@ -1155,7 +1155,7 @@
     {
       "id": "lp_ghost",
       "name": "LP Ghost",
-      "incomingNumber": 1,
+      "incomingNumber": 1.61,
       "variable": 1,
       "type": "State",
       "subType": "Out",
@@ -1168,7 +1168,7 @@
       "description": "Automatic Deletion after 10 days",
       "avgCostTime": "",
       "avgCost": 0.1,
-      "effectiveCost": 0,
+      "effectiveCost": 0.16,
       "lastUpdate": "",
       "nextUpdate": "",
       "kPI": "",
@@ -1179,7 +1179,7 @@
     {
       "id": "starting_date_definition",
       "name": "Starting date definition",
-      "incomingNumber": 78,
+      "incomingNumber": 96.15,
       "variable": 1,
       "type": "Decision",
       "subType": "State",
@@ -1203,7 +1203,7 @@
     {
       "id": "gs_onboarding_update",
       "name": "GS Onboarding Update",
-      "incomingNumber": 78,
+      "incomingNumber": 96.15,
       "variable": 1,
       "type": "Resource",
       "subType": "DB",
@@ -1227,7 +1227,7 @@
     {
       "id": "inscription_onboarding",
       "name": "Inscription Onboarding",
-      "incomingNumber": 78,
+      "incomingNumber": 96.15,
       "variable": 1,
       "type": "Action",
       "subType": "Mail",
@@ -1251,7 +1251,7 @@
     {
       "id": "make_payfit_account",
       "name": "Make PayFit Account",
-      "incomingNumber": 78,
+      "incomingNumber": 96.15,
       "variable": 1,
       "type": "Action",
       "subType": "Manual",
@@ -1275,7 +1275,7 @@
     {
       "id": "make_payfit_conrtract",
       "name": "Make PayFit Conrtract",
-      "incomingNumber": 78,
+      "incomingNumber": 96.15,
       "variable": 1,
       "type": "Action",
       "subType": "Manual",
@@ -1299,7 +1299,7 @@
     {
       "id": "mail_yousign",
       "name": "Mail YouSign",
-      "incomingNumber": 78,
+      "incomingNumber": 96.15,
       "variable": 1,
       "type": "Action",
       "subType": "Mail",
@@ -1323,7 +1323,7 @@
     {
       "id": "contract_sign",
       "name": "Contract Sign",
-      "incomingNumber": 78,
+      "incomingNumber": 96.15,
       "variable": 1,
       "type": "Action",
       "subType": "Form Incoming",
@@ -1347,7 +1347,7 @@
     {
       "id": "contract_verification",
       "name": "Contract Verification",
-      "incomingNumber": 74,
+      "incomingNumber": 96.15,
       "variable": 0.95,
       "type": "Decision",
       "subType": "Manual",
@@ -1371,7 +1371,7 @@
     {
       "id": "contract_rejection",
       "name": "Contract Rejection",
-      "incomingNumber": 1,
+      "incomingNumber": 4.81,
       "variable": 0.01,
       "type": "State",
       "subType": "Out",
@@ -1419,387 +1419,943 @@
   ],
   "connections": [
     {
-      "id": "ai_call->pre_video_mail",
-      "fromId": "ai_call",
-      "toId": "pre_video_mail"
-    },
-    {
-      "id": "application_review_1->application_review_2",
-      "fromId": "application_review_1",
-      "toId": "application_review_2"
-    },
-    {
-      "id": "application_review_1->rejection_1",
-      "fromId": "application_review_1",
-      "toId": "rejection_1"
-    },
-    {
-      "id": "application_review_2->rejection_2",
-      "fromId": "application_review_2",
-      "toId": "rejection_2"
-    },
-    {
-      "id": "application_review_2->video_screening",
-      "fromId": "application_review_2",
-      "toId": "video_screening"
-    },
-    {
-      "id": "contract_sign->contract_verification",
-      "fromId": "contract_sign",
-      "toId": "contract_verification"
-    },
-    {
-      "id": "contract_verification->contract_rejection",
-      "fromId": "contract_verification",
-      "toId": "contract_rejection"
-    },
-    {
-      "id": "high_potential_candidate->hp_call_1",
-      "fromId": "high_potential_candidate",
-      "toId": "hp_call_1"
-    },
-    {
-      "id": "hp_call_1->hp_interview",
-      "fromId": "hp_call_1",
-      "toId": "hp_interview"
-    },
-    {
-      "id": "hp_call_1->hp_reminder_mail_1",
-      "fromId": "hp_call_1",
-      "toId": "hp_reminder_mail_1"
-    },
-    {
-      "id": "hp_call_2->hp_interview",
-      "fromId": "hp_call_2",
-      "toId": "hp_interview"
-    },
-    {
-      "id": "hp_call_2->hp_reminder_mail_2",
-      "fromId": "hp_call_2",
-      "toId": "hp_reminder_mail_2"
-    },
-    {
-      "id": "hp_call_3->hp_interview",
-      "fromId": "hp_call_3",
-      "toId": "hp_interview"
-    },
-    {
-      "id": "hp_call_3->hp_reminder_mail_3",
-      "fromId": "hp_call_3",
-      "toId": "hp_reminder_mail_3"
-    },
-    {
-      "id": "hp_call_4->hp_interview",
-      "fromId": "hp_call_4",
-      "toId": "hp_interview"
-    },
-    {
-      "id": "hp_call_4->hp_reminder_mail_4",
-      "fromId": "hp_call_4",
-      "toId": "hp_reminder_mail_4"
-    },
-    {
-      "id": "hp_interview->hp_call_rejection",
-      "fromId": "hp_interview",
-      "toId": "hp_call_rejection"
-    },
-    {
-      "id": "hp_interview->hp_job_offer_accept",
-      "fromId": "hp_interview",
-      "toId": "hp_job_offer_accept"
-    },
-    {
-      "id": "hp_interview_callback->hp_interview",
-      "fromId": "hp_interview_callback",
-      "toId": "hp_interview"
-    },
-    {
-      "id": "hp_job_offer_accept->starting_date_definition",
-      "fromId": "hp_job_offer_accept",
-      "toId": "starting_date_definition"
-    },
-    {
-      "id": "hp_reminder_mail_1->hp_call_2",
-      "fromId": "hp_reminder_mail_1",
-      "toId": "hp_call_2"
-    },
-    {
-      "id": "hp_reminder_mail_1->hp_interview_callback",
-      "fromId": "hp_reminder_mail_1",
-      "toId": "hp_interview_callback"
-    },
-    {
-      "id": "hp_reminder_mail_2->hp_call_3",
-      "fromId": "hp_reminder_mail_2",
-      "toId": "hp_call_3"
-    },
-    {
-      "id": "hp_reminder_mail_2->hp_interview_callback",
-      "fromId": "hp_reminder_mail_2",
-      "toId": "hp_interview_callback"
-    },
-    {
-      "id": "hp_reminder_mail_3->hp_call_4",
-      "fromId": "hp_reminder_mail_3",
-      "toId": "hp_call_4"
-    },
-    {
-      "id": "hp_reminder_mail_3->hp_interview_callback",
-      "fromId": "hp_reminder_mail_3",
-      "toId": "hp_interview_callback"
-    },
-    {
-      "id": "hp_reminder_mail_4->hp_ghost",
-      "fromId": "hp_reminder_mail_4",
-      "toId": "hp_ghost"
-    },
-    {
-      "id": "hp_reminder_mail_4->hp_interview_callback",
-      "fromId": "hp_reminder_mail_4",
-      "toId": "hp_interview_callback"
-    },
-    {
       "id": "indeed->text_application",
       "fromId": "indeed",
-      "toId": "text_application"
-    },
-    {
-      "id": "low_potential_candidate->lp_call_1",
-      "fromId": "low_potential_candidate",
-      "toId": "lp_call_1"
-    },
-    {
-      "id": "lp_call_1->lp_interview",
-      "fromId": "lp_call_1",
-      "toId": "lp_interview"
-    },
-    {
-      "id": "lp_call_1->lp_reminder_mail_1",
-      "fromId": "lp_call_1",
-      "toId": "lp_reminder_mail_1"
-    },
-    {
-      "id": "lp_call_2->lp_interview",
-      "fromId": "lp_call_2",
-      "toId": "lp_interview"
-    },
-    {
-      "id": "lp_call_2->lp_reminder_mail_2",
-      "fromId": "lp_call_2",
-      "toId": "lp_reminder_mail_2"
-    },
-    {
-      "id": "lp_interview->lp_call_rejection",
-      "fromId": "lp_interview",
-      "toId": "lp_call_rejection"
-    },
-    {
-      "id": "lp_interview->lp_job_offer_accept",
-      "fromId": "lp_interview",
-      "toId": "lp_job_offer_accept"
-    },
-    {
-      "id": "lp_interview_callback->lp_interview",
-      "fromId": "lp_interview_callback",
-      "toId": "lp_interview"
-    },
-    {
-      "id": "lp_job_offer_accept->starting_date_definition",
-      "fromId": "lp_job_offer_accept",
-      "toId": "starting_date_definition"
-    },
-    {
-      "id": "lp_reminder_mail_1->lp_call_2",
-      "fromId": "lp_reminder_mail_1",
-      "toId": "lp_call_2"
-    },
-    {
-      "id": "lp_reminder_mail_1->lp_interview_callback",
-      "fromId": "lp_reminder_mail_1",
-      "toId": "lp_interview_callback"
-    },
-    {
-      "id": "lp_reminder_mail_2->lp_ghost",
-      "fromId": "lp_reminder_mail_2",
-      "toId": "lp_ghost"
-    },
-    {
-      "id": "lp_reminder_mail_2->lp_interview_callback",
-      "fromId": "lp_reminder_mail_2",
-      "toId": "lp_interview_callback"
-    },
-    {
-      "id": "mail_yousign->contract_sign",
-      "fromId": "mail_yousign",
-      "toId": "contract_sign"
-    },
-    {
-      "id": "make_payfit_account->make_payfit_conrtract",
-      "fromId": "make_payfit_account",
-      "toId": "make_payfit_conrtract"
-    },
-    {
-      "id": "make_payfit_conrtract->mail_yousign",
-      "fromId": "make_payfit_conrtract",
-      "toId": "mail_yousign"
-    },
-    {
-      "id": "medium_potential_candidate->mp_call_1",
-      "fromId": "medium_potential_candidate",
-      "toId": "mp_call_1"
-    },
-    {
-      "id": "mp_call_1->mp_interview",
-      "fromId": "mp_call_1",
-      "toId": "mp_interview"
-    },
-    {
-      "id": "mp_call_1->mp_reminder_mail_1",
-      "fromId": "mp_call_1",
-      "toId": "mp_reminder_mail_1"
-    },
-    {
-      "id": "mp_call_2->mp_interview",
-      "fromId": "mp_call_2",
-      "toId": "mp_interview"
-    },
-    {
-      "id": "mp_call_2->mp_reminder_mail_2",
-      "fromId": "mp_call_2",
-      "toId": "mp_reminder_mail_2"
-    },
-    {
-      "id": "mp_call_3->mp_interview",
-      "fromId": "mp_call_3",
-      "toId": "mp_interview"
-    },
-    {
-      "id": "mp_call_3->mp_reminder_mail_3",
-      "fromId": "mp_call_3",
-      "toId": "mp_reminder_mail_3"
-    },
-    {
-      "id": "mp_interview->mp_call_rejection",
-      "fromId": "mp_interview",
-      "toId": "mp_call_rejection"
-    },
-    {
-      "id": "mp_interview->mp_job_offer_accept",
-      "fromId": "mp_interview",
-      "toId": "mp_job_offer_accept"
-    },
-    {
-      "id": "mp_interview_callback->mp_interview",
-      "fromId": "mp_interview_callback",
-      "toId": "mp_interview"
-    },
-    {
-      "id": "mp_job_offer_accept->starting_date_definition",
-      "fromId": "mp_job_offer_accept",
-      "toId": "starting_date_definition"
-    },
-    {
-      "id": "mp_reminder_mail_1->mp_call_2",
-      "fromId": "mp_reminder_mail_1",
-      "toId": "mp_call_2"
-    },
-    {
-      "id": "mp_reminder_mail_1->mp_interview_callback",
-      "fromId": "mp_reminder_mail_1",
-      "toId": "mp_interview_callback"
-    },
-    {
-      "id": "mp_reminder_mail_2->mp_call_3",
-      "fromId": "mp_reminder_mail_2",
-      "toId": "mp_call_3"
-    },
-    {
-      "id": "mp_reminder_mail_2->mp_interview_callback",
-      "fromId": "mp_reminder_mail_2",
-      "toId": "mp_interview_callback"
-    },
-    {
-      "id": "mp_reminder_mail_3->mp_ghost",
-      "fromId": "mp_reminder_mail_3",
-      "toId": "mp_ghost"
-    },
-    {
-      "id": "mp_reminder_mail_3->mp_interview_callback",
-      "fromId": "mp_reminder_mail_3",
-      "toId": "mp_interview_callback"
-    },
-    {
-      "id": "pre_call_sms->ai_call",
-      "fromId": "pre_call_sms",
-      "toId": "ai_call"
-    },
-    {
-      "id": "pre_video_mail->video_application",
-      "fromId": "pre_video_mail",
-      "toId": "video_application"
-    },
-    {
-      "id": "starting_date_definition->gs_onboarding_update",
-      "fromId": "starting_date_definition",
-      "toId": "gs_onboarding_update"
-    },
-    {
-      "id": "starting_date_definition->inscription_onboarding",
-      "fromId": "starting_date_definition",
-      "toId": "inscription_onboarding"
-    },
-    {
-      "id": "starting_date_definition->make_payfit_account",
-      "fromId": "starting_date_definition",
-      "toId": "make_payfit_account"
+      "toId": "text_application",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     },
     {
       "id": "text_application->pre_call_sms",
       "fromId": "text_application",
-      "toId": "pre_call_sms"
+      "toId": "pre_call_sms",
+      "probability": ".8",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "pre_call_sms->ai_call",
+      "fromId": "pre_call_sms",
+      "toId": "ai_call",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "ai_call->pre_video_mail",
+      "fromId": "ai_call",
+      "toId": "pre_video_mail",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     },
     {
       "id": "text_application->pre_video_mail",
       "fromId": "text_application",
-      "toId": "pre_video_mail"
+      "toId": "pre_video_mail",
+      "probability": "1-text_application->pre_call_sms",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "pre_video_mail->video_application",
+      "fromId": "pre_video_mail",
+      "toId": "video_application",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     },
     {
       "id": "video_application->application_review_1",
       "fromId": "video_application",
-      "toId": "application_review_1"
+      "toId": "application_review_1",
+      "probability": ".1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     },
     {
       "id": "video_application->ghost_1",
       "fromId": "video_application",
-      "toId": "ghost_1"
+      "toId": "ghost_1",
+      "probability": "1-video_application->application_review_1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "application_review_1->application_review_2",
+      "fromId": "application_review_1",
+      "toId": "application_review_2",
+      "probability": ".4",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "application_review_1->rejection_1",
+      "fromId": "application_review_1",
+      "toId": "rejection_1",
+      "probability": "1-application_review_1->rejection_1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "application_review_2->video_screening",
+      "fromId": "application_review_2",
+      "toId": "video_screening",
+      "probability": ".5",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "application_review_2->rejection_2",
+      "fromId": "application_review_2",
+      "toId": "rejection_2",
+      "probability": "1-application_review_2->video_screening",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     },
     {
       "id": "video_screening->high_potential_candidate",
       "fromId": "video_screening",
-      "toId": "high_potential_candidate"
-    },
-    {
-      "id": "video_screening->low_potential_candidate",
-      "fromId": "video_screening",
-      "toId": "low_potential_candidate"
+      "toId": "high_potential_candidate",
+      "probability": ".1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     },
     {
       "id": "video_screening->medium_potential_candidate",
       "fromId": "video_screening",
-      "toId": "medium_potential_candidate"
+      "toId": "medium_potential_candidate",
+      "probability": ".3",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "video_screening->low_potential_candidate",
+      "fromId": "video_screening",
+      "toId": "low_potential_candidate",
+      "probability": ".1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     },
     {
       "id": "video_screening->rejection_3",
       "fromId": "video_screening",
-      "toId": "rejection_3"
+      "toId": "rejection_3",
+      "probability": ".5",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "high_potential_candidate->hp_call_1",
+      "fromId": "high_potential_candidate",
+      "toId": "hp_call_1",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_1->hp_interview",
+      "fromId": "hp_call_1",
+      "toId": "hp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_1->hp_reminder_mail_1",
+      "fromId": "hp_call_1",
+      "toId": "hp_reminder_mail_1",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_1->hp_call_2",
+      "fromId": "hp_reminder_mail_1",
+      "toId": "hp_call_2",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_1->hp_interview_callback",
+      "fromId": "hp_reminder_mail_1",
+      "toId": "hp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_2->hp_interview",
+      "fromId": "hp_call_2",
+      "toId": "hp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_2->hp_reminder_mail_2",
+      "fromId": "hp_call_2",
+      "toId": "hp_reminder_mail_2",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_2->hp_call_3",
+      "fromId": "hp_reminder_mail_2",
+      "toId": "hp_call_3",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_2->hp_interview_callback",
+      "fromId": "hp_reminder_mail_2",
+      "toId": "hp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_3->hp_interview",
+      "fromId": "hp_call_3",
+      "toId": "hp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_3->hp_reminder_mail_3",
+      "fromId": "hp_call_3",
+      "toId": "hp_reminder_mail_3",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_3->hp_call_4",
+      "fromId": "hp_reminder_mail_3",
+      "toId": "hp_call_4",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_3->hp_interview_callback",
+      "fromId": "hp_reminder_mail_3",
+      "toId": "hp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_4->hp_interview",
+      "fromId": "hp_call_4",
+      "toId": "hp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_call_4->hp_reminder_mail_4",
+      "fromId": "hp_call_4",
+      "toId": "hp_reminder_mail_4",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_4->hp_interview_callback",
+      "fromId": "hp_reminder_mail_4",
+      "toId": "hp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_reminder_mail_4->hp_ghost",
+      "fromId": "hp_reminder_mail_4",
+      "toId": "hp_ghost",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_interview_callback->hp_interview",
+      "fromId": "hp_interview_callback",
+      "toId": "hp_interview",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_interview->hp_job_offer_accept",
+      "fromId": "hp_interview",
+      "toId": "hp_job_offer_accept",
+      "probability": ".8",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_interview->hp_call_rejection",
+      "fromId": "hp_interview",
+      "toId": "hp_call_rejection",
+      "probability": "1-hp_interview->hp_job_offer_accept",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "hp_job_offer_accept->starting_date_definition",
+      "fromId": "hp_job_offer_accept",
+      "toId": "starting_date_definition",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "low_potential_candidate->lp_call_1",
+      "fromId": "low_potential_candidate",
+      "toId": "lp_call_1",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_call_1->lp_interview",
+      "fromId": "lp_call_1",
+      "toId": "lp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_call_1->lp_reminder_mail_1",
+      "fromId": "lp_call_1",
+      "toId": "lp_reminder_mail_1",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_reminder_mail_1->lp_call_2",
+      "fromId": "lp_reminder_mail_1",
+      "toId": "lp_call_2",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_reminder_mail_1->lp_interview_callback",
+      "fromId": "lp_reminder_mail_1",
+      "toId": "lp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_call_2->lp_interview",
+      "fromId": "lp_call_2",
+      "toId": "lp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_call_2->lp_reminder_mail_2",
+      "fromId": "lp_call_2",
+      "toId": "lp_reminder_mail_2",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_reminder_mail_2->lp_interview_callback",
+      "fromId": "lp_reminder_mail_2",
+      "toId": "lp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_reminder_mail_2->lp_ghost",
+      "fromId": "lp_reminder_mail_2",
+      "toId": "lp_ghost",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_interview_callback->lp_interview",
+      "fromId": "lp_interview_callback",
+      "toId": "lp_interview",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_interview->lp_job_offer_accept",
+      "fromId": "lp_interview",
+      "toId": "lp_job_offer_accept",
+      "probability": ".6",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_interview->lp_call_rejection",
+      "fromId": "lp_interview",
+      "toId": "lp_call_rejection",
+      "probability": "1-lp_interview->lp_job_offer_accept",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "lp_job_offer_accept->starting_date_definition",
+      "fromId": "lp_job_offer_accept",
+      "toId": "starting_date_definition",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "medium_potential_candidate->mp_call_1",
+      "fromId": "medium_potential_candidate",
+      "toId": "mp_call_1",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_call_1->mp_interview",
+      "fromId": "mp_call_1",
+      "toId": "mp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_call_1->mp_reminder_mail_1",
+      "fromId": "mp_call_1",
+      "toId": "mp_reminder_mail_1",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_reminder_mail_1->mp_call_2",
+      "fromId": "mp_reminder_mail_1",
+      "toId": "mp_call_2",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_reminder_mail_1->mp_interview_callback",
+      "fromId": "mp_reminder_mail_1",
+      "toId": "mp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_call_2->mp_interview",
+      "fromId": "mp_call_2",
+      "toId": "mp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_call_2->mp_reminder_mail_2",
+      "fromId": "mp_call_2",
+      "toId": "mp_reminder_mail_2",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_reminder_mail_2->mp_call_3",
+      "fromId": "mp_reminder_mail_2",
+      "toId": "mp_call_3",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_reminder_mail_2->mp_interview_callback",
+      "fromId": "mp_reminder_mail_2",
+      "toId": "mp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_call_3->mp_interview",
+      "fromId": "mp_call_3",
+      "toId": "mp_interview",
+      "probability": "pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_call_3->mp_reminder_mail_3",
+      "fromId": "mp_call_3",
+      "toId": "mp_reminder_mail_3",
+      "probability": "1-pick_up_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_reminder_mail_3->mp_interview_callback",
+      "fromId": "mp_reminder_mail_3",
+      "toId": "mp_interview_callback",
+      "probability": "call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_reminder_mail_3->mp_ghost",
+      "fromId": "mp_reminder_mail_3",
+      "toId": "mp_ghost",
+      "probability": "1-call_back_rate",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_interview_callback->mp_interview",
+      "fromId": "mp_interview_callback",
+      "toId": "mp_interview",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_interview->mp_job_offer_accept",
+      "fromId": "mp_interview",
+      "toId": "mp_job_offer_accept",
+      "probability": ".7",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_interview->mp_call_rejection",
+      "fromId": "mp_interview",
+      "toId": "mp_call_rejection",
+      "probability": "1-mp_interview->mp_job_offer_accept",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mp_job_offer_accept->starting_date_definition",
+      "fromId": "mp_job_offer_accept",
+      "toId": "starting_date_definition",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "starting_date_definition->gs_onboarding_update",
+      "fromId": "starting_date_definition",
+      "toId": "gs_onboarding_update",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "starting_date_definition->inscription_onboarding",
+      "fromId": "starting_date_definition",
+      "toId": "inscription_onboarding",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "starting_date_definition->make_payfit_account",
+      "fromId": "starting_date_definition",
+      "toId": "make_payfit_account",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "make_payfit_account->make_payfit_conrtract",
+      "fromId": "make_payfit_account",
+      "toId": "make_payfit_conrtract",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "make_payfit_conrtract->mail_yousign",
+      "fromId": "make_payfit_conrtract",
+      "toId": "mail_yousign",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "mail_yousign->contract_sign",
+      "fromId": "mail_yousign",
+      "toId": "contract_sign",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "contract_sign->contract_verification",
+      "fromId": "contract_sign",
+      "toId": "contract_verification",
+      "probability": "1",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
+    },
+    {
+      "id": "contract_verification->contract_rejection",
+      "fromId": "contract_verification",
+      "toId": "contract_rejection",
+      "probability": ".05",
+      "time": "",
+      "condition": "",
+      "execution": "",
+      "AOR": "",
+      "type": "",
+      "description": ""
     }
   ],
   "variables": {
-    "callback_rate": 0.25,
-    "incoming_volume": 20000,
+    "text_application->pre_call_sms": 0.4,
+    "video_application->application_review_1": 0.1,
+    "application_review_1->application_review_2": 0.4,
+    "application_review_2->video_screening": 0.5,
+    "video_screening->high_potential_candidate": 0.1,
+    "video_screening->medium_potential_candidate": 0.3,
+    "video_screening->low_potential_candidate": 0.1,
+    "video_screening->rejection_3": 0.5,
+    "hp_call_1->hp_interview": "pick_up_rate",
+    "hp_reminder_mail_1->hp_interview_callback": "call_back_rate",
+    "hp_call_2->hp_interview": "pick_up_rate",
+    "hp_reminder_mail_2->hp_interview_callback": "call_back_rate",
+    "hp_call_3->hp_interview": "pick_up_rate",
+    "hp_reminder_mail_3->hp_interview_callback": "call_back_rate",
+    "hp_call_4->hp_interview": "pick_up_rate",
+    "hp_reminder_mail_4->hp_interview_callback": "call_back_rate",
+    "hp_interview->hp_job_offer_accept": 0.8,
+    "lp_call_1->lp_interview": "pick_up_rate",
+    "lp_reminder_mail_1->lp_interview_callback": "call_back_rate",
+    "lp_call_2->lp_interview": "pick_up_rate",
+    "lp_reminder_mail_2->lp_interview_callback": "call_back_rate",
+    "lp_interview->lp_job_offer_accept": 0.6,
+    "mp_call_1->mp_interview": "pick_up_rate",
+    "mp_reminder_mail_1->mp_interview_callback": "call_back_rate",
+    "mp_call_2->mp_interview": "pick_up_rate",
+    "mp_reminder_mail_2->mp_interview_callback": "call_back_rate",
+    "mp_call_3->mp_interview": "pick_up_rate",
+    "mp_reminder_mail_3->mp_interview_callback": "call_back_rate",
+    "mp_interview->mp_job_offer_accept": 0.7,
+    "contract_verification->contract_rejection": 0.05,
+    "call_back_rate": 0.4,
+    "incoming_volume": 10000,
     "conversion_rate": 0.08,
-    "retention_rate": 0.92
+    "retention_rate": 0.92,
+    "pick_up_rate": 0.6
   },
-  "timestamp": "2025-10-01T20:43:51.327Z",
+  "timestamp": "2025-10-07T11:57:29.166Z",
   "version": "1.0"
 }

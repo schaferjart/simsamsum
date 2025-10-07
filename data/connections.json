@@ -1,377 +1,902 @@
 [
   {
-    "id": "ai_call->pre_video_mail",
-    "fromId": "ai_call",
-    "toId": "pre_video_mail"
-  },
-  {
-    "id": "application_review_1->application_review_2",
-    "fromId": "application_review_1",
-    "toId": "application_review_2"
-  },
-  {
-    "id": "application_review_1->rejection_1",
-    "fromId": "application_review_1",
-    "toId": "rejection_1"
-  },
-  {
-    "id": "application_review_2->rejection_2",
-    "fromId": "application_review_2",
-    "toId": "rejection_2"
-  },
-  {
-    "id": "application_review_2->video_screening",
-    "fromId": "application_review_2",
-    "toId": "video_screening"
-  },
-  {
-    "id": "contract_sign->contract_verification",
-    "fromId": "contract_sign",
-    "toId": "contract_verification"
-  },
-  {
-    "id": "contract_verification->contract_rejection",
-    "fromId": "contract_verification",
-    "toId": "contract_rejection"
-  },
-  {
-    "id": "high_potential_candidate->hp_call_1",
-    "fromId": "high_potential_candidate",
-    "toId": "hp_call_1"
-  },
-  {
-    "id": "hp_call_1->hp_interview",
-    "fromId": "hp_call_1",
-    "toId": "hp_interview"
-  },
-  {
-    "id": "hp_call_1->hp_reminder_mail_1",
-    "fromId": "hp_call_1",
-    "toId": "hp_reminder_mail_1"
-  },
-  {
-    "id": "hp_call_2->hp_interview",
-    "fromId": "hp_call_2",
-    "toId": "hp_interview"
-  },
-  {
-    "id": "hp_call_2->hp_reminder_mail_2",
-    "fromId": "hp_call_2",
-    "toId": "hp_reminder_mail_2"
-  },
-  {
-    "id": "hp_call_3->hp_interview",
-    "fromId": "hp_call_3",
-    "toId": "hp_interview"
-  },
-  {
-    "id": "hp_call_3->hp_reminder_mail_3",
-    "fromId": "hp_call_3",
-    "toId": "hp_reminder_mail_3"
-  },
-  {
-    "id": "hp_call_4->hp_interview",
-    "fromId": "hp_call_4",
-    "toId": "hp_interview"
-  },
-  {
-    "id": "hp_call_4->hp_reminder_mail_4",
-    "fromId": "hp_call_4",
-    "toId": "hp_reminder_mail_4"
-  },
-  {
-    "id": "hp_interview->hp_call_rejection",
-    "fromId": "hp_interview",
-    "toId": "hp_call_rejection"
-  },
-  {
-    "id": "hp_interview->hp_job_offer_accept",
-    "fromId": "hp_interview",
-    "toId": "hp_job_offer_accept"
-  },
-  {
-    "id": "hp_interview_callback->hp_interview",
-    "fromId": "hp_interview_callback",
-    "toId": "hp_interview"
-  },
-  {
-    "id": "hp_job_offer_accept->starting_date_definition",
-    "fromId": "hp_job_offer_accept",
-    "toId": "starting_date_definition"
-  },
-  {
-    "id": "hp_reminder_mail_1->hp_call_2",
-    "fromId": "hp_reminder_mail_1",
-    "toId": "hp_call_2"
-  },
-  {
-    "id": "hp_reminder_mail_1->hp_interview_callback",
-    "fromId": "hp_reminder_mail_1",
-    "toId": "hp_interview_callback"
-  },
-  {
-    "id": "hp_reminder_mail_2->hp_call_3",
-    "fromId": "hp_reminder_mail_2",
-    "toId": "hp_call_3"
-  },
-  {
-    "id": "hp_reminder_mail_2->hp_interview_callback",
-    "fromId": "hp_reminder_mail_2",
-    "toId": "hp_interview_callback"
-  },
-  {
-    "id": "hp_reminder_mail_3->hp_call_4",
-    "fromId": "hp_reminder_mail_3",
-    "toId": "hp_call_4"
-  },
-  {
-    "id": "hp_reminder_mail_3->hp_interview_callback",
-    "fromId": "hp_reminder_mail_3",
-    "toId": "hp_interview_callback"
-  },
-  {
-    "id": "hp_reminder_mail_4->hp_ghost",
-    "fromId": "hp_reminder_mail_4",
-    "toId": "hp_ghost"
-  },
-  {
-    "id": "hp_reminder_mail_4->hp_interview_callback",
-    "fromId": "hp_reminder_mail_4",
-    "toId": "hp_interview_callback"
-  },
-  {
     "id": "indeed->text_application",
     "fromId": "indeed",
-    "toId": "text_application"
-  },
-  {
-    "id": "low_potential_candidate->lp_call_1",
-    "fromId": "low_potential_candidate",
-    "toId": "lp_call_1"
-  },
-  {
-    "id": "lp_call_1->lp_interview",
-    "fromId": "lp_call_1",
-    "toId": "lp_interview"
-  },
-  {
-    "id": "lp_call_1->lp_reminder_mail_1",
-    "fromId": "lp_call_1",
-    "toId": "lp_reminder_mail_1"
-  },
-  {
-    "id": "lp_call_2->lp_interview",
-    "fromId": "lp_call_2",
-    "toId": "lp_interview"
-  },
-  {
-    "id": "lp_call_2->lp_reminder_mail_2",
-    "fromId": "lp_call_2",
-    "toId": "lp_reminder_mail_2"
-  },
-  {
-    "id": "lp_interview->lp_call_rejection",
-    "fromId": "lp_interview",
-    "toId": "lp_call_rejection"
-  },
-  {
-    "id": "lp_interview->lp_job_offer_accept",
-    "fromId": "lp_interview",
-    "toId": "lp_job_offer_accept"
-  },
-  {
-    "id": "lp_interview_callback->lp_interview",
-    "fromId": "lp_interview_callback",
-    "toId": "lp_interview"
-  },
-  {
-    "id": "lp_job_offer_accept->starting_date_definition",
-    "fromId": "lp_job_offer_accept",
-    "toId": "starting_date_definition"
-  },
-  {
-    "id": "lp_reminder_mail_1->lp_call_2",
-    "fromId": "lp_reminder_mail_1",
-    "toId": "lp_call_2"
-  },
-  {
-    "id": "lp_reminder_mail_1->lp_interview_callback",
-    "fromId": "lp_reminder_mail_1",
-    "toId": "lp_interview_callback"
-  },
-  {
-    "id": "lp_reminder_mail_2->lp_ghost",
-    "fromId": "lp_reminder_mail_2",
-    "toId": "lp_ghost"
-  },
-  {
-    "id": "lp_reminder_mail_2->lp_interview_callback",
-    "fromId": "lp_reminder_mail_2",
-    "toId": "lp_interview_callback"
-  },
-  {
-    "id": "mail_yousign->contract_sign",
-    "fromId": "mail_yousign",
-    "toId": "contract_sign"
-  },
-  {
-    "id": "make_payfit_account->make_payfit_conrtract",
-    "fromId": "make_payfit_account",
-    "toId": "make_payfit_conrtract"
-  },
-  {
-    "id": "make_payfit_conrtract->mail_yousign",
-    "fromId": "make_payfit_conrtract",
-    "toId": "mail_yousign"
-  },
-  {
-    "id": "medium_potential_candidate->mp_call_1",
-    "fromId": "medium_potential_candidate",
-    "toId": "mp_call_1"
-  },
-  {
-    "id": "mp_call_1->mp_interview",
-    "fromId": "mp_call_1",
-    "toId": "mp_interview"
-  },
-  {
-    "id": "mp_call_1->mp_reminder_mail_1",
-    "fromId": "mp_call_1",
-    "toId": "mp_reminder_mail_1"
-  },
-  {
-    "id": "mp_call_2->mp_interview",
-    "fromId": "mp_call_2",
-    "toId": "mp_interview"
-  },
-  {
-    "id": "mp_call_2->mp_reminder_mail_2",
-    "fromId": "mp_call_2",
-    "toId": "mp_reminder_mail_2"
-  },
-  {
-    "id": "mp_call_3->mp_interview",
-    "fromId": "mp_call_3",
-    "toId": "mp_interview"
-  },
-  {
-    "id": "mp_call_3->mp_reminder_mail_3",
-    "fromId": "mp_call_3",
-    "toId": "mp_reminder_mail_3"
-  },
-  {
-    "id": "mp_interview->mp_call_rejection",
-    "fromId": "mp_interview",
-    "toId": "mp_call_rejection"
-  },
-  {
-    "id": "mp_interview->mp_job_offer_accept",
-    "fromId": "mp_interview",
-    "toId": "mp_job_offer_accept"
-  },
-  {
-    "id": "mp_interview_callback->mp_interview",
-    "fromId": "mp_interview_callback",
-    "toId": "mp_interview"
-  },
-  {
-    "id": "mp_job_offer_accept->starting_date_definition",
-    "fromId": "mp_job_offer_accept",
-    "toId": "starting_date_definition"
-  },
-  {
-    "id": "mp_reminder_mail_1->mp_call_2",
-    "fromId": "mp_reminder_mail_1",
-    "toId": "mp_call_2"
-  },
-  {
-    "id": "mp_reminder_mail_1->mp_interview_callback",
-    "fromId": "mp_reminder_mail_1",
-    "toId": "mp_interview_callback"
-  },
-  {
-    "id": "mp_reminder_mail_2->mp_call_3",
-    "fromId": "mp_reminder_mail_2",
-    "toId": "mp_call_3"
-  },
-  {
-    "id": "mp_reminder_mail_2->mp_interview_callback",
-    "fromId": "mp_reminder_mail_2",
-    "toId": "mp_interview_callback"
-  },
-  {
-    "id": "mp_reminder_mail_3->mp_ghost",
-    "fromId": "mp_reminder_mail_3",
-    "toId": "mp_ghost"
-  },
-  {
-    "id": "mp_reminder_mail_3->mp_interview_callback",
-    "fromId": "mp_reminder_mail_3",
-    "toId": "mp_interview_callback"
-  },
-  {
-    "id": "pre_call_sms->ai_call",
-    "fromId": "pre_call_sms",
-    "toId": "ai_call"
-  },
-  {
-    "id": "pre_video_mail->video_application",
-    "fromId": "pre_video_mail",
-    "toId": "video_application"
-  },
-  {
-    "id": "starting_date_definition->gs_onboarding_update",
-    "fromId": "starting_date_definition",
-    "toId": "gs_onboarding_update"
-  },
-  {
-    "id": "starting_date_definition->inscription_onboarding",
-    "fromId": "starting_date_definition",
-    "toId": "inscription_onboarding"
-  },
-  {
-    "id": "starting_date_definition->make_payfit_account",
-    "fromId": "starting_date_definition",
-    "toId": "make_payfit_account"
+    "toId": "text_application",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   },
   {
     "id": "text_application->pre_call_sms",
     "fromId": "text_application",
-    "toId": "pre_call_sms"
+    "toId": "pre_call_sms",
+    "probability": "text_application->pre_call_sms",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "pre_call_sms->ai_call",
+    "fromId": "pre_call_sms",
+    "toId": "ai_call",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "ai_call->pre_video_mail",
+    "fromId": "ai_call",
+    "toId": "pre_video_mail",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   },
   {
     "id": "text_application->pre_video_mail",
     "fromId": "text_application",
-    "toId": "pre_video_mail"
+    "toId": "pre_video_mail",
+    "probability": "1-text_application->pre_call_sms",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "pre_video_mail->video_application",
+    "fromId": "pre_video_mail",
+    "toId": "video_application",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   },
   {
     "id": "video_application->application_review_1",
     "fromId": "video_application",
-    "toId": "application_review_1"
+    "toId": "application_review_1",
+    "probability": ".1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   },
   {
     "id": "video_application->ghost_1",
     "fromId": "video_application",
-    "toId": "ghost_1"
+    "toId": "ghost_1",
+    "probability": "1-video_application->application_review_1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "application_review_1->application_review_2",
+    "fromId": "application_review_1",
+    "toId": "application_review_2",
+    "probability": ".4",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "application_review_1->rejection_1",
+    "fromId": "application_review_1",
+    "toId": "rejection_1",
+    "probability": "1-application_review_1->rejection_1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "application_review_2->video_screening",
+    "fromId": "application_review_2",
+    "toId": "video_screening",
+    "probability": ".5",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "application_review_2->rejection_2",
+    "fromId": "application_review_2",
+    "toId": "rejection_2",
+    "probability": "1-application_review_2->video_screening",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   },
   {
     "id": "video_screening->high_potential_candidate",
     "fromId": "video_screening",
-    "toId": "high_potential_candidate"
-  },
-  {
-    "id": "video_screening->low_potential_candidate",
-    "fromId": "video_screening",
-    "toId": "low_potential_candidate"
+    "toId": "high_potential_candidate",
+    "probability": ".1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   },
   {
     "id": "video_screening->medium_potential_candidate",
     "fromId": "video_screening",
-    "toId": "medium_potential_candidate"
+    "toId": "medium_potential_candidate",
+    "probability": ".3",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "video_screening->low_potential_candidate",
+    "fromId": "video_screening",
+    "toId": "low_potential_candidate",
+    "probability": ".1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   },
   {
     "id": "video_screening->rejection_3",
     "fromId": "video_screening",
-    "toId": "rejection_3"
+    "toId": "rejection_3",
+    "probability": ".5",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "high_potential_candidate->hp_call_1",
+    "fromId": "high_potential_candidate",
+    "toId": "hp_call_1",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_1->hp_interview",
+    "fromId": "hp_call_1",
+    "toId": "hp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_1->hp_reminder_mail_1",
+    "fromId": "hp_call_1",
+    "toId": "hp_reminder_mail_1",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_1->hp_call_2",
+    "fromId": "hp_reminder_mail_1",
+    "toId": "hp_call_2",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_1->hp_interview_callback",
+    "fromId": "hp_reminder_mail_1",
+    "toId": "hp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_2->hp_interview",
+    "fromId": "hp_call_2",
+    "toId": "hp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_2->hp_reminder_mail_2",
+    "fromId": "hp_call_2",
+    "toId": "hp_reminder_mail_2",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_2->hp_call_3",
+    "fromId": "hp_reminder_mail_2",
+    "toId": "hp_call_3",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_2->hp_interview_callback",
+    "fromId": "hp_reminder_mail_2",
+    "toId": "hp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_3->hp_interview",
+    "fromId": "hp_call_3",
+    "toId": "hp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_3->hp_reminder_mail_3",
+    "fromId": "hp_call_3",
+    "toId": "hp_reminder_mail_3",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_3->hp_call_4",
+    "fromId": "hp_reminder_mail_3",
+    "toId": "hp_call_4",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_3->hp_interview_callback",
+    "fromId": "hp_reminder_mail_3",
+    "toId": "hp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_4->hp_interview",
+    "fromId": "hp_call_4",
+    "toId": "hp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_call_4->hp_reminder_mail_4",
+    "fromId": "hp_call_4",
+    "toId": "hp_reminder_mail_4",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_4->hp_interview_callback",
+    "fromId": "hp_reminder_mail_4",
+    "toId": "hp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_reminder_mail_4->hp_ghost",
+    "fromId": "hp_reminder_mail_4",
+    "toId": "hp_ghost",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_interview_callback->hp_interview",
+    "fromId": "hp_interview_callback",
+    "toId": "hp_interview",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_interview->hp_job_offer_accept",
+    "fromId": "hp_interview",
+    "toId": "hp_job_offer_accept",
+    "probability": ".8",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_interview->hp_call_rejection",
+    "fromId": "hp_interview",
+    "toId": "hp_call_rejection",
+    "probability": "1-hp_interview->hp_job_offer_accept",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "hp_job_offer_accept->starting_date_definition",
+    "fromId": "hp_job_offer_accept",
+    "toId": "starting_date_definition",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "low_potential_candidate->lp_call_1",
+    "fromId": "low_potential_candidate",
+    "toId": "lp_call_1",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_call_1->lp_interview",
+    "fromId": "lp_call_1",
+    "toId": "lp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_call_1->lp_reminder_mail_1",
+    "fromId": "lp_call_1",
+    "toId": "lp_reminder_mail_1",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_reminder_mail_1->lp_call_2",
+    "fromId": "lp_reminder_mail_1",
+    "toId": "lp_call_2",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_reminder_mail_1->lp_interview_callback",
+    "fromId": "lp_reminder_mail_1",
+    "toId": "lp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_call_2->lp_interview",
+    "fromId": "lp_call_2",
+    "toId": "lp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_call_2->lp_reminder_mail_2",
+    "fromId": "lp_call_2",
+    "toId": "lp_reminder_mail_2",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_reminder_mail_2->lp_interview_callback",
+    "fromId": "lp_reminder_mail_2",
+    "toId": "lp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_reminder_mail_2->lp_ghost",
+    "fromId": "lp_reminder_mail_2",
+    "toId": "lp_ghost",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_interview_callback->lp_interview",
+    "fromId": "lp_interview_callback",
+    "toId": "lp_interview",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_interview->lp_job_offer_accept",
+    "fromId": "lp_interview",
+    "toId": "lp_job_offer_accept",
+    "probability": ".6",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_interview->lp_call_rejection",
+    "fromId": "lp_interview",
+    "toId": "lp_call_rejection",
+    "probability": "1-lp_interview->lp_job_offer_accept",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "lp_job_offer_accept->starting_date_definition",
+    "fromId": "lp_job_offer_accept",
+    "toId": "starting_date_definition",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "medium_potential_candidate->mp_call_1",
+    "fromId": "medium_potential_candidate",
+    "toId": "mp_call_1",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_call_1->mp_interview",
+    "fromId": "mp_call_1",
+    "toId": "mp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_call_1->mp_reminder_mail_1",
+    "fromId": "mp_call_1",
+    "toId": "mp_reminder_mail_1",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_reminder_mail_1->mp_call_2",
+    "fromId": "mp_reminder_mail_1",
+    "toId": "mp_call_2",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_reminder_mail_1->mp_interview_callback",
+    "fromId": "mp_reminder_mail_1",
+    "toId": "mp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_call_2->mp_interview",
+    "fromId": "mp_call_2",
+    "toId": "mp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_call_2->mp_reminder_mail_2",
+    "fromId": "mp_call_2",
+    "toId": "mp_reminder_mail_2",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_reminder_mail_2->mp_call_3",
+    "fromId": "mp_reminder_mail_2",
+    "toId": "mp_call_3",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_reminder_mail_2->mp_interview_callback",
+    "fromId": "mp_reminder_mail_2",
+    "toId": "mp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_call_3->mp_interview",
+    "fromId": "mp_call_3",
+    "toId": "mp_interview",
+    "probability": "pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_call_3->mp_reminder_mail_3",
+    "fromId": "mp_call_3",
+    "toId": "mp_reminder_mail_3",
+    "probability": "1-pick_up_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_reminder_mail_3->mp_interview_callback",
+    "fromId": "mp_reminder_mail_3",
+    "toId": "mp_interview_callback",
+    "probability": "call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_reminder_mail_3->mp_ghost",
+    "fromId": "mp_reminder_mail_3",
+    "toId": "mp_ghost",
+    "probability": "1-call_back_rate",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_interview_callback->mp_interview",
+    "fromId": "mp_interview_callback",
+    "toId": "mp_interview",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_interview->mp_job_offer_accept",
+    "fromId": "mp_interview",
+    "toId": "mp_job_offer_accept",
+    "probability": ".7",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_interview->mp_call_rejection",
+    "fromId": "mp_interview",
+    "toId": "mp_call_rejection",
+    "probability": "1-mp_interview->mp_job_offer_accept",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mp_job_offer_accept->starting_date_definition",
+    "fromId": "mp_job_offer_accept",
+    "toId": "starting_date_definition",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "starting_date_definition->gs_onboarding_update",
+    "fromId": "starting_date_definition",
+    "toId": "gs_onboarding_update",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "starting_date_definition->inscription_onboarding",
+    "fromId": "starting_date_definition",
+    "toId": "inscription_onboarding",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "starting_date_definition->make_payfit_account",
+    "fromId": "starting_date_definition",
+    "toId": "make_payfit_account",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "make_payfit_account->make_payfit_conrtract",
+    "fromId": "make_payfit_account",
+    "toId": "make_payfit_conrtract",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "make_payfit_conrtract->mail_yousign",
+    "fromId": "make_payfit_conrtract",
+    "toId": "mail_yousign",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "mail_yousign->contract_sign",
+    "fromId": "mail_yousign",
+    "toId": "contract_sign",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "contract_sign->contract_verification",
+    "fromId": "contract_sign",
+    "toId": "contract_verification",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "contract_verification->contract_rejection",
+    "fromId": "contract_verification",
+    "toId": "contract_rejection",
+    "probability": ".05",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   }
 ]

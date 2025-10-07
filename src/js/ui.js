@@ -1,6 +1,6 @@
 import { highlightNodeById } from './render.js';
 import * as layoutManager from './layoutManager.js';
-import { showStatus } from './utils.js';
+import { showStatus, generateIdFromName } from './utils.js';
 
 const FILTER_SETS_API_BASE = '/api/filter-sets';
 
@@ -27,6 +27,7 @@ const NODE_COLUMNS = [
     { id: 'Effective Cost', name: 'Effective Cost', type: 'number' },
     { id: 'incomingVolume', name: 'Incoming Volume', type: 'number' },
     { id: 'IncomingNumber', name: 'Incoming Number', type: 'number' },
+    { id: 'computedIncomingNumber', name: 'Incoming (calculated)', type: 'number' },
     { id: 'Variable', name: 'Variable', type: 'number' },
     
     // Time and scheduling properties
@@ -46,6 +47,12 @@ const CONNECTION_COLUMNS = [
     { id: 'source', name: 'Source ID', type: 'text' },
     { id: 'target', name: 'Target ID', type: 'text' },
     { id: 'type', name: 'Connection Type', type: 'text' },
+    { id: 'probability', name: 'Probability', type: 'number' },
+    { id: 'time', name: 'Time', type: 'text' },
+    { id: 'condition', name: 'Condition', type: 'text' },
+    { id: 'execution', name: 'Execution', type: 'text' },
+    { id: 'AOR', name: 'Area of Responsibility', type: 'text' },
+    { id: 'description', name: 'Description', type: 'text' },
     
     // Source node properties
     { id: 'source.Name', name: 'Source Name', type: 'text' },
@@ -1797,6 +1804,13 @@ export async function initEditorTables(core) {
         return;
     }
 
+    const normalizeText = (value) => (value === null || value === undefined) ? '' : String(value).trim();
+    const normalizeMixed = (value) => {
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'number') return value;
+        return String(value).trim();
+    };
+
     const baseSettings = {
         licenseKey: 'non-commercial-and-evaluation',
         rowHeaders: true,
@@ -1882,8 +1896,8 @@ export async function initEditorTables(core) {
         columns: [
             { data: 'id', title: 'ID' },
             { data: 'name', title: 'Name' },
-            { data: 'incomingNumber', title: 'Incoming Number', type: 'numeric', numericFormat: { pattern: '0' } },
-            { data: 'variable', title: 'Variable', type: 'numeric', numericFormat: { pattern: '0[.]000' } },
+            { data: 'incomingNumber', title: 'Incoming Number', type: 'text' },
+            { data: 'computedIncomingNumber', title: 'Incoming (calculated)', type: 'numeric', readOnly: true, numericFormat: { pattern: '0[.]00' } },
             { data: 'type', title: 'Type', type: 'dropdown', source: elementTypes },
             { data: 'subType', title: 'Sub Type', type: 'dropdown', source: subTypes },
             { data: 'aOR', title: 'AOR' },
@@ -1894,8 +1908,8 @@ export async function initEditorTables(core) {
             { data: 'monitoredData', title: 'Monitored Data' },
             { data: 'description', title: 'Description' },
             { data: 'avgCostTime', title: 'Avg Cost Time' },
-            { data: 'avgCost', title: 'Avg Cost', type: 'numeric', numericFormat: { pattern: '0[.]00' } },
-            { data: 'effectiveCost', title: 'Effective Cost', type: 'numeric', numericFormat: { pattern: '0[.]00' } },
+            { data: 'avgCost', title: 'Avg Cost', type: 'text' },
+            { data: 'effectiveCost', title: 'Effective Cost', type: 'numeric', readOnly: true, numericFormat: { pattern: '0[.]00' } },
             { data: 'lastUpdate', title: 'Last Update' },
             { data: 'nextUpdate', title: 'Next Update' },
             { data: 'kPI', title: 'KPI' },
@@ -1904,34 +1918,52 @@ export async function initEditorTables(core) {
             { data: 'frequency', title: 'Frequency' }
         ],
         afterChange: (changes, source) => {
-            if (!changes || source === 'loadData') return;
+            if (!changes || source === 'loadData' || source === 'compute') return;
             console.log('🔄 Elements table changed:', changes, 'source:', source);
             debounceTable('elements', () => {
                 console.log('📝 Processing elements table changes...');
-                const nextElements = _nodesHot.getSourceData().map(r => ({
-                    id: String(r.id || '').trim(),
-                    name: String(r.name || '').trim(),
-                    incomingNumber: String(r.incomingNumber || '').trim(),
-                    variable: typeof r.variable === 'number' ? r.variable : parseFloat(r.variable) || 1.0,
-                    type: String(r.type || '').trim(),
-                    subType: String(r.subType || '').trim(),
-                    aOR: String(r.aOR || '').trim(),
-                    execution: String(r.execution || 'Manual').trim(),
-                    account: String(r.account || '').trim(),
-                    platform: String(r.platform || '').trim(),
-                    monitoring: String(r.monitoring || '').trim(),
-                    monitoredData: String(r.monitoredData || '').trim(),
-                    description: String(r.description || '').trim(),
-                    avgCostTime: String(r.avgCostTime || '').trim(),
-                    avgCost: typeof r.avgCost === 'number' ? r.avgCost : parseFloat(r.avgCost) || 0,
-                    effectiveCost: typeof r.effectiveCost === 'number' ? r.effectiveCost : parseFloat(r.effectiveCost) || 0,
-                    lastUpdate: String(r.lastUpdate || '').trim(),
-                    nextUpdate: String(r.nextUpdate || '').trim(),
-                    kPI: String(r.kPI || '').trim(),
-                    scheduleStart: String(r.scheduleStart || '').trim(),
-                    scheduleEnd: String(r.scheduleEnd || '').trim(),
-                    frequency: String(r.frequency || '').trim()
-                })).filter(e => e.id);
+                const nextElements = _nodesHot.getSourceData().map((r) => {
+                    const name = normalizeText(r.name || '');
+                    let id = normalizeText(r.id || '');
+                    if (!id && name) {
+                        id = generateIdFromName(name);
+                        if (id) {
+                            r.id = id;
+                        }
+                    }
+
+                    if (!id) return null;
+
+                    const variableRaw = normalizeMixed(r.variable);
+                    const effectiveCostValue = typeof r.effectiveCost === 'number'
+                        ? r.effectiveCost
+                        : (normalizeText(r.effectiveCost) === '' ? '' : parseFloat(r.effectiveCost) || '');
+
+                    return {
+                        id,
+                        name,
+                        incomingNumber: normalizeMixed(r.incomingNumber),
+                        variable: variableRaw === '' ? 1.0 : variableRaw,
+                        type: normalizeText(r.type || ''),
+                        subType: normalizeText(r.subType || ''),
+                        aOR: normalizeText(r.aOR || ''),
+                        execution: normalizeText(r.execution || 'Manual') || 'Manual',
+                        account: normalizeText(r.account || ''),
+                        platform: normalizeText(r.platform || ''),
+                        monitoring: normalizeText(r.monitoring || ''),
+                        monitoredData: normalizeText(r.monitoredData || ''),
+                        description: normalizeText(r.description || ''),
+                        avgCostTime: normalizeText(r.avgCostTime || ''),
+                        avgCost: normalizeMixed(r.avgCost),
+                        effectiveCost: effectiveCostValue,
+                        lastUpdate: normalizeText(r.lastUpdate || ''),
+                        nextUpdate: normalizeText(r.nextUpdate || ''),
+                        kPI: normalizeText(r.kPI || ''),
+                        scheduleStart: normalizeText(r.scheduleStart || ''),
+                        scheduleEnd: normalizeText(r.scheduleEnd || ''),
+                        frequency: normalizeText(r.frequency || '')
+                    };
+                }).filter(Boolean);
                 console.log('🚀 Calling updateFromTable with:', nextElements.length, 'elements');
                 core.updateFromTable('elements', nextElements);
                 // Refresh connection dropdown sources with updated element IDs
@@ -1943,6 +1975,10 @@ export async function initEditorTables(core) {
                             { data: 'fromId', title: 'From', type: 'dropdown', source: elementIds },
                             { data: 'toId', title: 'To', type: 'dropdown', source: elementIds },
                             { data: 'probability', title: 'Probability' },
+                            { data: 'time', title: 'Time' },
+                            { data: 'condition', title: 'Condition' },
+                            { data: 'execution', title: 'Execution' },
+                            { data: 'AOR', title: 'AOR' },
                             { data: 'type', title: 'Type', type: 'dropdown', source: ['flow', 'dependency'] },
                             { data: 'description', title: 'Description' }
                         ]
@@ -1965,6 +2001,10 @@ export async function initEditorTables(core) {
             { data: 'fromId', title: 'From', type: 'dropdown', source: elementIds },
             { data: 'toId', title: 'To', type: 'dropdown', source: elementIds },
             { data: 'probability', title: 'Probability' },
+            { data: 'time', title: 'Time' },
+            { data: 'condition', title: 'Condition' },
+            { data: 'execution', title: 'Execution' },
+            { data: 'AOR', title: 'AOR' },
             { data: 'type', title: 'Type', type: 'dropdown', source: ['flow', 'dependency'] },
             { data: 'description', title: 'Description' }
         ],
@@ -1973,13 +2013,32 @@ export async function initEditorTables(core) {
             console.log('🔄 Connections table changed:', changes, 'source:', source);
             debounceTable('connections', () => {
                 console.log('📝 Processing connections table changes...');
-                const nextConns = _connectionsHot.getSourceData().map(r => ({
-                    id: String(r.id || `${r.fromId || ''}->${r.toId || ''}`).trim(),
-                    fromId: String(r.fromId || '').trim(),
-                    toId: String(r.toId || '').trim()
-                })).filter(c => c.fromId && c.toId);
+                const nextConns = _connectionsHot.getSourceData().map((r) => {
+                    const fromId = String(r.fromId || '').trim();
+                    const toId = String(r.toId || '').trim();
+                    let id = String(r.id || '').trim();
+                    if (!id && fromId && toId) {
+                        id = `${fromId}->${toId}`;
+                        r.id = id;
+                    }
+                    return {
+                        id,
+                        fromId,
+                        toId,
+                        probability: normalizeMixed(r.probability),
+                        time: normalizeText(r.time || ''),
+                        condition: normalizeText(r.condition || ''),
+                        execution: normalizeText(r.execution || ''),
+                        AOR: normalizeText(r.AOR || ''),
+                        type: normalizeText(r.type || ''),
+                        description: normalizeText(r.description || '')
+                    };
+                }).filter(c => c.id && c.fromId && c.toId);
                 console.log('🚀 Calling updateFromTable with:', nextConns.length, 'connections');
                 core.updateFromTable('connections', nextConns);
+                if (_variablesHot) {
+                    _variablesHot.loadData(toVarRows(core.variables, core.generatedVariables, core.usedGeneratedVariables));
+                }
             });
         }
     });
@@ -1987,31 +2046,83 @@ export async function initEditorTables(core) {
     _connectionsHot.addHook('afterOnCellMouseDown', () => setActiveHot(_connectionsHot));
 
     // Variables table (object <-> rows of {key, value})
-    const toVarRows = (vars) => Object.entries(vars || {}).map(([key, value]) => ({ key, value }));
+    const toVarRows = (manualVars, generatedVars, usedSet) => {
+        const rows = [];
+
+        // Always show manual variables
+        Object.entries(manualVars || {}).forEach(([key, value]) => {
+            rows.push({
+                key,
+                value,
+                source: 'Manual'
+            });
+        });
+
+        // Only show generated variables that are actual numeric values
+        // Don't show connection references to other variables (string values)
+        Object.entries(generatedVars || {}).forEach(([key, value]) => {
+            // Skip if already in manual variables (manual takes precedence)
+            if (Object.prototype.hasOwnProperty.call(manualVars || {}, key)) {
+                return;
+            }
+            // Only show if it's a numeric value (actual probability)
+            // Don't show string references like "pick_up_rate" - those are just pointers
+            if (typeof value === 'number') {
+                rows.push({
+                    key,
+                    value,
+                    source: 'Connection'
+                });
+            }
+        });
+
+        return rows;
+    };
+
     const fromVarRows = (rows) => {
         const o = {};
         (rows || []).forEach(r => {
+            const source = String(r.source || '').toLowerCase();
+            if (source === 'connection') return;
             const k = String(r.key || '').trim();
             if (!k) return;
-            const num = typeof r.value === 'number' ? r.value : parseFloat(r.value);
-            if (!Number.isNaN(num)) o[k] = num;
+            const value = r.value;
+            if (value === null || value === undefined || value === '') return;
+            if (typeof value === 'number') {
+                o[k] = value;
+                return;
+            }
+            const trimmed = String(value).trim();
+            if (!trimmed) return;
+            o[k] = trimmed;
         });
         return o;
     };
 
     _variablesHot = new Handsontable(varsEl, {
         ...baseSettings,
-        data: toVarRows(core.variables),
+    data: toVarRows(core.variables, core.generatedVariables, core.usedGeneratedVariables),
         columns: [
             { data: 'key', title: 'Key' },
-            { data: 'value', title: 'Value', type: 'numeric', numericFormat: { pattern: '0[.]000' } }
+            { data: 'value', title: 'Value', type: 'text' },
+            { data: 'source', title: 'Source', readOnly: true }
         ],
         afterChange: (changes, source) => {
             if (!changes || source === 'loadData') return;
             debounceTable('variables', () => {
                 const kv = fromVarRows(_variablesHot.getSourceData());
                 core.updateFromTable('variables', kv);
+                if (_variablesHot) {
+                    _variablesHot.loadData(toVarRows(core.variables, core.generatedVariables, core.usedGeneratedVariables));
+                }
             });
+        },
+        cells(row) {
+            const rowData = _variablesHot?.getSourceDataAtRow(row);
+            if (rowData && String(rowData.source || '').toLowerCase() === 'connection') {
+                return { readOnly: true };
+            }
+            return {};
         }
     });
 
@@ -2059,7 +2170,7 @@ export async function initEditorTables(core) {
     if (saveToServerBtn) {
         saveToServerBtn.onclick = async () => {
             const { saveToFiles } = await import('./fileManager.js');
-            const success = await saveToFiles(core.elements || core.nodes, core.connections, core.variables);
+            const success = await saveToFiles(core.elements || core.nodes, core.connections, core.variables, core.generatedVariables);
             
             const statusMsg = success 
                 ? '✅ Saved to server!' 
@@ -2083,16 +2194,22 @@ export async function initEditorTables(core) {
             const { downloadJsonFile } = await import('./utils.js');
             const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
             
+            // Merge manual and generated variables for export
+            const exportVariables = {
+                ...(core.generatedVariables || {}),
+                ...(core.variables || {})
+            };
+            
             // Download individual files
             downloadJsonFile(core.elements || [], `elements_${timestamp}.json`);
             downloadJsonFile(core.connections || [], `connections_${timestamp}.json`);
-            downloadJsonFile(core.variables || {}, `variables_${timestamp}.json`);
+            downloadJsonFile(exportVariables, `variables_${timestamp}.json`);
             
             // Download combined file
             const combined = {
                 elements: core.elements || [],
                 connections: core.connections || [],
-                variables: core.variables || {},
+                variables: exportVariables,
                 timestamp: new Date().toISOString(),
                 version: '1.0'
             };
@@ -2241,6 +2358,31 @@ export function updateTableSelectionHighlights(selectedNodeIds) {
     clearTableRowHoverHighlight();
 }
 
+export function updateElementComputedFields(elements = []) {
+    if (!_nodesHot) return;
+    const rows = _nodesHot.getSourceData() || [];
+    const elementMap = new Map((elements || []).map(e => [String(e?.id ?? '').trim(), e]));
+
+    rows.forEach((row, rowIndex) => {
+        const id = String(row?.id || '').trim();
+        if (!id) return;
+        const source = elementMap.get(id);
+        if (!source) return;
+
+        const manualValue = source.incomingNumber;
+        const isManualString = typeof manualValue === 'string' && manualValue.trim() !== '';
+        const computedVolume = Number.isFinite(source.computedIncomingNumber) ? source.computedIncomingNumber : '';
+        const displayVolume = computedVolume === '' ? '' : computedVolume;
+        const effectiveCost = Number.isFinite(source.effectiveCost) ? source.effectiveCost : '';
+
+        _nodesHot.setDataAtRowProp(rowIndex, 'incomingNumber', isManualString ? manualValue : displayVolume, 'compute');
+        _nodesHot.setDataAtRowProp(rowIndex, 'computedIncomingNumber', displayVolume, 'compute');
+        _nodesHot.setDataAtRowProp(rowIndex, 'effectiveCost', effectiveCost === '' ? '' : effectiveCost, 'compute');
+    });
+
+    _nodesHot.render();
+}
+
 /**
  * Refresh existing Handsontable instances with new data without re-initializing.
  * Keeps event handlers and DOM intact.
@@ -2263,6 +2405,10 @@ export function refreshEditorData(core) {
                 { data: 'fromId', title: 'From', type: 'dropdown', source: elementIds },
                 { data: 'toId', title: 'To', type: 'dropdown', source: elementIds },
                 { data: 'probability', title: 'Probability' },
+                { data: 'time', title: 'Time' },
+                { data: 'condition', title: 'Condition' },
+                { data: 'execution', title: 'Execution' },
+                { data: 'AOR', title: 'AOR' },
                 { data: 'type', title: 'Type', type: 'dropdown', source: ['flow', 'dependency'] },
                 { data: 'description', title: 'Description' }
             ]
@@ -2270,9 +2416,26 @@ export function refreshEditorData(core) {
         _connectionsHot.loadData(core.connections.map(c => ({ ...c })));
     }
     if (_variablesHot) {
-        const toVarRows = (vars) => Object.entries(vars || {}).map(([key, value]) => ({ key, value }));
-        _variablesHot.loadData(toVarRows(core.variables));
+        const toVarRows = (manualVars, generatedVars, usedSet) => {
+            const rows = [];
+            Object.entries(manualVars || {}).forEach(([key, value]) => {
+                rows.push({ key, value, source: 'Manual' });
+            });
+            Object.entries(generatedVars || {}).forEach(([key, value]) => {
+                if (usedSet && usedSet.size > 0 && !usedSet.has(key)) {
+                    return;
+                }
+                if (Object.prototype.hasOwnProperty.call(manualVars || {}, key)) {
+                    return;
+                }
+                rows.push({ key, value, source: 'Connection' });
+            });
+            return rows;
+        };
+        _variablesHot.loadData(toVarRows(core.variables, core.generatedVariables, core.usedGeneratedVariables));
     }
+
+    updateElementComputedFields(core.elements);
 
     // Simple resize handler
     window.addEventListener('resize', () => {

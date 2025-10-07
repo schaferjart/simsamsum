@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import { showStatus, calculateNodeSize, downloadJsonFile, snapToGrid } from './utils.js';
-import { processData, verifyConnections, computeDerivedFields as computeDerivedFieldsData } from './data.js';
+import { processData, verifyConnections, computeDerivedFields as computeDerivedFieldsData, resolveValue, extractExpressionTokens } from './data.js';
 import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from './render.js';
 import { applyLayout } from './layouts.js';
 import * as interactions from './interactions.js';
@@ -91,6 +91,8 @@ class WorkflowVisualizer {
     this.elements = [];
     this.connections = [];
     this.variables = {};
+    this.generatedVariables = {};
+    this.usedGeneratedVariables = new Set();
     }
 
     /**
@@ -239,7 +241,7 @@ class WorkflowVisualizer {
      * Returns a method to save current state to files
      */
     saveToFiles() {
-        return saveToFiles(this.elements, this.connections, this.variables);
+        return saveToFiles(this.elements, this.connections, this.variables, this.generatedVariables);
     }
 
     /**
@@ -413,6 +415,83 @@ class WorkflowVisualizer {
         } catch (e) {
             console.warn('Failed to save to localStorage', e);
         }
+    }
+
+    refreshGeneratedVariables() {
+        const baseVariables = this.variables || {};
+        const generated = {};
+
+        (this.connections || []).forEach((conn) => {
+            const id = typeof conn.id === 'string' && conn.id.trim()
+                ? conn.id.trim()
+                : (conn.fromId && conn.toId ? `${conn.fromId}->${conn.toId}` : '');
+            if (!id) {
+                return;
+            }
+
+            const probabilityRaw = conn.probability !== undefined && conn.probability !== null
+                ? conn.probability
+                : '';
+
+            // Only create variable entries for:
+            // 1. Explicit non-default numeric values (0.8, 0.5, etc - NOT 1)
+            // Skip: default 1, empty strings, expressions, variable references
+            
+            if (typeof probabilityRaw === 'number') {
+                // Only store if not default value 1
+                if (probabilityRaw !== 1) {
+                    generated[id] = probabilityRaw;
+                }
+            } else if (typeof probabilityRaw === 'string' && probabilityRaw.trim() !== '') {
+                const trimmed = probabilityRaw.trim();
+                
+                // Check if it's a numeric string (like ".8" or "0.5")
+                if (/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(trimmed)) {
+                    const numValue = Number(trimmed);
+                    // Only store if not default value 1
+                    if (numValue !== 1) {
+                        generated[id] = numValue;
+                    }
+                }
+                // Don't store variable references (like "pick_up_rate") or expressions
+                // They're not variables themselves, just references to existing variables
+            }
+            // Empty strings and default 1 are skipped entirely
+        });
+
+        this.generatedVariables = generated;
+    }
+
+    syncGeneratedVariableUsage() {
+        const referenced = new Set();
+        const collectFromValue = (value) => {
+            if (typeof value !== 'string') {
+                return;
+            }
+            extractExpressionTokens(value).forEach(token => {
+                if (this.generatedVariables && Object.prototype.hasOwnProperty.call(this.generatedVariables, token)) {
+                    referenced.add(token);
+                }
+            });
+        };
+
+        (this.elements || []).forEach((element) => {
+            collectFromValue(element.incomingNumber);
+            collectFromValue(element.avgCost);
+            collectFromValue(element.variable);
+            collectFromValue(element.nodeMultiplier);
+        });
+
+        Object.values(this.variables || {}).forEach(collectFromValue);
+
+        this.usedGeneratedVariables = referenced;
+    }
+
+    getEvaluationVariables() {
+        return {
+            ...(this.generatedVariables || {}),
+            ...(this.variables || {})
+        };
     }
 
     /**
@@ -608,32 +687,44 @@ class WorkflowVisualizer {
      */
     populateTablesFromCurrentState() {
         // Map visualization nodes to table elements
-        this.elements = (this.state.allNodes || []).map(n => ({
-            id: n.id,
-            name: n.Name || n.name || n.id,
-            incomingNumber: n.incomingNumber || '',
-            variable: typeof n.variable === 'number' ? n.variable : (typeof n.Variable === 'number' ? n.Variable : 1.0),
-            type: n.Type || n.type || '',
-            subType: n.SubType || n.subType || '',
-            aOR: n.AOR || n.aOR || '',
-            execution: n.Execution || n.execution || 'Manual',
-            account: n.Account || n.account || '',
-            platform: n.Platform || n.platform || '',
-            monitoring: n.Monitoring || n.monitoring || '',
-            monitoredData: n.MonitoredData || n.monitoredData || '',
-            description: n.description || n.Description || '',
-            avgCostTime: n.avgCostTime || n.AvgCostTime || '',
-            avgCost: typeof n.avgCost === 'number' ? n.avgCost : (typeof n.AvgCost === 'number' ? n.AvgCost : 0),
-            effectiveCost: typeof n.effectiveCost === 'number' ? n.effectiveCost : (typeof n["Effective Cost"] === 'number' ? n["Effective Cost"] : (typeof n.costValue === 'number' ? n.costValue : 0)),
-            lastUpdate: n.lastUpdate || n.LastUpdate || '',
-            nextUpdate: n.nextUpdate || n.NextUpdate || '',
-            kPI: n.kPI || n.KPI || '',
-            scheduleStart: n.scheduleStart || n.ScheduleStart || '',
-            scheduleEnd: n.scheduleEnd || n.ScheduleEnd || '',
-            frequency: n.frequency || n.Frequency || '',
-            x: typeof n.x === 'number' ? n.x : 0,
-            y: typeof n.y === 'number' ? n.y : 0
-        }));
+        this.elements = (this.state.allNodes || []).map(n => {
+            const incomingNumber = n.incomingNumber ?? n.IncomingNumber ?? '';
+            const variable = n.variable ?? n.Variable ?? '';
+            const avgCost = n.avgCost ?? n.AvgCost ?? n['Ø Cost'] ?? '';
+            const effectiveCost = n.effectiveCost ?? n['Effective Cost'] ?? n.costValue ?? '';
+            const computedIncoming = typeof n.computedIncomingNumber === 'number'
+                ? n.computedIncomingNumber
+                : (typeof n.incomingNumber === 'number' ? n.incomingNumber
+                    : (typeof n.IncomingNumber === 'number' ? n.IncomingNumber : null));
+
+            return {
+                id: n.id,
+                name: n.Name || n.name || n.id,
+                incomingNumber,
+                variable,
+                type: n.Type || n.type || '',
+                subType: n.SubType || n.subType || '',
+                aOR: n.AOR || n.aOR || '',
+                execution: n.Execution || n.execution || 'Manual',
+                account: n.Account || n.account || '',
+                platform: n.Platform || n.platform || '',
+                monitoring: n.Monitoring || n.monitoring || '',
+                monitoredData: n.MonitoredData || n.monitoredData || '',
+                description: n.description || n.Description || '',
+                avgCostTime: n.avgCostTime || n.AvgCostTime || '',
+                avgCost,
+                effectiveCost,
+                computedIncomingNumber: computedIncoming,
+                lastUpdate: n.lastUpdate || n.LastUpdate || '',
+                nextUpdate: n.nextUpdate || n.NextUpdate || '',
+                kPI: n.kPI || n.KPI || '',
+                scheduleStart: n.scheduleStart || n.ScheduleStart || '',
+                scheduleEnd: n.scheduleEnd || n.ScheduleEnd || '',
+                frequency: n.frequency || n.Frequency || '',
+                x: typeof n.x === 'number' ? n.x : 0,
+                y: typeof n.y === 'number' ? n.y : 0
+            };
+        });
 
         // Map visualization links to table connections
         this.connections = (this.state.allLinks || []).map(l => {
@@ -667,29 +758,48 @@ class WorkflowVisualizer {
             console.log('✅ Updated elements:', this.elements.length);
         } else if (type === 'connections') {
             this.connections = Array.isArray(data) ? [...data] : [];
-            // Resolve any variable references within connection probabilities
-            this.resolveVariables();
+            // Generate variables from connection probabilities (preserving expressions)
+            this.refreshGeneratedVariables();
+            this.syncGeneratedVariableUsage();
         } else if (type === 'variables') {
-            // Normalize variable values to numbers
+            // Normalize variable values but preserve expressions
             const normalized = {};
             Object.entries(data || {}).forEach(([k, v]) => {
-                const num = typeof v === 'number' ? v : parseFloat(v);
-                if (!Number.isNaN(num)) normalized[k] = num;
+                if (v === null || v === undefined || v === '') {
+                    return;
+                }
+
+                if (typeof v === 'number') {
+                    normalized[k] = v;
+                    return;
+                }
+
+                const trimmed = String(v).trim();
+                if (!trimmed) {
+                    return;
+                }
+
+                if (/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(trimmed)) {
+                    normalized[k] = Number(trimmed);
+                } else {
+                    normalized[k] = trimmed;
+                }
             });
             this.variables = normalized;
-            // Re-resolve probabilities with new variable values
-            this.resolveVariables();
+            // Regenerate variables with new values
+            this.refreshGeneratedVariables();
+            this.syncGeneratedVariableUsage();
         } else {
             console.warn('[updateFromTable] Unknown type:', type);
             return;
         }
 
         // Recompute derived values and sync to visualization state
-        this.computeDerivedFields();
-        this.syncTableDataToVisualization();
+    this.computeDerivedFields();
+    this.syncTableDataToVisualization();
         this.updateVisualization();
         // Auto-save after edits
-        this.saveToLocalStorage();
+    this.saveToLocalStorage();
         // Do not reload editor tables here; hot.loadData causes focus loss and jank during typing.
         // UI will refresh tables explicitly after bulk imports or structure changes.
     }    /**
@@ -729,58 +839,71 @@ class WorkflowVisualizer {
      */
     computeDerivedFields() {
         // Map elements to the format expected by computeDerivedFields
+    this.refreshGeneratedVariables();
+    this.syncGeneratedVariableUsage();
+    const evaluationVariables = this.getEvaluationVariables();
+
         const mappedElements = this.elements.map(e => ({
             ...e,
-            incomingVolume: e.incomingNumber || 0,
-            nodeMultiplier: 1.0  // Don't use variable as multiplier here, it's used for connection probability
+            incomingVolume: e.incomingNumber ?? 0,
+            nodeMultiplier: 1.0
         }));
         
-        // Map connections with semantic probability logic
-        const connectionCounts = new Map(); // toId -> count of incoming connections
-        this.connections.forEach(c => {
-            connectionCounts.set(c.toId, (connectionCounts.get(c.toId) || 0) + 1);
-        });
-        
         const mappedConnections = this.connections.map(c => {
-            const targetElement = this.elements.find(e => e.id === c.toId);
-            const incomingCount = connectionCounts.get(c.toId) || 1;
-            
-            if (incomingCount === 1) {
-                // Single incoming: use target's variable as conversion probability
-                const probability = targetElement && targetElement.variable !== undefined ? targetElement.variable : 1.0;
-                return { ...c, probability: probability };
-            } else {
-                // Multiple incoming: distinguish between primary and secondary flows
-                // Primary flow (from larger volume source): use target's variable
-                // Secondary flows: pass-through (probability = 1.0)
-                
-                // Simple heuristic: if source has "application" or "text" in name, it's primary
-                const isPrimaryFlow = c.fromId.includes('application') || c.fromId.includes('text');
-                
-                if (isPrimaryFlow) {
-                    const probability = targetElement && targetElement.variable !== undefined ? targetElement.variable : 1.0;
-                    return { ...c, probability: probability };
+            const clone = { ...c };
+            const existingProbability = clone.probability;
+
+            const hasExplicitProbability = existingProbability !== undefined && existingProbability !== null && !(typeof existingProbability === 'string' && existingProbability.trim() === '');
+
+            if (!hasExplicitProbability) {
+                const targetElement = this.elements.find(e => e.id === c.toId);
+                if (targetElement && targetElement.variable !== undefined && targetElement.variable !== null && `${targetElement.variable}`.trim() !== '') {
+                    clone.probability = targetElement.variable;
                 } else {
-                    // Secondary flow: pass-through
-                    return { ...c, probability: 1.0 };
+                    delete clone.probability; // fallback to default 1.0 in computeDerivedFieldsData
                 }
             }
+
+            return clone;
         });
         
         console.log('🔄 Computing volumes with:', {
             elements: mappedElements.length,
             connections: mappedConnections.length,
-            variables: Object.keys(this.variables).length
+            variables: Object.keys(evaluationVariables).length
         });
         
         // Compute the volumes
-        computeDerivedFieldsData(mappedElements, mappedConnections, this.variables);
+    computeDerivedFieldsData(mappedElements, mappedConnections, evaluationVariables);
         
         // Map the calculated volumes back to incomingNumber for display
         mappedElements.forEach((mapped, index) => {
-            const calculatedVolume = mapped.computedVolumeIn || mapped.incomingVolume || 0;
-            this.elements[index].incomingNumber = Math.round(calculatedVolume);
+            const element = this.elements[index];
+            const computedVolume = Number.isFinite(mapped.computedVolumeIn)
+                ? mapped.computedVolumeIn
+                : resolveValue(mapped.incomingVolume ?? 0, evaluationVariables);
+
+            const safeVolume = Number.isFinite(computedVolume) ? computedVolume : 0;
+            const roundedVolume = Number.isFinite(safeVolume) ? Number(safeVolume.toFixed(2)) : 0;
+            element.computedIncomingNumber = roundedVolume;
+
+            const hasManualIncoming = typeof element.incomingNumber === 'string' && element.incomingNumber.trim() !== '';
+            if (!hasManualIncoming) {
+                element.incomingNumber = roundedVolume;
+            }
+
+            const resolvedAvgCost = resolveValue(element.avgCost ?? 0, evaluationVariables);
+            element.resolvedAvgCost = resolvedAvgCost;
+
+            const effectiveCost = resolvedAvgCost * roundedVolume;
+            element.effectiveCost = Number.isFinite(effectiveCost)
+                ? Number(effectiveCost.toFixed(2))
+                : '';
         });
+
+        if (typeof ui.updateElementComputedFields === 'function') {
+            ui.updateElementComputedFields(this.elements);
+        }
         
         console.log('✅ Volume calculation completed for', this.elements.length, 'elements');
     }
@@ -790,10 +913,14 @@ class WorkflowVisualizer {
      * This converts table format to the format expected by the visualization.
      */
     syncTableDataToVisualization() {
+    this.refreshGeneratedVariables();
+    this.syncGeneratedVariableUsage();
+    const evaluationVariables = this.getEvaluationVariables();
+
         console.log('🔄 Syncing table data to visualization...', {
             elements: this.elements.length,
             connections: this.connections.length,
-            variables: Object.keys(this.variables).length
+            variables: Object.keys(evaluationVariables).length
         });
 
         // Convert table data to visualization format using processData
@@ -802,7 +929,7 @@ class WorkflowVisualizer {
             nodes: this.elements,
             connections: this.connections,
             variables: this.variables
-        }, sizingConfig, this.variables);
+        }, sizingConfig, evaluationVariables);
 
         // Sanitize links against resolved node ids
         const idSet = new Set((vizNodes || []).map(n => n.id));
@@ -838,6 +965,7 @@ class WorkflowVisualizer {
      * Refreshes the table displays with current data
      */
     refreshTables() {
+        this.refreshGeneratedVariables();
         // Trigger table refresh through UI module
         if (typeof ui.refreshEditorData === 'function') {
             ui.refreshEditorData(this);
