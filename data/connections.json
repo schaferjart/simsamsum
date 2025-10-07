@@ -898,5 +898,17 @@
     "AOR": "",
     "type": "",
     "description": ""
+  },
+  {
+    "id": "contract_verification->creation_alan_account",
+    "fromId": "contract_verification",
+    "toId": "creation_alan_account",
+    "probability": "1",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   }
 ]
