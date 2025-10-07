@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import { snapToGrid } from './utils.js';
 import { highlightNode as renderHighlight, clearHighlight as renderClearHighlight, updateSelectionVisuals } from './render.js';
-import { highlightTableRowByNodeId, updateTableSelectionHighlights, clearTableRowHoverHighlight } from './ui.js';
+import { highlightTableRowByNodeId, updateTableSelectionHighlights, clearTableRowHoverHighlight } from './ui/index.js';
 
 // Drag state management
 const dragState = {
