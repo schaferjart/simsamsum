@@ -87,11 +87,48 @@ export async function deleteFilterSetData(name) {
 export async function saveFilterSet(name) {
     try {
         const filters = _getFilterRules ? _getFilterRules() : [];
-        const styling = _getStylingRules ? _getStylingRules() : [];
+        const allStylingRules = _getStylingRules ? _getStylingRules() : [];
+        
+        // Filter out styling rules that duplicate filter-embedded styles
+        // Only save standalone styling rules (those in the "Styling Rules" section)
+        // Filters already contain their own styling via the 'style' property
+        const standaloneStyleRules = allStylingRules
+            .filter(styleRule => {
+                // Check if this styling rule matches any filter rule
+                const isDuplicate = filters.some(filter => {
+                    // A styling rule is a duplicate if it has the same condition as a filter with styling
+                    return filter.style && 
+                           filter.scope === styleRule.scope &&
+                           filter.column === styleRule.condition?.column &&
+                           filter.operator === styleRule.condition?.operator &&
+                           String(filter.value) === String(styleRule.condition?.value);
+                });
+                return !isDuplicate;
+            })
+            .map(styleRule => {
+                // Convert from nested format to flat format for storage
+                // From: { scope, condition: {column, operator, value}, style: {color, strokeWidth} }
+                // To: { scope, column, operator, value, color, strokeWidth }
+                const flattened = {
+                    scope: styleRule.scope,
+                    column: styleRule.condition?.column,
+                    operator: styleRule.condition?.operator,
+                    value: styleRule.condition?.value
+                };
+                
+                if (styleRule.style?.color) {
+                    flattened.color = styleRule.style.color;
+                }
+                if (styleRule.style?.strokeWidth) {
+                    flattened.strokeWidth = styleRule.style.strokeWidth;
+                }
+                
+                return flattened;
+            });
         
         await saveFilterSetData(name, {
             filters,
-            styling,
+            styling: standaloneStyleRules,
             timestamp: new Date().toISOString()
         });
         
