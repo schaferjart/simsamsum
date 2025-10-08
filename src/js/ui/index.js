@@ -1,4 +1,5 @@
 // Barrel file for the UI module
+import { exportToPDF, exportToSVG } from '../export.js';
 
 // Import from all sub-modules
 import * as domConstants from './dom-constants.js';
@@ -74,9 +75,10 @@ export async function populateLayoutsDropdown() {
 
 /**
  * Binds all the UI event listeners to their respective DOM elements.
+ * @param {object} app - The main application instance.
  * @param {object} handlers - An object containing the handler functions.
  */
-export function bindEventListeners(handlers) {
+export function bindEventListeners(app, handlers) {
     // Initialize API client with dependencies
     initializeApiClient({
         getFilterRules: filterUI.getFilterRules,
@@ -157,7 +159,61 @@ export function bindEventListeners(handlers) {
 
     // Other UI actions
     document.getElementById('verifyBtn').addEventListener('click', handlers.handleVerify);
-    document.getElementById('exportPdfBtn').addEventListener('click', handlers.handleExport);
+
+    // Export modal logic
+    const exportModal = document.getElementById('exportModal');
+    const exportBtn = document.getElementById('exportBtn');
+    const closeExportModalBtn = document.getElementById('closeExportModalBtn');
+    const confirmExportBtn = document.getElementById('confirmExportBtn');
+    const exportFormatSelect = document.getElementById('exportFormat');
+    const pdfOptionsDiv = document.getElementById('pdfOptions');
+    const pdfPageSizeSelect = document.getElementById('pdfPageSize');
+    const customPdfSizeDiv = document.getElementById('customPdfSize');
+
+    exportBtn.addEventListener('click', () => {
+        exportModal.style.display = 'block';
+    });
+
+    closeExportModalBtn.addEventListener('click', () => {
+        exportModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === exportModal) {
+            exportModal.style.display = 'none';
+        }
+    });
+
+    exportFormatSelect.addEventListener('change', () => {
+        pdfOptionsDiv.style.display = exportFormatSelect.value === 'pdf' ? 'block' : 'none';
+    });
+
+    pdfPageSizeSelect.addEventListener('change', () => {
+        customPdfSizeDiv.style.display = pdfPageSizeSelect.value === 'custom' ? 'block' : 'none';
+    });
+
+    confirmExportBtn.addEventListener('click', () => {
+        const format = exportFormatSelect.value;
+        const includeBackground = document.getElementById('includeBackground').checked;
+
+        const options = { includeBackground };
+
+        if (format === 'pdf') {
+            options.pageSize = pdfPageSizeSelect.value;
+            if (options.pageSize === 'custom') {
+                options.customSize = {
+                    width: parseFloat(document.getElementById('pdfWidth').value),
+                    height: parseFloat(document.getElementById('pdfHeight').value)
+                };
+            }
+            exportToPDF(app.state, options);
+        } else if (format === 'svg') {
+            exportToSVG(options);
+        }
+
+        exportModal.style.display = 'none';
+    });
+
     document.getElementById('closePanelBtn').addEventListener('click', hideDetailsPanel);
     document.getElementById('showEditorBtn').addEventListener('click', hideDetailsPanel);
     document.getElementById('toggleControlsBtn').addEventListener('click', toggleControlsPanel);

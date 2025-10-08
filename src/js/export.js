@@ -3,10 +3,14 @@ import html2canvas from 'html2canvas';
 import { showStatus } from './utils.js';
 
 /**
- * Exports the current visualization to a PDF file.
+ * Exports the current visualization to a PDF file with options.
  * @param {object} state - The current application state.
+ * @param {object} options - Export options.
+ * @param {string} options.pageSize - e.g., 'a4', 'a3'.
+ * @param {boolean} options.includeBackground - Whether to include background color.
+ * @param {object} options.customSize - Custom dimensions { width, height }.
  */
-export async function exportToPDF(state) {
+export async function exportToPDF(state, options) {
     const { nodes, links, currentLayout } = state;
 
     try {
@@ -18,7 +22,6 @@ export async function exportToPDF(state) {
             return;
         }
 
-        // Temporarily hide UI elements that shouldn't be in the PDF
         const elementsToHide = ['.zoom-controls', '.legend', '.controls-panel', '#detailsPanel'];
         const hiddenElements = [];
         elementsToHide.forEach(selector => {
@@ -30,9 +33,8 @@ export async function exportToPDF(state) {
             });
         });
 
-        await createPDFExport(networkGraph, nodes.length, links.length, currentLayout);
+        await createPDFExport(networkGraph, nodes.length, links.length, currentLayout, options);
 
-        // Restore hidden elements
         hiddenElements.forEach(({ element, originalDisplay }) => {
             element.style.display = originalDisplay;
         });
@@ -46,26 +48,24 @@ export async function exportToPDF(state) {
 }
 
 /**
- * Creates the PDF content in a hidden container and triggers the download.
- * This function builds an off-screen element containing the visualization and metadata,
- * renders it to a canvas using html2canvas, and then inserts it into a jsPDF document.
+ * Creates the PDF content and triggers the download.
  * @param {HTMLElement} networkGraph - The container of the SVG visualization.
- * @param {number} nodeCount - The total number of nodes in the graph.
- * @param {number} linkCount - The total number of links in the graph.
- * @param {string} layout - The name of the current graph layout.
+ * @param {number} nodeCount - Total number of nodes.
+ * @param {number} linkCount - Total number of links.
+ * @param {string} layout - The current graph layout.
+ * @param {object} options - PDF export options.
  * @private
  */
-async function createPDFExport(networkGraph, nodeCount, linkCount, layout) {
+async function createPDFExport(networkGraph, nodeCount, linkCount, layout, options) {
+    const { pageSize, includeBackground, customSize } = options;
+
     const exportContainer = document.createElement('div');
+    const backgroundColor = includeBackground ? getComputedStyle(document.body).backgroundColor : 'white';
+
     exportContainer.style.cssText = `
-        position: fixed;
-        top: -10000px;
-        left: -10000px;
-        width: 1600px;
-        height: 1200px;
-        background: white;
-        padding: 20px;
-        font-family: Arial, sans-serif;
+        position: fixed; top: -10000px; left: -10000px;
+        width: 1600px; height: 1200px; background: ${backgroundColor};
+        padding: 20px; font-family: Arial, sans-serif;
     `;
     document.body.appendChild(exportContainer);
 
@@ -102,30 +102,26 @@ async function createPDFExport(networkGraph, nodeCount, linkCount, layout) {
         svgClone.setAttribute('viewBox', `${bbox.x - margin} ${bbox.y - margin} ${width} ${height}`);
         svgClone.style.border = '1px solid #ddd';
         svgClone.style.backgroundColor = 'white';
-
-        svgClone.querySelectorAll('text').forEach(text => {
-            text.style.fill = '#333';
-            text.style.fontSize = text.style.fontSize || '12px';
-        });
-
         exportContainer.appendChild(svgClone);
     }
 
     const canvas = await html2canvas(exportContainer, {
-        width: 1200,
-        height: 800,
         scale: 2,
-        backgroundColor: 'white',
-        logging: false,
+        backgroundColor: backgroundColor,
         useCORS: true
     });
 
-    const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    const pageWidth = 297;
-    const pageHeight = 210;
-    const aspectRatio = canvas.width / canvas.height;
-    let imgWidth, imgHeight;
+    let pdfOptions = { orientation: 'landscape', unit: 'mm', format: pageSize };
+    if (pageSize === 'custom' && customSize) {
+        pdfOptions = { unit: 'mm', format: [customSize.width, customSize.height] };
+    }
 
+    const pdf = new jsPDF(pdfOptions);
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const aspectRatio = canvas.width / canvas.height;
+
+    let imgWidth, imgHeight;
     if (aspectRatio > pageWidth / pageHeight) {
         imgWidth = pageWidth;
         imgHeight = pageWidth / aspectRatio;
@@ -138,9 +134,50 @@ async function createPDFExport(networkGraph, nodeCount, linkCount, layout) {
     const y = (pageHeight - imgHeight) / 2;
 
     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', x, y, imgWidth, imgHeight);
-
-    const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-    pdf.save(`workflow-visualization-${timestamp}.pdf`);
-
+    pdf.save(`workflow-visualization-${new Date().toISOString().slice(0, 19).replace(/[:-]/g, '')}.pdf`);
     document.body.removeChild(exportContainer);
+}
+
+/**
+ * Exports the current visualization to an SVG file.
+ * @param {object} options - Export options.
+ * @param {boolean} options.includeBackground - Whether to include background color.
+ */
+export function exportToSVG(options) {
+    try {
+        showStatus('Preparing SVG export...', 'loading');
+        const svgElement = document.getElementById('networkGraph').querySelector('svg');
+        if (!svgElement) {
+            showStatus('No visualization to export', 'error');
+            return;
+        }
+
+        const svgClone = svgElement.cloneNode(true);
+        if (options.includeBackground) {
+            const style = document.createElement('style');
+            style.textContent = `svg { background-color: ${getComputedStyle(document.body).backgroundColor}; }`;
+            svgClone.insertBefore(style, svgClone.firstChild);
+        }
+
+        const serializer = new XMLSerializer();
+        let svgString = serializer.serializeToString(svgClone);
+
+        svgString = '<?xml version="1.0" standalone="no"?>\r\n' + svgString;
+
+        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `workflow-visualization-${new Date().toISOString().slice(0, 19).replace(/[:-]/g, '')}.svg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showStatus('SVG exported successfully!', 'success');
+
+    } catch (error) {
+        console.error('SVG export error:', error);
+        showStatus('Error exporting SVG', 'error');
+    }
 }

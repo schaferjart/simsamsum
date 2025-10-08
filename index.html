@@ -131,7 +131,7 @@
 
                 <button id="resetBtn" class="btn btn--outline btn--sm">Reset View</button>
                 <button id="verifyBtn" class="btn btn--secondary btn--sm">Verify Connections</button>
-                <button id="exportPdfBtn" class="btn btn--primary btn--sm">Export PDF</button>
+                <button id="exportBtn" class="btn btn--primary btn--sm">Export</button>
             </div>
 
             <!-- Visualization Area -->
@@ -242,5 +242,54 @@
     </div>
 
     <script type="module" src="./src/app.js"></script>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Export Options</h2>
+                <button id="closeExportModalBtn" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exportFormat">Export Format:</label>
+                    <select id="exportFormat" class="form-control">
+                        <option value="pdf">PDF</option>
+                        <option value="svg">SVG</option>
+                    </select>
+                </div>
+                <div id="pdfOptions">
+                    <div class="form-group">
+                        <label for="pdfPageSize">Page Size:</label>
+                        <select id="pdfPageSize" class="form-control">
+                            <option value="a4">A4</option>
+                            <option value="a3">A3</option>
+                            <option value="a5">A5</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    <div id="customPdfSize" style="display: none;">
+                         <div class="form-group">
+                            <label for="pdfWidth">Width (mm):</label>
+                            <input type="number" id="pdfWidth" class="form-control" value="297">
+                        </div>
+                        <div class="form-group">
+                            <label for="pdfHeight">Height (mm):</label>
+                            <input type="number" id="pdfHeight" class="form-control" value="210">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="includeBackground">
+                        Include Background Color
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmExportBtn" class="btn btn--primary">Export</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

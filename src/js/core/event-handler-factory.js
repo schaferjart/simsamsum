@@ -26,7 +26,10 @@ export function createEventHandlers(app) {
         centerGraph: () => graphTransforms.centerGraph(app.state),
         fitToScreen: () => graphTransforms.fitToScreen(app.state),
         handleVerify: () => app.showConnectionReport(),
-        handleExport: () => exportToPDF(app.state),
+        handleExport: () => {
+            // This will be handled by the UI module directly
+            console.log('Export button clicked, modal should open.');
+        },
         handleResize: () => interactions.handleResize(app.state, app.state.svg)
     };
 }
