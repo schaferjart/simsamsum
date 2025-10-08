@@ -164,6 +164,8 @@ See `tests/README.md` for detailed test descriptions.
 ## Integration Points
 
 - **Handsontable** - Editable data tables (license required for production)
+  - Dark theme support via `src/styles/handsontable-theme.css` (see `docs/features/HANDSONTABLE_DARK_THEME.md`)
+  - Theme automatically syncs with application theme toggle
 - **jsPDF + html2canvas** - PDF export in `src/js/export.js`
 - **Git metadata** - `src/js/gitInfo.js` fetches from `/api/git-info` and displays in header
 
