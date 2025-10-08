@@ -8,6 +8,7 @@ import * as panelManager from './panel-manager.js';
 import * as themeManager from './theme-manager.js';
 import * as apiClient from './api-client.js';
 import * as handsontableManager from './handsontable-manager.js';
+import * as exportSettingsManager from './export-settings-manager.js';
 import * as layoutManager from '../layouts/persistence.js';
 import { showStatus, generateIdFromName } from '../utils.js';
 
@@ -44,6 +45,9 @@ export const {
 // API Client (Filter Sets)
 export const { populateFilterSetsDropdown, initializeApiClient } = apiClient;
 
+// Export Settings Manager
+export const { initExportSettings, getExportSettings, getPageDimensions, getExportFrameBounds } = exportSettingsManager;
+
 // --- Functions that remain in the main UI module ---
 
 // This section will contain functions that orchestrate across multiple sub-modules,
@@ -74,9 +78,10 @@ export async function populateLayoutsDropdown() {
 
 /**
  * Binds all the UI event listeners to their respective DOM elements.
+ * @param {object} app - The main application instance.
  * @param {object} handlers - An object containing the handler functions.
  */
-export function bindEventListeners(handlers) {
+export function bindEventListeners(app, handlers) {
     // Initialize API client with dependencies
     initializeApiClient({
         getFilterRules: filterUI.getFilterRules,
@@ -157,7 +162,10 @@ export function bindEventListeners(handlers) {
 
     // Other UI actions
     document.getElementById('verifyBtn').addEventListener('click', handlers.handleVerify);
-    document.getElementById('exportPdfBtn').addEventListener('click', handlers.handleExport);
+
+    // Export modal is now handled by export-settings-manager.js
+    // No need for export event listeners here anymore
+
     document.getElementById('closePanelBtn').addEventListener('click', hideDetailsPanel);
     document.getElementById('showEditorBtn').addEventListener('click', hideDetailsPanel);
     document.getElementById('toggleControlsBtn').addEventListener('click', toggleControlsPanel);

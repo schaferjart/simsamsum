@@ -6,7 +6,7 @@ import { applyLayout } from '../layouts/index.js';
 import * as interactions from '../interactions/index.js';
 import * as layoutManager from '../layouts/persistence.js';
 import * as ui from '../ui/index.js';
-import { exportToPDF } from '../export.js';
+import { exportToPDF, initExportHandler } from '../export.js';
 import { initFileManager, saveToFiles } from '../fileManager.js';
 import { SelectionManager } from './selection-manager.js';
 import { UndoManager } from './undo-manager.js';
@@ -140,7 +140,7 @@ export class WorkflowVisualizer {
         this.state.width = width;
         this.state.height = height;
 
-        ui.bindEventListeners(createEventHandlers(this));
+        ui.bindEventListeners(this, createEventHandlers(this));
 
         // Set the initial state of the layout dropdown and controls
         document.getElementById('layoutSelect').value = this.state.currentLayout;
@@ -199,6 +199,14 @@ export class WorkflowVisualizer {
 
         // Initialize file manager for better persistence
         initFileManager(this);
+
+        // Initialize export settings manager
+        if (typeof ui.initExportSettings === 'function') {
+            ui.initExportSettings();
+        }
+
+        // Initialize export handler to listen for export events
+        initExportHandler(this.state);
 
         // Enable Shift-only rectangle selection on the background
         if (this.state.svg && this.state.g) {
@@ -851,7 +859,7 @@ export class WorkflowVisualizer {
     if (!gridCapable) {
             this.gridManager.setVisible(false);
             const gridConfig = this.gridManager.getConfig();
-            updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+            updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
             ui.updateGridUI(gridConfig.showGrid);
         }
         this.updateVisualization();
@@ -864,7 +872,7 @@ export class WorkflowVisualizer {
     toggleGrid() {
         this.gridManager.toggleGrid();
         const gridConfig = this.gridManager.getConfig();
-        updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+        updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
         ui.updateGridUI(gridConfig.showGrid);
     }
 
@@ -886,7 +894,7 @@ export class WorkflowVisualizer {
         const gridConfig = this.gridManager.getConfig();
         ui.updateGridSizeLabel(newSize);
         if (gridConfig.showGrid) {
-            updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+            updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
         }
     }
 
