@@ -10,6 +10,9 @@ import { exportToPDF } from '../export.js';
 import { initFileManager, saveToFiles } from '../fileManager.js';
 import { SelectionManager } from './selection-manager.js';
 import { UndoManager } from './undo-manager.js';
+import { NodeSizingManager } from './node-sizing-manager.js';
+import { GridManager } from './grid-manager.js';
+import { VariableManager } from './variable-manager.js';
 import * as dataLoader from './data-loader.js';
 import * as graphTransforms from './graph-transforms.js';
 import { createEventHandlers } from './event-handler-factory.js';
@@ -43,16 +46,18 @@ export class WorkflowVisualizer {
             currentLayout: 'manual-grid',
             graphRotation: 0,
             graphTransform: { scaleX: 1, scaleY: 1 },
-            gridSize: 50,
-            showGrid: false,
             currentDataFile: 'sample-data.csv'
         };
 
+        // Initialize managers
+        this.selectionManager = new SelectionManager();
+        this.undoManager = new UndoManager();
+        
         const defaultSizingColumn = typeof ui.getDefaultSizeColumn === 'function'
             ? ui.getDefaultSizeColumn()
             : 'incomingVolume';
-
-        this.state.nodeSizing = {
+        
+        this.nodeSizingManager = new NodeSizingManager({
             enabled: true,
             column: defaultSizingColumn,
             minValue: null,
@@ -61,11 +66,17 @@ export class WorkflowVisualizer {
             maxSize: 90,
             baseSize: 40,
             zeroSize: 10
-        };
+        });
+        
+        this.gridManager = new GridManager({
+            gridSize: 50,
+            showGrid: false
+        });
+        
+        this.variableManager = new VariableManager();
 
-        // Initialize selection manager for multi-select drag and drop
-        this.selectionManager = new SelectionManager();
-        this.undoManager = new UndoManager();
+        // For backward compatibility, keep nodeSizing in state
+        this.state.nodeSizing = this.nodeSizingManager.getConfig();
 
     /**
      * Table-oriented state for editing/importing raw elements, connections, and variables
@@ -75,8 +86,32 @@ export class WorkflowVisualizer {
     this.elements = [];
     this.connections = [];
     this.variables = {};
-    this.generatedVariables = {};
-    this.usedGeneratedVariables = new Set();
+    }
+
+    // Backward compatibility getters for state properties managed by GridManager
+    get gridSize() {
+        return this.gridManager.getSize();
+    }
+
+    set gridSize(value) {
+        this.gridManager.updateGridSize(value);
+    }
+
+    get showGrid() {
+        return this.gridManager.isVisible();
+    }
+
+    set showGrid(value) {
+        this.gridManager.setVisible(value);
+    }
+
+    // Backward compatibility getters for VariableManager
+    get generatedVariables() {
+        return this.variableManager.getGeneratedVariables();
+    }
+
+    get usedGeneratedVariables() {
+        return this.variableManager.getUsedVariables();
     }
 
     /**
@@ -247,7 +282,7 @@ export class WorkflowVisualizer {
      * Returns a method to save current state to files
      */
     saveToFiles() {
-        return saveToFiles(this.elements, this.connections, this.variables, this.generatedVariables);
+        return saveToFiles(this.elements, this.connections, this.variables, this.variableManager.getGeneratedVariables());
     }
 
     /**
@@ -262,80 +297,15 @@ export class WorkflowVisualizer {
     }
 
     refreshGeneratedVariables() {
-        const baseVariables = this.variables || {};
-        const generated = {};
-
-        (this.connections || []).forEach((conn) => {
-            const id = typeof conn.id === 'string' && conn.id.trim()
-                ? conn.id.trim()
-                : (conn.fromId && conn.toId ? `${conn.fromId}->${conn.toId}` : '');
-            if (!id) {
-                return;
-            }
-
-            const probabilityRaw = conn.probability !== undefined && conn.probability !== null
-                ? conn.probability
-                : '';
-
-            // Only create variable entries for:
-            // 1. Explicit non-default numeric values (0.8, 0.5, etc - NOT 1)
-            // Skip: default 1, empty strings, expressions, variable references
-
-            if (typeof probabilityRaw === 'number') {
-                // Only store if not default value 1
-                if (probabilityRaw !== 1) {
-                    generated[id] = probabilityRaw;
-                }
-            } else if (typeof probabilityRaw === 'string' && probabilityRaw.trim() !== '') {
-                const trimmed = probabilityRaw.trim();
-
-                // Check if it's a numeric string (like ".8" or "0.5")
-                if (/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(trimmed)) {
-                    const numValue = Number(trimmed);
-                    // Only store if not default value 1
-                    if (numValue !== 1) {
-                        generated[id] = numValue;
-                    }
-                }
-                // Don't store variable references (like "pick_up_rate") or expressions
-                // They're not variables themselves, just references to existing variables
-            }
-            // Empty strings and default 1 are skipped entirely
-        });
-
-        this.generatedVariables = generated;
+        this.variableManager.refreshGeneratedVariables(this.connections, this.variables, this.elements);
     }
 
     syncGeneratedVariableUsage() {
-        const referenced = new Set();
-        const collectFromValue = (value) => {
-            if (typeof value !== 'string') {
-                return;
-            }
-            extractExpressionTokens(value).forEach(token => {
-                if (this.generatedVariables && Object.prototype.hasOwnProperty.call(this.generatedVariables, token)) {
-                    referenced.add(token);
-                }
-            });
-        };
-
-        (this.elements || []).forEach((element) => {
-            collectFromValue(element.incomingNumber);
-            collectFromValue(element.avgCost);
-            collectFromValue(element.variable);
-            collectFromValue(element.nodeMultiplier);
-        });
-
-        Object.values(this.variables || {}).forEach(collectFromValue);
-
-        this.usedGeneratedVariables = referenced;
+        this.variableManager.syncGeneratedVariableUsage(this.connections, this.variables, this.elements);
     }
 
     getEvaluationVariables() {
-        return {
-            ...(this.generatedVariables || {}),
-            ...(this.variables || {})
-        };
+        return this.variableManager.getEvaluationVariables(this.variables);
     }
 
     /**
@@ -352,7 +322,10 @@ export class WorkflowVisualizer {
         const idSet2 = new Set(this.state.nodes.map(n => n.id));
         this.state.links = this.state.links.filter(l => idSet2.has(l.source?.id ?? l.source) && idSet2.has(l.target?.id ?? l.target));
 
-        // Ensure link endpoints are node object references so non-force layouts can render connectors
+    // Sync state with manager-controlled properties for compatibility
+    this.state.gridSize = this.gridManager.getSize();
+
+    // Ensure link endpoints are node object references so non-force layouts can render connectors
         const nodeById = new Map(this.state.nodes.map(n => [n.id, n]));
         this.state.links = this.state.links.map(l => {
             const source = (l.source && typeof l.source === 'object') ? l.source : nodeById.get(l.source);
@@ -386,7 +359,7 @@ export class WorkflowVisualizer {
                     interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes);
                 },
                 dragged: (event, d) => {
-                    interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.state.gridSize, this.selectionManager, this.state.nodes)
+                    interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.gridManager.getSize(), this.selectionManager, this.state.nodes)
                     updatePositions(this.state.g);
                 },
                 dragEnded: (event, d) => {
@@ -787,78 +760,29 @@ export class WorkflowVisualizer {
     }
 
     getProcessDataSizingConfig() {
-        const sizing = this.state.nodeSizing || {};
-        return {
-            baseSize: sizing.baseSize ?? 40,
-            minSize: sizing.minSize ?? 24,
-            maxSize: sizing.maxSize ?? 90
-        };
+        return this.nodeSizingManager.getProcessDataSizingConfig();
     }
 
     getNodeValueForSizing(node, column) {
-        if (!node || !column) return null;
-        const direct = node[column];
-        if (direct !== undefined) return direct;
-        const camel = column.charAt(0).toLowerCase() + column.slice(1);
-        if (node[camel] !== undefined) return node[camel];
-        const pascal = column.charAt(0).toUpperCase() + column.slice(1);
-        if (node[pascal] !== undefined) return node[pascal];
-        return null;
+        return this.nodeSizingManager.getNodeValueForSizing(node, column);
     }
 
     recomputeNodeSizingExtents() {
-        const sizing = this.state.nodeSizing;
-        if (!sizing) return;
-
-        const column = sizing.column;
-        if (!column || !Array.isArray(this.state.allNodes) || this.state.allNodes.length === 0) {
-            sizing.minValue = null;
-            sizing.maxValue = null;
-            return;
-        }
-
-        const values = this.state.allNodes
-            .map(node => this.getNodeValueForSizing(node, column))
-            .map(value => {
-                if (typeof value === 'number') {
-                    return Number.isFinite(value) ? value : null;
-                }
-                if (typeof value === 'string') {
-                    const cleaned = value.replace(/,/g, '').trim();
-                    if (!cleaned) return null;
-                    const parsed = Number(cleaned);
-                    return Number.isFinite(parsed) ? parsed : null;
-                }
-                const coerced = Number(value);
-                return Number.isFinite(coerced) ? coerced : null;
-            })
-            .filter(value => value !== null);
-
-        if (values.length === 0) {
-            sizing.minValue = null;
-            sizing.maxValue = null;
-            return;
-        }
-
-        sizing.minValue = Math.min(...values);
-        sizing.maxValue = Math.max(...values);
+        this.nodeSizingManager.recomputeNodeSizingExtents(this.state.allNodes);
+        // Keep state in sync for backward compatibility
+        this.state.nodeSizing = this.nodeSizingManager.getConfig();
     }
 
     applyNodeSizingToNodes(nodes) {
-        if (!Array.isArray(nodes) || nodes.length === 0) return;
-        const sizing = this.state.nodeSizing || {};
-        const column = sizing.column;
-        nodes.forEach(node => {
-            const value = column ? this.getNodeValueForSizing(node, column) : null;
-            node.size = calculateNodeSize(value, sizing);
-        });
+        this.nodeSizingManager.applyNodeSizingToNodes(nodes);
     }
 
     refreshNodeSizing() {
-        this.recomputeNodeSizingExtents();
-        this.applyNodeSizingToNodes(this.state.allNodes);
+        this.nodeSizingManager.refreshNodeSizing(this.state.allNodes);
+        // Keep state in sync for backward compatibility
+        this.state.nodeSizing = this.nodeSizingManager.getConfig();
         if (this.state.nodes !== this.state.allNodes) {
-            this.applyNodeSizingToNodes(this.state.nodes);
+            this.nodeSizingManager.applyNodeSizingToNodes(this.state.nodes);
         }
     }
 
@@ -866,8 +790,7 @@ export class WorkflowVisualizer {
         if (!columnId) return 'value';
         if (typeof ui.getNumericNodeColumns === 'function') {
             const columns = ui.getNumericNodeColumns();
-            const match = columns.find(col => col.id === columnId);
-            if (match?.name) return match.name;
+            return this.nodeSizingManager.getSizeColumnDisplayName(columnId, columns);
         }
         return columnId;
     }
@@ -877,29 +800,32 @@ export class WorkflowVisualizer {
      * @param {boolean} enabled - Whether dynamic sizing should be enabled.
      */
     handleSizeToggle(enabled) {
-        if (!this.state.nodeSizing) return;
-        this.state.nodeSizing.enabled = !!enabled;
+        this.nodeSizingManager.setEnabled(!!enabled);
+        // Keep state in sync for backward compatibility
+        this.state.nodeSizing = this.nodeSizingManager.getConfig();
+        
         ui.updateSizeControlUI?.(this.state.nodeSizing);
         this.refreshNodeSizing();
         this.updateVisualization();
 
-        const columnName = this.getSizeColumnDisplayName(this.state.nodeSizing.column);
+        const columnName = this.getSizeColumnDisplayName(this.nodeSizingManager.getConfig().column);
         showStatus(enabled ? `Scaling nodes by ${columnName}` : 'Uniform sizing enabled', 'info');
     }
 
     handleSizeColumnChange(columnId) {
-        if (!this.state.nodeSizing) return;
-
         const numericColumns = typeof ui.getNumericNodeColumns === 'function'
             ? ui.getNumericNodeColumns()
             : [];
 
-        let resolvedColumn = columnId || this.state.nodeSizing.column;
+        let resolvedColumn = columnId || this.nodeSizingManager.getConfig().column;
         if (!resolvedColumn && numericColumns.length > 0) {
             resolvedColumn = numericColumns[0].id;
         }
 
-        this.state.nodeSizing.column = resolvedColumn;
+        this.nodeSizingManager.setColumn(resolvedColumn);
+        // Keep state in sync for backward compatibility
+        this.state.nodeSizing = this.nodeSizingManager.getConfig();
+        
         ui.updateSizeControlUI?.(this.state.nodeSizing, numericColumns);
 
         this.refreshNodeSizing();
@@ -923,9 +849,10 @@ export class WorkflowVisualizer {
     const gridCapable = layoutType === 'manual-grid' || layoutType === 'hierarchical-orthogonal';
     ui.toggleGridControls(gridCapable);
     if (!gridCapable) {
-            this.state.showGrid = false;
-            updateGridDisplay(this.state.svg, this.state.showGrid, this.state.width, this.state.height, this.state.gridSize);
-            ui.updateGridUI(this.state.showGrid);
+            this.gridManager.setVisible(false);
+            const gridConfig = this.gridManager.getConfig();
+            updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+            ui.updateGridUI(gridConfig.showGrid);
         }
         this.updateVisualization();
         showStatus(`Layout changed to ${layoutType}`, 'info');
@@ -935,22 +862,17 @@ export class WorkflowVisualizer {
      * Toggles the visibility of the grid overlay.
      */
     toggleGrid() {
-        this.state.showGrid = !this.state.showGrid;
-        updateGridDisplay(this.state.svg, this.state.showGrid, this.state.width, this.state.height, this.state.gridSize);
-        ui.updateGridUI(this.state.showGrid);
+        this.gridManager.toggleGrid();
+        const gridConfig = this.gridManager.getConfig();
+        updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+        ui.updateGridUI(gridConfig.showGrid);
     }
 
     /**
      * Snaps all nodes to the nearest grid lines.
      */
     snapAllToGrid() {
-        this.state.nodes.forEach(node => {
-            const snapped = snapToGrid(node.x, node.y, this.state.gridSize);
-            node.x = snapped.x;
-            node.y = snapped.y;
-            node.fx = snapped.x;
-            node.fy = snapped.y;
-        });
+        this.gridManager.snapAllToGrid(this.state.nodes);
         updatePositions(this.state.g);
         showStatus('All nodes snapped to grid', 'info');
     }
@@ -960,10 +882,11 @@ export class WorkflowVisualizer {
      * @param {number} newSize - The new size for the grid cells.
      */
     updateGridSize(newSize) {
-        this.state.gridSize = newSize;
+        this.gridManager.updateGridSize(newSize);
+        const gridConfig = this.gridManager.getConfig();
         ui.updateGridSizeLabel(newSize);
-        if (this.state.showGrid) {
-            updateGridDisplay(this.state.svg, this.state.showGrid, this.state.width, this.state.height, this.state.gridSize);
+        if (gridConfig.showGrid) {
+            updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
         }
     }
 

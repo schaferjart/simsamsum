@@ -17,8 +17,8 @@ function initializeManualLayout(nodes, gridSize) {
     const startY = 100;
 
     nodes.forEach((node, i) => {
-        // Only set position if it's not already defined
-        if (typeof node.x !== 'number' || typeof node.y !== 'number') {
+        // Only set position if it's not already defined (using Number.isFinite to reject NaN)
+        if (!Number.isFinite(node.x) || !Number.isFinite(node.y)) {
             const col = i % cols;
             const row = Math.floor(i / cols);
             node.x = startX + col * spacing;
@@ -64,8 +64,8 @@ export function applyGridLayout(nodes, width, height) {
  */
 export function applyManualGridLayout(nodes, gridSize) {
     console.log('🎯 Applying manual grid layout...');
-    // Initial placement if no position is set
-    if (nodes.some(n => n.x === undefined || n.y === undefined)) {
+    // Initial placement if no position is set (using Number.isFinite to properly detect NaN)
+    if (nodes.some(n => !Number.isFinite(n.x) || !Number.isFinite(n.y))) {
         initializeManualLayout(nodes, gridSize);
     }
     // Fix the positions of all nodes

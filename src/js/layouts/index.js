@@ -17,7 +17,8 @@ import { applyGridLayout, applyManualGridLayout } from './grid-layout.js';
  */
 export function applyLayout(layoutType, state) {
     console.log(`Applying layout: ${layoutType}`);
-    const { nodes, links, width, height, gridSize } = state;
+    const { nodes, links, width, height } = state;
+    const gridSize = state.gridManager?.getSize?.() ?? state.gridSize ?? 50;
 
     // Stop any existing simulation before applying a new layout
     if (state.simulation) {
