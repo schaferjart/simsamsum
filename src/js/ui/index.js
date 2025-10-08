@@ -8,7 +8,7 @@ import * as panelManager from './panel-manager.js';
 import * as themeManager from './theme-manager.js';
 import * as apiClient from './api-client.js';
 import * as handsontableManager from './handsontable-manager.js';
-import * as layoutManager from '../layoutManager.js';
+import * as layoutManager from '../layouts/persistence.js';
 import { showStatus, generateIdFromName } from '../utils.js';
 
 // --- Re-export a unified public API ---

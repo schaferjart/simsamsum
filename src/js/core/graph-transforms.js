@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { updateTextRotation } from '../render.js';
+import { updateTextRotation } from '../render/index.js';
 import { showStatus } from '../utils.js';
 
 /**
