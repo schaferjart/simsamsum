@@ -910,5 +910,53 @@
     "AOR": "",
     "type": "",
     "description": ""
+  },
+  {
+    "id": "mail_yousign->reminder_mail_yousign",
+    "fromId": "mail_yousign",
+    "toId": "reminder_mail_yousign",
+    "probability": "",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "reminder_mail_yousign->remi",
+    "fromId": "reminder_mail_yousign",
+    "toId": "remi",
+    "probability": "",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "remi->yousign_ghost",
+    "fromId": "remi",
+    "toId": "yousign_ghost",
+    "probability": "",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
+  },
+  {
+    "id": "contract_verification->gs_onboarding_update_contract",
+    "fromId": "contract_verification",
+    "toId": "gs_onboarding_update_contract",
+    "probability": "",
+    "time": "",
+    "condition": "",
+    "execution": "",
+    "AOR": "",
+    "type": "",
+    "description": ""
   }
 ]

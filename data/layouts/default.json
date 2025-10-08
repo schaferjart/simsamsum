@@ -216,23 +216,39 @@
     "y": 800
   },
   "mail_yousign": {
-    "x": 4700,
-    "y": 1300
+    "x": 4800,
+    "y": 800
   },
   "contract_sign": {
-    "x": 4800,
-    "y": 1000
+    "x": 5100,
+    "y": 800
   },
   "contract_verification": {
-    "x": 4800,
-    "y": 900
+    "x": 5400,
+    "y": 800
   },
   "contract_rejection": {
-    "x": 4900,
-    "y": 700
+    "x": 5400,
+    "y": 500
   },
   "creation_alan_account": {
-    "x": 0,
-    "y": 400
+    "x": 5700,
+    "y": 800
+  },
+  "reminder_mail_yousign": {
+    "x": 4800,
+    "y": 1100
+  },
+  "remi": {
+    "x": 5100,
+    "y": 1100
+  },
+  "yousign_ghost": {
+    "x": 5400,
+    "y": 1100
+  },
+  "gs_onboarding_update_contract": {
+    "x": 5700,
+    "y": 500
   }
 }
