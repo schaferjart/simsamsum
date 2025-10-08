@@ -1,19 +1,19 @@
 import * as d3 from 'd3';
 import { showStatus, calculateNodeSize, snapToGrid } from '../utils.js';
-import { processData, verifyConnections, computeDerivedFields as computeDerivedFieldsData, resolveValue, extractExpressionTokens } from '../data.js';
-import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from '../render.js';
-import { applyLayout } from '../layouts.js';
-import * as interactions from '../interactions.js';
-import * as layoutManager from '../layoutManager.js';
+import { processData, verifyConnections, computeDerivedFields as computeDerivedFieldsData, resolveValue, extractExpressionTokens } from '../data/index.js';
+import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from '../render/index.js';
+import { applyLayout } from '../layouts/index.js';
+import * as interactions from '../interactions/index.js';
+import * as layoutManager from '../layouts/persistence.js';
 import * as ui from '../ui/index.js';
 import { exportToPDF } from '../export.js';
 import { initFileManager, saveToFiles } from '../fileManager.js';
-import { SelectionManager } from '../selection.js';
+import { SelectionManager } from './selection-manager.js';
 import { UndoManager } from './undo-manager.js';
 import * as dataLoader from './data-loader.js';
 import * as graphTransforms from './graph-transforms.js';
 import { createEventHandlers } from './event-handler-factory.js';
-import { filterData, applyStylingRules } from '../filtering.js';
+import { filterData, applyStylingRules } from '../filtering/index.js';
 
 /**
  * Main class for the Workflow Visualizer application.

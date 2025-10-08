@@ -1,5 +1,5 @@
 import { showStatus, generateIdFromName } from '../utils.js';
-import { highlightNodeById } from '../render.js';
+import { highlightNodeById } from '../render/index.js';
 
 // --- Table Editors (Handsontable) ---
 let _nodesHot = null;

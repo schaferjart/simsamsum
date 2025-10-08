@@ -1,5 +1,5 @@
 import { exportToPDF } from '../export.js';
-import * as interactions from '../interactions.js';
+import * as interactions from '../interactions/index.js';
 import * as graphTransforms from './graph-transforms.js';
 
 /**
