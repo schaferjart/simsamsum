@@ -924,9 +924,9 @@
     "description": ""
   },
   {
-    "id": "reminder_mail_yousign->remi",
+    "id": "reminder_mail_yousign->reminder_call_yousign",
     "fromId": "reminder_mail_yousign",
-    "toId": "remi",
+    "toId": "reminder_call_yousign",
     "probability": "",
     "time": "",
     "condition": "",
@@ -936,8 +936,8 @@
     "description": ""
   },
   {
-    "id": "remi->yousign_ghost",
-    "fromId": "remi",
+    "id": "reminder_call_yousign->yousign_ghost",
+    "fromId": "reminder_call_yousign",
     "toId": "yousign_ghost",
     "probability": "",
     "time": "",
