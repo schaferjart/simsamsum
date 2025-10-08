@@ -122,6 +122,15 @@
     shape-rendering: crispEdges;
 }
 
-[data-color-scheme="dark"] .grid-overlay .grid-line {
+.grid-overlay .grid-point {
+    fill: #000000;
+    pointer-events: none;
+}
+
+[data-theme="dark"] .grid-overlay .grid-line {
     stroke: #444;
+}
+
+[data-theme="dark"] .grid-overlay .grid-point {
+    fill: #ffffff;
 }

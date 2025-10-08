@@ -144,6 +144,19 @@ export async function exportToPDF(state, settings) {
  * @param {object} settings - Export settings.
  */
 function prepareSVGForExport(svgClone, settings) {
+    // Grid is now content-based and lightweight, so we can include it in exports
+    // If grid is visible, it will be exported; if hidden, it won't be
+    
+    // Fix grid dot colors based on current theme
+    const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridDotColor = isDarkTheme ? '#ffffff' : '#000000';
+    svgClone.querySelectorAll('.grid-point').forEach(point => {
+        point.setAttribute('fill', gridDotColor);
+    });
+    if (svgClone.querySelectorAll('.grid-point').length > 0) {
+        console.log(`🎨 Set grid dots to ${gridDotColor} for ${isDarkTheme ? 'dark' : 'light'} theme`);
+    }
+    
     // Set background if requested
     if (settings.includeBackground) {
         // Get background color from body's actual computed background
@@ -233,6 +246,17 @@ export function exportToSVG(settings) {
 
         // Clone the SVG to avoid modifying the original
         const svgClone = svgElement.cloneNode(true);
+        
+        // Grid is now content-based and lightweight, so it can be included in exports
+        // Fix grid dot colors based on current theme
+        const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+        const gridDotColor = isDarkTheme ? '#ffffff' : '#000000';
+        svgClone.querySelectorAll('.grid-point').forEach(point => {
+            point.setAttribute('fill', gridDotColor);
+        });
+        if (svgClone.querySelectorAll('.grid-point').length > 0) {
+            console.log(`🎨 Set grid dots to ${gridDotColor} for ${isDarkTheme ? 'dark' : 'light'} theme`);
+        }
         
         // Add background if requested
         if (settings.includeBackground) {

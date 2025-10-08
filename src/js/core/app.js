@@ -859,7 +859,7 @@ export class WorkflowVisualizer {
     if (!gridCapable) {
             this.gridManager.setVisible(false);
             const gridConfig = this.gridManager.getConfig();
-            updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+            updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
             ui.updateGridUI(gridConfig.showGrid);
         }
         this.updateVisualization();
@@ -872,7 +872,7 @@ export class WorkflowVisualizer {
     toggleGrid() {
         this.gridManager.toggleGrid();
         const gridConfig = this.gridManager.getConfig();
-        updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+        updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
         ui.updateGridUI(gridConfig.showGrid);
     }
 
@@ -894,7 +894,7 @@ export class WorkflowVisualizer {
         const gridConfig = this.gridManager.getConfig();
         ui.updateGridSizeLabel(newSize);
         if (gridConfig.showGrid) {
-            updateGridDisplay(this.state.svg, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize);
+            updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
         }
     }
 
