@@ -197,15 +197,15 @@
   },
   "starting_date_definition": {
     "x": 3500,
-    "y": -200
+    "y": -400
   },
   "gs_onboarding_update": {
     "x": 4200,
-    "y": -200
+    "y": -400
   },
   "inscription_onboarding": {
     "x": 4200,
-    "y": 250
+    "y": -50
   },
   "make_payfit_account": {
     "x": 4200,
@@ -229,7 +229,7 @@
   },
   "contract_rejection": {
     "x": 5400,
-    "y": 500
+    "y": 1100
   },
   "creation_alan_account": {
     "x": 5700,
@@ -239,16 +239,84 @@
     "x": 4800,
     "y": 1100
   },
-  "remi": {
+  "reminder_call_yousign": {
     "x": 5100,
     "y": 1100
   },
   "yousign_ghost": {
-    "x": 5400,
-    "y": 1100
+    "x": 5100,
+    "y": 1350
   },
   "gs_onboarding_update_contract": {
-    "x": 5700,
+    "x": 5400,
     "y": 500
+  },
+  "gs_late_people_update": {
+    "x": 4200,
+    "y": -700
+  },
+  "late_people_mail": {
+    "x": 4500,
+    "y": -700
+  },
+  "late_people_call": {
+    "x": 4800,
+    "y": -700
+  },
+  "google_meet_onboarding_invite": {
+    "x": 4500,
+    "y": -50
+  },
+  "onboarding_confirmation": {
+    "x": 4800,
+    "y": -50
+  },
+  "onboarding": {
+    "x": 5100,
+    "y": -400
+  },
+  "onboarding_confirmation_reminder_mail": {
+    "x": 4500,
+    "y": 250
+  },
+  "onboarding_confirmation_reminder_call": {
+    "x": 4800,
+    "y": 250
+  },
+  "onboarding_confirmation_ghost": {
+    "x": 4800,
+    "y": 500
+  },
+  "mail_alan": {
+    "x": 5950,
+    "y": 800
+  },
+  "spendesk_invitation": {
+    "x": 5400,
+    "y": -50
+  },
+  "mail_formation": {
+    "x": 5400,
+    "y": 250
+  },
+  "slack_account_creation": {
+    "x": 5400,
+    "y": -400
+  },
+  "notion_account_creation": {
+    "x": 5400,
+    "y": -1300
+  },
+  "learning_360_account_creation": {
+    "x": 5400,
+    "y": -700
+  },
+  "wesser_studio_account_creation": {
+    "x": 5400,
+    "y": -1000
+  },
+  "onboarding_ghost": {
+    "x": 4800,
+    "y": -400
   }
 }
