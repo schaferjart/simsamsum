@@ -197,194 +197,162 @@
   },
   "starting_date_definition": {
     "x": 3500,
-    "y": -200
+    "y": -400
   },
   "gs_onboarding_update": {
     "x": 4200,
-    "y": 0
+    "y": -400
   },
   "inscription_onboarding": {
     "x": 4200,
-    "y": -200
+    "y": 0
   },
   "make_payfit_account": {
     "x": 4200,
-    "y": 600
+    "y": 800
   },
   "make_payfit_conrtract": {
-    "x": 4400,
-    "y": 600
+    "x": 4600,
+    "y": 800
   },
   "mail_yousign": {
-    "x": 4600,
-    "y": 600
+    "x": 5000,
+    "y": 800
   },
   "contract_sign": {
-    "x": 4800,
-    "y": 600
+    "x": 5400,
+    "y": 800
   },
   "contract_verification": {
-    "x": 5000,
-    "y": 600
+    "x": 5800,
+    "y": 800
   },
   "contract_rejection": {
-    "x": 5000,
-    "y": 800
+    "x": 5800,
+    "y": 1200
   },
   "creation_alan_account": {
-    "x": 4800,
-    "y": 400
+    "x": 6200,
+    "y": 800
   },
   "reminder_mail_yousign": {
-    "x": 4600,
-    "y": 800
+    "x": 5000,
+    "y": 1200
   },
   "reminder_call_yousign": {
-    "x": 4800,
-    "y": 800
+    "x": 5400,
+    "y": 1200
   },
   "yousign_ghost": {
-    "x": 4800,
-    "y": 1000
+    "x": 5400,
+    "y": 1600
   },
   "gs_onboarding_update_contract": {
-    "x": 5200,
-    "y": 600
+    "x": 5800,
+    "y": 400
   },
   "gs_late_people_update": {
     "x": 4200,
-    "y": 400
+    "y": -800
   },
   "late_people_mail": {
-    "x": 4400,
-    "y": 400
+    "x": 4600,
+    "y": -800
   },
   "late_people_call": {
-    "x": 4600,
-    "y": 400
+    "x": 5000,
+    "y": -800
   },
   "google_meet_onboarding_invite": {
-    "x": 4400,
-    "y": -200
+    "x": 4600,
+    "y": 0
   },
   "onboarding_confirmation": {
-    "x": 4600,
-    "y": -200
+    "x": 5000,
+    "y": 0
   },
   "onboarding": {
-    "x": 5000,
-    "y": -200
+    "x": 5400,
+    "y": -400
   },
   "onboarding_confirmation_reminder_mail": {
-    "x": 4400,
-    "y": 0
+    "x": 4600,
+    "y": 400
   },
   "onboarding_confirmation_reminder_call": {
-    "x": 4600,
-    "y": 0
-  },
-  "onboarding_confirmation_ghost": {
-    "x": 4600,
-    "y": 200
-  },
-  "mail_alan": {
     "x": 5000,
     "y": 400
   },
-  "spendesk_invitation": {
+  "onboarding_confirmation_ghost": {
     "x": 5400,
     "y": 400
+  },
+  "mail_alan": {
+    "x": 6350,
+    "y": 800
+  },
+  "spendesk_invitation": {
+    "x": 5800,
+    "y": 100
   },
   "mail_formation": {
-    "x": 5400,
-    "y": 600
+    "x": 5800,
+    "y": 250
   },
   "slack_account_creation": {
-    "x": 5400,
-    "y": 200
+    "x": 5800,
+    "y": -400
   },
   "notion_account_creation": {
-    "x": 5400,
-    "y": -800
+    "x": 5800,
+    "y": -1300
   },
   "learning_360_account_creation": {
-    "x": 5400,
-    "y": -200
+    "x": 5800,
+    "y": -700
   },
   "wesser_studio_account_creation": {
-    "x": 5400,
-    "y": -600
+    "x": 5800,
+    "y": -1000
   },
   "onboarding_ghost": {
-    "x": 4600,
-    "y": -400
+    "x": 5400,
+    "y": 0
   },
   "wap_invite": {
-    "x": 5600,
-    "y": -600
+    "x": 100,
+    "y": 1700
   },
   "learning_360_adding_classes": {
-    "x": 5400,
-    "y": -400
+    "x": 300,
+    "y": 1700
   },
   "learning_360_invite": {
-    "x": 5600,
-    "y": -200
+    "x": 500,
+    "y": 1700
   },
   "notion_invite": {
-    "x": 5600,
-    "y": -800
+    "x": 700,
+    "y": 1700
   },
   "slack_promogroup_creation": {
-    "x": 5400,
-    "y": 0
+    "x": 900,
+    "y": 1700
   },
   "slack_invite": {
-    "x": 5600,
-    "y": 200
+    "x": 1100,
+    "y": 1700
   },
   "slack_activation": {
-    "x": 5800,
-    "y": 200
+    "x": 1300,
+    "y": 1700
   },
   "slack_ghost": {
-    "x": 5600,
-    "y": 400
+    "x": 1500,
+    "y": 1700
   },
   "slack_welcome_msg": {
-    "x": 5800,
-    "y": 400
-  },
-  "first_contact_nc_tl": {
-    "x": 6800,
-    "y": 200
-  },
-  "monday_welcome_msg": {
-    "x": 5600,
-    "y": 0
-  },
-  "tuesday_formation_msg": {
-    "x": 5800,
-    "y": 0
-  },
-  "wednesday_affectations_msg": {
-    "x": 6000,
-    "y": 0
-  },
-  "thursday_formation_reminder_msg": {
-    "x": 6200,
-    "y": 0
-  },
-  "thursday_formation_recap": {
-    "x": 6400,
-    "y": 0
-  },
-  "speech_nc_1": {
-    "x": 6600,
-    "y": 0
-  },
-  "speech_nc_1_feedback": {
-    "x": 6800,
-    "y": 0
+    "x": 1700,
+    "y": 1700
   }
 }
