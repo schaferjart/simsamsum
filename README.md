@@ -23,7 +23,7 @@
 
 **Advanced Controls**: Search and filter nodes by name, type, or execution method. Toggle between uniform and cost-based node sizing. Graph transformation tools including rotation, flipping, centering, and auto-fitting.
 
-**Export Capabilities**: High-quality PDF export with metadata, layout preservation, and custom formatting. JSON data export for backup and sharing workflows.
+**Export Capabilities**: **NEW!** Vector-based PDF export with true scalable graphics (10-100x smaller files), multiple page formats (A4, A3, Letter, etc.), orientation options, and export frame preview. Also supports SVG export and JSON data export for backup and sharing workflows.
 
 **Validation Tools**: Built-in connection verification, orphaned node detection, data consistency checking, and comprehensive error reporting.
 
@@ -226,13 +226,19 @@ Manages data persistence through API server communication. Handles downloads and
 - Auto-save functionality with change tracking
 
 ### export.js - Export System
-PDF export functionality using jsPDF and html2canvas. Creates print-ready documents with metadata and proper formatting.
+**ENHANCED!** Vector-based PDF export using svg2pdf.js for true scalable graphics. Creates professional documents with multiple page format options.
 
 **Features**:
-- High-resolution SVG to PDF conversion
+- **Vector PDF export** (replaces old rasterized approach for 10-100x smaller files)
+- Multiple page formats (A4, A3, A5, Letter, Legal, Tabloid, Custom)
+- Portrait/Landscape orientation support
+- Export frame overlay for preview
+- Settings persistence in localStorage
+- SVG export option
 - Metadata inclusion (node count, layout, timestamp)
-- Element hiding for clean exports
 - Error handling and user feedback
+
+**New Module**: `export-settings-manager.js` handles export UI and configuration.
 
 ### utils.js - Utility Functions
 Common utility functions used across the application including node sizing calculations, grid snapping, file downloads, and status messaging.
@@ -318,7 +324,8 @@ Use `npm run filter:set -- --list` to show the saved set names before applying o
 
 **Export and Processing**:
 - jsPDF v3.0.3 (PDF generation)
-- html2canvas v1.4.1 (SVG capture)
+- svg2pdf.js v2.2.4 (vector SVG to PDF conversion) **NEW!**
+- html2canvas v1.4.1 (legacy support)
 
 **Development Tools**:
 - CORS v2.8.5 (cross-origin requests)

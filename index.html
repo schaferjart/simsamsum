@@ -262,21 +262,38 @@
                     <div class="form-group">
                         <label for="pdfPageSize">Page Size:</label>
                         <select id="pdfPageSize" class="form-control">
-                            <option value="a4">A4</option>
-                            <option value="a3">A3</option>
-                            <option value="a5">A5</option>
-                            <option value="custom">Custom</option>
+                            <option value="a4">A4 (210 × 297 mm)</option>
+                            <option value="a3">A3 (297 × 420 mm)</option>
+                            <option value="a5">A5 (148 × 210 mm)</option>
+                            <option value="letter">Letter (216 × 279 mm)</option>
+                            <option value="legal">Legal (216 × 356 mm)</option>
+                            <option value="tabloid">Tabloid (279 × 432 mm)</option>
+                            <option value="custom">Custom Size</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdfOrientation">Orientation:</label>
+                        <select id="pdfOrientation" class="form-control">
+                            <option value="landscape">Landscape</option>
+                            <option value="portrait">Portrait</option>
                         </select>
                     </div>
                     <div id="customPdfSize" style="display: none;">
                          <div class="form-group">
                             <label for="pdfWidth">Width (mm):</label>
-                            <input type="number" id="pdfWidth" class="form-control" value="297">
+                            <input type="number" id="pdfWidth" class="form-control" value="297" min="50" max="2000">
                         </div>
                         <div class="form-group">
                             <label for="pdfHeight">Height (mm):</label>
-                            <input type="number" id="pdfHeight" class="form-control" value="210">
+                            <input type="number" id="pdfHeight" class="form-control" value="210" min="50" max="2000">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="showExportFrame">
+                            Show Export Frame on Canvas
+                        </label>
+                        <small class="form-hint">Display a frame showing the export boundaries</small>
                     </div>
                 </div>
                 <div class="form-group">

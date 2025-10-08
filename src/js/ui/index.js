@@ -1,5 +1,4 @@
 // Barrel file for the UI module
-import { exportToPDF, exportToSVG } from '../export.js';
 
 // Import from all sub-modules
 import * as domConstants from './dom-constants.js';
@@ -9,6 +8,7 @@ import * as panelManager from './panel-manager.js';
 import * as themeManager from './theme-manager.js';
 import * as apiClient from './api-client.js';
 import * as handsontableManager from './handsontable-manager.js';
+import * as exportSettingsManager from './export-settings-manager.js';
 import * as layoutManager from '../layouts/persistence.js';
 import { showStatus, generateIdFromName } from '../utils.js';
 
@@ -44,6 +44,9 @@ export const {
 
 // API Client (Filter Sets)
 export const { populateFilterSetsDropdown, initializeApiClient } = apiClient;
+
+// Export Settings Manager
+export const { initExportSettings, getExportSettings, getPageDimensions, getExportFrameBounds } = exportSettingsManager;
 
 // --- Functions that remain in the main UI module ---
 
@@ -160,59 +163,8 @@ export function bindEventListeners(app, handlers) {
     // Other UI actions
     document.getElementById('verifyBtn').addEventListener('click', handlers.handleVerify);
 
-    // Export modal logic
-    const exportModal = document.getElementById('exportModal');
-    const exportBtn = document.getElementById('exportBtn');
-    const closeExportModalBtn = document.getElementById('closeExportModalBtn');
-    const confirmExportBtn = document.getElementById('confirmExportBtn');
-    const exportFormatSelect = document.getElementById('exportFormat');
-    const pdfOptionsDiv = document.getElementById('pdfOptions');
-    const pdfPageSizeSelect = document.getElementById('pdfPageSize');
-    const customPdfSizeDiv = document.getElementById('customPdfSize');
-
-    exportBtn.addEventListener('click', () => {
-        exportModal.style.display = 'block';
-    });
-
-    closeExportModalBtn.addEventListener('click', () => {
-        exportModal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === exportModal) {
-            exportModal.style.display = 'none';
-        }
-    });
-
-    exportFormatSelect.addEventListener('change', () => {
-        pdfOptionsDiv.style.display = exportFormatSelect.value === 'pdf' ? 'block' : 'none';
-    });
-
-    pdfPageSizeSelect.addEventListener('change', () => {
-        customPdfSizeDiv.style.display = pdfPageSizeSelect.value === 'custom' ? 'block' : 'none';
-    });
-
-    confirmExportBtn.addEventListener('click', () => {
-        const format = exportFormatSelect.value;
-        const includeBackground = document.getElementById('includeBackground').checked;
-
-        const options = { includeBackground };
-
-        if (format === 'pdf') {
-            options.pageSize = pdfPageSizeSelect.value;
-            if (options.pageSize === 'custom') {
-                options.customSize = {
-                    width: parseFloat(document.getElementById('pdfWidth').value),
-                    height: parseFloat(document.getElementById('pdfHeight').value)
-                };
-            }
-            exportToPDF(app.state, options);
-        } else if (format === 'svg') {
-            exportToSVG(options);
-        }
-
-        exportModal.style.display = 'none';
-    });
+    // Export modal is now handled by export-settings-manager.js
+    // No need for export event listeners here anymore
 
     document.getElementById('closePanelBtn').addEventListener('click', hideDetailsPanel);
     document.getElementById('showEditorBtn').addEventListener('click', hideDetailsPanel);

@@ -190,6 +190,7 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    pointer-events: none; /* Allow clicks through to the canvas */
 }
 
 .modal-content {
@@ -202,6 +203,7 @@
     max-width: 500px;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    pointer-events: all; /* But allow clicks on the modal itself */
 }
 
 .modal-header {
@@ -233,4 +235,113 @@
     padding-top: 10px;
     border-top: 1px solid var(--color-border);
     margin-top: 20px;
+}
+
+.form-hint {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-muted, #666);
+    margin-top: 4px;
+}
+
+/* Export Frame Overlay */
+.export-frame {
+    position: absolute;
+    border: 2px dashed #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
+    pointer-events: all;
+    z-index: 100;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+    cursor: move;
+}
+
+.export-frame::before {
+    content: 'Export Area (Drag to move, resize from corners/edges)';
+    position: absolute;
+    top: -25px;
+    left: 0;
+    background: #4CAF50;
+    color: white;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.export-frame-dimensions {
+    position: absolute;
+    bottom: -25px;
+    right: 0;
+    background: #4CAF50;
+    color: white;
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* Resize Handles */
+.export-frame-handle {
+    position: absolute;
+    background: #4CAF50;
+    border: 2px solid white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    z-index: 101;
+}
+
+/* Corner handles */
+.export-frame-handle-nw,
+.export-frame-handle-ne,
+.export-frame-handle-sw,
+.export-frame-handle-se {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.export-frame-handle-nw { top: -6px; left: -6px; cursor: nw-resize; }
+.export-frame-handle-ne { top: -6px; right: -6px; cursor: ne-resize; }
+.export-frame-handle-sw { bottom: -6px; left: -6px; cursor: sw-resize; }
+.export-frame-handle-se { bottom: -6px; right: -6px; cursor: se-resize; }
+
+/* Edge handles */
+.export-frame-handle-n,
+.export-frame-handle-s {
+    width: 40px;
+    height: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 4px;
+}
+
+.export-frame-handle-e,
+.export-frame-handle-w {
+    width: 8px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 4px;
+}
+
+.export-frame-handle-n { top: -4px; cursor: n-resize; }
+.export-frame-handle-s { bottom: -4px; cursor: s-resize; }
+.export-frame-handle-e { right: -4px; cursor: e-resize; }
+.export-frame-handle-w { left: -4px; cursor: w-resize; }
+
+/* Hover effects */
+.export-frame-handle:hover {
+    background: #45a049;
+    transform: scale(1.2);
+}
+
+.export-frame-handle-n:hover,
+.export-frame-handle-s:hover {
+    transform: translateX(-50%) scale(1.2);
+}
+
+.export-frame-handle-e:hover,
+.export-frame-handle-w:hover {
+    transform: translateY(-50%) scale(1.2);
 }
