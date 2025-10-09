@@ -130,7 +130,8 @@ export class WorkflowVisualizer {
                 this.selectionManager.clearSelection();
                 updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes);
                 ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes);
-            }
+            },
+            () => graphTransforms.fitToScreen(this.state)
         );
 
         this.state.svg = svg;

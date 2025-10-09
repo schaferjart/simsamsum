@@ -63,10 +63,33 @@ export function flipGraph(state, direction) {
  * @param {object} state - The application state object.
  */
 export function centerGraph(state) {
-    if (state.svg && state.zoom) {
+    if (!state.svg || !state.zoom || !state.nodes?.length) {
+        if (state.svg && state.zoom) {
+            state.svg.transition().duration(750).call(state.zoom.transform, d3.zoomIdentity);
+            showStatus('Graph centered', 'info');
+        }
+        return;
+    }
+
+    const bounds = calculateGraphBounds(state.nodes);
+    if (!bounds) {
         state.svg.transition().duration(750).call(state.zoom.transform, d3.zoomIdentity);
         showStatus('Graph centered', 'info');
+        return;
     }
+
+    const currentTransform = d3.zoomTransform(state.svg.node());
+    const scale = currentTransform.k || 1;
+    const centerX = (bounds.minX + bounds.maxX) / 2;
+    const centerY = (bounds.minY + bounds.maxY) / 2;
+
+    const target = d3.zoomIdentity
+        .translate(state.width / 2, state.height / 2)
+        .scale(scale)
+        .translate(-centerX, -centerY);
+
+    state.svg.transition().duration(750).call(state.zoom.transform, target);
+    showStatus('Graph centered', 'info');
 }
 
 /**

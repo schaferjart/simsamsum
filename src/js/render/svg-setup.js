@@ -11,7 +11,7 @@ import * as d3 from 'd3';
  * @param {d3.ZoomBehavior} zoom - The D3 zoom behavior.
  * @private
  */
-function addZoomControls(svg, zoom) {
+function addZoomControls(svg, zoom, onHomeClick) {
     const container = svg.node().parentNode;
     d3.select(container).select('.zoom-controls').remove();
 
@@ -37,7 +37,11 @@ function addZoomControls(svg, zoom) {
         .attr('class', 'zoom-btn')
         .text('⌂')
         .on('click', () => {
-            svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+            if (typeof onHomeClick === 'function') {
+                onHomeClick();
+            } else {
+                svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+            }
         });
 }
 
@@ -48,7 +52,7 @@ function addZoomControls(svg, zoom) {
  * @param {function} onBackgroundClick - Callback for clicks on the SVG background.
  * @returns {object} { svg, zoomGroup, g, zoom, width, height }
  */
-export function initVisualization(container, onZoom, onBackgroundClick) {
+export function initVisualization(container, onZoom, onBackgroundClick, onHomeClick) {
     const width = container.clientWidth;
     const height = container.clientHeight;
 
@@ -98,7 +102,7 @@ export function initVisualization(container, onZoom, onBackgroundClick) {
     const zoomGroup = svg.append('g');
     const g = zoomGroup.append('g');
 
-    addZoomControls(svg, zoom);
+    addZoomControls(svg, zoom, onHomeClick);
 
     return { svg, zoomGroup, g, zoom, width, height };
 }
