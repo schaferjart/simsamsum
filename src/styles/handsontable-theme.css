@@ -36,18 +36,18 @@
 /* Headers */
 [data-theme="dark"] .handsontable thead th,
 [data-theme="dark"] .handsontable thead td {
-  background-color: var(--color-background);
+  background-color: var(--color-surface);
   color: var(--color-text);
   border-color: var(--color-border);
 }
 
 /* Row headers (left side numbers) */
 [data-theme="dark"] .handsontable .ht__highlight {
-  background-color: var(--color-background);
+  background-color: var(--color-surface);
 }
 
 [data-theme="dark"] .handsontable tbody th {
-  background-color: var(--color-background);
+  background-color: var(--color-surface);
   color: var(--color-text-muted);
   border-color: var(--color-border);
 }
@@ -55,7 +55,7 @@
 /* Column headers */
 [data-theme="dark"] .handsontable .ht_clone_top th,
 [data-theme="dark"] .handsontable .ht_clone_top_left_corner th {
-  background-color: var(--color-background);
+  background-color: var(--color-surface);
   color: var(--color-text);
   border-color: var(--color-border);
 }
