@@ -246,7 +246,7 @@ export function resetUI() {
     document.getElementById('filter-rules-container').innerHTML = '';
     document.getElementById('styling-rules-container').innerHTML = '';
     document.getElementById('layoutSelect').value = 'force';
-    updateSizeControlUI({ enabled: true, column: DEFAULT_SIZE_COLUMN });
+    updateSizeControlUI({ enabled: false, column: DEFAULT_SIZE_COLUMN });
     toggleGridControls(false);
     updateGridUI(false);
 }

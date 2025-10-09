@@ -58,7 +58,7 @@ export class WorkflowVisualizer {
             : 'incomingVolume';
         
         this.nodeSizingManager = new NodeSizingManager({
-            enabled: true,
+            enabled: false,
             column: defaultSizingColumn,
             minValue: null,
             maxValue: null,
@@ -405,6 +405,12 @@ export class WorkflowVisualizer {
     // Always sync selection/table highlights after re-render (handles empty selection too)
         updateSelectionVisuals(this.state.g, this.selectionManager.selectedNodes || new Set());
     ui.updateTableSelectionHighlights(this.selectionManager.selectedNodes || new Set());
+
+    const gridConfig = this.gridManager?.getConfig?.();
+    if (gridConfig) {
+        updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
+        ui.updateGridUI?.(gridConfig.showGrid);
+    }
     }
 
     // Undo last action (selection or move)
