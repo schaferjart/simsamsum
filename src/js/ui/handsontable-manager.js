@@ -1,5 +1,6 @@
 import { showStatus, generateIdFromName } from '../utils.js';
 import { highlightNodeById } from '../render/index.js';
+import { initializeCollapsibleTables } from './collapsible-tables.js';
 
 // --- Table Editors (Handsontable) ---
 let _nodesHot = null;
@@ -481,20 +482,6 @@ export async function initEditorTables(core) {
     // Default active table
     _activeHot = _nodesHot;
 
-    // Add Row: insert into the active table
-    const addRowBtn = document.getElementById('add-row');
-    if (addRowBtn) {
-        addRowBtn.onclick = () => {
-            if (!_activeHot) return;
-            const rows = _activeHot.countRows();
-            const spareRows = _activeHot.getSettings().minSpareRows;
-            const targetRow = rows > spareRows ? rows - spareRows : rows;
-
-            _activeHot.alter('insert_row_below', targetRow, 1);
-            _activeHot.selectCell(targetRow + 1, 0);
-        };
-    }
-
     // All tables are created, now initialize interactions
     initUIInteractions();
     loadUIPrefs(); // Load saved sizes on startup
@@ -693,6 +680,10 @@ function initUIInteractions() {
     initResizers();
     initColumnToggles();
     initMaximizeButtons();
+    initAddRowButtons();
+    
+    // Initialize collapsible tables
+    initializeCollapsibleTables();
 }
 
 // --- UI Preferences ---
@@ -887,6 +878,37 @@ function initMaximizeButtons() {
                     if (hot) hot.render();
                 });
             }, 50); // Small delay for layout to update
+        });
+    });
+}
+
+/**
+ * Initializes the "Add Row" buttons for each table.
+ */
+function initAddRowButtons() {
+    const hotInstances = {
+        elements: _nodesHot,
+        connections: _connectionsHot,
+        variables: _variablesHot,
+    };
+
+    document.querySelectorAll('[data-action="add-row"]').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent header click
+            const tableName = button.dataset.table;
+            const hot = hotInstances[tableName];
+
+            if (!hot) return;
+
+            const rows = hot.countRows();
+            const spareRows = hot.getSettings().minSpareRows;
+            const targetRow = rows > spareRows ? rows - spareRows : rows;
+
+            hot.alter('insert_row_below', targetRow, 1);
+            hot.selectCell(targetRow + 1, 0);
+            
+            // Set this as the active table
+            _activeHot = hot;
         });
     });
 }

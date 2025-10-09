@@ -40,21 +40,59 @@
     padding: var(--space-8) var(--space-12);
     border-bottom: 1px solid var(--color-border);
     background-color: var(--color-surface-alt);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.table-header:hover {
+    background-color: var(--color-secondary);
 }
 
 .table-header h4 {
     margin: 0;
     font-size: var(--font-size-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.table-header__toggle {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 8px;
+    border-color: transparent transparent transparent var(--color-text-secondary);
+    transition: transform 250ms var(--ease-standard);
+}
+
+.table-container.collapsed .table-header__toggle {
+    transform: rotate(-90deg);
 }
 
 .table-controls {
     display: flex;
     gap: var(--space-6);
+    z-index: 1;
 }
 
 .editor-table {
     flex-grow: 1;
     overflow: hidden; /* Handsontable manages its own scrolling */
+    transition: max-height 250ms var(--ease-standard), opacity 250ms var(--ease-standard);
+    max-height: 5000px;
+    opacity: 1;
+}
+
+.table-container.collapsed .editor-table {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.table-container.collapsed .vertical-resizer {
+    display: none;
 }
 
 .vertical-resizer {
@@ -337,4 +375,85 @@
 .export-frame-handle-e:hover,
 .export-frame-handle-w:hover {
     transform: translateY(-50%) scale(1.2);
+}
+
+/* Collapsible table containers - matching control panel style */
+.table-container.collapsible .table-header {
+    padding-left: 28px;
+    padding-right: var(--space-12);
+    position: relative;
+}
+
+/* Chevron toggle indicator - matching control panel */
+.table-container.collapsible .table-header::before {
+    content: '›';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transition: transform var(--duration-fast) var(--ease-standard);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-container.collapsed .table-header::before {
+    transform: translateY(-50%) rotate(0deg);
+}
+
+/* Table controls repositioned inside collapsible content */
+.table-container.collapsible .table-content .table-controls {
+    display: flex;
+    gap: var(--space-8);
+    justify-content: flex-end;
+    padding: var(--space-8) var(--space-12);
+    background-color: var(--color-surface-alt);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Collapsible content wrapper - includes everything below the header */
+.table-container.collapsible .table-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    transition: max-height var(--duration-normal) var(--ease-standard),
+                opacity var(--duration-fast) var(--ease-standard);
+    max-height: 9999px;
+    opacity: 1;
+}
+
+.table-container.collapsed .table-content {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    flex-grow: 0;
+}
+
+/* Ensure tables stack nicely when collapsed */
+.table-container.collapsed {
+    margin-bottom: 0;
+    min-height: auto !important;
+    flex-grow: 0 !important;
+    flex-basis: auto !important;
+}
+
+.table-container.collapsed .table-header {
+    border-bottom-color: transparent;
+}
+
+/* Hide the resizer after a collapsed table */
+.table-container.collapsed + .vertical-resizer {
+    display: none;
+}
+
+/* Column toggle popup should also be hidden when collapsed */
+.table-container.collapsed .column-toggle-popup {
+    display: none !important;
 }
