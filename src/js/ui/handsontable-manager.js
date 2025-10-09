@@ -1,5 +1,6 @@
 import { showStatus, generateIdFromName } from '../utils.js';
 import { highlightNodeById } from '../render/index.js';
+import { initializeCollapsibleTables } from './collapsible-tables.js';
 
 // --- Table Editors (Handsontable) ---
 let _nodesHot = null;
@@ -693,6 +694,9 @@ function initUIInteractions() {
     initResizers();
     initColumnToggles();
     initMaximizeButtons();
+    
+    // Initialize collapsible tables
+    initializeCollapsibleTables();
 }
 
 // --- UI Preferences ---
