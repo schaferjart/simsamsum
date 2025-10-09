@@ -179,6 +179,7 @@
             <div id="detailsPanel" class="details-panel">
                 <div id="panelResizer" class="panel-resizer" title="Drag to resize"></div>
                 <div class="panel-header">
+                    <h3>Editor</h3>
                     <button id="closePanelBtn" class="close-btn" title="Hide/Show">&times;</button>
                 </div>
                 <div class="panel-content">
@@ -189,6 +190,7 @@
                             <div class="table-header">
                                 <h4>Elements</h4>
                                 <div class="table-controls">
+                                    <button class="btn btn--outline btn--sm" data-table="elements" data-action="add-row">+ Add Row</button>
                                     <button class="btn btn--outline btn--sm" data-table="elements" data-action="toggle-columns">Columns</button>
                                     <button class="btn btn--outline btn--sm" data-table="elements" data-action="toggle-maximize">⛶</button>
                                 </div>
@@ -197,13 +199,12 @@
                             <div class="column-toggle-popup" data-table="elements"></div>
                         </div>
 
-                        <div class="vertical-resizer" data-table-target="elements-table-container"></div>
-
                         <!-- Connections Table Section -->
                         <div class="table-container" id="connections-table-container">
                             <div class="table-header">
                                 <h4>Connections</h4>
                                 <div class="table-controls">
+                                    <button class="btn btn--outline btn--sm" data-table="connections" data-action="add-row">+ Add Row</button>
                                     <button class="btn btn--outline btn--sm" data-table="connections" data-action="toggle-columns">Columns</button>
                                     <button class="btn btn--outline btn--sm" data-table="connections" data-action="toggle-maximize">⛶</button>
                                 </div>
@@ -212,13 +213,12 @@
                             <div class="column-toggle-popup" data-table="connections"></div>
                         </div>
 
-                        <div class="vertical-resizer" data-table-target="connections-table-container"></div>
-
                         <!-- Variables Table Section -->
                         <div class="table-container" id="variables-table-container">
                             <div class="table-header">
                                 <h4>Variables</h4>
                                 <div class="table-controls">
+                                    <button class="btn btn--outline btn--sm" data-table="variables" data-action="add-row">+ Add Row</button>
                                     <button class="btn btn--outline btn--sm" data-table="variables" data-action="toggle-columns">Columns</button>
                                     <button class="btn btn--outline btn--sm" data-table="variables" data-action="toggle-maximize">⛶</button>
                                 </div>
@@ -228,7 +228,6 @@
                         </div>
 
                         <div class="editor-actions">
-                            <button id="add-row" class="btn btn--primary btn--sm">+ Add Row</button>
                             <div class="spacer"></div>
                             <div class="export-group">
                                 <button id="save-to-server" class="btn btn--primary btn--sm">Save to Server</button>

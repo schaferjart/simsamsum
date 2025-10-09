@@ -60,58 +60,51 @@ export function initializeCollapsibleTables() {
     
     tableContainers.forEach((tableContainer, index) => {
         const header = tableContainer.querySelector('.table-header');
-        const headerTitle = header?.querySelector('h4');
-        
+        const headerTitle = header?.querySelector('h4, h3');
+
+        if (!header) {
+            return;
+        }
+
         // Generate a unique ID for this table based on its header text
-        const tableId = headerTitle ? 
-            headerTitle.textContent.trim().toLowerCase().replace(/\s+/g, '-') : 
+        const tableId = headerTitle ?
+            headerTitle.textContent.trim().toLowerCase().replace(/\s+/g, '-') :
             `table-${index}`;
-        
+
         // Add collapsible class to table container
         tableContainer.classList.add('collapsible');
-        
-        // Restructure the header to separate the title from controls
-        if (header && headerTitle) {
-            const tableControls = header.querySelector('.table-controls');
-            
-            // Create a new title-only section for the clickable header
-            const headerTitleOnly = document.createElement('div');
-            headerTitleOnly.className = 'table-header-title';
-            headerTitleOnly.appendChild(headerTitle);
-            
-            // Clear the header and rebuild it
-            header.innerHTML = '';
-            header.appendChild(headerTitleOnly);
-            
-            // Table controls go into the collapsible content
-            if (tableControls) {
-                tableControls.className = 'table-controls-collapsible';
-            }
+
+        // Check if already initialized
+        if (tableContainer.querySelector('.table-content')) {
+            return; // Already initialized
         }
-        
-        // Wrap all content except header in table-content div
-        let content = tableContainer.querySelector('.table-content');
-        if (!content) {
-            content = document.createElement('div');
-            content.className = 'table-content';
-            
-            // Move all children except header into content wrapper
-            // This includes: editor-table, column-toggle-popup, and table-controls
-            const children = Array.from(tableContainer.children);
-            children.forEach(child => {
-                if (!child.classList.contains('table-header')) {
-                    content.appendChild(child);
-                }
-            });
-            
-            // Add table controls to the top of the content if they exist
-            const tableControls = header?.querySelector('.table-controls-collapsible');
-            if (tableControls) {
-                content.insertBefore(tableControls, content.firstChild);
-            }
-            
-            tableContainer.appendChild(content);
+
+        // Create content wrapper
+        const content = document.createElement('div');
+        content.className = 'table-content';
+
+        // Get table controls from header (we'll move them)
+        const tableControls = header.querySelector('.table-controls');
+
+        // Collect all children except the header to move into content
+        const childrenToMove = Array.from(tableContainer.children).filter(child => 
+            child !== header
+        );
+
+        // Move controls first if they exist (so they appear at the top of content)
+        if (tableControls) {
+            content.appendChild(tableControls);
         }
+
+        // Move all other children (editor-table, column-toggle-popup, etc.)
+        childrenToMove.forEach(child => {
+            if (child !== tableControls) {
+                content.appendChild(child);
+            }
+        });
+
+        // Append the content wrapper to the container
+        tableContainer.appendChild(content);
         
         // Apply saved state
         if (state[tableId]) {
@@ -120,9 +113,7 @@ export function initializeCollapsibleTables() {
                 header.setAttribute('aria-expanded', 'false');
             }
         } else {
-            if (header) {
-                header.setAttribute('aria-expanded', 'true');
-            }
+            header.setAttribute('aria-expanded', 'true');
         }
         
         // Set up click handler on entire header (matching control panel behavior)
@@ -133,8 +124,10 @@ export function initializeCollapsibleTables() {
             
             // Click handler - entire header is clickable
             const handleToggle = (e) => {
-                // Don't toggle if clicking on buttons or other interactive elements
-                // (they're now in the content area, so this check is simpler)
+                // Prevent toggling when interacting with controls that live in content
+                if (e.target.closest('.table-controls') || e.target.closest('.column-toggle-popup')) {
+                    return;
+                }
                 toggleTableContainer(tableContainer, tableId, state);
             };
             
@@ -160,7 +153,7 @@ export function expandAllTables() {
         const tableId = container.id;
         if (!tableId) return;
         
-        container.classList.remove('table-container--collapsed');
+        container.classList.remove('collapsed');
         const header = container.querySelector('.table-header');
         if (header) {
             header.setAttribute('aria-expanded', 'true');
@@ -179,7 +172,7 @@ export function collapseAllTables() {
         const tableId = container.id;
         if (!tableId) return;
         
-        container.classList.add('table-container--collapsed');
+        container.classList.add('collapsed');
         const header = container.querySelector('.table-header');
         if (header) {
             header.setAttribute('aria-expanded', 'false');

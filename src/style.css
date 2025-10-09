@@ -67,7 +67,7 @@
     transition: transform 250ms var(--ease-standard);
 }
 
-.table-container--collapsed .table-header__toggle {
+.table-container.collapsed .table-header__toggle {
     transform: rotate(-90deg);
 }
 
@@ -85,13 +85,13 @@
     opacity: 1;
 }
 
-.table-container--collapsed .editor-table {
+.table-container.collapsed .editor-table {
     max-height: 0;
     opacity: 0;
     overflow: hidden;
 }
 
-.table-container--collapsed .vertical-resizer {
+.table-container.collapsed .vertical-resizer {
     display: none;
 }
 
@@ -380,14 +380,8 @@
 /* Collapsible table containers - matching control panel style */
 .table-container.collapsible .table-header {
     padding-left: 28px;
-    position: relative;
-    display: block; /* Override flex to just have the title */
     padding-right: var(--space-12);
-}
-
-/* Title within header (clickable area) */
-.table-container.collapsible .table-header h4 {
-    margin: 0;
+    position: relative;
 }
 
 /* Chevron toggle indicator - matching control panel */
@@ -411,27 +405,26 @@
     transform: translateY(-50%) rotate(0deg);
 }
 
-/* Remove border from collapsed table headers for clean stacking */
-.table-container.collapsed .table-header {
-    border-bottom: none;
-}
-
 /* Table controls repositioned inside collapsible content */
-.table-controls-collapsible {
+.table-container.collapsible .table-content .table-controls {
     display: flex;
     gap: var(--space-8);
+    justify-content: flex-end;
     padding: var(--space-8) var(--space-12);
     background-color: var(--color-surface-alt);
     border-bottom: 1px solid var(--color-border);
-    justify-content: flex-end;
 }
 
 /* Collapsible content wrapper - includes everything below the header */
 .table-container.collapsible .table-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex-grow: 1;
     overflow: hidden;
     transition: max-height var(--duration-normal) var(--ease-standard),
                 opacity var(--duration-fast) var(--ease-standard);
-    max-height: 2000px;
+    max-height: 9999px;
     opacity: 1;
 }
 
@@ -440,6 +433,7 @@
     opacity: 0;
     margin: 0;
     padding: 0;
+    flex-grow: 0;
 }
 
 /* Ensure tables stack nicely when collapsed */
@@ -448,6 +442,10 @@
     min-height: auto !important;
     flex-grow: 0 !important;
     flex-basis: auto !important;
+}
+
+.table-container.collapsed .table-header {
+    border-bottom-color: transparent;
 }
 
 /* Hide the resizer after a collapsed table */
