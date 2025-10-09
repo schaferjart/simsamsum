@@ -1,0 +1,35 @@
+{
+  "filters": [
+    {
+      "scope": "connection",
+      "column": "target.SubType",
+      "operator": "contains",
+      "value": "out",
+      "style": {
+        "color": "#ff0000",
+        "strokeWidth": 3
+      }
+    },
+    {
+      "scope": "connection",
+      "column": "target.SubType",
+      "operator": "not_contains",
+      "value": "Out",
+      "style": {
+        "color": "#11ff00",
+        "strokeWidth": 3
+      }
+    },
+    {
+      "scope": "connection",
+      "column": "target.SubType",
+      "operator": "contains",
+      "value": "Decision Call",
+      "style": {
+        "color": "#ffea00"
+      }
+    }
+  ],
+  "styling": [],
+  "timestamp": "2025-10-09T16:07:18.201Z"
+}
