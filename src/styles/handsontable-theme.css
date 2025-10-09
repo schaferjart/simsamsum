@@ -1,0 +1,305 @@
+/**
+ * Handsontable Dark Theme Overrides
+ * 
+ * Handsontable 14.3.0 doesn't have native dark mode support,
+ * so we override its default light styling when [data-theme="dark"] is active.
+ */
+
+/* ===== DARK THEME OVERRIDES ===== */
+[data-theme="dark"] .handsontable {
+  /* Main table background */
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .handsontable .wtHolder {
+  background-color: var(--color-surface);
+}
+
+/* Table cells */
+[data-theme="dark"] .handsontable td,
+[data-theme="dark"] .handsontable th {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* Alternate row backgrounds (striped) */
+[data-theme="dark"] .handsontable .table-striped > tbody > tr:nth-of-type(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="dark"] .handsontable .table-striped > tbody > tr:nth-of-type(even) td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Headers */
+[data-theme="dark"] .handsontable thead th,
+[data-theme="dark"] .handsontable thead td {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* Row headers (left side numbers) */
+[data-theme="dark"] .handsontable .ht__highlight {
+  background-color: var(--color-surface);
+}
+
+[data-theme="dark"] .handsontable tbody th {
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+/* Column headers */
+[data-theme="dark"] .handsontable .ht_clone_top th,
+[data-theme="dark"] .handsontable .ht_clone_top_left_corner th {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* Active cell (selected/editing) */
+[data-theme="dark"] .handsontable .currentRow,
+[data-theme="dark"] .handsontable .currentCol {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+[data-theme="dark"] .handsontable td.current {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+/* Cell selection highlight */
+[data-theme="dark"] .handsontable .area {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .handsontable .htDimmed {
+  color: var(--color-text-muted);
+}
+
+/* Selected range fill */
+[data-theme="dark"] .handsontable .area-1,
+[data-theme="dark"] .handsontable .area-2,
+[data-theme="dark"] .handsontable .area-3,
+[data-theme="dark"] .handsontable .area-4,
+[data-theme="dark"] .handsontable .area-5,
+[data-theme="dark"] .handsontable .area-6,
+[data-theme="dark"] .handsontable .area-7 {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+/* Cell borders for selection */
+[data-theme="dark"] .handsontable .wtBorder {
+  background-color: var(--color-primary);
+}
+
+/* Input (when editing a cell) */
+[data-theme="dark"] .handsontable .handsontableInput {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .handsontable .handsontableInputHolder {
+  background-color: var(--color-surface);
+}
+
+/* Context menu */
+[data-theme="dark"] .htContextMenu {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .htContextMenu table tbody tr td {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border-subtle);
+}
+
+[data-theme="dark"] .htContextMenu table tbody tr td.htDisabled {
+  color: var(--color-text-muted);
+}
+
+[data-theme="dark"] .htContextMenu table tbody tr td.current,
+[data-theme="dark"] .htContextMenu table tbody tr td.zeroclipboard-is-hover {
+  background-color: var(--color-hover);
+}
+
+[data-theme="dark"] .htContextMenu table tbody tr td.htSeparator {
+  border-color: var(--color-border);
+}
+
+/* Dropdown menus (filters, etc.) */
+[data-theme="dark"] .htDropdownMenu {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .htDropdownMenu table tbody tr td {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .htDropdownMenu table tbody tr td.htDisabled {
+  color: var(--color-text-muted);
+}
+
+[data-theme="dark"] .htDropdownMenu table tbody tr td:hover {
+  background-color: var(--color-hover);
+}
+
+/* Filter UI */
+[data-theme="dark"] .htUISelect {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .htUIInput,
+[data-theme="dark"] .htUIMultipleSelectHot {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .htUIButton {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .htUIButton:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Autocomplete dropdown */
+[data-theme="dark"] .htAutocompleteArrow {
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .autocompleteEditor {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* Comments */
+[data-theme="dark"] .htCommentCell::after {
+  background-color: var(--color-primary);
+}
+
+[data-theme="dark"] .htComments {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Custom cell editor */
+[data-theme="dark"] .htSelectEditor {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* Column sorting indicators */
+[data-theme="dark"] .handsontable .columnSorting {
+  color: var(--color-text);
+}
+
+/* Invalid cells */
+[data-theme="dark"] .handsontable td.htInvalid {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Placeholder text */
+[data-theme="dark"] .handsontable .htPlaceholder {
+  color: var(--color-text-muted);
+}
+
+/* Read-only cells */
+[data-theme="dark"] .handsontable td.htDimmed {
+  color: var(--color-text-muted);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Checkbox cells */
+[data-theme="dark"] .handsontable .htCheckboxRendererInput {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+/* ===== LIGHT THEME (ensure defaults work) ===== */
+[data-theme="light"] .handsontable {
+  background-color: #fff;
+  color: #000;
+}
+
+/* ===== CUSTOM SELECTION STYLES (both themes) ===== */
+/* These preserve the existing yellow highlight for selected rows */
+.ht_master tbody td.is-selected {
+  background: rgba(255, 221, 87, 0.3) !important;
+}
+
+[data-theme="dark"] .ht_master tbody td.is-selected {
+  background: rgba(255, 221, 87, 0.25) !important;
+  color: #1a1a1a !important; /* Dark text for visibility on yellow */
+  font-weight: 500;
+}
+
+.ht_master tbody tr.is-hovered td {
+  background: rgba(255, 221, 87, 0.28) !important;
+}
+
+[data-theme="dark"] .ht_master tbody tr.is-hovered td {
+  background: rgba(255, 221, 87, 0.2) !important;
+  color: #1a1a1a !important; /* Dark text for visibility on yellow */
+  font-weight: 500;
+}
+
+/* ===== SCROLLBARS ===== */
+[data-theme="dark"] .handsontable .wtHolder::-webkit-scrollbar {
+  background-color: var(--color-surface);
+}
+
+[data-theme="dark"] .handsontable .wtHolder::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .handsontable .wtHolder::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-text-muted);
+}
+
+[data-theme="dark"] .handsontable .wtHolder::-webkit-scrollbar-track {
+  background-color: var(--color-background);
+}
+
+/* ===== BORDERS AND DIVIDERS ===== */
+[data-theme="dark"] .handsontable .table-bordered {
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .handsontable .table-bordered th,
+[data-theme="dark"] .handsontable .table-bordered td {
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .handsontable .table-bordered th:first-child,
+[data-theme="dark"] .handsontable .table-bordered td:first-child {
+  border-left-color: var(--color-border);
+}
+
+/* ===== COLUMN RESIZE HANDLE ===== */
+[data-theme="dark"] .handsontable .manualColumnResizer {
+  background-color: var(--color-primary);
+}
+
+/* ===== FILL HANDLE (drag to copy) ===== */
+[data-theme="dark"] .handsontable .wtBorder.corner {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}

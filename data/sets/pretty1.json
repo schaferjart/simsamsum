@@ -31,43 +31,6 @@
       }
     }
   ],
-  "styling": [
-    {
-      "scope": "connection",
-      "column": "source",
-      "operator": "contains",
-      "value": "MP",
-      "color": "#60fb62",
-      "strokeWidth": 3,
-      "fromFilter": true
-    },
-    {
-      "scope": "connection",
-      "column": "source",
-      "operator": "contains",
-      "value": "HP",
-      "color": "#00fbff",
-      "strokeWidth": 3,
-      "fromFilter": true
-    },
-    {
-      "scope": "connection",
-      "column": "source",
-      "operator": "contains",
-      "value": "LP",
-      "color": "#ffea00",
-      "strokeWidth": 3,
-      "fromFilter": true
-    },
-    {
-      "scope": "connection",
-      "column": "source",
-      "operator": "contains",
-      "value": "LP",
-      "color": "#ffea00",
-      "strokeWidth": 3,
-      "fromFilter": true
-    }
-  ],
+  "styling": [],
   "timestamp": "2025-10-03T16:53:41.346Z"
 }

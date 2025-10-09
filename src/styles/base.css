@@ -46,6 +46,7 @@
   /* Semantic Color Tokens (Light Mode) */
   --color-background: var(--color-cream-50);
   --color-surface: var(--color-cream-100);
+  --color-bg-hover: rgba(var(--color-brown-600-rgb), 0.06);
   --color-text: var(--color-slate-900);
   --color-text-secondary: var(--color-slate-500);
   --color-primary: var(--color-teal-500);
@@ -143,6 +144,7 @@
   /* Colors - Dark Theme */
   --color-background: #1a1a1a;
   --color-surface: #2d2d2d;
+  --color-bg-hover: rgba(255, 255, 255, 0.06);
   --color-text: #e5e5e5;
   --color-text-muted: #a3a3a3;
   --color-text-secondary: #9ca3af;

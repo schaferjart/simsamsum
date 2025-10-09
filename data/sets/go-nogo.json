@@ -20,16 +20,6 @@
       }
     }
   ],
-  "styling": [
-    {
-      "scope": "connection",
-      "column": "target.SubType",
-      "operator": "contains",
-      "value": "out",
-      "color": "#ff0000",
-      "strokeWidth": 3,
-      "fromFilter": true
-    }
-  ],
+  "styling": [],
   "timestamp": "2025-10-04T12:22:25.773Z"
 }

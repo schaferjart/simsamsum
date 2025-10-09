@@ -107,6 +107,68 @@
   gap: var(--space-8);
 }
 
+.control-group__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: var(--space-4);
+}
+
+.control-group__header:hover .control-group__toggle {
+  color: var(--color-text);
+}
+
+.control-group__title {
+  font-weight: 600;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.control-group__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--duration-fast) var(--ease-standard);
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.control-group__toggle::before {
+  content: '›';
+}
+
+.control-group--collapsed .control-group__toggle {
+  transform: rotate(0deg);
+}
+
+.control-group:not(.control-group--collapsed) .control-group__toggle {
+  transform: rotate(90deg);
+}
+
+.control-group__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  overflow: hidden;
+  transition: max-height var(--duration-normal) var(--ease-standard),
+              opacity var(--duration-fast) var(--ease-standard);
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.control-group--collapsed .control-group__content {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  gap: 0;
+}
+
 .orientation-controls {
   display: flex;
   flex-wrap: wrap;

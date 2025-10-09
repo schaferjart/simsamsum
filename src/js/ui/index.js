@@ -10,6 +10,7 @@ import * as apiClient from './api-client.js';
 import * as handsontableManager from './handsontable-manager.js';
 import * as exportSettingsManager from './export-settings-manager.js';
 import * as layoutManager from '../layouts/persistence.js';
+import * as collapsibleControls from './collapsible-controls.js';
 import { showStatus, generateIdFromName } from '../utils.js';
 
 // --- Re-export a unified public API ---
@@ -30,6 +31,9 @@ export const { showNodeDetails, hideDetailsPanel, toggleControlsPanel } = panelM
 
 // Theme Management
 export const { toggleTheme, initializeTheme } = themeManager;
+
+// Collapsible Controls
+export const { initializeCollapsibleControls, expandAll, collapseAll } = collapsibleControls;
 
 // Handsontable (Data Grids)
 export const {
@@ -196,6 +200,9 @@ export function bindEventListeners(app, handlers) {
 
     // Initialize theme
     initializeTheme();
+    
+    // Initialize collapsible controls
+    initializeCollapsibleControls();
 }
 
 /**

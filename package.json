@@ -14,7 +14,7 @@
     "test:expressions": "node tests/test-expression-handling.js",
     "test:volumes": "node tests/test-volume-calculations.js",
     "recalculate": "node scripts/recalculate-volumes.js",
-  "filter:set": "node scripts/apply-filter-set.js",
+    "filter:set": "node scripts/apply-filter-set.js",
     "debug:cache": "echo 'Copy contents of tests/debug-clear-cache.js to browser console'",
     "debug:table": "echo 'Copy contents of tests/debug-test-table.js to browser console'"
   },
@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "d3": "^7.9.0",
-    "handsontable": "^14.3.0",
+    "handsontable": "^16.1.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.3",
     "svg2pdf.js": "^2.2.4"
