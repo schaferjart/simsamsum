@@ -93,6 +93,15 @@ export class SelectionManager {
     }
 
     /**
+     * Clear all selections without triggering the onChange callback.
+     * Useful for internal operations that shouldn't create an undo state.
+     */
+    clearSelectionSilent() {
+        this.selectedNodes.clear();
+        this.lastSelectedId = null;
+    }
+
+    /**
      * Check if a node is selected
      * @param {string} nodeId - The ID of the node to check
      * @returns {boolean} True if the node is selected

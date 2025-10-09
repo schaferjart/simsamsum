@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import { showStatus, calculateNodeSize, snapToGrid } from '../utils.js';
+import { showStatus, calculateNodeSize, snapToGrid, generateUUID } from '../utils.js';
 import { processData, verifyConnections, computeDerivedFields as computeDerivedFieldsData, resolveValue, extractExpressionTokens } from '../data/index.js';
 import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from '../render/index.js';
 import { applyLayout } from '../layouts/index.js';
@@ -86,6 +86,15 @@ export class WorkflowVisualizer {
     this.elements = [];
     this.connections = [];
     this.variables = {};
+    this.clipboard = {
+        nodes: [],
+        offset: { x: 20, y: 20 }
+    };
+
+        // Drag state for duplication and moves
+        this._isDuplicating = false;
+        this._dragStartPoint = null;
+        this._pendingMove = null;
     }
 
     // Backward compatibility getters for state properties managed by GridManager
@@ -185,12 +194,13 @@ export class WorkflowVisualizer {
         const defaultLayout = await layoutManager.loadLayout('default');
         if (defaultLayout) {
             this.applyPositions(defaultLayout);
+            // Use a brief timeout to ensure rendering before fitting
+            setTimeout(() => graphTransforms.fitToScreen(this.state), 100);
+        } else {
+            // Fallback to a default layout. handleLayoutChange will now manage fitting.
+            console.warn("No default layout found. Applying force-directed layout.");
+            this.handleLayoutChange('force');
         }
-
-        // Fit the graph to screen on initial load
-        setTimeout(() => {
-            graphTransforms.fitToScreen(this.state);
-        }, 500);
 
         // Initialize table editors (if available)
         if (typeof ui.initEditorTables === 'function') {
@@ -258,11 +268,7 @@ export class WorkflowVisualizer {
         }, true);
 
         // Keyboard shortcuts for selection (keep)
-        interactions.initKeyboardShortcuts(
-            this.selectionManager,
-            this.state.g,
-            this.state.allNodes
-        );
+        interactions.initKeyboardShortcuts(this);
 
         // Quick visibility for dev/test
         // eslint-disable-next-line no-console
@@ -354,46 +360,75 @@ export class WorkflowVisualizer {
             this.state.currentLayout,
             {
                 dragStarted: (event, d) => {
-                    // Snapshot positions of selected nodes (or the single node) for undo
-                    const ids = this.selectionManager.getSelectionCount() > 0 && this.selectionManager.isSelected(d.id)
-                        ? this.selectionManager.getSelectedIds()
-                        : [d.id];
+                    this._isDuplicating = event.sourceEvent.altKey;
+                    this._dragStartPoint = { x: event.x, y: event.y };
+
+                    if (!this.selectionManager.isSelected(d.id) && !event.sourceEvent.metaKey && !event.sourceEvent.ctrlKey) {
+                        this.selectionManager.selectSingle(d.id);
+                    }
+
+                    const ids = this.selectionManager.getSelectedIds();
                     const beforePositions = new Map();
                     ids.forEach(id => {
                         const node = this.state.nodes.find(n => n.id === id);
                         if (node) beforePositions.set(id, { x: node.x, y: node.y });
                     });
-                    this._pendingMove = { ids, before: beforePositions };
+
+                    if (this._isDuplicating) {
+                        this._originalPositions = beforePositions;
+                    } else {
+                        this._pendingMove = { ids, before: beforePositions };
+                    }
+
                     interactions.dragStarted(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes);
                 },
                 dragged: (event, d) => {
-                    interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.gridManager.getSize(), this.selectionManager, this.state.nodes)
+                    interactions.dragged(event, d, this.state.simulation, this.state.currentLayout, this.gridManager.getSize(), this.selectionManager, this.state.nodes);
                     updatePositions(this.state.g);
                 },
                 dragEnded: (event, d) => {
                     interactions.dragEnded(event, d, this.state.simulation, this.state.currentLayout, this.selectionManager, this.state.nodes);
-                    // Record after positions and push undo action if any movement happened
-                    if (this._pendingMove) {
+
+                    if (this._isDuplicating && this._originalPositions) {
+                        const dx = event.x - this._dragStartPoint.x;
+                        const dy = event.y - this._dragStartPoint.y;
+
+                        this._originalPositions.forEach((pos, id) => {
+                            const node = this.state.nodes.find(n => n.id === id);
+                            if (node) {
+                                node.x = pos.x;
+                                node.y = pos.y;
+                                node.fx = pos.x;
+                                node.fy = pos.y;
+                            }
+                        });
+
+                        this.duplicateSelection(dx, dy);
+
+                    } else if (this._pendingMove) {
                         const afterPositions = new Map();
                         this._pendingMove.ids.forEach(id => {
                             const node = this.state.nodes.find(n => n.id === id);
                             if (node) afterPositions.set(id, { x: node.x, y: node.y });
                         });
-                        // Check if any changed
+
                         const changed = Array.from(this._pendingMove.before.entries()).some(([id, pos]) => {
                             const ap = afterPositions.get(id);
                             return !ap || ap.x !== pos.x || ap.y !== pos.y;
                         });
+
                         if (changed) {
                             this.undoManager.push({ type: 'move', before: this._pendingMove.before, after: afterPositions });
                         }
-                        this._pendingMove = null;
                     }
+
+                    this._isDuplicating = false;
+                    this._originalPositions = null;
+                    this._pendingMove = null;
                 },
                 nodeClicked: (event, d) => {
                     event.stopPropagation();
                     ui.showNodeDetails(d);
-                    // Handle multi-select and visual feedback
                     interactions.handleNodeClickSelection(event, d, this.selectionManager, this.state.g);
                 },
                 nodeMouseOver: (event, d) => highlightNode(this.state.g, d, this.state.links),
@@ -597,7 +632,121 @@ export class WorkflowVisualizer {
     });
         // Do not reload editor tables here; hot.loadData causes focus loss and jank during typing.
         // UI will refresh tables explicitly after bulk imports or structure changes.
-    }    /**
+    }
+
+    /**
+     * Adds new nodes to the application's element list and updates the visualization.
+     * @param {Array<object>} newElements - An array of element objects to add.
+     * @param {boolean} [select=true] - Whether to select the new nodes after adding them.
+     */
+    addNodes(newElements, select = true) {
+        if (!newElements || newElements.length === 0) return;
+
+        this.elements.push(...newElements);
+
+        this.syncTableDataToVisualization();
+        this.updateVisualization();
+
+        if (select) {
+            const newIds = newElements.map(n => n.id);
+            this.selectionManager.clearSelectionSilent();
+            this.selectionManager.selectMultiple(newIds);
+        }
+    }
+
+    /**
+     * Duplicates the currently selected nodes and returns the new node objects.
+     * @param {number} [dx=0] - The x-offset for the new nodes.
+     * @param {number} [dy=0] - The y-offset for the new nodes.
+     * @returns {Array<object>} The newly created node objects.
+     */
+    duplicateSelection(dx = 0, dy = 0) {
+        const selectedIds = this.selectionManager.getSelectedIds();
+        if (selectedIds.length === 0) return [];
+
+        const newNodes = selectedIds.map(id => {
+            const originalNode = this.elements.find(n => n.id === id);
+            if (!originalNode) return null;
+
+            const newNode = JSON.parse(JSON.stringify(originalNode));
+            newNode.id = generateUUID();
+            newNode.x = (originalNode.x || 0) + dx;
+            newNode.y = (originalNode.y || 0) + dy;
+
+            // Sanitize copied data
+            newNode.name = `${originalNode.name || 'Node'} (Copy)`;
+            newNode.incomingNumber = '';
+            newNode.computedIncomingNumber = 0;
+            newNode.effectiveCost = '';
+
+            return newNode;
+        }).filter(Boolean);
+
+        if (newNodes.length > 0) {
+            this.addNodes(newNodes);
+        }
+
+        return newNodes;
+    }
+
+    /**
+     * Copies the currently selected nodes to the internal clipboard.
+     */
+    copySelectionToClipboard() {
+        const selectedIds = this.selectionManager.getSelectedIds();
+        if (selectedIds.length === 0) {
+            this.clipboard.nodes = [];
+            return;
+        }
+
+        this.clipboard.nodes = selectedIds.map(id => {
+            const node = this.elements.find(n => n.id === id);
+            return node ? JSON.parse(JSON.stringify(node)) : null;
+        }).filter(Boolean);
+
+        // Reset offset for the first paste
+        this.clipboard.offset = { x: 20, y: 20 };
+        showStatus(`${this.clipboard.nodes.length} node(s) copied.`, 'info');
+    }
+
+    /**
+     * Pastes nodes from the internal clipboard onto the canvas.
+     */
+    pasteFromClipboard() {
+        if (this.clipboard.nodes.length === 0) return;
+
+        const { x: dx, y: dy } = this.clipboard.offset;
+
+        const newNodes = this.clipboard.nodes.map(originalNode => {
+            const newNode = JSON.parse(JSON.stringify(originalNode));
+            newNode.id = generateUUID();
+            const snapped = snapToGrid(
+                (originalNode.x || 0) + dx,
+                (originalNode.y || 0) + dy,
+                this.gridManager.getSize()
+            );
+            newNode.x = snapped.x;
+            newNode.y = snapped.y;
+
+            // Sanitize pasted data
+            newNode.name = `${originalNode.name || 'Node'} (Copy)`;
+            newNode.incomingNumber = '';
+            newNode.computedIncomingNumber = 0;
+            newNode.effectiveCost = '';
+
+            return newNode;
+        });
+
+        if (newNodes.length > 0) {
+            this.addNodes(newNodes);
+        }
+
+        // Increment offset for subsequent pastes
+        this.clipboard.offset.x += 20;
+        this.clipboard.offset.y += 20;
+    }
+
+    /**
      * Resolves string-based probability values in connections using variables.
      * Accepts numeric strings (e.g., "0.25") or variable keys (e.g., "callback_rate" or "${callback_rate}").
      */
@@ -852,17 +1001,30 @@ export class WorkflowVisualizer {
      * @param {string} layoutType - The new layout type to apply.
      */
     handleLayoutChange(layoutType) {
-    this.state.currentLayout = layoutType;
-    // Enable grid controls for manual-grid and hierarchical-orthogonal layouts
-    const gridCapable = layoutType === 'manual-grid' || layoutType === 'hierarchical-orthogonal';
-    ui.toggleGridControls(gridCapable);
-    if (!gridCapable) {
+        this.state.currentLayout = layoutType;
+        const gridCapable = layoutType === 'manual-grid' || layoutType === 'hierarchical-orthogonal';
+        ui.toggleGridControls(gridCapable);
+
+        if (!gridCapable) {
             this.gridManager.setVisible(false);
             const gridConfig = this.gridManager.getConfig();
             updateGridDisplay(this.state.g, gridConfig.showGrid, this.state.width, this.state.height, gridConfig.gridSize, this.state.nodes);
             ui.updateGridUI(gridConfig.showGrid);
         }
+
         this.updateVisualization();
+
+        // For dynamic layouts, fit to screen after the simulation stabilizes
+        if (this.state.simulation) {
+            this.state.simulation.on('end', () => {
+                console.log('Simulation ended, fitting to screen.');
+                graphTransforms.fitToScreen(this.state);
+            });
+        } else {
+            // For static layouts, fit immediately
+            setTimeout(() => graphTransforms.fitToScreen(this.state), 100);
+        }
+
         showStatus(`Layout changed to ${layoutType}`, 'info');
     }
 

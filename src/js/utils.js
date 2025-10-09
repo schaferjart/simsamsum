@@ -163,3 +163,21 @@ export function generateIdFromName(name) {
         .replace(/_{2,}/g, '_')          // Replace multiple underscores with single
         .replace(/^_|_$/g, '');          // Remove leading/trailing underscores
 }
+
+/**
+ * Generates a UUID (Universally Unique Identifier).
+ * Uses the built-in `crypto.randomUUID()` if available, otherwise falls back
+ * to a simple timestamp-based random string.
+ * @returns {string} A new UUID.
+ */
+export function generateUUID() {
+    if (crypto && crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+    // Fallback for environments without crypto.randomUUID
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
