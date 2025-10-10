@@ -15,6 +15,8 @@
     "test:volumes": "node tests/test-volume-calculations.js",
     "recalculate": "node scripts/recalculate-volumes.js",
     "filter:set": "node scripts/apply-filter-set.js",
+    "export:csv": "node scripts/export-to-csv.js",
+    "import:csv": "node scripts/import-from-csv.js",
     "debug:cache": "echo 'Copy contents of tests/debug-clear-cache.js to browser console'",
     "debug:table": "echo 'Copy contents of tests/debug-test-table.js to browser console'"
   },

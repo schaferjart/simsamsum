@@ -38,5 +38,11 @@ build/
 tmp/
 temp/
 
+# CSV export files (temporary work files)
+data/csv/
+
+# JSON backups created by import script
+data/*.backup.*.json
+
 # PDF exports (optional - remove if you want to track exported PDFs)
 workflow-visualization-*.pdf

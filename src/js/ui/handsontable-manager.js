@@ -1,6 +1,7 @@
 import { showStatus, generateIdFromName } from '../utils.js';
 import { highlightNodeById } from '../render/index.js';
 import { initializeCollapsibleTables } from './collapsible-tables.js';
+import { initTableSearch } from './table-search.js';
 
 // --- Table Editors (Handsontable) ---
 let _nodesHot = null;
@@ -55,9 +56,10 @@ export async function initEditorTables(core) {
         height: '100%', // Stretch to container
         width: '100%',
         contextMenu: true,
-    undoRedo: true,
+        undoRedo: true,
         minSpareRows: 1,
         hiddenColumns: true, // Enable plugin
+        hiddenRows: true, // Enable hidden rows plugin for search
         manualColumnResize: true, // Allow user resizing
         filters: true, // Enable column filters
         dropdownMenu: ['filter_by_condition', 'filter_by_value', 'filter_action_bar'],
@@ -481,6 +483,11 @@ export async function initEditorTables(core) {
     };
     // Default active table
     _activeHot = _nodesHot;
+
+    // Initialize table search functionality
+    initTableSearch('elements', _nodesHot, 'elements-search');
+    initTableSearch('connections', _connectionsHot, 'connections-search');
+    initTableSearch('variables', _variablesHot, 'variables-search');
 
     // All tables are created, now initialize interactions
     initUIInteractions();

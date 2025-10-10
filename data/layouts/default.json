@@ -305,7 +305,7 @@
   },
   "notion_account_creation": {
     "x": 5400,
-    "y": -1200
+    "y": -1000
   },
   "learning_360_account_creation": {
     "x": 5400,
@@ -313,7 +313,7 @@
   },
   "wesser_studio_account_creation": {
     "x": 5400,
-    "y": -1000
+    "y": -800
   },
   "onboarding_ghost": {
     "x": 4600,
@@ -321,11 +321,11 @@
   },
   "wap_invite": {
     "x": 5600,
-    "y": -1000
+    "y": -800
   },
   "learning_360_adding_classes": {
     "x": 5400,
-    "y": -800
+    "y": -400
   },
   "learning_360_invite": {
     "x": 5600,
@@ -333,7 +333,7 @@
   },
   "notion_invite": {
     "x": 5600,
-    "y": -1200
+    "y": -1000
   },
   "slack_promogroup_creation": {
     "x": 5400,
@@ -348,11 +348,11 @@
     "y": 200
   },
   "slack_ghost": {
-    "x": 5600,
+    "x": 5800,
     "y": 400
   },
   "slack_welcome_msg": {
-    "x": 5800,
+    "x": 6000,
     "y": 400
   },
   "first_contact_nc_tl": {
@@ -404,8 +404,8 @@
     "y": -800
   },
   "learning_360_dropout": {
-    "x": 6200,
-    "y": -800
+    "x": 6400,
+    "y": -600
   },
   "learning_360_experience": {
     "x": 6200,
