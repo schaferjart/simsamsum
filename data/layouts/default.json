@@ -356,7 +356,7 @@
     "y": 400
   },
   "first_contact_nc_tl": {
-    "x": 6800,
+    "x": 6600,
     "y": 200
   },
   "monday_welcome_msg": {
@@ -377,15 +377,15 @@
   },
   "thursday_formation_recap": {
     "x": 6400,
-    "y": 0
+    "y": -200
   },
   "speech_nc_1": {
     "x": 6600,
-    "y": 0
+    "y": -400
   },
   "speech_nc_1_feedback": {
     "x": 6800,
-    "y": 0
+    "y": -400
   },
   "formation": {
     "x": 6200,
@@ -401,10 +401,10 @@
   },
   "learning_360_graduation": {
     "x": 6400,
-    "y": -400
+    "y": -800
   },
   "learning_360_dropout": {
-    "x": 6400,
+    "x": 6200,
     "y": -800
   },
   "learning_360_experience": {
@@ -413,7 +413,7 @@
   },
   "formation_graduate": {
     "x": 6400,
-    "y": -200
+    "y": -400
   },
   "nc_showup_saturday": {
     "x": 7200,
@@ -433,7 +433,7 @@
   },
   "first_contact_ghost": {
     "x": 6800,
-    "y": 400
+    "y": 0
   },
   "nc_team_join_time_defnition": {
     "x": 7000,
@@ -444,7 +444,7 @@
     "y": 200
   },
   "slack_team_creation_tl": {
-    "x": 7200,
+    "x": 7000,
     "y": 600
   },
   "call_tl_co_1": {
@@ -756,11 +756,11 @@
     "y": 400
   },
   "w4d5_result": {
-    "x": 15800,
+    "x": 16000,
     "y": 400
   },
   "w4d5_drop": {
-    "x": 15800,
+    "x": 16000,
     "y": 600
   },
   "w4d3_drop": {
@@ -772,7 +772,67 @@
     "y": 600
   },
   "week_4_graduation": {
-    "x": 16000,
+    "x": 16200,
     "y": 200
+  },
+  "nc_info_pdf_1": {
+    "x": 7600,
+    "y": -200
+  },
+  "nc_info_pdf_2": {
+    "x": 8400,
+    "y": -200
+  },
+  "nc_info_pdf_3": {
+    "x": 9200,
+    "y": -200
+  },
+  "nc_info_pdf_4": {
+    "x": 9800,
+    "y": -200
+  },
+  "nc_info_pdf_5": {
+    "x": 10600,
+    "y": -200
+  },
+  "nc_info_pdf_6": {
+    "x": 11400,
+    "y": -200
+  },
+  "nc_info_pdf_7": {
+    "x": 12000,
+    "y": -200
+  },
+  "nc_info_pdf_8": {
+    "x": 12800,
+    "y": -200
+  },
+  "nc_info_pdf_9": {
+    "x": 13600,
+    "y": -200
+  },
+  "nc_info_pdf_10": {
+    "x": 14200,
+    "y": -200
+  },
+  "nc_info_pdf_11": {
+    "x": 15000,
+    "y": -200
+  },
+  "nc_transport_post_mission": {
+    "x": 15800,
+    "y": 400
+  },
+  "nc_transport_pre_mission": {
+    "x": 6800,
+    "y": 400
+  },
+  "nc_spendesk_check_pre_mission": {
+    "x": 6800,
+    "y": 600
+  },
+  "nc_spendesk_check_post_mission": {
+    "x": 15800,
+    "y": 600
   }
 }

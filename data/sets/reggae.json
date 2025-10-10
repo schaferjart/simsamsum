@@ -3,8 +3,8 @@
     {
       "scope": "connection",
       "column": "target.SubType",
-      "operator": "contains",
-      "value": "out",
+      "operator": "equals",
+      "value": "Out",
       "style": {
         "color": "#ff0000",
         "strokeWidth": 3
@@ -13,7 +13,7 @@
     {
       "scope": "connection",
       "column": "target.SubType",
-      "operator": "not_contains",
+      "operator": "not_equals",
       "value": "Out",
       "style": {
         "color": "#11ff00",
@@ -31,5 +31,5 @@
     }
   ],
   "styling": [],
-  "timestamp": "2025-10-09T16:07:18.201Z"
+  "timestamp": "2025-10-10T11:04:13.150Z"
 }
