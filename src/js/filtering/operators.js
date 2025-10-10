@@ -64,5 +64,23 @@ export const OPERATORS = {
     },
     ends_with: (itemValue, ruleValue) => {
         return String(itemValue).toLowerCase().endsWith(String(ruleValue).toLowerCase());
+    },
+    in: (itemValue, ruleValue) => {
+        // Handle comma-separated string or array of values
+        const values = Array.isArray(ruleValue) 
+            ? ruleValue 
+            : String(ruleValue).split(',').map(v => v.trim());
+        
+        const itemStr = String(itemValue).toLowerCase();
+        return values.some(v => String(v).toLowerCase() === itemStr);
+    },
+    not_in: (itemValue, ruleValue) => {
+        // Handle comma-separated string or array of values
+        const values = Array.isArray(ruleValue) 
+            ? ruleValue 
+            : String(ruleValue).split(',').map(v => v.trim());
+        
+        const itemStr = String(itemValue).toLowerCase();
+        return !values.some(v => String(v).toLowerCase() === itemStr);
     }
 };

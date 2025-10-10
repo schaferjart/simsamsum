@@ -4,6 +4,7 @@ const FILTER_SETS_API_BASE = '/api/filter-sets';
 let _getFilterRules = null;
 let _getStylingRules = null;
 let _addFilterRule = null;
+let _addAutoFilterRule = null;
 let _addStylingRule = null;
 
 /**
@@ -14,6 +15,7 @@ export function initializeApiClient(dependencies) {
     _getFilterRules = dependencies.getFilterRules;
     _getStylingRules = dependencies.getStylingRules;
     _addFilterRule = dependencies.addFilterRule;
+    _addAutoFilterRule = dependencies.addAutoFilterRule;
     _addStylingRule = dependencies.addStylingRule;
 }
 
@@ -165,7 +167,14 @@ export async function loadFilterSet(name) {
         // Load filters
         if (Array.isArray(filterSet.filters) && _addFilterRule) {
             filterSet.filters.forEach(filter => {
-                _addFilterRule(filter, null);  // (rule, onChange, autoScope)
+                // Check if this is an auto-generated rule
+                if (filter.isAuto && _addAutoFilterRule) {
+                    // Use auto-rule function for auto-generated rules
+                    _addAutoFilterRule(filter, null, null, null);
+                } else {
+                    // Use manual rule function for regular rules
+                    _addFilterRule(filter, null);
+                }
             });
         }
         

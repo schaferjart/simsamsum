@@ -349,6 +349,43 @@ select.form-control {
   padding: var(--space-8) 0;
 }
 
+.filter-rule--auto {
+  background-color: var(--color-surface-alt);
+  border-left: 3px solid var(--color-primary);
+  padding-left: var(--space-12);
+  border-radius: var(--radius-sm);
+}
+
+.filter-rule__display {
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
+  flex: 1;
+  font-size: var(--font-size-sm);
+}
+
+.filter-rule__label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+.filter-rule__operator {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.filter-rule__value {
+  color: var(--color-text-secondary);
+  font-family: monospace;
+}
+
+.filter-rule__note {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-top: var(--space-4);
+}
+
 .filter-rule__row,
 .filter-rule__styling {
   display: flex;

@@ -2,6 +2,7 @@ import { showStatus, generateIdFromName } from '../utils.js';
 import { highlightNodeById } from '../render/index.js';
 import { initializeCollapsibleTables } from './collapsible-tables.js';
 import { initTableSearch } from './table-search.js';
+import { syncTableFiltersToRules } from './table-filter-sync.js';
 
 // --- Table Editors (Handsontable) ---
 let _nodesHot = null;

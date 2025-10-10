@@ -1,0 +1,26 @@
+{
+  "filters": [
+    {
+      "scope": "node",
+      "column": "subType",
+      "operator": "contains",
+      "value": "outgoing",
+      "style": {
+        "color": "#f73bf1",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "scope": "node",
+      "column": "Monitoring",
+      "operator": "contains",
+      "value": "Team Tailor",
+      "style": {
+        "color": "#d8f73b",
+        "strokeWidth": 3
+      }
+    }
+  ],
+  "styling": [],
+  "timestamp": "2025-10-10T16:57:23.930Z"
+}

@@ -314,11 +314,27 @@ export function getFilterMode() {
 export function getFilterRules() {
     const rules = [];
     document.querySelectorAll('#filter-rules-container .filter-rule').forEach(ruleEl => {
-        const column = ruleEl.querySelector('.column-select').value;
-        const operator = ruleEl.querySelector('.operator-select').value;
+        // Check if this is an auto-generated rule (has _ruleData property)
+        if (ruleEl._ruleData) {
+            // Auto-generated rule - use stored data directly
+            rules.push(ruleEl._ruleData);
+            return;
+        }
+
+        // Manual rule - extract from form elements
+        const columnSelect = ruleEl.querySelector('.column-select');
+        const operatorSelect = ruleEl.querySelector('.operator-select');
         const valueInput = ruleEl.querySelector('.value-input');
+        
+        // Skip if essential elements are missing
+        if (!columnSelect || !operatorSelect) {
+            return;
+        }
+
+        const column = columnSelect.value;
+        const operator = operatorSelect.value;
         const hasRawValue = Object.prototype.hasOwnProperty.call(ruleEl, '_rawValue');
-        const rawValue = hasRawValue ? ruleEl._rawValue : valueInput.value;
+        const rawValue = hasRawValue ? ruleEl._rawValue : (valueInput ? valueInput.value : '');
 
         const isArray = Array.isArray(rawValue);
         const isRange = !isArray && isPlainObject(rawValue);
