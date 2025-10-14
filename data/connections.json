@@ -9,7 +9,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "text_application->pre_call_sms",
@@ -21,7 +21,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "pre_call_sms->ai_call",
@@ -33,7 +33,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "ai_call->pre_video_mail",
@@ -45,7 +45,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "text_application->pre_video_mail",
@@ -57,7 +57,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "pre_video_mail->video_application",
@@ -69,7 +69,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "video_application->application_review_1",
@@ -81,7 +81,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "video_application->ghost_1",
@@ -93,7 +93,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "application_review_1->application_review_2",
@@ -105,7 +105,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "application_review_1->rejection_1",
@@ -117,7 +117,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "application_review_2->video_screening",
@@ -129,7 +129,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "application_review_2->rejection_2",
@@ -141,7 +141,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "video_screening->high_potential_candidate",
@@ -153,7 +153,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "video_screening->medium_potential_candidate",
@@ -165,7 +165,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "video_screening->low_potential_candidate",
@@ -177,7 +177,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "video_screening->rejection_3",
@@ -189,7 +189,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "high_potential_candidate->hp_call_1",
@@ -201,7 +201,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_1->hp_interview",
@@ -213,7 +213,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_1->hp_reminder_mail_1",
@@ -225,7 +225,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_1->hp_call_2",
@@ -237,7 +237,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_1->hp_interview_callback",
@@ -249,7 +249,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_2->hp_interview",
@@ -261,7 +261,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_2->hp_reminder_mail_2",
@@ -273,7 +273,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_2->hp_call_3",
@@ -285,7 +285,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_2->hp_interview_callback",
@@ -297,7 +297,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_3->hp_interview",
@@ -309,7 +309,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_3->hp_reminder_mail_3",
@@ -321,7 +321,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_3->hp_call_4",
@@ -333,7 +333,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_3->hp_interview_callback",
@@ -345,7 +345,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_4->hp_interview",
@@ -357,7 +357,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_call_4->hp_reminder_mail_4",
@@ -369,7 +369,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_4->hp_interview_callback",
@@ -381,7 +381,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_reminder_mail_4->hp_ghost",
@@ -393,7 +393,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_interview_callback->hp_interview",
@@ -405,7 +405,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_interview->hp_job_offer_accept",
@@ -417,7 +417,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_interview->hp_call_rejection",
@@ -429,7 +429,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "hp_job_offer_accept->starting_date_definition",
@@ -441,7 +441,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "low_potential_candidate->lp_call_1",
@@ -453,7 +453,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_call_1->lp_interview",
@@ -465,7 +465,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_call_1->lp_reminder_mail_1",
@@ -477,7 +477,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_reminder_mail_1->lp_call_2",
@@ -489,7 +489,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_reminder_mail_1->lp_interview_callback",
@@ -501,7 +501,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_call_2->lp_interview",
@@ -513,7 +513,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_call_2->lp_reminder_mail_2",
@@ -525,7 +525,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_reminder_mail_2->lp_interview_callback",
@@ -537,7 +537,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_reminder_mail_2->lp_ghost",
@@ -549,7 +549,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_interview_callback->lp_interview",
@@ -561,7 +561,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_interview->lp_job_offer_accept",
@@ -573,7 +573,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_interview->lp_call_rejection",
@@ -585,7 +585,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "lp_job_offer_accept->starting_date_definition",
@@ -597,7 +597,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "medium_potential_candidate->mp_call_1",
@@ -609,7 +609,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_call_1->mp_interview",
@@ -621,7 +621,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_call_1->mp_reminder_mail_1",
@@ -633,7 +633,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_reminder_mail_1->mp_call_2",
@@ -645,7 +645,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_reminder_mail_1->mp_interview_callback",
@@ -657,7 +657,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_call_2->mp_interview",
@@ -669,7 +669,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_call_2->mp_reminder_mail_2",
@@ -681,7 +681,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_reminder_mail_2->mp_call_3",
@@ -693,7 +693,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_reminder_mail_2->mp_interview_callback",
@@ -705,7 +705,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_call_3->mp_interview",
@@ -717,7 +717,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_call_3->mp_reminder_mail_3",
@@ -729,7 +729,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_reminder_mail_3->mp_interview_callback",
@@ -741,7 +741,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_reminder_mail_3->mp_ghost",
@@ -753,7 +753,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_interview_callback->mp_interview",
@@ -765,7 +765,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_interview->mp_job_offer_accept",
@@ -777,7 +777,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_interview->mp_call_rejection",
@@ -789,7 +789,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mp_job_offer_accept->starting_date_definition",
@@ -801,7 +801,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "starting_date_definition->gs_onboarding_update",
@@ -813,7 +813,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "starting_date_definition->inscription_onboarding",
@@ -825,7 +825,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "starting_date_definition->make_payfit_account",
@@ -837,7 +837,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "make_payfit_account->make_payfit_conrtract",
@@ -849,7 +849,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "make_payfit_conrtract->mail_yousign",
@@ -861,7 +861,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mail_yousign->contract_sign",
@@ -873,7 +873,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "contract_sign->contract_verification",
@@ -885,7 +885,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "contract_verification->contract_rejection",
@@ -897,7 +897,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "contract_sign->creation_alan_account",
@@ -909,7 +909,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mail_yousign->reminder_mail_yousign",
@@ -921,7 +921,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "reminder_mail_yousign->reminder_call_yousign",
@@ -933,7 +933,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "reminder_call_yousign->yousign_ghost",
@@ -945,7 +945,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "contract_verification->gs_onboarding_update_contract",
@@ -957,7 +957,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "starting_date_definition->gs_late_people_update",
@@ -969,7 +969,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "gs_late_people_update->late_people_mail",
@@ -981,7 +981,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "late_people_mail->late_people_call",
@@ -993,7 +993,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "late_people_call->onboarding",
@@ -1005,7 +1005,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "inscription_onboarding->google_meet_onboarding_invite",
@@ -1017,7 +1017,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "google_meet_onboarding_invite->onboarding_confirmation",
@@ -1029,7 +1029,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding_confirmation->onboarding",
@@ -1041,7 +1041,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "google_meet_onboarding_invite->onboarding_confirmation_reminder_mail",
@@ -1053,7 +1053,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding_confirmation_reminder_mail->onboarding_confirmation_reminder_call",
@@ -1065,7 +1065,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "reminder_call_yousign->contract_sign",
@@ -1077,7 +1077,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "reminder_mail_yousign->contract_sign",
@@ -1089,7 +1089,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding_confirmation_reminder_mail->onboarding_confirmation",
@@ -1101,7 +1101,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding_confirmation_reminder_call->onboarding_confirmation",
@@ -1113,7 +1113,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding_confirmation_reminder_call->onboarding_confiramtion_ghost",
@@ -1125,7 +1125,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "creation_alan_account->mail_alan",
@@ -1137,7 +1137,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding_confirmation->onboarding_ghost",
@@ -1149,7 +1149,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding->wesser_studio_account_creation",
@@ -1161,7 +1161,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding->learning_360_account_creation",
@@ -1173,7 +1173,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding->notion_account_creation",
@@ -1185,7 +1185,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding->slack_account_creation",
@@ -1197,7 +1197,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding->mail_formation",
@@ -1209,7 +1209,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "onboarding->spendesk_invitation",
@@ -1221,7 +1221,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "notion_account_creation->notion_invite",
@@ -1233,7 +1233,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "wesser_studio_account_creation->wap_invite",
@@ -1245,7 +1245,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "learning_360_account_creation->learning_360_invite",
@@ -1257,7 +1257,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "learning_360_account_creation->learning_360_adding_classes",
@@ -1269,7 +1269,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "slack_account_creation->slack_invite",
@@ -1281,7 +1281,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "slack_account_creation->slack_promogroup_creation",
@@ -1293,7 +1293,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "slack_invite->slack_activation",
@@ -1305,7 +1305,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "slack_invite->slack_ghost",
@@ -1317,7 +1317,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "slack_activation->slack_welcome_msg",
@@ -1329,7 +1329,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "slack_promogroup_creation->monday_welcome_msg",
@@ -1341,7 +1341,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "monday_welcome_msg->tuesday_formation_msg",
@@ -1353,7 +1353,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "tuesday_formation_msg->wednesday_affectations_msg",
@@ -1365,7 +1365,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "wednesday_affectations_msg->thursday_formation_reminder",
@@ -1377,7 +1377,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "thursday_formation_recap->speech_nc_1",
@@ -1389,7 +1389,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "speech_nc_1->speech_nc_1_feedback",
@@ -1401,7 +1401,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "slack_activation->first_contact_nc_tl",
@@ -1413,7 +1413,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "thursday_formation_reminder_msg->thursday_formation_recap",
@@ -1425,7 +1425,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "mail_formation->formation",
@@ -1437,7 +1437,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "learning_360_invite->learning_360_ghost",
@@ -1449,7 +1449,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "learning_360_invite->learning_360_experience",
@@ -1461,7 +1461,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "learning_360_experience->learning_360_graduation",
@@ -1473,7 +1473,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "learning_360_experience->learning_360_dropout",
@@ -1485,7 +1485,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "formation->formation_ghost",
@@ -1497,7 +1497,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "formation->formation_graduate",
@@ -1509,7 +1509,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "first_contact_nc_tl->first_contact_ghost",
@@ -1521,7 +1521,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "first_contact_nc_tl->nc_team_join_time_defnition",
@@ -1533,7 +1533,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_team_join_time_defnition->nc_showup_monday",
@@ -1545,7 +1545,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_team_join_time_defnition->nc_showup_sunday",
@@ -1557,7 +1557,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_team_join_time_defnition->nc_showup_saturday",
@@ -1569,7 +1569,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_team_join_time_defnition->nc_noshow",
@@ -1581,7 +1581,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_showup_monday->w1s1_with_tl",
@@ -1593,7 +1593,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_showup_sunday->w1s1_with_tl",
@@ -1605,7 +1605,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_showup_saturday->w1s1_with_tl",
@@ -1617,7 +1617,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s1_with_tl->w1s2",
@@ -1629,7 +1629,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s2->w1s3",
@@ -1641,7 +1641,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s3->w1s4",
@@ -1653,7 +1653,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s4->w1s5",
@@ -1665,7 +1665,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s5->w1s6",
@@ -1677,7 +1677,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s6->w1s7",
@@ -1685,11 +1685,11 @@
     "toId": "w1s7",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 2",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s7->w1s8",
@@ -1701,19 +1701,19 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w1s8->w1s9",
-    "fromId": "w1d4_result",
-    "toId": "w1s9",
+    "id": "w1d3_result->call_tl_co_drop_1",
+    "fromId": "w1d3_result",
+    "toId": "call_tl_co_drop_1",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 2",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s9->w1s10",
@@ -1725,7 +1725,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s1_with_tl->call_tl_co_1",
@@ -1737,7 +1737,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s2->call_nc_co_1",
@@ -1749,7 +1749,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s6->w1d3_result",
@@ -1761,7 +1761,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s8->w1d4_result",
@@ -1773,7 +1773,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s10->w1d5_result",
@@ -1785,31 +1785,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
-  },
-  {
-    "id": "w1d3_result->call_tl_co_drop_1",
-    "fromId": "w1d3_result",
-    "toId": "call_tl_co_drop_1",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
-  },
-  {
-    "id": "w1d4_result->call_tl_co_drop_2",
-    "fromId": "w1d4_result",
-    "toId": "call_tl_co_drop_2",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1d3_result->w1d3_drop",
@@ -1817,11 +1793,35 @@
     "toId": "w1d3_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 2",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
+  },
+  {
+    "id": "w1s8->w1s9",
+    "fromId": "w1d4_result",
+    "toId": "w1s9",
+    "probability": null,
+    "time": null,
+    "condition": "r > 4",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
+  },
+  {
+    "id": "w1d4_result->call_tl_co_drop_2",
+    "fromId": "w1d4_result",
+    "toId": "call_tl_co_drop_2",
+    "probability": null,
+    "time": null,
+    "condition": "r = 4",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_1->w1d3_drop",
@@ -1833,7 +1833,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_1->w1s7",
@@ -1845,19 +1845,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
-  },
-  {
-    "id": "w1d4_result->call_tl_co_drop_2_1",
-    "fromId": "w1d4_result",
-    "toId": "call_tl_co_drop_2",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_2->w1d4_drop",
@@ -1869,7 +1857,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_2->w1s9",
@@ -1881,7 +1869,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1d4_result->w1d4_drop",
@@ -1889,11 +1877,11 @@
     "toId": "w1d4_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 4",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1d5_result->w1d5_drop",
@@ -1901,11 +1889,11 @@
     "toId": "w1d5_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 7",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1d5_result->call_tl_co_drop_3",
@@ -1913,11 +1901,11 @@
     "toId": "call_tl_co_drop_3",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 7",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_3->w1d5_drop",
@@ -1929,7 +1917,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_3->week_1_graduation",
@@ -1941,7 +1929,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1d5_result->week_1_graduation",
@@ -1949,11 +1937,11 @@
     "toId": "week_1_graduation",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 7",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s7->call_nc_co_2",
@@ -1965,7 +1953,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w1s6->call_tl_co_2",
@@ -1977,7 +1965,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s1->w2s2",
@@ -1989,7 +1977,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s2->w2s3",
@@ -2001,7 +1989,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s3->w2s4",
@@ -2013,7 +2001,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s4->w2s5",
@@ -2025,7 +2013,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s5->w2s6",
@@ -2037,7 +2025,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s7->w2s8",
@@ -2049,7 +2037,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s9->w2s10",
@@ -2061,7 +2049,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s1->call_nc_co_3",
@@ -2073,7 +2061,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s6->w2d3_result",
@@ -2085,7 +2073,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s8->w2d4_result",
@@ -2097,7 +2085,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2s10->w2d5_result",
@@ -2109,43 +2097,43 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d3_result->call_tl_co_drop_4",
-    "fromId": "w2d3_result",
-    "toId": "call_tl_co_drop_4",
+    "id": "w2d2_result->w2s5",
+    "fromId": "w2d2_result",
+    "toId": "w2s5",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 4",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d4_result->call_tl_co_drop_5",
-    "fromId": "w2d4_result",
-    "toId": "call_tl_co_drop_5",
+    "id": "w2d2_result->w2d2_drop",
+    "fromId": "w2d2_result",
+    "toId": "w2d2_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 4",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d3_result->w2d3_drop",
-    "fromId": "w2d3_result",
-    "toId": "w2d3_drop",
+    "id": "w2d2_result->call_tl_co_drop_7",
+    "fromId": "w2d2_result",
+    "toId": "call_tl_co_drop_7",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 3,4",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_4->w2d3_drop",
@@ -2153,11 +2141,11 @@
     "toId": "w2d3_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 3,4",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_4->w2s7",
@@ -2169,19 +2157,19 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d4_result->call_tl_co_drop_5_1",
-    "fromId": "w2d4_result",
-    "toId": "call_tl_co_drop_5",
+    "id": "w2d3_result->call_tl_co_drop_4",
+    "fromId": "w2d3_result",
+    "toId": "call_tl_co_drop_4",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 5",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_5->w2d4_drop",
@@ -2193,7 +2181,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_5->w2s9",
@@ -2205,43 +2193,31 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d4_result->w2d4_drop",
-    "fromId": "w2d4_result",
-    "toId": "w2d4_drop",
+    "id": "w2d3_result->w2d3_drop",
+    "fromId": "w2d3_result",
+    "toId": "w2d3_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 5",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d5_result->w2d5_drop",
-    "fromId": "w2d5_result",
-    "toId": "w2d5_drop",
+    "id": "w2d3_result->w2s7",
+    "fromId": "w2d3_result",
+    "toId": "w2s7",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 5",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
-  },
-  {
-    "id": "w2d5_result->call_tl_co_drop_6",
-    "fromId": "w2d5_result",
-    "toId": "call_tl_co_drop_6",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_6->w2d5_drop",
@@ -2253,7 +2229,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_6->week_2_graduation",
@@ -2265,31 +2241,31 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d5_result->week_2_graduation",
-    "fromId": "w2d5_result",
-    "toId": "week_2_graduation",
+    "id": "w2d4_result->call_tl_co_drop_5_1",
+    "fromId": "w2d4_result",
+    "toId": "call_tl_co_drop_5",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 7",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d3_result->w2s7",
-    "fromId": "w2d3_result",
-    "toId": "w2s7",
+    "id": "w2d4_result->w2d4_drop",
+    "fromId": "w2d4_result",
+    "toId": "w2d4_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 7",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w2d4_result->w2s9",
@@ -2297,47 +2273,47 @@
     "toId": "w2s9",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 7",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d2_result->w2s5",
-    "fromId": "w2d2_result",
-    "toId": "w2s5",
+    "id": "w2d5_result->w2d5_drop",
+    "fromId": "w2d5_result",
+    "toId": "w2d5_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 9",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d2_result->w2d2_drop",
-    "fromId": "w2d2_result",
-    "toId": "w2d2_drop",
+    "id": "w2d5_result->call_tl_co_drop_6",
+    "fromId": "w2d5_result",
+    "toId": "call_tl_co_drop_6",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 9",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w2d2_result->call_tl_co_drop_7",
-    "fromId": "w2d2_result",
-    "toId": "call_tl_co_drop_7",
+    "id": "w2d5_result->week_2_graduation",
+    "fromId": "w2d5_result",
+    "toId": "week_2_graduation",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 9",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_7->w2d2_drop",
@@ -2349,7 +2325,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_7->w2s5",
@@ -2361,7 +2337,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "week_1_graduation->w2s1",
@@ -2373,7 +2349,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s2->w3s3",
@@ -2385,7 +2361,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s3->w3s4",
@@ -2397,7 +2373,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s4->w3d2_result",
@@ -2409,7 +2385,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s5->w3s6",
@@ -2421,7 +2397,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s7->w3s8",
@@ -2433,7 +2409,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s9->w3s10",
@@ -2445,7 +2421,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s6->w3d3_result",
@@ -2457,7 +2433,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s8->w3d4_result",
@@ -2469,7 +2445,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s10->w3d5_result",
@@ -2481,7 +2457,31 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
+  },
+  {
+    "id": "w3d2_result->w3s5",
+    "fromId": "w3d2_result",
+    "toId": "w3s5",
+    "probability": null,
+    "time": null,
+    "condition": "r > 4",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
+  },
+  {
+    "id": "w3d2_result->call_tl_co_drop_11",
+    "fromId": "w3d2_result",
+    "toId": "call_tl_co_drop_11",
+    "probability": null,
+    "time": null,
+    "condition": "r < 4",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
   },
   {
     "id": "w3d3_result->w3d3_drop",
@@ -2489,35 +2489,11 @@
     "toId": "w3d3_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 6",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
-  },
-  {
-    "id": "w3d5_result->w3d5_drop",
-    "fromId": "w3d5_result",
-    "toId": "w3d5_drop",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
-  },
-  {
-    "id": "w3d5_result->call_tl_co_drop_10",
-    "fromId": "w3d5_result",
-    "toId": "call_tl_co_drop_10",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_10->w3d5_drop",
@@ -2525,11 +2501,11 @@
     "toId": "w3d5_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 4",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_10->week_3_graduation",
@@ -2541,19 +2517,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
-  },
-  {
-    "id": "w3d5_result->week_3_graduation",
-    "fromId": "w3d5_result",
-    "toId": "week_3_graduation",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3d3_result->w3s7",
@@ -2561,35 +2525,47 @@
     "toId": "w3s7",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 5",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w3d2_result->w3s5",
-    "fromId": "w3d2_result",
-    "toId": "w3s5",
+    "id": "w3d5_result->w3d5_drop",
+    "fromId": "w3d5_result",
+    "toId": "w3d5_drop",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 9",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
-    "id": "w3d2_result->call_tl_co_drop_11",
-    "fromId": "w3d2_result",
-    "toId": "call_tl_co_drop_11",
+    "id": "w3d5_result->call_tl_co_drop_10",
+    "fromId": "w3d5_result",
+    "toId": "call_tl_co_drop_10",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r = 9",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
+  },
+  {
+    "id": "w3d5_result->week_3_graduation",
+    "fromId": "w3d5_result",
+    "toId": "week_3_graduation",
+    "probability": null,
+    "time": null,
+    "condition": "r > 9",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_11->w3s5",
@@ -2601,7 +2577,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w3s1->w3s2",
@@ -2613,7 +2589,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s2->w4s3",
@@ -2625,7 +2601,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s3->w4s4",
@@ -2637,7 +2613,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s4->w4d2_result",
@@ -2649,7 +2625,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s5->w4s6",
@@ -2661,7 +2637,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s7->w4s8",
@@ -2673,7 +2649,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s9->w4s10",
@@ -2685,7 +2661,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s6->w4d3_result",
@@ -2697,7 +2673,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s8->w4s9",
@@ -2709,7 +2685,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s10->w4d5_result",
@@ -2721,55 +2697,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
-  },
-  {
-    "id": "w4d3_result->w4d3_drop",
-    "fromId": "w4d3_result",
-    "toId": "w4d3_drop",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
-  },
-  {
-    "id": "w4d5_result->w4d5_drop",
-    "fromId": "w4d5_result",
-    "toId": "w4d5_drop",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
-  },
-  {
-    "id": "w4d5_result->week_4_graduation",
-    "fromId": "w4d5_result",
-    "toId": "week_4_graduation",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
-  },
-  {
-    "id": "w4d3_result->w4s7",
-    "fromId": "w4d3_result",
-    "toId": "w4s7",
-    "probability": null,
-    "time": null,
-    "condition": null,
-    "execution": null,
-    "AOR": null,
-    "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4d2_result->w4s5",
@@ -2777,11 +2705,11 @@
     "toId": "w4s5",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r > 3",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4d2_result->call_tl_co_drop_15",
@@ -2789,11 +2717,59 @@
     "toId": "call_tl_co_drop_15",
     "probability": null,
     "time": null,
-    "condition": null,
+    "condition": "r < 4",
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
+  },
+  {
+    "id": "w4d3_result->w4d3_drop",
+    "fromId": "w4d3_result",
+    "toId": "w4d3_drop",
+    "probability": null,
+    "time": null,
+    "condition": "r < 6",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
+  },
+  {
+    "id": "w4d3_result->w4s7",
+    "fromId": "w4d3_result",
+    "toId": "w4s7",
+    "probability": null,
+    "time": null,
+    "condition": "r > 5",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
+  },
+  {
+    "id": "w4d5_result->w4d5_drop",
+    "fromId": "w4d5_result",
+    "toId": "w4d5_drop",
+    "probability": null,
+    "time": null,
+    "condition": "r < 10, r_tot < 40",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
+  },
+  {
+    "id": "w4d5_result->week_4_graduation",
+    "fromId": "w4d5_result",
+    "toId": "week_4_graduation",
+    "probability": null,
+    "time": null,
+    "condition": "(r > 10, r_tot > 40), (r > 10, r_tot  < 10), (r < 10, r_tot > 40)",
+    "execution": null,
+    "AOR": null,
+    "type": null,
+    "description\r": "\r"
   },
   {
     "id": "call_tl_co_drop_15->w4s5",
@@ -2805,7 +2781,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s1->w4s2",
@@ -2817,7 +2793,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "week_2_graduation->w3s1",
@@ -2829,7 +2805,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "week_3_graduation->w4s1",
@@ -2841,7 +2817,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_1->nc_info_pdf_2",
@@ -2853,7 +2829,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_2->nc_info_pdf_3",
@@ -2865,7 +2841,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_3->nc_info_pdf_4",
@@ -2877,7 +2853,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_4->nc_info_pdf_5",
@@ -2889,7 +2865,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_5->nc_info_pdf_6",
@@ -2901,7 +2877,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_6->nc_info_pdf_7",
@@ -2913,7 +2889,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_7->nc_info_pdf_8",
@@ -2925,7 +2901,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_8->nc_info_pdf_9",
@@ -2937,7 +2913,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_9->nc_info_pdf_10",
@@ -2949,7 +2925,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_info_pdf_10->nc_info_pdf_11",
@@ -2961,7 +2937,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "thursday_formation_recap->nc_info_pdf_1",
@@ -2973,7 +2949,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_transport_pre_mission->nc_spendesk_check_pre_mission",
@@ -2985,7 +2961,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_transport_pre_mission->nc_team_join_time_defnition",
@@ -2997,7 +2973,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "w4s10->nc_transport_post_mission",
@@ -3009,7 +2985,7 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": "\r"
   },
   {
     "id": "nc_transport_post_mission->nc_spendesk_check_post_mission",
@@ -3021,6 +2997,6 @@
     "execution": null,
     "AOR": null,
     "type": null,
-    "description": null
+    "description\r": null
   }
 ]

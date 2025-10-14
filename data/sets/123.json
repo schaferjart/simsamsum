@@ -2,25 +2,26 @@
   "filters": [
     {
       "scope": "node",
-      "column": "subType",
-      "operator": "contains",
-      "value": "outgoing",
+      "column": "execution",
+      "operator": "in",
+      "value": "Gil, Marc, Noemie, Samir, Thomas",
+      "isAuto": true,
       "style": {
-        "color": "#f73bf1",
-        "strokeWidth": 1
+        "color": "#1e621d",
+        "strokeWidth": 2
       }
     },
     {
       "scope": "node",
-      "column": "Monitoring",
-      "operator": "contains",
-      "value": "Team Tailor",
+      "column": "execution",
+      "operator": "in",
+      "value": "Automatic",
+      "isAuto": true,
       "style": {
-        "color": "#d8f73b",
-        "strokeWidth": 3
+        "color": "#f73b3b"
       }
     }
   ],
   "styling": [],
-  "timestamp": "2025-10-10T16:57:23.930Z"
+  "timestamp": "2025-10-10T17:12:14.718Z"
 }

@@ -1,0 +1,842 @@
+{
+  "indeed": {
+    "x": 100,
+    "y": 489
+  },
+  "end_of_contract": {
+    "x": 458,
+    "y": 1300
+  },
+  "ghost_1": {
+    "x": 174,
+    "y": 424
+  },
+  "rejection_1": {
+    "x": 198,
+    "y": 424
+  },
+  "rejection_2": {
+    "x": 223,
+    "y": 424
+  },
+  "rejection_3": {
+    "x": 248,
+    "y": 424
+  },
+  "hp_call_rejection": {
+    "x": 507,
+    "y": 748
+  },
+  "hp_ghost": {
+    "x": 482,
+    "y": 748
+  },
+  "mp_call_rejection": {
+    "x": 458,
+    "y": 554
+  },
+  "mp_ghost": {
+    "x": 433,
+    "y": 554
+  },
+  "lp_call_rejection": {
+    "x": 408,
+    "y": 359
+  },
+  "lp_ghost": {
+    "x": 383,
+    "y": 359
+  },
+  "contract_rejection": {
+    "x": 717,
+    "y": 683
+  },
+  "yousign_ghost": {
+    "x": 692,
+    "y": 748
+  },
+  "onboarding_confirmation_ghost": {
+    "x": 667,
+    "y": 489
+  },
+  "onboarding_ghost": {
+    "x": 692,
+    "y": 294
+  },
+  "slack_ghost": {
+    "x": 816,
+    "y": 554
+  },
+  "learning_360_ghost": {
+    "x": 791,
+    "y": 294
+  },
+  "formation_ghost": {
+    "x": 865,
+    "y": 294
+  },
+  "learning_360_graduation": {
+    "x": 890,
+    "y": 164
+  },
+  "learning_360_dropout": {
+    "x": 890,
+    "y": 229
+  },
+  "formation_graduate": {
+    "x": 890,
+    "y": 294
+  },
+  "nc_noshow": {
+    "x": 964,
+    "y": 424
+  },
+  "first_contact_ghost": {
+    "x": 939,
+    "y": 424
+  },
+  "w1d4_drop": {
+    "x": 1186,
+    "y": 618
+  },
+  "w1d5_drop": {
+    "x": 1235,
+    "y": 618
+  },
+  "w1d3_drop": {
+    "x": 1137,
+    "y": 618
+  },
+  "w2d4_drop": {
+    "x": 1458,
+    "y": 618
+  },
+  "w2d5_drop": {
+    "x": 1507,
+    "y": 618
+  },
+  "w2d3_drop": {
+    "x": 1408,
+    "y": 618
+  },
+  "w2d2_drop": {
+    "x": 1359,
+    "y": 618
+  },
+  "w3d5_drop": {
+    "x": 1779,
+    "y": 618
+  },
+  "w3d3_drop": {
+    "x": 1680,
+    "y": 618
+  },
+  "w4d5_drop": {
+    "x": 2075,
+    "y": 618
+  },
+  "w4d3_drop": {
+    "x": 1951,
+    "y": 618
+  },
+  "week_4_graduation": {
+    "x": 2100,
+    "y": 489
+  },
+  "high_potential_candidate": {
+    "x": 272,
+    "y": 683
+  },
+  "medium_potential_candidate": {
+    "x": 272,
+    "y": 489
+  },
+  "low_potential_candidate": {
+    "x": 272,
+    "y": 294
+  },
+  "hp_job_offer_accept": {
+    "x": 532,
+    "y": 748
+  },
+  "mp_job_offer_accept": {
+    "x": 482,
+    "y": 554
+  },
+  "lp_job_offer_accept": {
+    "x": 433,
+    "y": 359
+  },
+  "creation_alan_account": {
+    "x": 692,
+    "y": 554
+  },
+  "slack_promogroup_creation": {
+    "x": 766,
+    "y": 424
+  },
+  "slack_activation": {
+    "x": 816,
+    "y": 489
+  },
+  "learning_360_experience": {
+    "x": 865,
+    "y": 229
+  },
+  "nc_showup_saturday": {
+    "x": 988,
+    "y": 489
+  },
+  "nc_showup_sunday": {
+    "x": 988,
+    "y": 554
+  },
+  "nc_showup_monday": {
+    "x": 988,
+    "y": 424
+  },
+  "w1s1_with_tl": {
+    "x": 1013,
+    "y": 489
+  },
+  "slack_team_creation_tl": {
+    "x": 964,
+    "y": 618
+  },
+  "call_tl_co_1": {
+    "x": 1038,
+    "y": 424
+  },
+  "w1s2": {
+    "x": 1038,
+    "y": 489
+  },
+  "w1s3": {
+    "x": 1062,
+    "y": 489
+  },
+  "w1s4": {
+    "x": 1087,
+    "y": 489
+  },
+  "w1s5": {
+    "x": 1112,
+    "y": 489
+  },
+  "w1s6": {
+    "x": 1137,
+    "y": 489
+  },
+  "w1s7": {
+    "x": 1161,
+    "y": 489
+  },
+  "w1s8": {
+    "x": 1186,
+    "y": 489
+  },
+  "w1s9": {
+    "x": 1211,
+    "y": 489
+  },
+  "w1s10": {
+    "x": 1235,
+    "y": 489
+  },
+  "call_nc_co_1": {
+    "x": 1062,
+    "y": 424
+  },
+  "call_tl_co_drop_1": {
+    "x": 1161,
+    "y": 618
+  },
+  "call_tl_co_drop_2": {
+    "x": 1211,
+    "y": 618
+  },
+  "call_nc_co_2": {
+    "x": 1137,
+    "y": 424
+  },
+  "call_tl_co_drop_3": {
+    "x": 1260,
+    "y": 618
+  },
+  "week_1_graduation": {
+    "x": 1260,
+    "y": 489
+  },
+  "call_tl_co_2": {
+    "x": 1161,
+    "y": 424
+  },
+  "w2s1": {
+    "x": 1285,
+    "y": 489
+  },
+  "w2s2": {
+    "x": 1309,
+    "y": 489
+  },
+  "w2s3": {
+    "x": 1334,
+    "y": 489
+  },
+  "w2s4": {
+    "x": 1359,
+    "y": 489
+  },
+  "w2s5": {
+    "x": 1383,
+    "y": 489
+  },
+  "w2s6": {
+    "x": 1408,
+    "y": 489
+  },
+  "w2s7": {
+    "x": 1433,
+    "y": 489
+  },
+  "w2s8": {
+    "x": 1458,
+    "y": 489
+  },
+  "w2s9": {
+    "x": 1482,
+    "y": 489
+  },
+  "w2s10": {
+    "x": 1507,
+    "y": 489
+  },
+  "call_nc_co_3": {
+    "x": 1285,
+    "y": 424
+  },
+  "call_tl_co_drop_4": {
+    "x": 1433,
+    "y": 618
+  },
+  "call_tl_co_drop_5": {
+    "x": 1482,
+    "y": 618
+  },
+  "call_tl_co_drop_6": {
+    "x": 1532,
+    "y": 618
+  },
+  "week_2_graduation": {
+    "x": 1532,
+    "y": 489
+  },
+  "call_tl_co_drop_7": {
+    "x": 1383,
+    "y": 618
+  },
+  "w3s1": {
+    "x": 1556,
+    "y": 489
+  },
+  "w3s2": {
+    "x": 1581,
+    "y": 489
+  },
+  "w3s3": {
+    "x": 1606,
+    "y": 489
+  },
+  "w3s4": {
+    "x": 1630,
+    "y": 489
+  },
+  "w3s5": {
+    "x": 1655,
+    "y": 489
+  },
+  "w3s6": {
+    "x": 1680,
+    "y": 489
+  },
+  "w3s7": {
+    "x": 1704,
+    "y": 489
+  },
+  "w3s8": {
+    "x": 1729,
+    "y": 489
+  },
+  "w3s9": {
+    "x": 1754,
+    "y": 489
+  },
+  "w3s10": {
+    "x": 1779,
+    "y": 489
+  },
+  "call_tl_co_drop_10": {
+    "x": 1803,
+    "y": 618
+  },
+  "call_tl_co_drop_11": {
+    "x": 1655,
+    "y": 618
+  },
+  "week_3_graduation": {
+    "x": 1803,
+    "y": 489
+  },
+  "w4s1": {
+    "x": 1828,
+    "y": 489
+  },
+  "w4s2": {
+    "x": 1853,
+    "y": 489
+  },
+  "w4s3": {
+    "x": 1877,
+    "y": 489
+  },
+  "w4s4": {
+    "x": 1902,
+    "y": 489
+  },
+  "w4s5": {
+    "x": 1927,
+    "y": 489
+  },
+  "w4s6": {
+    "x": 1951,
+    "y": 489
+  },
+  "w4s7": {
+    "x": 1976,
+    "y": 489
+  },
+  "w4s8": {
+    "x": 2001,
+    "y": 489
+  },
+  "w4s9": {
+    "x": 2025,
+    "y": 489
+  },
+  "w4s10": {
+    "x": 2050,
+    "y": 489
+  },
+  "call_tl_co_drop_15": {
+    "x": 1927,
+    "y": 618
+  },
+  "nc_transport_post_mission": {
+    "x": 2050,
+    "y": 554
+  },
+  "nc_transport_pre_mission": {
+    "x": 939,
+    "y": 554
+  },
+  "nc_spendesk_check_pre_mission": {
+    "x": 939,
+    "y": 618
+  },
+  "nc_spendesk_check_post_mission": {
+    "x": 2050,
+    "y": 618
+  },
+  "ai_call": {
+    "x": 149,
+    "y": 424
+  },
+  "hp_call_1": {
+    "x": 297,
+    "y": 683
+  },
+  "hp_call_2": {
+    "x": 346,
+    "y": 683
+  },
+  "hp_call_3": {
+    "x": 396,
+    "y": 683
+  },
+  "hp_call_4": {
+    "x": 445,
+    "y": 683
+  },
+  "mp_call_1": {
+    "x": 297,
+    "y": 489
+  },
+  "mp_call_2": {
+    "x": 346,
+    "y": 489
+  },
+  "mp_call_3": {
+    "x": 396,
+    "y": 489
+  },
+  "lp_call_1": {
+    "x": 297,
+    "y": 294
+  },
+  "lp_call_2": {
+    "x": 346,
+    "y": 294
+  },
+  "reminder_call_yousign": {
+    "x": 692,
+    "y": 683
+  },
+  "late_people_call": {
+    "x": 667,
+    "y": 554
+  },
+  "onboarding_confirmation_reminder_call": {
+    "x": 667,
+    "y": 424
+  },
+  "gs_onboarding_update": {
+    "x": 618,
+    "y": 424
+  },
+  "make_payfit_account": {
+    "x": 618,
+    "y": 618
+  },
+  "make_payfit_conrtract": {
+    "x": 643,
+    "y": 618
+  },
+  "gs_onboarding_update_contract": {
+    "x": 741,
+    "y": 618
+  },
+  "gs_late_people_update": {
+    "x": 618,
+    "y": 554
+  },
+  "onboarding": {
+    "x": 717,
+    "y": 359
+  },
+  "slack_account_creation": {
+    "x": 766,
+    "y": 489
+  },
+  "notion_account_creation": {
+    "x": 766,
+    "y": 100
+  },
+  "learning_360_account_creation": {
+    "x": 766,
+    "y": 229
+  },
+  "wesser_studio_account_creation": {
+    "x": 766,
+    "y": 164
+  },
+  "learning_360_adding_classes": {
+    "x": 766,
+    "y": 294
+  },
+  "formation": {
+    "x": 865,
+    "y": 359
+  },
+  "pre_call_sms": {
+    "x": 124,
+    "y": 424
+  },
+  "pre_video_mail": {
+    "x": 149,
+    "y": 489
+  },
+  "hp_reminder_mail_1": {
+    "x": 322,
+    "y": 813
+  },
+  "hp_reminder_mail_2": {
+    "x": 371,
+    "y": 813
+  },
+  "hp_reminder_mail_3": {
+    "x": 420,
+    "y": 813
+  },
+  "hp_reminder_mail_4": {
+    "x": 470,
+    "y": 813
+  },
+  "mp_reminder_mail_1": {
+    "x": 322,
+    "y": 618
+  },
+  "mp_reminder_mail_2": {
+    "x": 371,
+    "y": 618
+  },
+  "mp_reminder_mail_3": {
+    "x": 420,
+    "y": 618
+  },
+  "lp_reminder_mail_1": {
+    "x": 322,
+    "y": 424
+  },
+  "lp_reminder_mail_2": {
+    "x": 371,
+    "y": 424
+  },
+  "inscription_onboarding": {
+    "x": 618,
+    "y": 359
+  },
+  "mail_yousign": {
+    "x": 667,
+    "y": 618
+  },
+  "reminder_mail_yousign": {
+    "x": 667,
+    "y": 683
+  },
+  "late_people_mail": {
+    "x": 643,
+    "y": 554
+  },
+  "google_meet_onboarding_invite": {
+    "x": 643,
+    "y": 359
+  },
+  "onboarding_confirmation_reminder_mail": {
+    "x": 643,
+    "y": 424
+  },
+  "mail_alan": {
+    "x": 717,
+    "y": 554
+  },
+  "spendesk_invitation": {
+    "x": 766,
+    "y": 618
+  },
+  "mail_formation": {
+    "x": 766,
+    "y": 359
+  },
+  "wap_invite": {
+    "x": 791,
+    "y": 164
+  },
+  "learning_360_invite": {
+    "x": 791,
+    "y": 229
+  },
+  "notion_invite": {
+    "x": 791,
+    "y": 100
+  },
+  "slack_invite": {
+    "x": 791,
+    "y": 489
+  },
+  "slack_welcome_msg": {
+    "x": 840,
+    "y": 554
+  },
+  "first_contact_nc_tl": {
+    "x": 914,
+    "y": 489
+  },
+  "monday_welcome_msg": {
+    "x": 791,
+    "y": 424
+  },
+  "tuesday_formation_msg": {
+    "x": 816,
+    "y": 424
+  },
+  "wednesday_affectations_msg": {
+    "x": 840,
+    "y": 424
+  },
+  "thursday_formation_reminder_msg": {
+    "x": 865,
+    "y": 424
+  },
+  "thursday_formation_recap": {
+    "x": 890,
+    "y": 359
+  },
+  "speech_nc_1_feedback": {
+    "x": 939,
+    "y": 294
+  },
+  "nc_info_pdf_1": {
+    "x": 1038,
+    "y": 359
+  },
+  "nc_info_pdf_2": {
+    "x": 1137,
+    "y": 359
+  },
+  "nc_info_pdf_3": {
+    "x": 1235,
+    "y": 359
+  },
+  "nc_info_pdf_4": {
+    "x": 1309,
+    "y": 359
+  },
+  "nc_info_pdf_5": {
+    "x": 1408,
+    "y": 359
+  },
+  "nc_info_pdf_6": {
+    "x": 1507,
+    "y": 359
+  },
+  "nc_info_pdf_7": {
+    "x": 1581,
+    "y": 359
+  },
+  "nc_info_pdf_8": {
+    "x": 1680,
+    "y": 359
+  },
+  "nc_info_pdf_9": {
+    "x": 1779,
+    "y": 359
+  },
+  "nc_info_pdf_10": {
+    "x": 1853,
+    "y": 359
+  },
+  "nc_info_pdf_11": {
+    "x": 1951,
+    "y": 359
+  },
+  "text_application": {
+    "x": 124,
+    "y": 489
+  },
+  "video_application": {
+    "x": 174,
+    "y": 489
+  },
+  "hp_interview_callback": {
+    "x": 519,
+    "y": 813
+  },
+  "mp_interview_callback": {
+    "x": 470,
+    "y": 618
+  },
+  "lp_interview_callback": {
+    "x": 420,
+    "y": 424
+  },
+  "contract_sign": {
+    "x": 692,
+    "y": 618
+  },
+  "speech_nc_1": {
+    "x": 914,
+    "y": 294
+  },
+  "application_review_1": {
+    "x": 198,
+    "y": 489
+  },
+  "application_review_2": {
+    "x": 223,
+    "y": 489
+  },
+  "video_screening": {
+    "x": 248,
+    "y": 489
+  },
+  "hp_interview": {
+    "x": 519,
+    "y": 683
+  },
+  "mp_interview": {
+    "x": 470,
+    "y": 489
+  },
+  "lp_interview": {
+    "x": 420,
+    "y": 294
+  },
+  "starting_date_definition": {
+    "x": 532,
+    "y": 359
+  },
+  "contract_verification": {
+    "x": 717,
+    "y": 618
+  },
+  "onboarding_confirmation": {
+    "x": 667,
+    "y": 359
+  },
+  "nc_team_join_time_defnition": {
+    "x": 964,
+    "y": 489
+  },
+  "w1d3_result": {
+    "x": 1137,
+    "y": 554
+  },
+  "w1d4_result": {
+    "x": 1186,
+    "y": 554
+  },
+  "w1d5_result": {
+    "x": 1235,
+    "y": 554
+  },
+  "w2d3_result": {
+    "x": 1408,
+    "y": 554
+  },
+  "w2d4_result": {
+    "x": 1458,
+    "y": 554
+  },
+  "w2d5_result": {
+    "x": 1507,
+    "y": 554
+  },
+  "w2d2_result": {
+    "x": 1359,
+    "y": 554
+  },
+  "w3d2_result": {
+    "x": 1630,
+    "y": 554
+  },
+  "w3d3_result": {
+    "x": 1680,
+    "y": 554
+  },
+  "w3d5_result": {
+    "x": 1779,
+    "y": 554
+  },
+  "w4d2_result": {
+    "x": 1902,
+    "y": 554
+  },
+  "w4d3_result": {
+    "x": 1951,
+    "y": 554
+  },
+  "w4d5_result": {
+    "x": 2075,
+    "y": 554
+  }
+}
