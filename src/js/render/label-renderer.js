@@ -15,7 +15,7 @@ export function renderLabels(g) {
         .attr('class', 'node-label')
         .attr('dy', d => d.size + 20)
         .attr('text-anchor', 'middle')
-        .text(d => d.Name.length > 15 ? d.Name.substring(0, 15) + '...' : d.Name);
+        .text(d => d.Name.length > 150 ? d.Name.substring(0, 150) + '...' : d.Name);
 
     // Supplementary info labels
     node.append('text')

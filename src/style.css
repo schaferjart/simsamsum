@@ -137,6 +137,17 @@
     display: none;
 }
 
+/* Ensure table text remains fully visible */
+.handsontable th,
+.handsontable td {
+    white-space: normal;
+    line-height: 1.35;
+}
+
+.handsontable .wtHolder {
+    overflow: auto !important;
+}
+
 .table-container.collapsed .vertical-resizer {
     display: none;
 }

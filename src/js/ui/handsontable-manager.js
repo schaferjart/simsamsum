@@ -56,12 +56,19 @@ export async function initEditorTables(core) {
         rowHeaders: true,
         height: '100%', // Stretch to container
         width: '100%',
+        stretchH: 'all',
         contextMenu: true,
         undoRedo: true,
         minSpareRows: 1,
         hiddenColumns: true, // Enable plugin
         hiddenRows: true, // Enable hidden rows plugin for search
         manualColumnResize: true, // Allow user resizing
+        autoColumnSize: {
+            useHeaders: true,
+            syncLimit: 600,
+        },
+        autoRowSize: true,
+        wordWrap: true,
         filters: true, // Enable column filters
         dropdownMenu: ['filter_by_condition', 'filter_by_value', 'filter_action_bar'],
     };
