@@ -1,0 +1,19 @@
+{
+  "video_application->application_review_1": 0.1,
+  "application_review_1->application_review_2": 0.4,
+  "application_review_2->video_screening": 0.5,
+  "video_screening->high_potential_candidate": 0.1,
+  "video_screening->medium_potential_candidate": 0.3,
+  "video_screening->low_potential_candidate": 0.1,
+  "video_screening->rejection_3": 0.5,
+  "hp_interview->hp_job_offer_accept": 0.8,
+  "lp_interview->lp_job_offer_accept": 0.6,
+  "mp_interview->mp_job_offer_accept": 0.7,
+  "contract_verification->contract_rejection": 0.05,
+  "text_application->pre_call_sms": 0.4,
+  "call_back_rate": 0.4,
+  "incoming_volume": 1000,
+  "conversion_rate": 0.08,
+  "retention_rate": 0.92,
+  "pick_up_rate": 0.6
+}
