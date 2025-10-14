@@ -7,7 +7,9 @@ const path = require('path');
  */
 
 function parseCSV(csvContent) {
-  const lines = csvContent.split('\n').filter(line => line.trim());
+  // Normalize line endings (handle both \r\n and \n)
+  const normalizedContent = csvContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  const lines = normalizedContent.split('\n').filter(line => line.trim());
   if (lines.length === 0) return [];
 
   // Parse header

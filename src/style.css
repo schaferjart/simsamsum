@@ -12,16 +12,15 @@
     background-color: var(--color-surface);
     padding: 0; /* Remove padding, handled by inner containers */
     flex: 1 1 420px;
-    overflow: hidden; /* Prevent double scrollbars */
+    min-height: 0; /* Allow scrolling parent to constrain height */
 }
 
 .table-container {
     display: flex;
     flex-direction: column;
-    min-height: 50px; /* Minimum height to prevent collapse */
-    flex-grow: 1;
-    flex-basis: 0; /* Distribute space evenly by default */
-    overflow: hidden; /* Contains the table */
+    min-height: clamp(220px, 33vh, 320px); /* Sensible visible height */
+    flex: 0 0 auto; /* Stack vertically within scrolling panel */
+    overflow: hidden; /* Table manages internal scroll */
 }
 
 .table-container.maximized {
@@ -57,10 +56,21 @@
     gap: var(--space-8);
 }
 
-.table-search {
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
     padding: var(--space-8) var(--space-12);
     background-color: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+.table-search {
+    flex: 1 1 240px;
+    padding: 0;
+    display: flex;
+    align-items: center;
 }
 
 .table-search-input {
@@ -104,8 +114,13 @@
     z-index: 1;
 }
 
+.table-actions .table-controls {
+    margin-left: auto;
+}
+
 .editor-table {
-    flex-grow: 1;
+    flex: 1 1 auto;
+    min-height: 180px;
     overflow: hidden; /* Handsontable manages its own scrolling */
     transition: max-height 250ms var(--ease-standard), opacity 250ms var(--ease-standard);
     max-height: 5000px;
@@ -118,7 +133,7 @@
     overflow: hidden;
 }
 
-.table-container.collapsed .table-search {
+.table-container.collapsed .table-actions {
     display: none;
 }
 

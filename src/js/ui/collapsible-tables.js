@@ -84,23 +84,38 @@ export function initializeCollapsibleTables() {
         content.className = 'table-content';
 
         // Get table controls from header (we'll move them)
-        const tableControls = header.querySelector('.table-controls');
+    const tableControls = header.querySelector('.table-controls');
+    const tableSearch = tableContainer.querySelector('.table-search');
 
         // Collect all children except the header to move into content
         const childrenToMove = Array.from(tableContainer.children).filter(child => 
             child !== header
         );
 
-        // Move controls first if they exist (so they appear at the top of content)
-        if (tableControls) {
-            content.appendChild(tableControls);
+        // Compose actions row (search + controls)
+        const hasActions = tableControls || tableSearch;
+        let actionsWrapper = null;
+        if (hasActions) {
+            actionsWrapper = document.createElement('div');
+            actionsWrapper.className = 'table-actions';
+
+            if (tableSearch) {
+                actionsWrapper.appendChild(tableSearch);
+            }
+
+            if (tableControls) {
+                actionsWrapper.appendChild(tableControls);
+            }
+
+            content.appendChild(actionsWrapper);
         }
 
         // Move all other children (editor-table, column-toggle-popup, etc.)
         childrenToMove.forEach(child => {
-            if (child !== tableControls) {
-                content.appendChild(child);
+            if (child === tableControls || child === tableSearch || child === actionsWrapper) {
+                return;
             }
+            content.appendChild(child);
         });
 
         // Append the content wrapper to the container

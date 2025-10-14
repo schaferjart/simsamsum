@@ -532,6 +532,7 @@ select.form-control {
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow-y: auto;
 }
 
 .details-panel.hidden {
@@ -578,14 +579,17 @@ select.form-control {
   padding: var(--space-20);
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Changed from overflow-y: auto */
+  min-height: 0;
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden;
 }
 
 /* Editor Panel Styles */
 .editor-panel {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .tabs {

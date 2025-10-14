@@ -21,7 +21,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "text_application",
@@ -45,7 +45,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "pre_call_sms",
@@ -69,7 +69,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "ai_call",
@@ -85,7 +85,7 @@
     "monitoring": "Team Tailor",
     "monitoredData": "Transcription, Voice Recording, AI assesment",
     "description": "Apllicant receives AI Call to inform more about the job",
-    "avgCostTime": null,
+    "avgCostTime": 3,
     "avgCost": 0.4,
     "effectiveCost": 160,
     "lastUpdate": null,
@@ -93,7 +93,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "pre_video_mail",
@@ -117,7 +117,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "video_application",
@@ -133,7 +133,7 @@
     "monitoring": "Team Tailor",
     "monitoredData": "Video Recording",
     "description": "Applicants selfrecord a video of why they should be hired",
-    "avgCostTime": null,
+    "avgCostTime": 10,
     "avgCost": 0.1,
     "effectiveCost": 100,
     "lastUpdate": null,
@@ -141,7 +141,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "ghost_1",
@@ -165,7 +165,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "application_review_1",
@@ -189,7 +189,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "rejection_1",
@@ -213,7 +213,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "application_review_2",
@@ -237,7 +237,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "rejection_2",
@@ -261,7 +261,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "video_screening",
@@ -285,7 +285,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "high_potential_candidate",
@@ -309,7 +309,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "medium_potential_candidate",
@@ -333,7 +333,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "low_potential_candidate",
@@ -357,7 +357,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "rejection_3",
@@ -381,7 +381,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_call_1",
@@ -405,7 +405,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_1",
@@ -429,7 +429,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_call_2",
@@ -453,7 +453,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_2",
@@ -477,7 +477,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_call_3",
@@ -501,7 +501,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_3",
@@ -525,7 +525,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_call_4",
@@ -549,7 +549,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_4",
@@ -573,7 +573,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_interview_callback",
@@ -597,7 +597,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_interview",
@@ -621,7 +621,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_job_offer_accept",
@@ -645,7 +645,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_call_rejection",
@@ -669,7 +669,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "hp_ghost",
@@ -693,7 +693,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_call_1",
@@ -717,7 +717,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_reminder_mail_1",
@@ -741,7 +741,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_call_2",
@@ -765,7 +765,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_reminder_mail_2",
@@ -789,7 +789,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_call_3",
@@ -813,7 +813,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_reminder_mail_3",
@@ -837,7 +837,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_interview_callback",
@@ -861,7 +861,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_interview",
@@ -885,7 +885,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_job_offer_accept",
@@ -909,7 +909,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_call_rejection",
@@ -933,7 +933,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mp_ghost",
@@ -957,7 +957,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_call_1",
@@ -981,7 +981,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_reminder_mail_1",
@@ -1005,7 +1005,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_call_2",
@@ -1029,7 +1029,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_reminder_mail_2",
@@ -1053,7 +1053,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_interview_callback",
@@ -1077,7 +1077,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_interview",
@@ -1101,7 +1101,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_job_offer_accept",
@@ -1125,7 +1125,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_call_rejection",
@@ -1149,7 +1149,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "lp_ghost",
@@ -1173,7 +1173,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "starting_date_definition",
@@ -1197,7 +1197,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "gs_onboarding_update",
@@ -1213,7 +1213,7 @@
     "monitoring": "Google Sheets Onboarding",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": 0,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1221,7 +1221,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "inscription_onboarding",
@@ -1231,7 +1231,7 @@
     "type": "Action",
     "subType": "Mail Outgoing",
     "aOR": null,
-    "execution": "Noemie",
+    "execution": "Automatic",
     "account": null,
     "platform": "Team Tailor",
     "monitoring": "Team Tailor",
@@ -1245,7 +1245,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "make_payfit_account",
@@ -1261,7 +1261,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 1,
     "avgCost": 0,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1269,7 +1269,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "make_payfit_conrtract",
@@ -1285,7 +1285,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 1,
     "avgCost": 0,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1293,7 +1293,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mail_yousign",
@@ -1317,12 +1317,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "contract_sign",
     "name": "Contract Sign",
-    "incomingNumber": 20.6,
+    "incomingNumber": 6.7,
     "variable": 1,
     "type": "Action",
     "subType": "Form Incoming",
@@ -1341,12 +1341,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "contract_verification",
     "name": "Contract Verification",
-    "incomingNumber": 20.6,
+    "incomingNumber": 6.7,
     "variable": 1,
     "type": "Decision",
     "subType": "Manual Verification",
@@ -1357,7 +1357,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": 0,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1365,17 +1365,17 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "contract_rejection",
     "name": "Contract Rejection",
-    "incomingNumber": 1.03,
+    "incomingNumber": 0.33,
     "variable": 1,
     "type": "State",
     "subType": "Out",
     "aOR": null,
-    "execution": "Gil",
+    "execution": null,
     "account": null,
     "platform": "YouSign",
     "monitoring": null,
@@ -1389,12 +1389,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "creation_alan_account",
     "name": "Creation Alan Account",
-    "incomingNumber": 20.6,
+    "incomingNumber": 6.7,
     "variable": 1,
     "type": "Action",
     "subType": "Automatic Account Generation",
@@ -1413,12 +1413,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "reminder_mail_yousign",
     "name": "Reminder Mail YouSign",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.69,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1429,7 +1429,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1437,12 +1437,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "reminder_call_yousign",
     "name": "Reminder Call YouSign",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.34,
     "variable": 1,
     "type": "Action",
     "subType": "Call Outgoing",
@@ -1453,7 +1453,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 3,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1461,12 +1461,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "yousign_ghost",
     "name": "YouSign Ghost",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.17,
     "variable": 1,
     "type": "State",
     "subType": "Out",
@@ -1485,12 +1485,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "gs_onboarding_update_contract",
     "name": "GS Onboarding Update Contract",
-    "incomingNumber": 20.6,
+    "incomingNumber": 6.7,
     "variable": 1,
     "type": "Resource",
     "subType": "Manual Form Update",
@@ -1501,7 +1501,7 @@
     "monitoring": "Google Sheets Onboarding",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1509,12 +1509,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "gs_late_people_update",
     "name": "GS Late People Update",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.34,
     "variable": 1,
     "type": "Resource",
     "subType": "Manual Form Update",
@@ -1525,7 +1525,7 @@
     "monitoring": "Google Sheets Late People",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1533,12 +1533,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "late_people_mail",
     "name": "Late People Mail",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.34,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1549,7 +1549,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1557,12 +1557,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "late_people_call",
     "name": "Late People Call",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.34,
     "variable": 1,
     "type": "Action",
     "subType": "Call Outgoing",
@@ -1573,7 +1573,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 3,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1581,7 +1581,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "google_meet_onboarding_invite",
@@ -1605,12 +1605,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation",
     "name": "Onboarding Confirmation",
-    "incomingNumber": 20.6,
+    "incomingNumber": 6.52,
     "variable": 1,
     "type": "Decision",
     "subType": "Checkpoint",
@@ -1629,12 +1629,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "onboarding",
     "name": "Onboarding",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Videocall",
@@ -1645,7 +1645,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 60,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1653,12 +1653,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation_reminder_mail",
     "name": "Onboarding Confirmation Reminder Mail",
-    "incomingNumber": 6.87,
+    "incomingNumber": 1.37,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1669,7 +1669,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1677,12 +1677,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation_reminder_call",
     "name": "Onboarding Confirmation Reminder Call",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.69,
     "variable": 1,
     "type": "Action",
     "subType": "Call Outgoing",
@@ -1693,7 +1693,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 3,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1701,12 +1701,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation_ghost",
     "name": "Onboarding Confirmation Ghost",
-    "incomingNumber": 6.87,
+    "incomingNumber": 0.34,
     "variable": 1,
     "type": "State",
     "subType": "Out",
@@ -1725,12 +1725,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mail_alan",
     "name": "Mail Alan",
-    "incomingNumber": 20.6,
+    "incomingNumber": 6.7,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1749,12 +1749,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "spendesk_invitation",
     "name": "Spendesk Invitation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1773,12 +1773,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "mail_formation",
     "name": "Mail Formation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1797,12 +1797,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "slack_account_creation",
     "name": "Slack Account Creation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Manual Account Generation",
@@ -1813,7 +1813,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1821,12 +1821,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "notion_account_creation",
     "name": "Notion Account Creation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Manual Account Generation",
@@ -1837,7 +1837,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1845,12 +1845,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "learning_360_account_creation",
     "name": "Learning 360 Account Creation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Manual Account Generation",
@@ -1861,7 +1861,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1869,12 +1869,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "wesser_studio_account_creation",
     "name": "Wesser Studio Account Creation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Manual Account Generation",
@@ -1885,7 +1885,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 2,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1893,12 +1893,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "onboarding_ghost",
     "name": "Onboarding Ghost",
-    "incomingNumber": 20.6,
+    "incomingNumber": 0.65,
     "variable": 1,
     "type": "State",
     "subType": "Out",
@@ -1917,12 +1917,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "wap_invite",
     "name": "WAP Invite",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1941,12 +1941,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "learning_360_adding_classes",
     "name": "Learning 360 Adding Classes",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Manual Form Update",
@@ -1957,7 +1957,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -1965,12 +1965,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "learning_360_invite",
     "name": "Learning 360 Invite",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -1989,12 +1989,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "notion_invite",
     "name": "Notion Invite",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -2013,12 +2013,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "slack_promogroup_creation",
     "name": "Slack PromoGroup Creation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Manual Group Generation",
@@ -2029,7 +2029,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2037,12 +2037,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "slack_invite",
     "name": "Slack Invite",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Mail Outgoing",
@@ -2061,12 +2061,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "slack_activation",
     "name": "Slack Activation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Checkpoint",
@@ -2085,12 +2085,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "slack_ghost",
     "name": "Slack Ghost",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "State",
     "subType": "Case By Case",
@@ -2109,12 +2109,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "slack_welcome_msg",
     "name": "Slack Welcome Msg",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2133,12 +2133,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "first_contact_nc_tl",
     "name": "First Contact NC TL",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2149,7 +2149,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 10,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2157,12 +2157,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "monday_welcome_msg",
     "name": "Monday Welcome Msg",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2173,7 +2173,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2181,12 +2181,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "tuesday_formation_msg",
     "name": "Tuesday Formation Msg",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2197,7 +2197,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2205,12 +2205,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "wednesday_affectations_msg",
     "name": "Wednesday Affectations Msg",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2221,7 +2221,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2229,12 +2229,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "thursday_formation_reminder_msg",
     "name": "Thursday Formation Reminder Msg",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2245,7 +2245,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2253,12 +2253,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "thursday_formation_recap",
     "name": "Thursday Formation Recap",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2269,7 +2269,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2277,12 +2277,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "speech_nc_1",
     "name": "Speech NC 1",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Incoming",
@@ -2301,12 +2301,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "speech_nc_1_feedback",
     "name": "Speech NC 1 Feedback",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -2317,7 +2317,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2325,12 +2325,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "formation",
     "name": "Formation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Videocall",
@@ -2341,7 +2341,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 90,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2349,12 +2349,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "learning_360_ghost",
     "name": "Learning 360 Ghost",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "State",
     "subType": "Yellow Card",
@@ -2373,12 +2373,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "formation_ghost",
     "name": "Formation Ghost",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "State",
     "subType": "Yellow Card",
@@ -2397,12 +2397,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "learning_360_graduation",
     "name": "Learning 360 Graduation",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "State",
     "subType": "Green Card",
@@ -2413,7 +2413,7 @@
     "monitoring": "Learning 360",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 240,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2421,12 +2421,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "learning_360_dropout",
     "name": "Learning 360 Dropout",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "State",
     "subType": "Yellow Card",
@@ -2445,12 +2445,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "learning_360_experience",
     "name": "Learning 360 Experience",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Green Card",
@@ -2469,12 +2469,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "formation_graduate",
     "name": "Formation Graduate",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "State",
     "subType": "Green Card",
@@ -2485,7 +2485,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 90,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2493,12 +2493,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_showup_saturday",
     "name": "NC Showup Saturday",
-    "incomingNumber": 27.47,
+    "incomingNumber": 0.29,
     "variable": 1,
     "type": "State",
     "subType": "Informal Contact",
@@ -2517,12 +2517,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_showup_sunday",
     "name": "NC Showup Sunday",
-    "incomingNumber": 27.47,
+    "incomingNumber": 4.99,
     "variable": 1,
     "type": "State",
     "subType": "Informal Contact",
@@ -2541,12 +2541,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_showup_monday",
     "name": "NC Showup Monday",
-    "incomingNumber": 27.47,
+    "incomingNumber": 0.29,
     "variable": 1,
     "type": "State",
     "subType": "Informal Contact",
@@ -2565,12 +2565,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_noshow",
     "name": "NC Noshow",
-    "incomingNumber": 27.47,
+    "incomingNumber": 0.29,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -2589,12 +2589,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "first_contact_ghost",
     "name": "First Contact Ghost",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "State",
     "subType": "Case By Case",
@@ -2613,12 +2613,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_team_join_time_defnition",
     "name": "NC Team Join Time Definition",
-    "incomingNumber": 27.47,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Decision",
     "subType": "Checkpoint",
@@ -2637,7 +2637,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s1_with_tl",
@@ -2653,7 +2653,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2661,7 +2661,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "slack_team_creation_tl",
@@ -2677,7 +2677,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2685,12 +2685,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_1",
     "name": "Call TL CO 1",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "Action",
     "subType": "Outgoing Call",
@@ -2701,7 +2701,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2709,12 +2709,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s2",
     "name": "W1S2",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2725,7 +2725,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2733,12 +2733,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s3",
     "name": "W1S3",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2749,7 +2749,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2757,12 +2757,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s4",
     "name": "W1S4",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2773,7 +2773,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2781,12 +2781,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s5",
     "name": "W1S5 with TL",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2797,7 +2797,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2805,12 +2805,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s6",
     "name": "W1S6",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2821,7 +2821,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2829,12 +2829,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s7",
     "name": "W1S7",
-    "incomingNumber": 164.82,
+    "incomingNumber": 5.02,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2845,7 +2845,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2853,12 +2853,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s8",
     "name": "W1S8",
-    "incomingNumber": 164.82,
+    "incomingNumber": 5.02,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2869,7 +2869,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2877,12 +2877,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s9",
     "name": "W1S9",
-    "incomingNumber": 494.46,
+    "incomingNumber": 4.52,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2893,7 +2893,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2901,12 +2901,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1s10",
     "name": "W1S10",
-    "incomingNumber": 494.46,
+    "incomingNumber": 4.52,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -2917,7 +2917,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2925,12 +2925,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_nc_co_1",
     "name": "Call NC CO 1",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "Action",
     "subType": "Newcomer Call",
@@ -2941,7 +2941,7 @@
     "monitoring": "Notion DB NC FollowUp",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -2949,12 +2949,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1d3_result",
     "name": "W1D3 Result",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "Decision",
     "subType": "Checkpoint",
@@ -2973,12 +2973,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1d4_result",
     "name": "W1D4 Result",
-    "incomingNumber": 164.82,
+    "incomingNumber": 5.02,
     "variable": 1,
     "type": "Decision",
     "subType": "Checkpoint",
@@ -2997,12 +2997,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1d5_result",
     "name": "W1D5 Result",
-    "incomingNumber": 494.46,
+    "incomingNumber": 4.52,
     "variable": 1,
     "type": "Decision",
     "subType": "Checkpoint",
@@ -3021,12 +3021,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1d4_drop",
     "name": "W1D4 Drop",
-    "incomingNumber": 494.46,
+    "incomingNumber": 1,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -3045,12 +3045,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1d5_drop",
     "name": "W1D5 Drop",
-    "incomingNumber": 988.92,
+    "incomingNumber": 0.9,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -3069,12 +3069,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w1d3_drop",
     "name": "W1D3 Drop",
-    "incomingNumber": 164.82,
+    "incomingNumber": 1.12,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -3093,12 +3093,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_1",
     "name": "Call TL CO Drop 1",
-    "incomingNumber": 82.41,
+    "incomingNumber": 0.56,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -3109,7 +3109,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3117,12 +3117,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_2",
     "name": "Call TL CO Drop 2",
-    "incomingNumber": 329.64,
+    "incomingNumber": 0.5,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -3133,7 +3133,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3141,12 +3141,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_nc_co_2",
     "name": "Call NC CO 2",
-    "incomingNumber": 164.82,
+    "incomingNumber": 5.02,
     "variable": 1,
     "type": "Action",
     "subType": "Newcomer Call",
@@ -3157,7 +3157,7 @@
     "monitoring": "Notion DB NC FollowUp",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3165,12 +3165,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_3",
     "name": "Call TL CO Drop 3",
-    "incomingNumber": 494.46,
+    "incomingNumber": 0.45,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -3181,7 +3181,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3189,12 +3189,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "week_1_graduation",
     "name": "Week 1 Graduation",
-    "incomingNumber": 988.92,
+    "incomingNumber": 4.07,
     "variable": 1,
     "type": "State",
     "subType": "Beachhead",
@@ -3213,12 +3213,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_2",
     "name": "Call TL CO 2",
-    "incomingNumber": 82.41,
+    "incomingNumber": 5.58,
     "variable": 1,
     "type": "Action",
     "subType": "Outgoing Call",
@@ -3229,7 +3229,7 @@
     "monitoring": "Notion DB NC FollowUp",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3237,12 +3237,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s1",
     "name": "W2S1",
-    "incomingNumber": 988.92,
+    "incomingNumber": 4.07,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3253,7 +3253,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3261,12 +3261,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s2",
     "name": "W2S2",
-    "incomingNumber": 988.92,
+    "incomingNumber": 4.07,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3277,7 +3277,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3285,12 +3285,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s3",
     "name": "W2S3",
-    "incomingNumber": 988.92,
+    "incomingNumber": 4.07,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3301,7 +3301,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3309,12 +3309,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s4",
     "name": "W2S4",
-    "incomingNumber": 988.92,
+    "incomingNumber": 4.07,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3325,7 +3325,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3333,12 +3333,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s5",
     "name": "W2S5",
-    "incomingNumber": 1977.84,
+    "incomingNumber": 3.66,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3349,7 +3349,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3357,12 +3357,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s6",
     "name": "W2S6",
-    "incomingNumber": 1977.84,
+    "incomingNumber": 3.66,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3373,7 +3373,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3381,12 +3381,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s7",
     "name": "W2S7",
-    "incomingNumber": 3955.69,
+    "incomingNumber": 3.29,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3397,7 +3397,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3405,12 +3405,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s8",
     "name": "W2S8",
-    "incomingNumber": 3955.69,
+    "incomingNumber": 3.29,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3421,7 +3421,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3429,12 +3429,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s9",
     "name": "W2S9",
-    "incomingNumber": 11867.06,
+    "incomingNumber": 2.96,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3445,7 +3445,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3453,12 +3453,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2s10",
     "name": "W2S10",
-    "incomingNumber": 11867.06,
+    "incomingNumber": 2.96,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3469,7 +3469,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3477,12 +3477,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_nc_co_3",
     "name": "Call NC CO 3",
-    "incomingNumber": 988.92,
+    "incomingNumber": 4.07,
     "variable": 1,
     "type": "Action",
     "subType": "NC Call Outgoing",
@@ -3493,7 +3493,7 @@
     "monitoring": "Notion DB NC FollowUp",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3501,12 +3501,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d3_result",
     "name": "W2D3 Result",
-    "incomingNumber": 1977.84,
+    "incomingNumber": 3.66,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -3525,12 +3525,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d4_result",
     "name": "W2D4 Result",
-    "incomingNumber": 3955.69,
+    "incomingNumber": 3.29,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -3549,12 +3549,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d5_result",
     "name": "W2D5 Result",
-    "incomingNumber": 11867.06,
+    "incomingNumber": 2.96,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -3573,12 +3573,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d4_drop",
     "name": "W2D4 Drop",
-    "incomingNumber": 11867.06,
+    "incomingNumber": 0.66,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -3597,12 +3597,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d5_drop",
     "name": "W2D5 Drop",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 0.59,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -3621,12 +3621,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d3_drop",
     "name": "W2D3 Drop",
-    "incomingNumber": 3955.69,
+    "incomingNumber": 0.73,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -3645,12 +3645,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_4",
     "name": "Call NC CO Drop 1",
-    "incomingNumber": 1977.84,
+    "incomingNumber": 0.37,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -3661,7 +3661,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3669,12 +3669,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_5",
     "name": "Call NC CO Drop 2",
-    "incomingNumber": 7911.37,
+    "incomingNumber": 0.33,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -3685,7 +3685,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3693,12 +3693,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_6",
     "name": "Call NC CO Drop 3",
-    "incomingNumber": 11867.06,
+    "incomingNumber": 0.3,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -3709,7 +3709,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3717,12 +3717,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "week_2_graduation",
     "name": "Week 2 Graduation",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 2.67,
     "variable": 1,
     "type": "State",
     "subType": "Beachhead",
@@ -3741,12 +3741,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d2_result",
     "name": "W2D2 Result",
-    "incomingNumber": 988.92,
+    "incomingNumber": 4.07,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -3765,12 +3765,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w2d2_drop",
     "name": "W2D2 Drop",
-    "incomingNumber": 1977.84,
+    "incomingNumber": 0.81,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -3789,12 +3789,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_7",
     "name": "Call TL CO Drop 7",
-    "incomingNumber": 988.92,
+    "incomingNumber": 0.41,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -3805,7 +3805,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3813,12 +3813,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s1",
     "name": "W3S1",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 2.67,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3829,7 +3829,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3837,12 +3837,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s2",
     "name": "W3S2",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 2.67,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3853,7 +3853,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3861,12 +3861,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s3",
     "name": "W3S3",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 2.67,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3877,7 +3877,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3885,12 +3885,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s4",
     "name": "W3S4",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 2.67,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3901,7 +3901,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3909,12 +3909,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s5",
     "name": "W3S5",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 2.4,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3925,7 +3925,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3933,12 +3933,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s6",
     "name": "W3S6",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 2.4,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3949,7 +3949,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3957,12 +3957,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s7",
     "name": "W3S7",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 1.92,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3973,7 +3973,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -3981,12 +3981,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s8",
     "name": "W3S8",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 1.92,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -3997,7 +3997,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4005,12 +4005,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s9",
     "name": "W3S9",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 1.92,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4021,7 +4021,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4029,12 +4029,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3s10",
     "name": "W3S10",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 1.92,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4045,7 +4045,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4053,12 +4053,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3d2_result",
     "name": "W3D2 Result",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 2.67,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -4077,12 +4077,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3d3_result",
     "name": "W3D3 Result",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 2.4,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -4101,12 +4101,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3d5_result",
     "name": "W3D5 Result",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 1.92,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -4125,12 +4125,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3d5_drop",
     "name": "W3D5 Drop",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 0.38,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -4149,12 +4149,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w3d3_drop",
     "name": "W3D3 Drop",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 0.24,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -4173,12 +4173,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_10",
     "name": "Call TL CO Drop 10",
-    "incomingNumber": 47468.23,
+    "incomingNumber": 0.19,
     "variable": 1,
     "type": "Action",
     "subType": "Decision Call",
@@ -4189,7 +4189,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4197,12 +4197,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_11",
     "name": "Call TL CO Drop 11",
-    "incomingNumber": 23734.12,
+    "incomingNumber": 0.27,
     "variable": 1,
     "type": "Action",
     "subType": "Pressure Call",
@@ -4213,7 +4213,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4221,12 +4221,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "week_3_graduation",
     "name": "Week 3 Graduation",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 1.73,
     "variable": 1,
     "type": "State",
     "subType": "Beachhead",
@@ -4237,7 +4237,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4245,12 +4245,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s1",
     "name": "W4S1",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 1.73,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4261,7 +4261,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4269,12 +4269,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s2",
     "name": "W4S2",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 1.73,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4285,7 +4285,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4293,12 +4293,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s3",
     "name": "W4S3",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 1.73,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4309,7 +4309,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4317,12 +4317,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s4",
     "name": "W4S4",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 1.73,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4333,7 +4333,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4341,12 +4341,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s5",
     "name": "W4S5",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.56,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4357,7 +4357,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4365,12 +4365,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s6",
     "name": "W4S6",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.56,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4381,7 +4381,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4389,12 +4389,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s7",
     "name": "W4S7",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.24,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4405,7 +4405,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4413,12 +4413,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s8",
     "name": "W4S8",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.24,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4429,7 +4429,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4437,12 +4437,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s9",
     "name": "W4S9",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.24,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4453,7 +4453,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4461,12 +4461,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4s10",
     "name": "W4S10",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.24,
     "variable": 1,
     "type": "State",
     "subType": "Fundraising",
@@ -4477,7 +4477,7 @@
     "monitoring": "Wesser Studio",
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 180,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4485,12 +4485,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4d2_result",
     "name": "W4D2 Result",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 1.73,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -4509,12 +4509,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4d3_result",
     "name": "W4D3 Result",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.56,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -4533,12 +4533,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4d5_result",
     "name": "W4D5 Result",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1.24,
     "variable": 1,
     "type": "Decision",
     "subType": "Performance",
@@ -4557,12 +4557,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4d5_drop",
     "name": "W4D5 Drop",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 0.12,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -4581,12 +4581,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "w4d3_drop",
     "name": "W4D3 Drop",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 0.16,
     "variable": 1,
     "type": "State",
     "subType": "Out End Of Contract NC",
@@ -4605,12 +4605,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_15",
     "name": "Call TL CO Drop 15",
-    "incomingNumber": 94936.47,
+    "incomingNumber": 0.17,
     "variable": 1,
     "type": "Action",
     "subType": "Pressure Call",
@@ -4621,7 +4621,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 15,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4629,12 +4629,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "week_4_graduation",
     "name": "Week 4 Graduation",
-    "incomingNumber": 189872.94,
+    "incomingNumber": 1,
     "variable": 1,
     "type": "State",
     "subType": "Beachhead",
@@ -4653,12 +4653,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_1",
     "name": "NC Info PDF 1",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4669,7 +4669,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4677,12 +4677,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_2",
     "name": "NC Info PDF 2",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4693,7 +4693,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4701,12 +4701,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_3",
     "name": "NC Info PDF 3",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4717,7 +4717,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4725,12 +4725,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_4",
     "name": "NC Info PDF 4",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4741,7 +4741,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4749,12 +4749,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_5",
     "name": "NC Info PDF 5",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4765,7 +4765,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4773,12 +4773,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_6",
     "name": "NC Info PDF 6",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4789,7 +4789,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4797,12 +4797,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_7",
     "name": "NC Info PDF 7",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4813,7 +4813,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4821,12 +4821,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_8",
     "name": "NC Info PDF 8",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4837,7 +4837,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4845,12 +4845,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_9",
     "name": "NC Info PDF 9",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4861,7 +4861,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4869,12 +4869,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_10",
     "name": "NC Info PDF 10",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4885,7 +4885,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4893,12 +4893,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_11",
     "name": "NC Info PDF 11",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Message Outgoing",
@@ -4909,7 +4909,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 0.5,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4917,12 +4917,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_transport_post_mission",
     "name": "NC Transport Post Mission Proposal",
-    "incomingNumber": 0,
+    "incomingNumber": 1.24,
     "variable": 1,
     "type": "Action",
     "subType": "Transport",
@@ -4941,12 +4941,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_transport_pre_mission",
     "name": "NC Transport Pre Mission Proposal",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Transport",
@@ -4965,12 +4965,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_spendesk_check_pre_mission",
     "name": "NC Spendesk Check Pre Mission",
-    "incomingNumber": 0,
+    "incomingNumber": 5.87,
     "variable": 1,
     "type": "Action",
     "subType": "Transport",
@@ -4981,7 +4981,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 1,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -4989,12 +4989,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "nc_spendesk_check_post_mission",
     "name": "NC Spendesk Check Post Mission",
-    "incomingNumber": 0,
+    "incomingNumber": 1.24,
     "variable": 1,
     "type": "Action",
     "subType": "Transport",
@@ -5005,7 +5005,7 @@
     "monitoring": null,
     "monitoredData": null,
     "description": null,
-    "avgCostTime": null,
+    "avgCostTime": 1,
     "avgCost": null,
     "effectiveCost": 0,
     "lastUpdate": null,
@@ -5013,12 +5013,12 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": "\r"
+    "frequency": null
   },
   {
     "id": "end_of_contract",
     "name": "End Of Contract",
-    "incomingNumber": null,
+    "incomingNumber": 0,
     "variable": 1,
     "type": "State",
     "subType": "Out",
@@ -5031,12 +5031,12 @@
     "description": null,
     "avgCostTime": null,
     "avgCost": null,
-    "effectiveCost": null,
+    "effectiveCost": 0,
     "lastUpdate": null,
     "nextUpdate": null,
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   }
 ]
