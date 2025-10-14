@@ -34,22 +34,22 @@ The JavaScript automatically wraps existing control groups:
 **Before** (original HTML):
 ```html
 <div class="control-group">
-    <label class="form-label">Filters</label>
-    <!-- content -->
+		<label class="form-label">Filters</label>
+		<!-- content -->
 </div>
 ```
 
 **After** (auto-enhanced):
 ```html
 <div class="control-group">
-    <div class="control-group__header" role="button">
-        <h3 class="control-group__title">Filters</h3>
-        <span class="control-group__toggle">▼</span>
-    </div>
-    <div class="control-group__content">
-        <!-- content -->
-    </div>
-</div>
+		<div class="control-group__header" role="button">
+				<h3 class="control-group__title">Filters</h3>
+				<span class="control-group__toggle">▼</span>
+		</div>
+		<div class="control-group__content">
+				<!-- content -->
+		</div>
+		</div>
 ```
 
 ### 2. State Management
@@ -57,10 +57,10 @@ The JavaScript automatically wraps existing control groups:
 ```javascript
 // LocalStorage: 'workflow-collapsible-state'
 {
-  "filters": false,           // expanded
-  "styling-rules": true,      // collapsed
-  "element-size": false,      // expanded
-  ...
+	"filters": false,           // expanded
+	"styling-rules": true,      // collapsed
+	"element-size": false,      // expanded
+	...
 }
 ```
 
@@ -68,14 +68,14 @@ The JavaScript automatically wraps existing control groups:
 
 ```css
 .control-group__content {
-  max-height: 2000px;    /* Expanded */
-  opacity: 1;
-  transition: all 250ms;
+	max-height: 2000px;    /* Expanded */
+	opacity: 1;
+	transition: all 250ms;
 }
 
 .control-group--collapsed .control-group__content {
-  max-height: 0;         /* Collapsed */
-  opacity: 0;
+	max-height: 0;         /* Collapsed */
+	opacity: 0;
 }
 ```
 
@@ -102,9 +102,9 @@ All 6 control groups in the editor panel:
 
 ```javascript
 import { 
-    initializeCollapsibleControls, 
-    expandAll, 
-    collapseAll 
+		initializeCollapsibleControls, 
+		expandAll, 
+		collapseAll 
 } from './ui/collapsible-controls.js';
 
 // Called automatically during app init
@@ -121,12 +121,12 @@ Just use the existing `.control-group` structure:
 
 ```html
 <div class="control-group">
-    <label class="form-label">New Section</label>
-    <!-- Your content -->
+		<label class="form-label">New Section</label>
+		<!-- Your content -->
 </div>
 ```
 
-Collapsible functionality is automatically applied! 🎉
+Collapsible functionality is automatically applied!
 
 ## Benefits
 
