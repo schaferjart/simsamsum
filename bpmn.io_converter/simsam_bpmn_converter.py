@@ -4,10 +4,10 @@ Fixed Simsam to BPMN Converter
 Usage: python3 simsam_bpmn_converter3.py
 
 Conventions (folders):
-- Read Simsam JSON inputs from:   fromZ1M/
-- Write generated BPMN XML to:    toBPMN/
-- (Future) Read BPMN XML from:    fromBPMN/
-- (Future) Write generated JSON to: toZ1M/
+- Read Simsam JSON inputs from:   data/json_in/
+- Write generated BPMN XML to:    data/bpmn_out/
+- (Future) Read BPMN XML from:    data/bpmn_in/
+- (Future) Write generated JSON to: data/json_out/
 """
 
 import json
@@ -24,14 +24,14 @@ class SimsamToBPMNFixed:
     def __init__(self):
         self.type_mapping = {
             "Resource": "startEvent",
-            "Action": "task", 
+            "Action": "task",
             "Decision": "exclusiveGateway",
             "State": "endEvent"
         }
 
         self.subtype_mapping = {
             "Form Incoming": "receiveTask",
-            "Mail Outgoing": "sendTask", 
+            "Mail Outgoing": "sendTask",
             "SMS Outgoing": "sendTask",
             "Call Outgoing": "serviceTask",
             "Call Incoming": "receiveTask",
@@ -50,12 +50,19 @@ class SimsamToBPMNFixed:
             'id', 'name', 'incomingNumber', 'variable', 'type', 'subType', 'aOR',
             'execution', 'account', 'platform', 'monitoring', 'monitoredData',
             'description', 'avgCostTime', 'avgCost', 'effectiveCost', 'lastUpdate',
-            'nextUpdate', 'kPI', 'scheduleStart', 'scheduleEnd', 'frequency\r'
+            'nextUpdate', 'kPI', 'scheduleStart', 'scheduleEnd', 'frequency'
         ]
         self.connection_schema = [
             'id', 'fromId', 'toId', 'probability', 'time', 'condition',
-            'execution', 'AOR', 'type', 'description\r'
+            'execution', 'AOR', 'type', 'description'
         ]
+
+    def _is_float(self, s):
+        try:
+            float(s)
+            return True
+        except (ValueError, TypeError):
+            return False
 
     def _layout_map(self, layout):
         """Extract a simple id -> {x,y} map from various layout JSON shapes"""
@@ -247,9 +254,9 @@ class SimsamToBPMNFixed:
                 props[name] = value
         return props
 
-    def convert(self, elements_file='fromZ1M/elements.json', connections_file='fromZ1M/connections.json', 
-                variables_file='fromZ1M/variables.json', layout_file='fromZ1M/default.json', 
-                output_file='toBPMN/simsam_fixed.bpmn'):
+    def convert(self, elements_file='data/json_in/elements.json', connections_file='data/json_in/connections.json',
+                variables_file='data/json_in/variables.json', layout_file='data/json_in/default.json',
+                output_file='data/bpmn_out/simsam_fixed.bpmn'):
         """Convert Simsam JSON to BPMN with robust error handling"""
 
         print(f"Converting {elements_file} + {connections_file} -> {output_file}")
@@ -312,7 +319,7 @@ class SimsamToBPMNFixed:
 
             # Add properties
             skip_props = {"id", "name", "type"}
-            custom_props = {k: v for k, v in element.items() 
+            custom_props = {k: v for k, v in element.items()
                            if k not in skip_props and v is not None and str(v).strip()}
 
             if custom_props:
@@ -341,19 +348,40 @@ class SimsamToBPMNFixed:
 
         # Process connections
         for connection in connections:
-            conn_id = self.make_xml_safe_id(connection["id"].replace('->', '_to_'))
+            original_conn_id = connection.get("id", "")
+            conn_id = self.make_xml_safe_id(original_conn_id.replace('->', '_to_'))
             source_ref = self.make_xml_safe_id(connection["fromId"])
             target_ref = self.make_xml_safe_id(connection["toId"])
 
             xml_lines.append(f'    <sequenceFlow id="{conn_id}" sourceRef="{source_ref}" targetRef="{target_ref}">')
 
-            # Handle probability
             prob = connection.get("probability")
-            if prob is not None and str(prob).strip() not in ["", "None", "1"]:
+            custom_props = {k: v for k, v in connection.items() if k not in ['id', 'fromId', 'toId'] and v is not None}
+
+            # Add originalId to custom_props for roundtrip
+            custom_props['originalId'] = original_conn_id
+
+            # Special handling for probability
+            if self._is_float(prob) and float(prob) != 1.0:
                 xml_lines.extend([
                     '      <conditionExpression xsi:type="tFormalExpression">',
                     f'        ${{Math.random() &lt;= {prob}}}',
                     '      </conditionExpression>'
+                ])
+
+            if custom_props:
+                xml_lines.extend([
+                    '      <extensionElements>',
+                    '        <simsam:properties>'
+                ])
+                for key, value in custom_props.items():
+                    safe_key = self.make_xml_safe_id(str(key))
+                    safe_value = self.escape_xml_thoroughly(str(value))
+                    if safe_value:
+                         xml_lines.append(f'          <simsam:property name="{safe_key}" value="{safe_value}" />')
+                xml_lines.extend([
+                    '        </simsam:properties>',
+                    '      </extensionElements>'
                 ])
 
             xml_lines.append('    </sequenceFlow>')
@@ -383,16 +411,16 @@ class SimsamToBPMNFixed:
 
     def convert_bpmn_to_json(
         self,
-        bpmn_file='fromBPMN/simsam_fixed.bpmn',
-        out_elements='toZ1M/elements.json',
-        out_connections='toZ1M/connections.json',
-        out_variables='toZ1M/variables.json',
-        out_layout='toZ1M/layout.json'
+        bpmn_file='data/bpmn_in/simsam_fixed.bpmn',
+        out_elements='data/json_out/elements.json',
+        out_connections='data/json_out/connections.json',
+        out_variables='data/json_out/variables.json',
+        out_layout='data/json_out/layout.json'
     ):
         """Convert BPMN XML back to Simsam-like JSON files.
 
-        - Reads: fromBPMN/simsam_fixed.bpmn
-        - Writes: toZ1M/elements.json, toZ1M/connections.json, toZ1M/variables.json, toZ1M/layout.json
+        - Reads: data/bpmn_in/simsam_fixed.bpmn
+        - Writes: data/json_out/elements.json, data/json_out/connections.json, data/json_out/variables.json, data/json_out/layout.json
         """
 
         print(f"Converting {bpmn_file} -> {out_elements}, {out_connections}, {out_layout}")
@@ -458,34 +486,42 @@ class SimsamToBPMNFixed:
         # Connections (collect, then pad schema)
         connections = []
         for sf in process.findall('bpmn:sequenceFlow', ns):
-            cid = sf.get('id') or ''
-            src = sf.get('sourceRef') or ''
-            tgt = sf.get('targetRef') or ''
+            props = self._parse_simsam_properties(sf, ns)
+
+            # Base connection record
             conn = {
-                'id': cid,
-                'fromId': src,
-                'toId': tgt,
-                'probability': None,
-                'time': None,
-                'condition': None,
-                'execution': None,
-                'AOR': None,
-                'type': None,
-                'description\r': None,
+                'id': props.get('originalId', sf.get('id') or ''),
+                'fromId': sf.get('sourceRef') or '',
+                'toId': sf.get('targetRef') or '',
             }
-            cond = sf.find('bpmn:conditionExpression', ns)
-            if cond is not None and cond.text:
-                txt = cond.text.strip()
-                # Expect pattern like ${Math.random() <= 0.7}
-                m = re.search(r"<=\s*([0-9]*\.?[0-9]+)", txt)
-                if m:
-                    try:
-                        conn['probability'] = float(m.group(1))
-                    except Exception:
-                        pass
-                else:
-                    # Store raw condition if not a probability threshold
-                    conn['condition'] = txt
+
+            # Merge other properties from extension elements
+            for k, v in props.items():
+                if k in ['id', 'fromId', 'toId', 'originalId']:
+                    continue
+                conn[k] = v
+
+            # Special handling for probability ONLY if not in props
+            if 'probability' not in conn:
+                cond = sf.find('bpmn:conditionExpression', ns)
+                if cond is not None and cond.text:
+                    txt = cond.text.strip()
+                    m = re.search(r"<=\s*([0-9]*\.?[0-9]+)", txt)
+                    if m:
+                        try:
+                            conn['probability'] = float(m.group(1))
+                        except Exception:
+                            pass
+                    # If it's not a numeric probability, it should have been in props.
+                    # This is a fallback for the condition attribute.
+                    elif 'condition' not in conn:
+                        conn['condition'] = txt
+
+            # Ensure all expected connection fields exist
+            for fld in self.connection_schema:
+                if fld not in conn:
+                    conn[fld] = None
+
             connections.append(conn)
 
         # Layout from BPMN DI
@@ -529,18 +565,18 @@ class SimsamToBPMNFixed:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Simsam <-> BPMN converter")
     parser.add_argument('--reverse', action='store_true', default=False,
-                        help='Run BPMN -> JSON (fromBPMN -> toZ1M). Default is JSON -> BPMN (fromZ1M -> toBPMN).')
+                        help='Run BPMN -> JSON (data/bpmn_in -> data/json_out). Default is JSON -> BPMN (data/json_in -> data/bpmn_out).')
     # Allow overriding files if needed
-    parser.add_argument('--elements', default='fromZ1M/elements.json')
-    parser.add_argument('--connections', default='fromZ1M/connections.json')
-    parser.add_argument('--variables', default='fromZ1M/variables.json')
-    parser.add_argument('--layout', default='fromZ1M/default.json')
-    parser.add_argument('--out-bpmn', default='toBPMN/simsam_fixed.bpmn')
-    parser.add_argument('--bpmn', default='fromBPMN/simsam_fixed.bpmn')
-    parser.add_argument('--out-elements', default='toZ1M/elements.json')
-    parser.add_argument('--out-connections', default='toZ1M/connections.json')
-    parser.add_argument('--out-variables', default='toZ1M/variables.json')
-    parser.add_argument('--out-layout', default='toZ1M/layout.json')
+    parser.add_argument('--elements', default='data/json_in/elements.json')
+    parser.add_argument('--connections', default='data/json_in/connections.json')
+    parser.add_argument('--variables', default='data/json_in/variables.json')
+    parser.add_argument('--layout', default='data/json_in/default.json')
+    parser.add_argument('--out-bpmn', default='data/bpmn_out/simsam_fixed.bpmn')
+    parser.add_argument('--bpmn', default='data/bpmn_in/simsam_fixed.bpmn')
+    parser.add_argument('--out-elements', default='data/json_out/elements.json')
+    parser.add_argument('--out-connections', default='data/json_out/connections.json')
+    parser.add_argument('--out-variables', default='data/json_out/variables.json')
+    parser.add_argument('--out-layout', default='data/json_out/layout.json')
     args = parser.parse_args()
 
     converter = SimsamToBPMNFixed()

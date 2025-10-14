@@ -21,7 +21,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "ghost_1",
@@ -45,7 +45,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "rejection_1",
@@ -69,7 +69,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "rejection_2",
@@ -93,7 +93,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "high_potential_candidate",
@@ -117,7 +117,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "medium_potential_candidate",
@@ -141,7 +141,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "low_potential_candidate",
@@ -165,7 +165,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "rejection_3",
@@ -189,7 +189,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_job_offer_accept",
@@ -213,7 +213,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_call_rejection",
@@ -237,7 +237,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_ghost",
@@ -261,7 +261,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_job_offer_accept",
@@ -285,7 +285,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_call_rejection",
@@ -309,7 +309,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_ghost",
@@ -333,7 +333,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_job_offer_accept",
@@ -357,7 +357,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_call_rejection",
@@ -381,7 +381,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_ghost",
@@ -405,7 +405,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "contract_rejection",
@@ -429,7 +429,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "yousign_ghost",
@@ -453,7 +453,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation_ghost",
@@ -477,7 +477,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "onboarding_ghost",
@@ -501,7 +501,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "slack_ghost",
@@ -525,7 +525,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "learning_360_ghost",
@@ -549,7 +549,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "formation_ghost",
@@ -573,7 +573,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "learning_360_graduation",
@@ -597,7 +597,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "learning_360_dropout",
@@ -621,7 +621,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "formation_graduate",
@@ -645,7 +645,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_showup_saturday",
@@ -669,7 +669,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_showup_sunday",
@@ -693,7 +693,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_showup_monday",
@@ -717,7 +717,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_noshow",
@@ -741,7 +741,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "first_contact_ghost",
@@ -765,7 +765,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1d4_drop",
@@ -789,7 +789,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1d5_drop",
@@ -813,7 +813,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1d3_drop",
@@ -837,7 +837,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "week_1_graduation",
@@ -861,7 +861,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d4_drop",
@@ -885,7 +885,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d5_drop",
@@ -909,7 +909,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d3_drop",
@@ -933,7 +933,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "week_2_graduation",
@@ -957,7 +957,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d2_drop",
@@ -981,7 +981,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3d5_drop",
@@ -1005,7 +1005,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3d3_drop",
@@ -1029,7 +1029,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "week_3_graduation",
@@ -1053,7 +1053,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4d5_drop",
@@ -1077,7 +1077,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4d3_drop",
@@ -1101,7 +1101,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "week_4_graduation",
@@ -1125,7 +1125,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "end_of_contract",
@@ -1149,7 +1149,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "application_review_1",
@@ -1173,7 +1173,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "application_review_2",
@@ -1197,7 +1197,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "video_screening",
@@ -1221,7 +1221,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_interview",
@@ -1245,7 +1245,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_interview",
@@ -1269,7 +1269,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_interview",
@@ -1293,7 +1293,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "starting_date_definition",
@@ -1317,7 +1317,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "contract_verification",
@@ -1341,7 +1341,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation",
@@ -1365,7 +1365,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_team_join_time_defnition",
@@ -1389,7 +1389,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1d3_result",
@@ -1413,7 +1413,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1d4_result",
@@ -1437,7 +1437,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1d5_result",
@@ -1461,7 +1461,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d3_result",
@@ -1485,7 +1485,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d4_result",
@@ -1509,7 +1509,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d5_result",
@@ -1533,7 +1533,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2d2_result",
@@ -1557,7 +1557,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3d2_result",
@@ -1581,7 +1581,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3d3_result",
@@ -1605,7 +1605,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3d5_result",
@@ -1629,7 +1629,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4d2_result",
@@ -1653,7 +1653,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4d3_result",
@@ -1677,7 +1677,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4d5_result",
@@ -1701,31 +1701,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
-  },
-  {
-    "id": "Gateway_0op8kf5",
-    "name": "",
-    "type": "Decision",
-    "incomingNumber": null,
-    "variable": null,
-    "subType": null,
-    "aOR": null,
-    "execution": null,
-    "account": null,
-    "platform": null,
-    "monitoring": null,
-    "monitoredData": null,
-    "description": null,
-    "avgCostTime": null,
-    "avgCost": null,
-    "effectiveCost": null,
-    "lastUpdate": null,
-    "nextUpdate": null,
-    "kPI": null,
-    "scheduleStart": null,
-    "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "creation_alan_account",
@@ -1749,7 +1725,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "slack_promogroup_creation",
@@ -1773,7 +1749,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "slack_activation",
@@ -1797,7 +1773,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "learning_360_experience",
@@ -1821,7 +1797,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "slack_team_creation_tl",
@@ -1845,7 +1821,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_1",
@@ -1869,7 +1845,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_nc_co_1",
@@ -1893,7 +1869,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_1",
@@ -1917,7 +1893,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_2",
@@ -1941,7 +1917,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_nc_co_2",
@@ -1965,7 +1941,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_3",
@@ -1989,7 +1965,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_2",
@@ -2013,7 +1989,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_nc_co_3",
@@ -2037,7 +2013,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_4",
@@ -2061,7 +2037,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_5",
@@ -2085,7 +2061,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_6",
@@ -2109,7 +2085,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_7",
@@ -2133,7 +2109,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_10",
@@ -2157,7 +2133,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_11",
@@ -2181,7 +2157,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "call_tl_co_drop_15",
@@ -2205,7 +2181,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_transport_post_mission",
@@ -2229,7 +2205,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_transport_pre_mission",
@@ -2253,7 +2229,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_spendesk_check_pre_mission",
@@ -2277,7 +2253,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_spendesk_check_post_mission",
@@ -2301,127 +2277,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
-  },
-  {
-    "id": "Activity_0nsk9f2",
-    "name": "New Element",
-    "type": "Action",
-    "incomingNumber": null,
-    "variable": null,
-    "subType": null,
-    "aOR": null,
-    "execution": null,
-    "account": null,
-    "platform": null,
-    "monitoring": null,
-    "monitoredData": null,
-    "description": null,
-    "avgCostTime": null,
-    "avgCost": null,
-    "effectiveCost": null,
-    "lastUpdate": null,
-    "nextUpdate": null,
-    "kPI": null,
-    "scheduleStart": null,
-    "scheduleEnd": null,
-    "frequency\r": null
-  },
-  {
-    "id": "Activity_0wz9y1j",
-    "name": "Another New Element",
-    "type": "Action",
-    "incomingNumber": null,
-    "variable": null,
-    "subType": null,
-    "aOR": null,
-    "execution": null,
-    "account": null,
-    "platform": null,
-    "monitoring": null,
-    "monitoredData": null,
-    "description": null,
-    "avgCostTime": null,
-    "avgCost": null,
-    "effectiveCost": null,
-    "lastUpdate": null,
-    "nextUpdate": null,
-    "kPI": null,
-    "scheduleStart": null,
-    "scheduleEnd": null,
-    "frequency\r": null
-  },
-  {
-    "id": "Activity_09ms8y8",
-    "name": "D1",
-    "type": "Action",
-    "incomingNumber": null,
-    "variable": null,
-    "subType": null,
-    "aOR": null,
-    "execution": null,
-    "account": null,
-    "platform": null,
-    "monitoring": null,
-    "monitoredData": null,
-    "description": null,
-    "avgCostTime": null,
-    "avgCost": null,
-    "effectiveCost": null,
-    "lastUpdate": null,
-    "nextUpdate": null,
-    "kPI": null,
-    "scheduleStart": null,
-    "scheduleEnd": null,
-    "frequency\r": null
-  },
-  {
-    "id": "Activity_1ukkph4",
-    "name": "D2",
-    "type": "Action",
-    "incomingNumber": null,
-    "variable": null,
-    "subType": null,
-    "aOR": null,
-    "execution": null,
-    "account": null,
-    "platform": null,
-    "monitoring": null,
-    "monitoredData": null,
-    "description": null,
-    "avgCostTime": null,
-    "avgCost": null,
-    "effectiveCost": null,
-    "lastUpdate": null,
-    "nextUpdate": null,
-    "kPI": null,
-    "scheduleStart": null,
-    "scheduleEnd": null,
-    "frequency\r": null
-  },
-  {
-    "id": "Activity_060i52t",
-    "name": "D3",
-    "type": "Action",
-    "incomingNumber": null,
-    "variable": null,
-    "subType": null,
-    "aOR": null,
-    "execution": null,
-    "account": null,
-    "platform": null,
-    "monitoring": null,
-    "monitoredData": null,
-    "description": null,
-    "avgCostTime": null,
-    "avgCost": null,
-    "effectiveCost": null,
-    "lastUpdate": null,
-    "nextUpdate": null,
-    "kPI": null,
-    "scheduleStart": null,
-    "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "gs_onboarding_update",
@@ -2445,7 +2301,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "make_payfit_account",
@@ -2469,7 +2325,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "make_payfit_conrtract",
@@ -2493,7 +2349,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "gs_onboarding_update_contract",
@@ -2517,7 +2373,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "gs_late_people_update",
@@ -2541,7 +2397,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "onboarding",
@@ -2565,7 +2421,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "slack_account_creation",
@@ -2589,7 +2445,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "notion_account_creation",
@@ -2613,7 +2469,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "learning_360_account_creation",
@@ -2637,7 +2493,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "wesser_studio_account_creation",
@@ -2661,7 +2517,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "learning_360_adding_classes",
@@ -2685,7 +2541,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "formation",
@@ -2709,7 +2565,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s1_with_tl",
@@ -2733,7 +2589,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s2",
@@ -2757,7 +2613,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s3",
@@ -2781,7 +2637,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s4",
@@ -2805,7 +2661,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s5",
@@ -2829,7 +2685,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s6",
@@ -2853,7 +2709,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s7",
@@ -2877,7 +2733,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s8",
@@ -2901,7 +2757,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s9",
@@ -2925,7 +2781,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w1s10",
@@ -2949,7 +2805,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s1",
@@ -2973,7 +2829,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s2",
@@ -2997,7 +2853,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s3",
@@ -3021,7 +2877,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s4",
@@ -3045,7 +2901,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s5",
@@ -3069,7 +2925,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s6",
@@ -3093,7 +2949,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s7",
@@ -3117,7 +2973,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s8",
@@ -3141,7 +2997,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s9",
@@ -3165,7 +3021,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w2s10",
@@ -3189,7 +3045,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s1",
@@ -3213,7 +3069,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s2",
@@ -3237,7 +3093,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s3",
@@ -3261,7 +3117,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s4",
@@ -3285,7 +3141,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s5",
@@ -3309,7 +3165,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s6",
@@ -3333,7 +3189,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s7",
@@ -3357,7 +3213,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s8",
@@ -3381,7 +3237,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s9",
@@ -3405,7 +3261,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w3s10",
@@ -3429,7 +3285,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s1",
@@ -3453,7 +3309,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s2",
@@ -3477,7 +3333,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s3",
@@ -3501,7 +3357,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s4",
@@ -3525,7 +3381,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s5",
@@ -3549,7 +3405,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s6",
@@ -3573,7 +3429,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s7",
@@ -3597,7 +3453,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s8",
@@ -3621,7 +3477,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s9",
@@ -3645,7 +3501,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "w4s10",
@@ -3669,7 +3525,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "ai_call",
@@ -3693,7 +3549,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_call_1",
@@ -3717,7 +3573,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_call_2",
@@ -3741,7 +3597,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_call_3",
@@ -3765,7 +3621,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_call_4",
@@ -3789,7 +3645,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_call_1",
@@ -3813,7 +3669,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_call_2",
@@ -3837,7 +3693,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_call_3",
@@ -3861,7 +3717,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_call_1",
@@ -3885,7 +3741,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_call_2",
@@ -3909,7 +3765,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "reminder_call_yousign",
@@ -3933,7 +3789,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "late_people_call",
@@ -3957,7 +3813,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation_reminder_call",
@@ -3981,7 +3837,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "pre_call_sms",
@@ -4005,7 +3861,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "pre_video_mail",
@@ -4029,7 +3885,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_1",
@@ -4053,7 +3909,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_2",
@@ -4077,7 +3933,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_3",
@@ -4101,7 +3957,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_reminder_mail_4",
@@ -4125,7 +3981,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_reminder_mail_1",
@@ -4149,7 +4005,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_reminder_mail_2",
@@ -4173,7 +4029,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_reminder_mail_3",
@@ -4197,7 +4053,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_reminder_mail_1",
@@ -4221,7 +4077,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_reminder_mail_2",
@@ -4245,7 +4101,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "inscription_onboarding",
@@ -4269,7 +4125,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mail_yousign",
@@ -4293,7 +4149,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "reminder_mail_yousign",
@@ -4317,7 +4173,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "late_people_mail",
@@ -4341,7 +4197,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "google_meet_onboarding_invite",
@@ -4365,7 +4221,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "onboarding_confirmation_reminder_mail",
@@ -4389,7 +4245,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mail_alan",
@@ -4413,7 +4269,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "spendesk_invitation",
@@ -4437,7 +4293,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mail_formation",
@@ -4461,7 +4317,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "wap_invite",
@@ -4485,7 +4341,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "learning_360_invite",
@@ -4509,7 +4365,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "notion_invite",
@@ -4533,7 +4389,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "slack_invite",
@@ -4557,7 +4413,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "slack_welcome_msg",
@@ -4581,7 +4437,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "first_contact_nc_tl",
@@ -4605,7 +4461,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "monday_welcome_msg",
@@ -4629,7 +4485,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "tuesday_formation_msg",
@@ -4653,7 +4509,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "wednesday_affectations_msg",
@@ -4677,7 +4533,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "thursday_formation_reminder_msg",
@@ -4701,7 +4557,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "thursday_formation_recap",
@@ -4725,7 +4581,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "speech_nc_1_feedback",
@@ -4749,7 +4605,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_1",
@@ -4773,7 +4629,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_2",
@@ -4797,7 +4653,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_3",
@@ -4821,7 +4677,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_4",
@@ -4845,7 +4701,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_5",
@@ -4869,7 +4725,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_6",
@@ -4893,7 +4749,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_7",
@@ -4917,7 +4773,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_8",
@@ -4941,7 +4797,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_9",
@@ -4965,7 +4821,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_10",
@@ -4989,7 +4845,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "nc_info_pdf_11",
@@ -5013,7 +4869,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "text_application",
@@ -5037,7 +4893,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "video_application",
@@ -5061,7 +4917,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "hp_interview_callback",
@@ -5085,7 +4941,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "mp_interview_callback",
@@ -5109,7 +4965,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "lp_interview_callback",
@@ -5133,7 +4989,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "contract_sign",
@@ -5157,7 +5013,7 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   },
   {
     "id": "speech_nc_1",
@@ -5181,6 +5037,6 @@
     "kPI": null,
     "scheduleStart": null,
     "scheduleEnd": null,
-    "frequency\r": null
+    "frequency": null
   }
 ]

@@ -1,0 +1,1054 @@
+{
+  "nodes": [
+    {
+      "id": "indeed",
+      "x": 0.0,
+      "y": 200.0
+    },
+    {
+      "id": "text_application",
+      "x": 200.0,
+      "y": 200.0
+    },
+    {
+      "id": "pre_call_sms",
+      "x": 200.0,
+      "y": 0.0
+    },
+    {
+      "id": "ai_call",
+      "x": 400.0,
+      "y": 0.0
+    },
+    {
+      "id": "pre_video_mail",
+      "x": 400.0,
+      "y": 200.0
+    },
+    {
+      "id": "video_application",
+      "x": 600.0,
+      "y": 200.0
+    },
+    {
+      "id": "ghost_1",
+      "x": 600.0,
+      "y": 0.0
+    },
+    {
+      "id": "application_review_1",
+      "x": 800.0,
+      "y": 200.0
+    },
+    {
+      "id": "rejection_1",
+      "x": 800.0,
+      "y": 0.0
+    },
+    {
+      "id": "application_review_2",
+      "x": 1000.0,
+      "y": 200.0
+    },
+    {
+      "id": "rejection_2",
+      "x": 1000.0,
+      "y": 0.0
+    },
+    {
+      "id": "video_screening",
+      "x": 1200.0,
+      "y": 200.0
+    },
+    {
+      "id": "high_potential_candidate",
+      "x": 1400.0,
+      "y": 800.0
+    },
+    {
+      "id": "medium_potential_candidate",
+      "x": 1400.0,
+      "y": 200.0
+    },
+    {
+      "id": "low_potential_candidate",
+      "x": 1400.0,
+      "y": -400.0
+    },
+    {
+      "id": "rejection_3",
+      "x": 1200.0,
+      "y": 0.0
+    },
+    {
+      "id": "hp_call_1",
+      "x": 1600.0,
+      "y": 800.0
+    },
+    {
+      "id": "hp_reminder_mail_1",
+      "x": 1800.0,
+      "y": 1200.0
+    },
+    {
+      "id": "hp_call_2",
+      "x": 2000.0,
+      "y": 800.0
+    },
+    {
+      "id": "hp_reminder_mail_2",
+      "x": 2200.0,
+      "y": 1200.0
+    },
+    {
+      "id": "hp_call_3",
+      "x": 2400.0,
+      "y": 800.0
+    },
+    {
+      "id": "hp_reminder_mail_3",
+      "x": 2600.0,
+      "y": 1200.0
+    },
+    {
+      "id": "hp_call_4",
+      "x": 2800.0,
+      "y": 800.0
+    },
+    {
+      "id": "hp_reminder_mail_4",
+      "x": 3000.0,
+      "y": 1200.0
+    },
+    {
+      "id": "hp_interview_callback",
+      "x": 3400.0,
+      "y": 1200.0
+    },
+    {
+      "id": "hp_interview",
+      "x": 3400.0,
+      "y": 800.0
+    },
+    {
+      "id": "hp_job_offer_accept",
+      "x": 3500.0,
+      "y": 1000.0
+    },
+    {
+      "id": "hp_call_rejection",
+      "x": 3300.0,
+      "y": 1000.0
+    },
+    {
+      "id": "hp_ghost",
+      "x": 3100.0,
+      "y": 1000.0
+    },
+    {
+      "id": "mp_call_1",
+      "x": 1600.0,
+      "y": 200.0
+    },
+    {
+      "id": "mp_reminder_mail_1",
+      "x": 1800.0,
+      "y": 600.0
+    },
+    {
+      "id": "mp_call_2",
+      "x": 2000.0,
+      "y": 200.0
+    },
+    {
+      "id": "mp_reminder_mail_2",
+      "x": 2200.0,
+      "y": 600.0
+    },
+    {
+      "id": "mp_call_3",
+      "x": 2400.0,
+      "y": 200.0
+    },
+    {
+      "id": "mp_reminder_mail_3",
+      "x": 2600.0,
+      "y": 600.0
+    },
+    {
+      "id": "mp_interview_callback",
+      "x": 3000.0,
+      "y": 600.0
+    },
+    {
+      "id": "mp_interview",
+      "x": 3000.0,
+      "y": 200.0
+    },
+    {
+      "id": "mp_job_offer_accept",
+      "x": 3100.0,
+      "y": 400.0
+    },
+    {
+      "id": "mp_call_rejection",
+      "x": 2900.0,
+      "y": 400.0
+    },
+    {
+      "id": "mp_ghost",
+      "x": 2700.0,
+      "y": 400.0
+    },
+    {
+      "id": "lp_call_1",
+      "x": 1600.0,
+      "y": -400.0
+    },
+    {
+      "id": "lp_reminder_mail_1",
+      "x": 1800.0,
+      "y": 0.0
+    },
+    {
+      "id": "lp_call_2",
+      "x": 2000.0,
+      "y": -400.0
+    },
+    {
+      "id": "lp_reminder_mail_2",
+      "x": 2200.0,
+      "y": 0.0
+    },
+    {
+      "id": "lp_interview_callback",
+      "x": 2600.0,
+      "y": 0.0
+    },
+    {
+      "id": "lp_interview",
+      "x": 2600.0,
+      "y": -400.0
+    },
+    {
+      "id": "lp_job_offer_accept",
+      "x": 2700.0,
+      "y": -200.0
+    },
+    {
+      "id": "lp_call_rejection",
+      "x": 2500.0,
+      "y": -200.0
+    },
+    {
+      "id": "lp_ghost",
+      "x": 2300.0,
+      "y": -200.0
+    },
+    {
+      "id": "starting_date_definition",
+      "x": 3500.0,
+      "y": -200.0
+    },
+    {
+      "id": "gs_onboarding_update",
+      "x": 4200.0,
+      "y": 0.0
+    },
+    {
+      "id": "inscription_onboarding",
+      "x": 4200.0,
+      "y": -200.0
+    },
+    {
+      "id": "make_payfit_account",
+      "x": 4200.0,
+      "y": 600.0
+    },
+    {
+      "id": "make_payfit_conrtract",
+      "x": 4400.0,
+      "y": 600.0
+    },
+    {
+      "id": "mail_yousign",
+      "x": 4600.0,
+      "y": 600.0
+    },
+    {
+      "id": "contract_sign",
+      "x": 4800.0,
+      "y": 600.0
+    },
+    {
+      "id": "contract_verification",
+      "x": 5000.0,
+      "y": 600.0
+    },
+    {
+      "id": "contract_rejection",
+      "x": 5000.0,
+      "y": 800.0
+    },
+    {
+      "id": "creation_alan_account",
+      "x": 4800.0,
+      "y": 400.0
+    },
+    {
+      "id": "reminder_mail_yousign",
+      "x": 4600.0,
+      "y": 800.0
+    },
+    {
+      "id": "reminder_call_yousign",
+      "x": 4800.0,
+      "y": 800.0
+    },
+    {
+      "id": "yousign_ghost",
+      "x": 4800.0,
+      "y": 1000.0
+    },
+    {
+      "id": "gs_onboarding_update_contract",
+      "x": 5200.0,
+      "y": 600.0
+    },
+    {
+      "id": "gs_late_people_update",
+      "x": 4200.0,
+      "y": 400.0
+    },
+    {
+      "id": "late_people_mail",
+      "x": 4400.0,
+      "y": 400.0
+    },
+    {
+      "id": "late_people_call",
+      "x": 4600.0,
+      "y": 400.0
+    },
+    {
+      "id": "google_meet_onboarding_invite",
+      "x": 4400.0,
+      "y": -200.0
+    },
+    {
+      "id": "onboarding_confirmation",
+      "x": 4600.0,
+      "y": -200.0
+    },
+    {
+      "id": "onboarding",
+      "x": 5000.0,
+      "y": -200.0
+    },
+    {
+      "id": "onboarding_confirmation_reminder_mail",
+      "x": 4400.0,
+      "y": 0.0
+    },
+    {
+      "id": "onboarding_confirmation_reminder_call",
+      "x": 4600.0,
+      "y": 0.0
+    },
+    {
+      "id": "onboarding_confirmation_ghost",
+      "x": 4600.0,
+      "y": 200.0
+    },
+    {
+      "id": "mail_alan",
+      "x": 5000.0,
+      "y": 400.0
+    },
+    {
+      "id": "spendesk_invitation",
+      "x": 5400.0,
+      "y": 600.0
+    },
+    {
+      "id": "mail_formation",
+      "x": 5400.0,
+      "y": -200.0
+    },
+    {
+      "id": "slack_account_creation",
+      "x": 5400.0,
+      "y": 200.0
+    },
+    {
+      "id": "notion_account_creation",
+      "x": 5400.0,
+      "y": -1000.0
+    },
+    {
+      "id": "learning_360_account_creation",
+      "x": 5400.0,
+      "y": -600.0
+    },
+    {
+      "id": "wesser_studio_account_creation",
+      "x": 5400.0,
+      "y": -800.0
+    },
+    {
+      "id": "onboarding_ghost",
+      "x": 4800.0,
+      "y": -400.0
+    },
+    {
+      "id": "wap_invite",
+      "x": 5600.0,
+      "y": -800.0
+    },
+    {
+      "id": "learning_360_adding_classes",
+      "x": 5400.0,
+      "y": -400.0
+    },
+    {
+      "id": "learning_360_invite",
+      "x": 5600.0,
+      "y": -600.0
+    },
+    {
+      "id": "notion_invite",
+      "x": 5600.0,
+      "y": -1000.0
+    },
+    {
+      "id": "slack_promogroup_creation",
+      "x": 5400.0,
+      "y": 0.0
+    },
+    {
+      "id": "slack_invite",
+      "x": 5600.0,
+      "y": 200.0
+    },
+    {
+      "id": "slack_activation",
+      "x": 5800.0,
+      "y": 200.0
+    },
+    {
+      "id": "slack_ghost",
+      "x": 5800.0,
+      "y": 400.0
+    },
+    {
+      "id": "slack_welcome_msg",
+      "x": 6000.0,
+      "y": 400.0
+    },
+    {
+      "id": "first_contact_nc_tl",
+      "x": 6600.0,
+      "y": 200.0
+    },
+    {
+      "id": "monday_welcome_msg",
+      "x": 5600.0,
+      "y": 0.0
+    },
+    {
+      "id": "tuesday_formation_msg",
+      "x": 5800.0,
+      "y": 0.0
+    },
+    {
+      "id": "wednesday_affectations_msg",
+      "x": 6000.0,
+      "y": 0.0
+    },
+    {
+      "id": "thursday_formation_reminder_msg",
+      "x": 6200.0,
+      "y": 0.0
+    },
+    {
+      "id": "thursday_formation_recap",
+      "x": 6400.0,
+      "y": -200.0
+    },
+    {
+      "id": "speech_nc_1",
+      "x": 6600.0,
+      "y": -400.0
+    },
+    {
+      "id": "speech_nc_1_feedback",
+      "x": 6800.0,
+      "y": -400.0
+    },
+    {
+      "id": "formation",
+      "x": 6200.0,
+      "y": -200.0
+    },
+    {
+      "id": "learning_360_ghost",
+      "x": 5600.0,
+      "y": -400.0
+    },
+    {
+      "id": "formation_ghost",
+      "x": 6200.0,
+      "y": -400.0
+    },
+    {
+      "id": "learning_360_graduation",
+      "x": 6400.0,
+      "y": -800.0
+    },
+    {
+      "id": "learning_360_dropout",
+      "x": 6400.0,
+      "y": -600.0
+    },
+    {
+      "id": "learning_360_experience",
+      "x": 6200.0,
+      "y": -600.0
+    },
+    {
+      "id": "formation_graduate",
+      "x": 6400.0,
+      "y": -400.0
+    },
+    {
+      "id": "nc_showup_saturday",
+      "x": 7200.0,
+      "y": 200.0
+    },
+    {
+      "id": "nc_showup_sunday",
+      "x": 7200.0,
+      "y": 400.0
+    },
+    {
+      "id": "nc_showup_monday",
+      "x": 7200.0,
+      "y": 0.0
+    },
+    {
+      "id": "nc_noshow",
+      "x": 7000.0,
+      "y": 0.0
+    },
+    {
+      "id": "first_contact_ghost",
+      "x": 6800.0,
+      "y": 0.0
+    },
+    {
+      "id": "nc_team_join_time_defnition",
+      "x": 7000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s1_with_tl",
+      "x": 7400.0,
+      "y": 200.0
+    },
+    {
+      "id": "slack_team_creation_tl",
+      "x": 7000.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_1",
+      "x": 7600.0,
+      "y": 0.0
+    },
+    {
+      "id": "w1s2",
+      "x": 7600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s3",
+      "x": 7800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s4",
+      "x": 8000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s5",
+      "x": 8200.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s6",
+      "x": 8400.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s7",
+      "x": 8600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s8",
+      "x": 8800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s9",
+      "x": 9000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w1s10",
+      "x": 9200.0,
+      "y": 200.0
+    },
+    {
+      "id": "call_nc_co_1",
+      "x": 7800.0,
+      "y": 0.0
+    },
+    {
+      "id": "w1d3_result",
+      "x": 8400.0,
+      "y": 400.0
+    },
+    {
+      "id": "w1d4_result",
+      "x": 8800.0,
+      "y": 400.0
+    },
+    {
+      "id": "w1d5_result",
+      "x": 9200.0,
+      "y": 400.0
+    },
+    {
+      "id": "w1d4_drop",
+      "x": 8800.0,
+      "y": 600.0
+    },
+    {
+      "id": "w1d5_drop",
+      "x": 9200.0,
+      "y": 600.0
+    },
+    {
+      "id": "w1d3_drop",
+      "x": 8400.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_1",
+      "x": 8600.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_2",
+      "x": 9000.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_nc_co_2",
+      "x": 8400.0,
+      "y": 0.0
+    },
+    {
+      "id": "call_tl_co_drop_3",
+      "x": 9400.0,
+      "y": 600.0
+    },
+    {
+      "id": "week_1_graduation",
+      "x": 9400.0,
+      "y": 200.0
+    },
+    {
+      "id": "call_tl_co_2",
+      "x": 8600.0,
+      "y": 0.0
+    },
+    {
+      "id": "w2s1",
+      "x": 9600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s2",
+      "x": 9800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s3",
+      "x": 10000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s4",
+      "x": 10200.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s5",
+      "x": 10400.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s6",
+      "x": 10600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s7",
+      "x": 10800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s8",
+      "x": 11000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s9",
+      "x": 11200.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2s10",
+      "x": 11400.0,
+      "y": 200.0
+    },
+    {
+      "id": "call_nc_co_3",
+      "x": 9600.0,
+      "y": 0.0
+    },
+    {
+      "id": "w2d3_result",
+      "x": 10600.0,
+      "y": 400.0
+    },
+    {
+      "id": "w2d4_result",
+      "x": 11000.0,
+      "y": 400.0
+    },
+    {
+      "id": "w2d5_result",
+      "x": 11400.0,
+      "y": 400.0
+    },
+    {
+      "id": "w2d4_drop",
+      "x": 11000.0,
+      "y": 600.0
+    },
+    {
+      "id": "w2d5_drop",
+      "x": 11400.0,
+      "y": 600.0
+    },
+    {
+      "id": "w2d3_drop",
+      "x": 10600.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_4",
+      "x": 10800.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_5",
+      "x": 11200.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_6",
+      "x": 11600.0,
+      "y": 600.0
+    },
+    {
+      "id": "week_2_graduation",
+      "x": 11600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w2d2_result",
+      "x": 10200.0,
+      "y": 400.0
+    },
+    {
+      "id": "w2d2_drop",
+      "x": 10200.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_7",
+      "x": 10400.0,
+      "y": 600.0
+    },
+    {
+      "id": "w3s1",
+      "x": 11800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s2",
+      "x": 12000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s3",
+      "x": 12200.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s4",
+      "x": 12400.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s5",
+      "x": 12600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s6",
+      "x": 12800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s7",
+      "x": 13000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s8",
+      "x": 13200.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s9",
+      "x": 13400.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3s10",
+      "x": 13600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w3d2_result",
+      "x": 12400.0,
+      "y": 400.0
+    },
+    {
+      "id": "w3d3_result",
+      "x": 12800.0,
+      "y": 400.0
+    },
+    {
+      "id": "w3d5_result",
+      "x": 13600.0,
+      "y": 400.0
+    },
+    {
+      "id": "w3d5_drop",
+      "x": 13600.0,
+      "y": 600.0
+    },
+    {
+      "id": "w3d3_drop",
+      "x": 12800.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_10",
+      "x": 13800.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_11",
+      "x": 12600.0,
+      "y": 600.0
+    },
+    {
+      "id": "week_3_graduation",
+      "x": 13800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s1",
+      "x": 14000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s2",
+      "x": 14200.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s3",
+      "x": 14400.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s4",
+      "x": 14600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s5",
+      "x": 14800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s6",
+      "x": 15000.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s7",
+      "x": 15200.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s8",
+      "x": 15400.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s9",
+      "x": 15600.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4s10",
+      "x": 15800.0,
+      "y": 200.0
+    },
+    {
+      "id": "w4d2_result",
+      "x": 14600.0,
+      "y": 400.0
+    },
+    {
+      "id": "w4d3_result",
+      "x": 15000.0,
+      "y": 400.0
+    },
+    {
+      "id": "w4d5_result",
+      "x": 16000.0,
+      "y": 400.0
+    },
+    {
+      "id": "w4d5_drop",
+      "x": 16000.0,
+      "y": 600.0
+    },
+    {
+      "id": "w4d3_drop",
+      "x": 15000.0,
+      "y": 600.0
+    },
+    {
+      "id": "call_tl_co_drop_15",
+      "x": 14800.0,
+      "y": 600.0
+    },
+    {
+      "id": "week_4_graduation",
+      "x": 16200.0,
+      "y": 200.0
+    },
+    {
+      "id": "nc_info_pdf_1",
+      "x": 7600.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_2",
+      "x": 8400.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_3",
+      "x": 9200.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_4",
+      "x": 9800.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_5",
+      "x": 10600.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_6",
+      "x": 11400.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_7",
+      "x": 12000.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_8",
+      "x": 12800.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_9",
+      "x": 13600.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_10",
+      "x": 14200.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_info_pdf_11",
+      "x": 15000.0,
+      "y": -200.0
+    },
+    {
+      "id": "nc_transport_post_mission",
+      "x": 15800.0,
+      "y": 400.0
+    },
+    {
+      "id": "nc_transport_pre_mission",
+      "x": 6800.0,
+      "y": 400.0
+    },
+    {
+      "id": "nc_spendesk_check_pre_mission",
+      "x": 6800.0,
+      "y": 600.0
+    },
+    {
+      "id": "nc_spendesk_check_post_mission",
+      "x": 15800.0,
+      "y": 600.0
+    },
+    {
+      "id": "end_of_contract",
+      "x": 2900.0,
+      "y": 2700.0
+    }
+  ]
+}
