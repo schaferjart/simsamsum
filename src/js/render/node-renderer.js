@@ -4,6 +4,7 @@
  * including their shapes, styles, and attaching event handlers.
  */
 import * as d3 from 'd3';
+import { drawNodeShape } from './shape-library.js';
 
 /**
  * Renders the nodes in the SVG container.
@@ -38,41 +39,15 @@ export function renderNodes(g, nodes, currentLayout, eventHandlers) {
     // Node shapes
     node.each(function (d) {
         const nodeGroup = d3.select(this);
-        const size = Math.max(10, d.size || 30);
-        const borderStyle = d.borderStyle;
 
-        let shape;
-        switch (d.Type) {
-            case 'Resource':
-                shape = nodeGroup.append('rect')
-                    .attr('width', size * 1.2)
-                    .attr('height', size * 0.8)
-                    .attr('x', -size * 0.6)
-                    .attr('y', -size * 0.4);
-                break;
-            case 'Action':
-                const triangleSize = size * 0.8;
-                shape = nodeGroup.append('path')
-                    .attr('d', `M0,${-triangleSize} L${triangleSize * 0.866},${triangleSize * 0.5} L${-triangleSize * 0.866},${triangleSize * 0.5} Z`);
-                break;
-            case 'State':
-                shape = nodeGroup.append('circle')
-                    .attr('r', Math.max(5, size * 0.6));
-                break;
-            case 'Decision':
-                const diamondSize = size * 0.7;
-                shape = nodeGroup.append('path')
-                    .attr('d', `M0,${-diamondSize} L${diamondSize},0 L0,${diamondSize} L${-diamondSize},0 Z`);
-                break;
-            default:
-                shape = nodeGroup.append('circle')
-                    .attr('r', Math.max(5, size * 0.6));
-        }
+        const styleOverrides = {
+            fillColor: d.customStyle?.color,
+            strokeColor: d.customStyle?.strokeColor,
+            strokeWidth: d.customStyle?.strokeWidth,
+            borderStyle: d.borderStyle
+        };
 
-        shape.attr('fill', (d.customStyle && d.customStyle.color) || 'rgba(255, 255, 255, 0.8)')
-            .attr('stroke', '#000000')
-            .attr('stroke-width', (d.customStyle && d.customStyle.strokeWidth) || 2)
-            .attr('stroke-dasharray', borderStyle);
+        drawNodeShape(nodeGroup, d, styleOverrides);
     });
 }
 

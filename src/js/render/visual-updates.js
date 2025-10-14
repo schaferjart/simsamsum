@@ -54,11 +54,26 @@ export function clearHighlight(g) {
 export function updateSelectionVisuals(g, selectedNodeIds) {
     if (!g) return;
 
-    g.selectAll('.node')
-        .classed('selected', d => selectedNodeIds.has(d.id))
-        .select('rect, circle, path')
-        .attr('stroke', d => selectedNodeIds.has(d.id) ? '#007bff' : '#000000')
-        .attr('stroke-width', d => selectedNodeIds.has(d.id) ? 3 : 2);
+    const nodes = g.selectAll('.node');
+    const isSelected = (d) => selectedNodeIds.has(d.id);
+
+    nodes.classed('selected', isSelected);
+
+    nodes.selectAll('path, rect, circle, ellipse, polygon, polyline')
+        .each(function (d) {
+            const selection = d3.select(this);
+            if (isSelected(d)) {
+                selection
+                    .attr('stroke', '#007bff')
+                    .attr('stroke-width', 3);
+            } else {
+                const baseStroke = selection.attr('data-base-stroke');
+                const baseStrokeWidth = selection.attr('data-base-stroke-width');
+                selection
+                    .attr('stroke', baseStroke ?? null)
+                    .attr('stroke-width', baseStrokeWidth ?? null);
+            }
+        });
 
     const anySelected = selectedNodeIds && selectedNodeIds.size > 0;
     g.selectAll('.link')

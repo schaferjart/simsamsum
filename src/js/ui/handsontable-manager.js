@@ -76,7 +76,18 @@ export async function initEditorTables(core) {
     // Elements table (formerly nodes)
     const elementTypes = ['Resource', 'Action', 'State', 'Decision'];
     const executionTypes = ['Automatic', 'Manual', 'Applicant', 'Noemie', 'Gil'];
-    const subTypes = ['Job Portal', 'Form Incoming', 'SMS', 'Call', 'Mail', 'Video Incoming', 'Out', 'Checkpoint', 'State'];
+    const subTypes = [
+        'Job Portal',
+        'Form Incoming',
+        'SMS Outgoing',
+        'Call Outgoing',
+        'Mail Outgoing',
+        'Video Incoming',
+        'Out',
+        'Checkpoint',
+        'State',
+        'Automatic Verification'
+    ];
     _nodesHot = new Handsontable(elementsEl, {
         ...baseSettings,
         data: (core.elements || core.nodes || []).map(e => ({ ...e })),

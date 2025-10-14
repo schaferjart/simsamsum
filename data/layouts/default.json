@@ -836,7 +836,95 @@
     "y": 600
   },
   "end_of_contract": {
-    "x": 2900,
-    "y": 2700
+    "x": 17200,
+    "y": 600
+  },
+  "material_needs": {
+    "x": 17600,
+    "y": -400
+  },
+  "ws_profile_making": {
+    "x": 17850,
+    "y": -200
+  },
+  "ws_team_making": {
+    "x": 17850,
+    "y": -400
+  },
+  "ws_tablet_assignment": {
+    "x": 17850,
+    "y": 0
+  },
+  "canva_badge_making": {
+    "x": 17850,
+    "y": -600
+  },
+  "tablet_check": {
+    "x": 17300,
+    "y": -700
+  },
+  "material_dispatch": {
+    "x": 18100,
+    "y": -600
+  },
+  "clothing_check": {
+    "x": 17900,
+    "y": -750
+  },
+  "material_check": {
+    "x": 17400,
+    "y": -550
+  },
+  "trello_cp_week": {
+    "x": 17000,
+    "y": -200
+  },
+  "fr_comeback": {
+    "x": 16800,
+    "y": 0
+  },
+  "fr_stop": {
+    "x": 17200,
+    "y": 400
+  },
+  "fr_stay": {
+    "x": 17000,
+    "y": 200
+  },
+  "nc_in": {
+    "x": 17400,
+    "y": 200
+  },
+  "trello_update": {
+    "x": 17200,
+    "y": -200
+  },
+  "programmed_changes": {
+    "x": 17200,
+    "y": 0
+  },
+  "fr_pool": {
+    "x": 16400,
+    "y": 400
+  },
+  "nc_graduation_call": {
+    "x": 16400,
+    "y": 200
+  },
+  "fr_contract": {
+    "x": 16600,
+    "y": 0
+  },
+  "fr_end_of_mission_call": {
+    "x": 17400,
+    "y": 400
+  },
+  "teams_planning_final": {
+    "x": 17400,
+    "y": -200
+  },
+  "definition_mission_starting_date": {
+    "x": 16600,
+    "y": 200
   }
 }
