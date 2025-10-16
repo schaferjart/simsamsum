@@ -140,39 +140,7 @@
                 <div id="networkGraph" class="network-graph"></div>
                 <!-- Floating button to show editor when hidden -->
                 <button id="showEditorBtn" class="show-editor-btn hidden" title="Show Editor Panel">›</button>
-                <div class="legend">
-                    <h4>Node Types</h4>
-                    <div class="legend-item">
-                        <div class="legend-shape rectangle"></div>
-                        <span>Resource</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-shape triangle"></div>
-                        <span>Action</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-shape circle"></div>
-                        <span>State</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-shape diamond"></div>
-                        <span>Decision</span>
-                    </div>
-                    
-                    <h4 style="margin-top: 16px;">Execution Types</h4>
-                    <div class="legend-item">
-                        <div class="legend-border solid"></div>
-                        <span>Automatic</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-border dotted"></div>
-                        <span>Applicant</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-border dashed"></div>
-                        <span>Manual/Others</span>
-                    </div>
-                </div>
+                <div id="legendContainer" class="legend" aria-live="polite"></div>
             </div>
 
             <!-- Right Sidebar: Editor Tables -->

@@ -1,0 +1,16 @@
+{
+  "filters": [
+    {
+      "scope": "node",
+      "column": "execution",
+      "operator": "in",
+      "value": "Applicant, Newcomer, Teamleader",
+      "isAuto": true,
+      "style": {
+        "color": "#ff0000"
+      }
+    }
+  ],
+  "styling": [],
+  "timestamp": "2025-10-16T12:03:05.027Z"
+}

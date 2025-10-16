@@ -142,6 +142,9 @@ export class WorkflowVisualizer {
         this.state.height = height;
 
         ui.bindEventListeners(this, createEventHandlers(this));
+        if (typeof ui.renderLegend === 'function') {
+            ui.renderLegend();
+        }
 
         // Set the initial state of the layout dropdown and controls
         document.getElementById('layoutSelect').value = this.state.currentLayout;

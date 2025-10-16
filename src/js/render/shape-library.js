@@ -130,7 +130,7 @@ const SHAPE_LIBRARY = {
         'Mail Outgoing': createRightTriangle,
         'Mail Incoming': createLeftTriangle,
         'Video Incoming': createLeftTriangle,
-        'Physical Displacement': createTriangle,
+        'Physical Displacement': createReversedTriangle,
         default: createTriangle
     },
     State: {

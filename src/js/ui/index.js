@@ -12,6 +12,7 @@ import * as exportSettingsManager from './export-settings-manager.js';
 import * as layoutManager from '../layouts/persistence.js';
 import * as collapsibleControls from './collapsible-controls.js';
 import * as tableFilterSync from './table-filter-sync.js';
+import { renderLegend } from './legend.js';
 import { showStatus, generateIdFromName } from '../utils.js';
 
 // --- Re-export a unified public API ---
@@ -55,6 +56,9 @@ export const { populateFilterSetsDropdown, initializeApiClient } = apiClient;
 
 // Export Settings Manager
 export const { initExportSettings, getExportSettings, getPageDimensions, getExportFrameBounds } = exportSettingsManager;
+
+// Legend
+export { renderLegend };
 
 // --- Functions that remain in the main UI module ---
 
