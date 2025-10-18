@@ -1,0 +1,258 @@
+{
+  "payfit_export_xlsx_worked": {
+    "x": -200,
+    "y": -1200
+  },
+  "hours_xlsx": {
+    "x": -200,
+    "y": -1000
+  },
+  "primes_xlsx_1": {
+    "x": 0,
+    "y": -1000
+  },
+  "matching": {
+    "x": 0,
+    "y": -800
+  },
+  "hours_fr_xlsx": {
+    "x": 200,
+    "y": -800
+  },
+  "payfit_import_xlsx_earned": {
+    "x": 400,
+    "y": -800
+  },
+  "payout_1": {
+    "x": 600,
+    "y": -800
+  },
+  "primes": {
+    "x": 200,
+    "y": -1000
+  },
+  "primes_tl_xlsx": {
+    "x": 200,
+    "y": -600
+  },
+  "wesser_studio_everyone_co_monthly_salary_fr": {
+    "x": -200,
+    "y": -400
+  },
+  "hours_primes": {
+    "x": -200,
+    "y": -600
+  },
+  "primes_xlsx_2": {
+    "x": 0,
+    "y": -600
+  },
+  "spendesk": {
+    "x": 850,
+    "y": -1450
+  },
+  "check_sd": {
+    "x": 1050,
+    "y": -1450
+  },
+  "payout_sd": {
+    "x": 1250,
+    "y": -1450
+  },
+  "refusal_sd": {
+    "x": 1250,
+    "y": -1250
+  },
+  "check_pl": {
+    "x": 1050,
+    "y": -1050
+  },
+  "payout_pl": {
+    "x": 1250,
+    "y": -1050
+  },
+  "penny_lane": {
+    "x": 850,
+    "y": -1050
+  },
+  "refusal_pl": {
+    "x": 1250,
+    "y": -850
+  },
+  "post_of_signs_from_previous_day": {
+    "x": 200,
+    "y": 0
+  },
+  "arrival_call_day": {
+    "x": 400,
+    "y": 0
+  },
+  "decision_arrival": {
+    "x": 600,
+    "y": -200
+  },
+  "negative": {
+    "x": 800,
+    "y": -400
+  },
+  "post_sign": {
+    "x": 800,
+    "y": -600
+  },
+  "negotiation": {
+    "x": 1000,
+    "y": -200
+  },
+  "positive": {
+    "x": 800,
+    "y": 0
+  },
+  "send_to_gs": {
+    "x": 1400,
+    "y": 200
+  },
+  "post_on_gs": {
+    "x": 2000,
+    "y": 200
+  },
+  "verify_report": {
+    "x": 2200,
+    "y": 200
+  },
+  "update_dashboard_unicef": {
+    "x": 2400,
+    "y": 200
+  },
+  "decision_no": {
+    "x": 600,
+    "y": 200
+  },
+  "adjustment": {
+    "x": 1000,
+    "y": 200
+  },
+  "report_on_gs": {
+    "x": 1200,
+    "y": 200
+  },
+  "check_for_your_lime": {
+    "x": 1800,
+    "y": 200
+  },
+  "unicef": {
+    "x": 1600,
+    "y": 400
+  },
+  "update_dashboard": {
+    "x": 1600,
+    "y": 0
+  },
+  "morning_discussion": {
+    "x": -600,
+    "y": 1000
+  },
+  "who_stays_who_parts": {
+    "x": -400,
+    "y": 800
+  },
+  "decide_who_to_call_screen_dashboard": {
+    "x": -400,
+    "y": 1200
+  },
+  "calls": {
+    "x": -200,
+    "y": 1200
+  },
+  "decisions": {
+    "x": 0,
+    "y": 1200
+  },
+  "choose_organization": {
+    "x": -600,
+    "y": 1600
+  },
+  "gs_planning": {
+    "x": -400,
+    "y": 1600
+  },
+  "selection_of_department": {
+    "x": -200,
+    "y": 1600
+  },
+  "selection_of_area_on_mymaps": {
+    "x": 0,
+    "y": 1600
+  },
+  "add_hubstation_per_team_week": {
+    "x": 200,
+    "y": 1600
+  },
+  "triggering_automation_on_gs": {
+    "x": 400,
+    "y": 1600
+  },
+  "export_selection_as_csv_and_import_into_mymaps_dashboard": {
+    "x": 600,
+    "y": 1600
+  },
+  "define_clusters_as_20_min_car_cluster_next_to_it": {
+    "x": 800,
+    "y": 1600
+  },
+  "assign_clusters": {
+    "x": 1000,
+    "y": 1600
+  },
+  "insert_week_information_by_copy_pasting_into_cmfx_xlsx": {
+    "x": 1200,
+    "y": 1800
+  },
+  "share_with_teams": {
+    "x": 1200,
+    "y": 1600
+  },
+  "different_planning_per_org": {
+    "x": -400,
+    "y": 1800
+  },
+  "mail_to_municipality_via_make": {
+    "x": 600,
+    "y": 1800
+  },
+  "insert_week_information_by_copy_pasting_into": {
+    "x": 1200,
+    "y": 1200
+  },
+  "gs_appli_munic": {
+    "x": 1200,
+    "y": 1400
+  },
+  "add_appli_munic": {
+    "x": 1400,
+    "y": 1200
+  },
+  "update_gs": {
+    "x": 1600,
+    "y": 1000
+  },
+  "export_extract_import_as_xlsx": {
+    "x": 1800,
+    "y": 600
+  },
+  "friday_with_validated_calculated": {
+    "x": 2000,
+    "y": 600
+  },
+  "add_to_gs_rapport_hebdomadaire": {
+    "x": 1800,
+    "y": 400
+  },
+  "export_as_xlsx": {
+    "x": 2000,
+    "y": 400
+  },
+  "mail_to_unicef": {
+    "x": 2200,
+    "y": 400
+  }
+}

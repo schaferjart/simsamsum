@@ -13,20 +13,29 @@ function parseCSV(csvContent) {
   if (lines.length === 0) return [];
 
   // Parse header
-  const headers = parseCSVLine(lines[0]);
+  const headers = parseCSVLine(lines[0]).map(header => header.trim());
+  const expectedLength = headers.length;
   
   // Parse rows
   const data = [];
   for (let i = 1; i < lines.length; i++) {
-    const values = parseCSVLine(lines[i]);
-    if (values.length !== headers.length) {
+    let values = parseCSVLine(lines[i]);
+
+    // Allow trailing empty fields that spreadsheet tools append automatically
+    if (values.length > expectedLength) {
+      values = trimTrailingEmptyValues(values, expectedLength);
+    }
+
+    if (values.length !== expectedLength) {
       console.warn(`⚠️  Row ${i + 1} has ${values.length} values but expected ${headers.length} - skipping`);
       continue;
     }
 
     const item = {};
     headers.forEach((header, index) => {
-      item[header] = parseValue(values[index]);
+      const rawValue = values[index];
+      const cleanedValue = typeof rawValue === 'string' ? rawValue.trim() : rawValue;
+      item[header] = parseValue(cleanedValue);
     });
     data.push(item);
   }
@@ -63,6 +72,14 @@ function parseCSVLine(line) {
 
   values.push(current); // Last field
   return values;
+}
+
+function trimTrailingEmptyValues(values, expectedLength) {
+  const trimmed = [...values];
+  while (trimmed.length > expectedLength && trimmed[trimmed.length - 1].trim() === '') {
+    trimmed.pop();
+  }
+  return trimmed;
 }
 
 function parseValue(value) {
