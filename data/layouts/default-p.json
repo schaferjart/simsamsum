@@ -1,259 +1,259 @@
 {
   "payfit_export_xlsx_worked": {
-    "x": -200,
-    "y": -1200
+    "x": 5050,
+    "y": 1950
   },
   "hours_xlsx": {
-    "x": -200,
-    "y": -1000
+    "x": 5050,
+    "y": 2150
   },
   "primes_xlsx_1": {
-    "x": 0,
-    "y": -1000
+    "x": 5250,
+    "y": 2150
   },
   "matching": {
-    "x": 0,
-    "y": -800
+    "x": 5250,
+    "y": 2350
   },
   "hours_fr_xlsx": {
-    "x": 200,
-    "y": -800
+    "x": 5450,
+    "y": 2350
   },
   "payfit_import_xlsx_earned": {
-    "x": 400,
-    "y": -800
+    "x": 5650,
+    "y": 2350
   },
   "payout_1": {
-    "x": 600,
-    "y": -800
+    "x": 5850,
+    "y": 2350
   },
   "primes": {
-    "x": 200,
-    "y": -1000
+    "x": 5450,
+    "y": 2150
   },
   "primes_tl_xlsx": {
-    "x": 200,
-    "y": -600
+    "x": 5450,
+    "y": 2550
   },
   "wesser_studio_everyone_co_monthly_salary_fr": {
-    "x": -200,
-    "y": -400
+    "x": 5050,
+    "y": 2750
   },
   "hours_primes": {
-    "x": -200,
-    "y": -600
+    "x": 5050,
+    "y": 2550
   },
   "primes_xlsx_2": {
-    "x": 0,
-    "y": -600
+    "x": 5250,
+    "y": 2550
   },
   "spendesk": {
-    "x": 850,
-    "y": -1450
+    "x": 5050,
+    "y": 1250
   },
   "check_sd": {
-    "x": 1050,
-    "y": -1450
+    "x": 5250,
+    "y": 1250
   },
   "payout_sd": {
-    "x": 1250,
-    "y": -1450
+    "x": 5450,
+    "y": 1250
   },
   "refusal_sd": {
-    "x": 1250,
-    "y": -1250
+    "x": 5450,
+    "y": 1450
   },
   "check_pl": {
-    "x": 1050,
-    "y": -1050
+    "x": 5250,
+    "y": 1650
   },
   "payout_pl": {
-    "x": 1250,
-    "y": -1050
+    "x": 5450,
+    "y": 1650
   },
   "penny_lane": {
-    "x": 850,
-    "y": -1050
+    "x": 5050,
+    "y": 1650
   },
   "refusal_pl": {
-    "x": 1250,
-    "y": -850
+    "x": 5450,
+    "y": 1850
   },
   "post_of_signs_from_previous_day": {
-    "x": 200,
-    "y": 0
+    "x": 5450,
+    "y": 2950
   },
   "arrival_call_day": {
-    "x": 400,
-    "y": 0
+    "x": 5650,
+    "y": 2950
   },
   "decision_arrival": {
-    "x": 600,
-    "y": -200
+    "x": 5850,
+    "y": 2950
   },
   "negative": {
-    "x": 800,
-    "y": -400
+    "x": 5850,
+    "y": 2750
   },
   "post_sign": {
-    "x": 800,
-    "y": -600
+    "x": 6050,
+    "y": 2750
   },
   "negotiation": {
-    "x": 1000,
-    "y": -200
+    "x": 6050,
+    "y": 2950
   },
   "positive": {
-    "x": 800,
-    "y": 0
+    "x": 5850,
+    "y": 3150
   },
   "send_to_gs": {
-    "x": 1400,
-    "y": 200
+    "x": 6850,
+    "y": 3150
   },
   "post_on_gs": {
-    "x": 2000,
-    "y": 200
+    "x": 7250,
+    "y": 3350
   },
   "verify_report": {
-    "x": 2200,
-    "y": 200
+    "x": 7450,
+    "y": 3350
   },
   "update_dashboard_unicef": {
-    "x": 2400,
-    "y": 200
+    "x": 7650,
+    "y": 3350
   },
   "decision_no": {
-    "x": 600,
-    "y": 200
+    "x": 5650,
+    "y": 2750
   },
   "adjustment": {
-    "x": 1000,
-    "y": 200
+    "x": 6050,
+    "y": 3150
   },
   "report_on_gs": {
-    "x": 1200,
-    "y": 200
+    "x": 6250,
+    "y": 3150
   },
   "check_for_your_lime": {
-    "x": 1800,
-    "y": 200
+    "x": 7050,
+    "y": 3350
   },
   "unicef": {
-    "x": 1600,
-    "y": 400
+    "x": 6850,
+    "y": 3550
   },
   "update_dashboard": {
-    "x": 1600,
-    "y": 0
+    "x": 6850,
+    "y": 2950
   },
   "morning_discussion": {
-    "x": -600,
-    "y": 1000
+    "x": 7800,
+    "y": 400
   },
   "who_stays_who_parts": {
-    "x": -400,
-    "y": 800
+    "x": 7800,
+    "y": 600
   },
   "decide_who_to_call_screen_dashboard": {
-    "x": -400,
-    "y": 1200
+    "x": 8000,
+    "y": 600
   },
   "calls": {
-    "x": -200,
-    "y": 1200
+    "x": 8000,
+    "y": 800
   },
   "decisions": {
-    "x": 0,
-    "y": 1200
-  },
-  "choose_organization": {
-    "x": -600,
-    "y": 1600
-  },
-  "gs_planning": {
-    "x": -400,
-    "y": 1600
-  },
-  "selection_of_department": {
-    "x": -200,
-    "y": 1600
-  },
-  "selection_of_area_on_mymaps": {
-    "x": 0,
-    "y": 1600
-  },
-  "add_hubstation_per_team_week": {
-    "x": 200,
-    "y": 1600
-  },
-  "triggering_automation_on_gs": {
-    "x": 400,
-    "y": 1600
-  },
-  "export_selection_as_csv_and_import_into_mymaps_dashboard": {
-    "x": 600,
-    "y": 1600
-  },
-  "define_clusters_as_20_min_car_cluster_next_to_it": {
-    "x": 800,
-    "y": 1600
-  },
-  "assign_clusters": {
-    "x": 1000,
-    "y": 1600
-  },
-  "insert_week_information_by_copy_pasting_into_cmfx_xlsx": {
-    "x": 1200,
-    "y": 1800
-  },
-  "share_with_teams": {
-    "x": 1200,
-    "y": 1600
-  },
-  "different_planning_per_org": {
-    "x": -400,
-    "y": 1800
-  },
-  "mail_to_municipality_via_make": {
-    "x": 600,
-    "y": 1800
-  },
-  "insert_week_information_by_copy_pasting_into": {
-    "x": 1200,
-    "y": 1200
-  },
-  "gs_appli_munic": {
-    "x": 1200,
-    "y": 1400
-  },
-  "add_appli_munic": {
-    "x": 1400,
-    "y": 1200
-  },
-  "update_gs": {
-    "x": 1600,
+    "x": 8000,
     "y": 1000
   },
+  "choose_organization": {
+    "x": 4450,
+    "y": 3750
+  },
+  "gs_planning": {
+    "x": 4650,
+    "y": 3550
+  },
+  "selection_of_department": {
+    "x": 4850,
+    "y": 3550
+  },
+  "selection_of_area_on_mymaps": {
+    "x": 5050,
+    "y": 3550
+  },
+  "add_hubstation_per_team_week": {
+    "x": 5250,
+    "y": 3550
+  },
+  "triggering_automation_on_gs": {
+    "x": 5450,
+    "y": 3550
+  },
+  "export_selection_as_csv_and_import_into_mymaps_dashboard": {
+    "x": 5650,
+    "y": 3550
+  },
+  "define_clusters_as_20_min_car_cluster_next_to_it": {
+    "x": 5850,
+    "y": 3550
+  },
+  "assign_clusters": {
+    "x": 6050,
+    "y": 3550
+  },
+  "insert_week_information_by_copy_pasting_into_cmfx_xlsx": {
+    "x": 6250,
+    "y": 3950
+  },
+  "share_with_teams": {
+    "x": 6250,
+    "y": 4150
+  },
+  "different_planning_per_org": {
+    "x": 4650,
+    "y": 3750
+  },
+  "mail_to_municipality_via_make": {
+    "x": 5650,
+    "y": 3750
+  },
+  "insert_week_information_by_copy_pasting_into": {
+    "x": 6250,
+    "y": 3750
+  },
+  "gs_appli_munic": {
+    "x": 6250,
+    "y": 3550
+  },
+  "add_appli_munic": {
+    "x": 6450,
+    "y": 3550
+  },
+  "update_gs": {
+    "x": 6650,
+    "y": 3550
+  },
   "export_extract_import_as_xlsx": {
-    "x": 1800,
-    "y": 600
+    "x": 7050,
+    "y": 3750
   },
   "friday_with_validated_calculated": {
-    "x": 2000,
-    "y": 600
+    "x": 7250,
+    "y": 3750
   },
   "add_to_gs_rapport_hebdomadaire": {
-    "x": 1800,
-    "y": 400
+    "x": 7050,
+    "y": 3550
   },
   "export_as_xlsx": {
-    "x": 2000,
-    "y": 400
+    "x": 7250,
+    "y": 3550
   },
   "mail_to_unicef": {
-    "x": 2200,
-    "y": 400
+    "x": 7450,
+    "y": 3550
   },
   "indeed": {
     "x": 0,
@@ -1092,76 +1092,76 @@
     "y": 600
   },
   "end_of_contract": {
-    "x": 17200,
-    "y": 600
+    "x": 16400,
+    "y": 400
   },
   "material_needs": {
     "x": 17600,
-    "y": -400
+    "y": -750
   },
   "ws_profile_making": {
     "x": 17850,
-    "y": -200
+    "y": 0
   },
   "ws_team_making": {
     "x": 17850,
-    "y": -400
+    "y": -200
   },
   "ws_tablet_assignment": {
     "x": 17850,
-    "y": 0
+    "y": 200
   },
   "canva_badge_making": {
-    "x": 17850,
-    "y": -600
+    "x": 18100,
+    "y": -500
   },
   "tablet_check": {
-    "x": 17300,
-    "y": -700
+    "x": 17850,
+    "y": -1000
   },
   "material_dispatch": {
     "x": 18100,
-    "y": -600
-  },
-  "clothing_check": {
-    "x": 17900,
     "y": -750
   },
+  "clothing_check": {
+    "x": 17850,
+    "y": -500
+  },
   "material_check": {
-    "x": 17400,
-    "y": -550
+    "x": 17200,
+    "y": -500
   },
   "trello_cp_week": {
-    "x": 17000,
-    "y": -200
-  },
-  "fr_comeback": {
     "x": 16800,
     "y": 0
   },
+  "fr_comeback": {
+    "x": 16800,
+    "y": 200
+  },
   "fr_stop": {
     "x": 17200,
-    "y": 400
+    "y": 600
   },
   "fr_stay": {
     "x": 17000,
-    "y": 200
+    "y": 400
   },
   "nc_in": {
-    "x": 17400,
-    "y": 200
-  },
-  "trello_update": {
     "x": 17200,
     "y": -200
   },
-  "programmed_changes": {
-    "x": 17200,
+  "trello_update": {
+    "x": 17400,
     "y": 0
   },
+  "programmed_changes": {
+    "x": 17200,
+    "y": 200
+  },
   "fr_pool": {
-    "x": 16400,
-    "y": 400
+    "x": 16600,
+    "y": 600
   },
   "nc_graduation_call": {
     "x": 16400,
@@ -1172,12 +1172,12 @@
     "y": 0
   },
   "fr_end_of_mission_call": {
-    "x": 17400,
-    "y": 400
+    "x": 17200,
+    "y": 850
   },
   "teams_planning_final": {
     "x": 17400,
-    "y": -200
+    "y": -750
   },
   "definition_mission_starting_date": {
     "x": 16600,
