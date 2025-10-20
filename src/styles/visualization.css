@@ -1,14 +1,8 @@
-/* D3 Network Styl.node.highlighted {
-  stroke-width: 3px;
-  filter: brightness(1.3) drop-shadow(0 0 8px rgba(102, 167, 255, 0.8));
-  opacity: 1 !important;
-}
-
-.node.dimmed {
-  opacity: 0.3;
-}ode {
+/* Visualization styles */
+.node {
   cursor: pointer;
-  transition: all 0.2s ease;
+  /* trim transitions to avoid animating all properties across many elements */
+  transition: filter 120ms ease;
 }
 
 .node.draggable {
@@ -28,8 +22,15 @@
   filter: brightness(1.3);
 }
 
-.node.dimmed {
-  opacity: 0.3;
+/* Dim nodes using lighter fills/strokes instead of opacity */
+.node.dimmed path,
+.node.dimmed rect,
+.node.dimmed circle,
+.node.dimmed ellipse,
+.node.dimmed polygon,
+.node.dimmed polyline {
+  stroke: var(--dim-stroke, #c4c8cf);
+  fill: var(--dim-fill, #f3f4f7);
 }
 
 /* Multi-select node styles */
@@ -46,40 +47,39 @@
 /* Rectangle selection style */
 /* rectangle selection removed; keep class minimal if any leftover elements */
 .selection-rect { display: block; pointer-events: none; }
+.selection-rect { vector-effect: non-scaling-stroke; stroke-width: 1; }
 
 .link {
   fill: none;
   stroke: var(--color-text-secondary);
   stroke-width: 2px;
-  opacity: 0.6;
+  opacity: 1; /* keep fully opaque to avoid expensive compositing */
   marker-end: url(#arrowhead);
-  transition: all 0.2s ease;
+  vector-effect: non-scaling-stroke; /* keep stroke consistent under zoom without JS updates */
+  transition: none; /* avoid animating stroke/opacity on large sets */
 }
 
 .link.highlighted {
   stroke: var(--color-primary);
   stroke-width: 3px;
-  opacity: 1;
-  filter: drop-shadow(0 0 2px rgba(102, 167, 255, 0.5));
+  /* keep opacity 1 */
+  filter: drop-shadow(0 0 2px rgba(102, 167, 255, 0.25));
 }
 
 .link.dimmed {
-  opacity: 0.2;
+  /* use color dimming instead of opacity to reduce repaint costs */
+  stroke: var(--color-border-dim, #c4c8cf);
   stroke-width: 1px;
 }
 
 .link.orthogonal-link {
   stroke: var(--color-teal-600);
   stroke-width: 2px;
-  opacity: 0.8;
+  opacity: 1;
   marker-end: url(#arrowhead);
 }
 
-.link.highlighted {
-  stroke: var(--color-primary);
-  stroke-width: 3px;
-  opacity: 1;
-}
+/* (removed duplicate .link.highlighted block) */
 
 /* Selected links when nodes are multi-selected */
 .link.selected {
@@ -88,9 +88,7 @@
   opacity: 1;
 }
 
-.link.dimmed {
-  opacity: 0.1;
-}
+/* keep group opaque; dim by applying lighter fills/strokes to shapes */
 
 .node-label {
   font-family: var(--font-family-base);
@@ -103,7 +101,18 @@
 }
 
 .node-label.dimmed {
-  opacity: 0.3;
+  opacity: 1;
+  fill: var(--color-text-disabled, #9aa3af);
+}
+
+/* Keep strokes visually stable under zoom for common node shapes */
+.nodes path,
+.nodes rect,
+.nodes circle,
+.nodes ellipse,
+.nodes polygon,
+.nodes polyline {
+  vector-effect: non-scaling-stroke;
 }
 
 .supplementary-info {

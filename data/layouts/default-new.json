@@ -1,151 +1,151 @@
 {
   "payfit_export_xlsx_worked": {
-    "x": 5000,
-    "y": 4100
+    "x": 3600,
+    "y": 2550
   },
   "hours_xlsx": {
-    "x": 5000,
-    "y": 4300
+    "x": 3600,
+    "y": 2750
   },
   "primes_xlsx_1": {
-    "x": 5200,
-    "y": 4300
+    "x": 3800,
+    "y": 2750
   },
   "matching": {
-    "x": 5200,
-    "y": 4500
+    "x": 3800,
+    "y": 2950
   },
   "hours_fr_xlsx": {
-    "x": 5400,
-    "y": 4500
+    "x": 4000,
+    "y": 2950
   },
   "payfit_import_xlsx_earned": {
-    "x": 5600,
-    "y": 4500
+    "x": 4200,
+    "y": 2950
   },
   "payout_1": {
-    "x": 5800,
-    "y": 4500
+    "x": 4400,
+    "y": 2950
   },
   "primes": {
-    "x": 5400,
-    "y": 4300
+    "x": 4000,
+    "y": 2750
   },
   "primes_tl_xlsx": {
-    "x": 5400,
-    "y": 4700
+    "x": 4000,
+    "y": 3150
   },
   "wesser_studio_everyone_co_monthly_salary_fr": {
-    "x": 5000,
-    "y": 4900
+    "x": 3600,
+    "y": 3350
   },
   "hours_primes": {
-    "x": 5000,
-    "y": 4700
+    "x": 3600,
+    "y": 3150
   },
   "primes_xlsx_2": {
-    "x": 5200,
-    "y": 4700
+    "x": 3800,
+    "y": 3150
   },
   "spendesk": {
-    "x": 5000,
-    "y": 3400
+    "x": 3600,
+    "y": 1850
   },
   "check_sd": {
-    "x": 5200,
-    "y": 3400
+    "x": 3800,
+    "y": 1850
   },
   "payout_sd": {
-    "x": 5400,
-    "y": 3400
+    "x": 4000,
+    "y": 1850
   },
   "refusal_sd": {
-    "x": 5400,
-    "y": 3600
+    "x": 4000,
+    "y": 2050
   },
   "check_pl": {
-    "x": 5200,
-    "y": 3800
+    "x": 3800,
+    "y": 2250
   },
   "payout_pl": {
-    "x": 5400,
-    "y": 3800
+    "x": 4000,
+    "y": 2250
   },
   "penny_lane": {
-    "x": 5000,
-    "y": 3800
+    "x": 3600,
+    "y": 2250
   },
   "refusal_pl": {
-    "x": 5400,
-    "y": 4000
+    "x": 4000,
+    "y": 2450
   },
   "post_of_signs_from_previous_day": {
-    "x": 5400,
-    "y": 5100
+    "x": 3800,
+    "y": -2000
   },
   "arrival_call_day": {
-    "x": 5600,
-    "y": 5100
+    "x": 4000,
+    "y": -2000
   },
   "decision_arrival": {
-    "x": 5800,
-    "y": 5100
+    "x": 4200,
+    "y": -2000
   },
   "negative": {
-    "x": 5800,
-    "y": 4900
+    "x": 4200,
+    "y": -2200
   },
   "post_sign": {
-    "x": 6000,
-    "y": 4900
+    "x": 4400,
+    "y": -2200
   },
   "negotiation": {
-    "x": 6000,
-    "y": 5100
+    "x": 4400,
+    "y": -2000
   },
   "positive": {
-    "x": 5800,
-    "y": 5300
+    "x": 4200,
+    "y": -1800
   },
   "send_to_gs": {
-    "x": 6800,
-    "y": 5300
+    "x": 5200,
+    "y": -1800
   },
   "post_on_gs": {
-    "x": 7200,
-    "y": 5500
+    "x": 5600,
+    "y": -1600
   },
   "verify_report": {
-    "x": 7400,
-    "y": 5500
+    "x": 5800,
+    "y": -1600
   },
   "update_dashboard_unicef": {
-    "x": 7600,
-    "y": 5500
+    "x": 6000,
+    "y": -1600
   },
   "decision_no": {
-    "x": 5600,
-    "y": 4900
+    "x": 4000,
+    "y": -2200
   },
   "adjustment": {
-    "x": 6000,
-    "y": 5300
+    "x": 4400,
+    "y": -1800
   },
   "report_on_gs": {
-    "x": 6200,
-    "y": 5300
+    "x": 4600,
+    "y": -1800
   },
   "check_for_your_lime": {
-    "x": 7000,
-    "y": 5500
+    "x": 5400,
+    "y": -1600
   },
   "unicef": {
-    "x": 6800,
-    "y": 5700
+    "x": 5200,
+    "y": -1400
   },
   "update_dashboard": {
-    "x": 6800,
-    "y": 5100
+    "x": 5200,
+    "y": -2000
   },
   "morning_discussion": {
     "x": 7800,
@@ -168,363 +168,363 @@
     "y": 1000
   },
   "choose_organization": {
-    "x": 4400,
-    "y": 5900
+    "x": 2800,
+    "y": -1200
   },
   "gs_planning": {
-    "x": 4600,
-    "y": 5700
+    "x": 3000,
+    "y": -1400
   },
   "selection_of_department": {
-    "x": 4800,
-    "y": 5700
+    "x": 3200,
+    "y": -1400
   },
   "selection_of_area_on_mymaps": {
-    "x": 5000,
-    "y": 5700
+    "x": 3400,
+    "y": -1400
   },
   "add_hubstation_per_team_week": {
-    "x": 5200,
-    "y": 5700
+    "x": 3600,
+    "y": -1400
   },
   "triggering_automation_on_gs": {
-    "x": 5400,
-    "y": 5700
+    "x": 3800,
+    "y": -1400
   },
   "export_selection_as_csv_and_import_into_mymaps_dashboard": {
-    "x": 5600,
-    "y": 5700
+    "x": 4000,
+    "y": -1400
   },
   "define_clusters_as_20_min_car_cluster_next_to_it": {
-    "x": 5800,
-    "y": 5700
+    "x": 4200,
+    "y": -1400
   },
   "assign_clusters": {
-    "x": 6000,
-    "y": 5700
+    "x": 4400,
+    "y": -1400
   },
   "insert_week_information_by_copy_pasting_into_cmfx_xlsx": {
-    "x": 6200,
-    "y": 6100
+    "x": 4600,
+    "y": -1000
   },
   "share_with_teams": {
-    "x": 6200,
-    "y": 6300
+    "x": 4600,
+    "y": -800
   },
   "different_planning_per_org": {
-    "x": 4600,
-    "y": 5900
+    "x": 3000,
+    "y": -1200
   },
   "mail_to_municipality_via_make": {
-    "x": 5600,
-    "y": 5900
+    "x": 4000,
+    "y": -1200
   },
   "insert_week_information_by_copy_pasting_into": {
-    "x": 6200,
-    "y": 5900
+    "x": 4600,
+    "y": -1200
   },
   "gs_appli_munic": {
-    "x": 6200,
-    "y": 5700
+    "x": 4600,
+    "y": -1400
   },
   "add_appli_munic": {
-    "x": 6400,
-    "y": 5700
+    "x": 4800,
+    "y": -1400
   },
   "update_gs": {
-    "x": 6600,
-    "y": 5700
+    "x": 5000,
+    "y": -1400
   },
   "export_extract_import_as_xlsx": {
-    "x": 7000,
-    "y": 5900
+    "x": 5400,
+    "y": -1200
   },
   "friday_with_validated_calculated": {
-    "x": 7200,
-    "y": 5900
+    "x": 5600,
+    "y": -1200
   },
   "add_to_gs_rapport_hebdomadaire": {
-    "x": 7000,
-    "y": 5700
+    "x": 5400,
+    "y": -1400
   },
   "export_as_xlsx": {
-    "x": 7200,
-    "y": 5700
+    "x": 5600,
+    "y": -1400
   },
   "mail_to_unicef": {
-    "x": 7400,
-    "y": 5700
+    "x": 5800,
+    "y": -1400
   },
   "indeed": {
-    "x": 0,
+    "x": -200,
     "y": 200
   },
   "text_application": {
-    "x": 200,
+    "x": 0,
     "y": 200
   },
   "pre_call_sms": {
-    "x": 200,
+    "x": 0,
     "y": 0
   },
   "ai_call": {
-    "x": 400,
+    "x": 200,
     "y": 0
   },
   "pre_video_mail": {
-    "x": 400,
+    "x": 200,
     "y": 200
   },
   "video_application": {
-    "x": 600,
+    "x": 400,
     "y": 200
   },
   "ghost_1": {
-    "x": 600,
+    "x": 400,
     "y": 0
   },
   "application_review_1": {
-    "x": 800,
+    "x": 600,
     "y": 200
   },
   "rejection_1": {
-    "x": 800,
+    "x": 600,
     "y": 0
   },
   "application_review_2": {
-    "x": 1000,
+    "x": 800,
     "y": 200
   },
   "rejection_2": {
-    "x": 1000,
+    "x": 800,
     "y": 0
   },
   "video_screening": {
-    "x": 1200,
+    "x": 1000,
     "y": 200
   },
   "high_potential_candidate": {
-    "x": 1400,
+    "x": 1200,
     "y": 800
   },
   "medium_potential_candidate": {
-    "x": 1400,
+    "x": 1200,
     "y": 200
   },
   "low_potential_candidate": {
-    "x": 1400,
+    "x": 1200,
     "y": -400
   },
   "rejection_3": {
-    "x": 1200,
+    "x": 1000,
     "y": 0
   },
   "hp_call_1": {
-    "x": 1600,
+    "x": 1400,
     "y": 800
   },
   "hp_reminder_mail_1": {
-    "x": 1800,
+    "x": 1600,
     "y": 1200
   },
   "hp_call_2": {
-    "x": 2000,
+    "x": 1800,
     "y": 800
   },
   "hp_reminder_mail_2": {
-    "x": 2200,
+    "x": 2000,
     "y": 1200
   },
   "hp_call_3": {
-    "x": 2400,
+    "x": 2200,
     "y": 800
   },
   "hp_reminder_mail_3": {
-    "x": 2600,
+    "x": 2400,
     "y": 1200
   },
   "hp_call_4": {
-    "x": 2800,
+    "x": 2600,
     "y": 800
   },
   "hp_reminder_mail_4": {
-    "x": 3000,
+    "x": 2800,
     "y": 1200
   },
   "hp_interview_callback": {
-    "x": 3400,
+    "x": 3200,
     "y": 1200
   },
   "hp_interview": {
-    "x": 3400,
+    "x": 3200,
     "y": 800
   },
   "hp_job_offer_accept": {
-    "x": 3500,
-    "y": 1000
-  },
-  "hp_call_rejection": {
     "x": 3300,
     "y": 1000
   },
-  "hp_ghost": {
+  "hp_call_rejection": {
     "x": 3100,
+    "y": 1000
+  },
+  "hp_ghost": {
+    "x": 2900,
     "y": 1000
   },
   "mp_call_1": {
-    "x": 1600,
+    "x": 1400,
     "y": 200
   },
   "mp_reminder_mail_1": {
-    "x": 1800,
+    "x": 1600,
     "y": 600
   },
   "mp_call_2": {
-    "x": 2000,
+    "x": 1800,
     "y": 200
   },
   "mp_reminder_mail_2": {
-    "x": 2200,
+    "x": 2000,
     "y": 600
   },
   "mp_call_3": {
-    "x": 2400,
+    "x": 2200,
     "y": 200
   },
   "mp_reminder_mail_3": {
-    "x": 2600,
+    "x": 2400,
     "y": 600
   },
   "mp_interview_callback": {
-    "x": 3000,
+    "x": 2800,
     "y": 600
   },
   "mp_interview": {
-    "x": 3000,
+    "x": 2800,
     "y": 200
   },
   "mp_job_offer_accept": {
-    "x": 3100,
-    "y": 400
-  },
-  "mp_call_rejection": {
     "x": 2900,
     "y": 400
   },
-  "mp_ghost": {
+  "mp_call_rejection": {
     "x": 2700,
+    "y": 400
+  },
+  "mp_ghost": {
+    "x": 2500,
     "y": 400
   },
   "lp_call_1": {
-    "x": 1600,
+    "x": 1400,
     "y": -400
   },
   "lp_reminder_mail_1": {
-    "x": 1800,
+    "x": 1600,
     "y": 0
   },
   "lp_call_2": {
-    "x": 2000,
+    "x": 1800,
     "y": -400
   },
   "lp_reminder_mail_2": {
-    "x": 2200,
+    "x": 2000,
     "y": 0
   },
   "lp_interview_callback": {
-    "x": 2600,
+    "x": 2400,
     "y": 0
   },
   "lp_interview": {
-    "x": 2600,
+    "x": 2400,
     "y": -400
   },
   "lp_job_offer_accept": {
-    "x": 2700,
-    "y": -200
-  },
-  "lp_call_rejection": {
     "x": 2500,
     "y": -200
   },
-  "lp_ghost": {
+  "lp_call_rejection": {
     "x": 2300,
     "y": -200
   },
+  "lp_ghost": {
+    "x": 2100,
+    "y": -200
+  },
   "starting_date_definition": {
-    "x": 3500,
+    "x": 3300,
     "y": -200
   },
   "gs_onboarding_update": {
-    "x": 4200,
+    "x": 4000,
     "y": 0
   },
   "inscription_onboarding": {
-    "x": 4200,
+    "x": 4000,
     "y": -200
   },
   "make_payfit_account": {
-    "x": 4200,
+    "x": 3600,
     "y": 600
   },
   "make_payfit_conrtract": {
-    "x": 4400,
+    "x": 3800,
     "y": 600
   },
   "mail_yousign": {
-    "x": 4600,
+    "x": 4000,
     "y": 600
   },
   "contract_sign": {
-    "x": 4800,
+    "x": 4200,
     "y": 600
   },
   "contract_verification": {
-    "x": 5000,
+    "x": 4400,
     "y": 600
   },
   "contract_rejection": {
-    "x": 5000,
+    "x": 4400,
     "y": 800
   },
   "creation_alan_account": {
-    "x": 4800,
-    "y": 400
-  },
-  "reminder_mail_yousign": {
-    "x": 4600,
-    "y": 800
-  },
-  "reminder_call_yousign": {
-    "x": 4800,
-    "y": 800
-  },
-  "yousign_ghost": {
-    "x": 4800,
-    "y": 1000
-  },
-  "gs_onboarding_update_contract": {
-    "x": 5200,
-    "y": 600
-  },
-  "gs_late_people_update": {
     "x": 4200,
     "y": 400
   },
+  "reminder_mail_yousign": {
+    "x": 4000,
+    "y": 800
+  },
+  "reminder_call_yousign": {
+    "x": 4200,
+    "y": 800
+  },
+  "yousign_ghost": {
+    "x": 4200,
+    "y": 1000
+  },
+  "gs_onboarding_update_contract": {
+    "x": 4600,
+    "y": 600
+  },
+  "gs_late_people_update": {
+    "x": 3600,
+    "y": 400
+  },
   "late_people_mail": {
-    "x": 4400,
+    "x": 3800,
     "y": 400
   },
   "late_people_call": {
-    "x": 4600,
+    "x": 4000,
     "y": 400
   },
   "google_meet_onboarding_invite": {
-    "x": 4400,
+    "x": 4200,
     "y": -200
   },
   "onboarding_confirmation": {
-    "x": 4600,
+    "x": 4400,
     "y": -200
   },
   "onboarding": {
@@ -532,19 +532,19 @@
     "y": -200
   },
   "onboarding_confirmation_reminder_mail": {
-    "x": 4400,
+    "x": 4200,
     "y": 0
   },
   "onboarding_confirmation_reminder_call": {
-    "x": 4600,
+    "x": 4400,
     "y": 0
   },
   "onboarding_confirmation_ghost": {
-    "x": 4600,
+    "x": 4400,
     "y": 200
   },
   "mail_alan": {
-    "x": 5000,
+    "x": 4400,
     "y": 400
   },
   "spendesk_invitation": {
@@ -572,7 +572,7 @@
     "y": -800
   },
   "onboarding_ghost": {
-    "x": 4800,
+    "x": 4600,
     "y": -400
   },
   "wap_invite": {
@@ -604,15 +604,15 @@
     "y": 200
   },
   "slack_ghost": {
-    "x": 5800,
+    "x": 5600,
     "y": 400
   },
   "slack_welcome_msg": {
-    "x": 6000,
+    "x": 5800,
     "y": 400
   },
   "first_contact_nc_tl": {
-    "x": 6600,
+    "x": 6800,
     "y": 200
   },
   "monday_welcome_msg": {
@@ -700,7 +700,7 @@
     "y": 200
   },
   "slack_team_creation_tl": {
-    "x": 7000,
+    "x": 6800,
     "y": 600
   },
   "call_tl_co_1": {
@@ -1080,11 +1080,11 @@
     "y": 400
   },
   "nc_transport_pre_mission": {
-    "x": 6800,
+    "x": 7000,
     "y": 400
   },
   "nc_spendesk_check_pre_mission": {
-    "x": 6800,
+    "x": 7200,
     "y": 600
   },
   "nc_spendesk_check_post_mission": {
@@ -1092,115 +1092,115 @@
     "y": 600
   },
   "end_of_contract": {
-    "x": 17200,
-    "y": 600
-  },
-  "material_needs": {
-    "x": 17750,
-    "y": -600
-  },
-  "ws_team_making": {
-    "x": 17750,
-    "y": -400
-  },
-  "ws_tablet_assignment": {
-    "x": 17750,
-    "y": 0
-  },
-  "canva_badge_making": {
-    "x": 18250,
-    "y": -600
-  },
-  "tablet_check": {
-    "x": 18000,
-    "y": -600
-  },
-  "material_dispatch": {
-    "x": 18000,
-    "y": -850
-  },
-  "clothing_check": {
-    "x": 17750,
-    "y": -850
-  },
-  "material_check": {
-    "x": 17200,
-    "y": -750
-  },
-  "trello_cp_week": {
-    "x": 17000,
-    "y": -550
-  },
-  "fr_comeback": {
-    "x": 16800,
-    "y": 0
-  },
-  "fr_stop": {
-    "x": 17200,
-    "y": 400
-  },
-  "fr_stay": {
-    "x": 17000,
-    "y": 200
-  },
-  "nc_in": {
-    "x": 17000,
-    "y": -200
-  },
-  "trello_update": {
-    "x": 17200,
-    "y": -200
-  },
-  "programmed_changes": {
-    "x": 17200,
-    "y": 0
-  },
-  "fr_pool": {
     "x": 16400,
     "y": 400
+  },
+  "material_needs": {
+    "x": 6000,
+    "y": 1400
+  },
+  "ws_team_making": {
+    "x": 6200,
+    "y": 1000
+  },
+  "ws_tablet_assignment": {
+    "x": 6200,
+    "y": 600
+  },
+  "canva_badge_making": {
+    "x": 6400,
+    "y": 1400
+  },
+  "tablet_check": {
+    "x": 6000,
+    "y": 1200
+  },
+  "material_dispatch": {
+    "x": 6400,
+    "y": 1200
+  },
+  "clothing_check": {
+    "x": 6200,
+    "y": 1400
+  },
+  "material_check": {
+    "x": 5600,
+    "y": 1400
+  },
+  "trello_cp_week": {
+    "x": 4800,
+    "y": 800
+  },
+  "fr_comeback": {
+    "x": 4600,
+    "y": 1200
+  },
+  "fr_stop": {
+    "x": 5000,
+    "y": 1600
+  },
+  "fr_stay": {
+    "x": 4800,
+    "y": 1400
+  },
+  "nc_in": {
+    "x": 5000,
+    "y": 0
+  },
+  "trello_update": {
+    "x": 5000,
+    "y": 800
+  },
+  "programmed_changes": {
+    "x": 5000,
+    "y": 1200
+  },
+  "fr_pool": {
+    "x": 4000,
+    "y": 1600
   },
   "nc_graduation_call": {
     "x": 16400,
     "y": 200
   },
   "fr_contract": {
-    "x": 16600,
-    "y": 0
+    "x": 3800,
+    "y": 1000
   },
   "fr_end_of_mission_call": {
-    "x": 17450,
-    "y": 400
+    "x": 5000,
+    "y": 1800
   },
   "teams_planning_final": {
-    "x": 17450,
-    "y": 0
+    "x": 6000,
+    "y": 800
   },
   "definition_mission_starting_date": {
-    "x": 16650,
-    "y": 200
+    "x": 3600,
+    "y": 1200
   },
   "reserve_accomodation": {
-    "x": 17750,
-    "y": -1100
+    "x": 6400,
+    "y": 600
   },
   "update_notion": {
-    "x": 17500,
-    "y": -1100
+    "x": 6200,
+    "y": 800
   },
   "communicate_weekplans": {
-    "x": 18000,
-    "y": -1100
+    "x": 6600,
+    "y": 800
   },
   "define_zones": {
-    "x": 17050,
-    "y": -750
+    "x": 5600,
+    "y": 1200
   },
   "manage_cars": {
-    "x": 17750,
-    "y": -1400
+    "x": 6400,
+    "y": 1000
   },
   "manage_material_exchanges": {
-    "x": 18000,
-    "y": -1400
+    "x": 6400,
+    "y": 800
   }
 }

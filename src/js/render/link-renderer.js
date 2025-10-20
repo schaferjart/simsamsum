@@ -61,14 +61,7 @@ export function renderLinks(g, links, currentLayout) {
             .attr('fill', 'none')
             .attr('stroke', d => (d.customStyle && d.customStyle.color) || getComputedStyle(document.documentElement).getPropertyValue('--color-border').trim() || '#999')
             .attr('stroke-width', d => (d.customStyle && d.customStyle.strokeWidth) || 2)
-            .attr('marker-end', 'url(#arrowhead)')
-            .each(function(d) {
-                if (d.customStyle) {
-                    const element = d3.select(this);
-                    if (d.customStyle.color) element.node().style.setProperty('stroke', d.customStyle.color, 'important');
-                    if (d.customStyle.strokeWidth) element.node().style.setProperty('stroke-width', d.customStyle.strokeWidth + 'px', 'important');
-                }
-            });
+            .attr('marker-end', 'url(#arrowhead)');
     } else {
         linkGroup.selectAll('line')
             .data(links)
@@ -83,13 +76,7 @@ export function renderLinks(g, links, currentLayout) {
             })
             .attr('stroke', d => (d.customStyle && d.customStyle.color) || '#999')
             .attr('stroke-width', d => (d.customStyle && d.customStyle.strokeWidth) || 2)
-            .attr('marker-end', 'url(#arrowhead)')
-            .each(function(d) {
-                if (d.customStyle) {
-                    if (d.customStyle.color) this.style.setProperty('stroke', d.customStyle.color, 'important');
-                    if (d.customStyle.strokeWidth) this.style.setProperty('stroke-width', d.customStyle.strokeWidth + 'px', 'important');
-                }
-            });
+            .attr('marker-end', 'url(#arrowhead)');
     }
 }
 
