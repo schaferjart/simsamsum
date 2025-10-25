@@ -1,0 +1,17 @@
+{
+  "filters": [
+    {
+      "scope": "node",
+      "column": "execution",
+      "operator": "in",
+      "value": ", Gil, Manual, Marc, Noemie, Samir, Thomas",
+      "isAuto": true,
+      "style": {
+        "color": "#66ff00",
+        "strokeWidth": 1
+      }
+    }
+  ],
+  "styling": [],
+  "timestamp": "2025-10-25T12:03:58.485Z"
+}

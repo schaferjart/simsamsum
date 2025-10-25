@@ -1,0 +1,39 @@
+{
+  "filters": [
+    {
+      "scope": "node",
+      "column": "execution",
+      "operator": "in",
+      "value": ", Gil, Manual, Marc, Noemie, Samir, Thomas",
+      "isAuto": true,
+      "style": {
+        "color": "#66ff00",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "scope": "node",
+      "column": "execution",
+      "operator": "in",
+      "value": "Applicant, Newcomer",
+      "isAuto": true,
+      "style": {
+        "color": "#0062ff",
+        "strokeWidth": 4
+      }
+    },
+    {
+      "scope": "node",
+      "column": "execution",
+      "operator": "in",
+      "value": "Automatic, Newcomer",
+      "isAuto": true,
+      "style": {
+        "color": "#ff00d0",
+        "strokeWidth": 1
+      }
+    }
+  ],
+  "styling": [],
+  "timestamp": "2025-10-25T12:10:52.077Z"
+}

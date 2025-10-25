@@ -120,38 +120,69 @@ function createDoubleCircle(nodeGroup, size) {
 // ===== Shape Library =====
 const SHAPE_LIBRARY = {
     Resource: {
+        'Job Portal': createSquare,
+        'Manual Form Fillout': createSquare,
+        'Manual Form Update': createSquare,
+        'Database': createSquare,
+        'Human': createSquare,
+        'External System': createSquare,
+        'Internal System': createSquare,
+        'Physical': createSquare,
         default: createSquare
     },
     Action: {
+        // Incoming -> Left
         'Form Incoming': createLeftTriangle,
-        'SMS Outgoing': createRightTriangle,
-        'Call Outgoing': createRightTriangle,
         'Call Incoming': createLeftTriangle,
-        'Mail Outgoing': createRightTriangle,
         'Mail Incoming': createLeftTriangle,
         'Video Incoming': createLeftTriangle,
+        'Message Incoming': createLeftTriangle,
+
+        // Outgoing -> Right
+        'SMS Outgoing': createRightTriangle,
+        'Call Outgoing': createRightTriangle,
+        'Mail Outgoing': createRightTriangle,
+        'Message Outgoing': createRightTriangle,
+        'Outgoing Call': createRightTriangle,
+        'NC Call Outgoing': createRightTriangle,
+
+        // Physical -> Down
         'Physical Displacement': createReversedTriangle,
+        'Transport': createReversedTriangle,
+
+        // Manual / Default -> Up
+        'Manual Form Fillout': createTriangle,
+        'Videocall': createTriangle,
+        'Automatic Account Generation': createTriangle,
+        'Manual Account Generation': createTriangle,
+        'Manual Group Generation': createTriangle,
+        'Checkpoint': createTriangle,
+        'Newcomer Call': createTriangle,
+        'Decision Call': createTriangle,
+        'Pressure Call': createTriangle,
+        'Green Card': createTriangle,
         default: createTriangle
     },
     State: {
-        default: (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
-        Out: createBoldCross,
+        'Out': createBoldCross,
+        'Out End Of Contract NC': createBoldCross,
         'End of Contract': createDoubleCircle,
-        Checkpoint: (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
-        Beachhead: (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
-        Fundraising: (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
+        'Start': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
+        'Checkpoint': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
+        'Beachhead': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
+        'Fundraising': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
         'Yellow Card': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
         'Green Card': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
         'Informal Contact': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
-        'Out End Of Contract NC': createBoldCross,
-        'Case By Case': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6))
+        'Case By Case': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
+        default: (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6))
     },
     Decision: {
-        default: createDiamond,
-        Checkpoint: createDiamond,
+        'Checkpoint': createDiamond,
         'Manual Verification': createDiamond,
         'Automatic Verification': createDiamond,
-        Performance: createDiamond
+        'Performance': createDiamond,
+        default: createDiamond
     },
     default: {
         default: (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6))
