@@ -100,6 +100,12 @@ function createBoldCross(nodeGroup, size) {
     return createPath(nodeGroup, path);
 }
 
+function createRotatedCross(nodeGroup, size) {
+    const cross = createBoldCross(nodeGroup, size);
+    cross.attr('transform', 'rotate(45)');
+    return cross;
+}
+
 function createDoubleCircle(nodeGroup, size) {
     const group = nodeGroup.append('g').attr('class', 'node-shape-group');
     const radius = size * 0.6;
@@ -171,10 +177,10 @@ const SHAPE_LIBRARY = {
         'Checkpoint': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
         'Beachhead': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
         'Fundraising': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
-        'Yellow Card': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
+        'Yellow Card': createRotatedCross,
         'Green Card': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
         'Informal Contact': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
-        'Case By Case': (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6)),
+        'Case By Case': createRotatedCross,
         default: (g, s) => createCircle(g, Math.max(BASE_MIN_SIZE / 2, s * 0.6))
     },
     Decision: {
