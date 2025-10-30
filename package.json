@@ -42,10 +42,7 @@
   "homepage": "https://github.com/yourusername/workflow-visualizer#readme",
   "devDependencies": {
     "cors": "^2.8.5",
-    "docdash": "^2.0.2",
     "express": "^4.21.2",
-    "http-server": "^14.1.1",
-    "jsdoc": "^4.0.4",
     "vite": "^7.1.7"
   },
   "engines": {

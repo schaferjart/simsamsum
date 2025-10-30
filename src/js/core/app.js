@@ -1,5 +1,4 @@
-import * as d3 from 'd3';
-import { showStatus, calculateNodeSize, snapToGrid } from '../utils.js';
+import { showStatus } from '../utils.js';
 import { processData, verifyConnections, computeDerivedFields as computeDerivedFieldsData, resolveValue, extractExpressionTokens } from '../data/index.js';
 import { initVisualization, renderVisualizationElements, updatePositions, highlightNode, clearHighlight, updateTextRotation, updateGridDisplay, updateSelectionVisuals } from '../render/index.js';
 import { applyLayout } from '../layouts/index.js';
