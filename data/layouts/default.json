@@ -1,4 +1,260 @@
 {
+  "payfit_export_xlsx_worked": {
+    "x": 5000,
+    "y": 4100
+  },
+  "hours_xlsx": {
+    "x": 5000,
+    "y": 4300
+  },
+  "primes_xlsx_1": {
+    "x": 5200,
+    "y": 4300
+  },
+  "matching": {
+    "x": 5200,
+    "y": 4500
+  },
+  "hours_fr_xlsx": {
+    "x": 5400,
+    "y": 4500
+  },
+  "payfit_import_xlsx_earned": {
+    "x": 5600,
+    "y": 4500
+  },
+  "payout_1": {
+    "x": 5800,
+    "y": 4500
+  },
+  "primes": {
+    "x": 5400,
+    "y": 4300
+  },
+  "primes_tl_xlsx": {
+    "x": 5400,
+    "y": 4700
+  },
+  "wesser_studio_everyone_co_monthly_salary_fr": {
+    "x": 5000,
+    "y": 4900
+  },
+  "hours_primes": {
+    "x": 5000,
+    "y": 4700
+  },
+  "primes_xlsx_2": {
+    "x": 5200,
+    "y": 4700
+  },
+  "spendesk": {
+    "x": 5000,
+    "y": 3400
+  },
+  "check_sd": {
+    "x": 5200,
+    "y": 3400
+  },
+  "payout_sd": {
+    "x": 5400,
+    "y": 3400
+  },
+  "refusal_sd": {
+    "x": 5400,
+    "y": 3600
+  },
+  "check_pl": {
+    "x": 5200,
+    "y": 3800
+  },
+  "payout_pl": {
+    "x": 5400,
+    "y": 3800
+  },
+  "penny_lane": {
+    "x": 5000,
+    "y": 3800
+  },
+  "refusal_pl": {
+    "x": 5400,
+    "y": 4000
+  },
+  "post_of_signs_from_previous_day": {
+    "x": 5400,
+    "y": 5100
+  },
+  "arrival_call_day": {
+    "x": 5600,
+    "y": 5100
+  },
+  "decision_arrival": {
+    "x": 5800,
+    "y": 5100
+  },
+  "negative": {
+    "x": 5800,
+    "y": 4900
+  },
+  "post_sign": {
+    "x": 6000,
+    "y": 4900
+  },
+  "negotiation": {
+    "x": 6000,
+    "y": 5100
+  },
+  "positive": {
+    "x": 5800,
+    "y": 5300
+  },
+  "send_to_gs": {
+    "x": 6800,
+    "y": 5300
+  },
+  "post_on_gs": {
+    "x": 7200,
+    "y": 5500
+  },
+  "verify_report": {
+    "x": 7400,
+    "y": 5500
+  },
+  "update_dashboard_unicef": {
+    "x": 7600,
+    "y": 5500
+  },
+  "decision_no": {
+    "x": 5600,
+    "y": 4900
+  },
+  "adjustment": {
+    "x": 6000,
+    "y": 5300
+  },
+  "report_on_gs": {
+    "x": 6200,
+    "y": 5300
+  },
+  "check_for_your_lime": {
+    "x": 7000,
+    "y": 5500
+  },
+  "unicef": {
+    "x": 6800,
+    "y": 5700
+  },
+  "update_dashboard": {
+    "x": 6800,
+    "y": 5100
+  },
+  "morning_discussion": {
+    "x": 7800,
+    "y": 400
+  },
+  "who_stays_who_parts": {
+    "x": 7800,
+    "y": 600
+  },
+  "decide_who_to_call_screen_dashboard": {
+    "x": 8000,
+    "y": 600
+  },
+  "calls": {
+    "x": 8000,
+    "y": 800
+  },
+  "decisions": {
+    "x": 8000,
+    "y": 1000
+  },
+  "choose_organization": {
+    "x": 4400,
+    "y": 5900
+  },
+  "gs_planning": {
+    "x": 4600,
+    "y": 5700
+  },
+  "selection_of_department": {
+    "x": 4800,
+    "y": 5700
+  },
+  "selection_of_area_on_mymaps": {
+    "x": 5000,
+    "y": 5700
+  },
+  "add_hubstation_per_team_week": {
+    "x": 5200,
+    "y": 5700
+  },
+  "triggering_automation_on_gs": {
+    "x": 5400,
+    "y": 5700
+  },
+  "export_selection_as_csv_and_import_into_mymaps_dashboard": {
+    "x": 5600,
+    "y": 5700
+  },
+  "define_clusters_as_20_min_car_cluster_next_to_it": {
+    "x": 5800,
+    "y": 5700
+  },
+  "assign_clusters": {
+    "x": 6000,
+    "y": 5700
+  },
+  "insert_week_information_by_copy_pasting_into_cmfx_xlsx": {
+    "x": 6200,
+    "y": 6100
+  },
+  "share_with_teams": {
+    "x": 6200,
+    "y": 6300
+  },
+  "different_planning_per_org": {
+    "x": 4600,
+    "y": 5900
+  },
+  "mail_to_municipality_via_make": {
+    "x": 5600,
+    "y": 5900
+  },
+  "insert_week_information_by_copy_pasting_into": {
+    "x": 6200,
+    "y": 5900
+  },
+  "gs_appli_munic": {
+    "x": 6200,
+    "y": 5700
+  },
+  "add_appli_munic": {
+    "x": 6400,
+    "y": 5700
+  },
+  "update_gs": {
+    "x": 6600,
+    "y": 5700
+  },
+  "export_extract_import_as_xlsx": {
+    "x": 7000,
+    "y": 5900
+  },
+  "friday_with_validated_calculated": {
+    "x": 7200,
+    "y": 5900
+  },
+  "add_to_gs_rapport_hebdomadaire": {
+    "x": 7000,
+    "y": 5700
+  },
+  "export_as_xlsx": {
+    "x": 7200,
+    "y": 5700
+  },
+  "mail_to_unicef": {
+    "x": 7400,
+    "y": 5700
+  },
   "indeed": {
     "x": 0,
     "y": 200
@@ -840,44 +1096,40 @@
     "y": 600
   },
   "material_needs": {
-    "x": 17600,
-    "y": -400
-  },
-  "ws_profile_making": {
-    "x": 17850,
-    "y": -200
+    "x": 17750,
+    "y": -600
   },
   "ws_team_making": {
-    "x": 17850,
+    "x": 17750,
     "y": -400
   },
   "ws_tablet_assignment": {
-    "x": 17850,
+    "x": 17750,
     "y": 0
   },
   "canva_badge_making": {
-    "x": 17850,
+    "x": 18250,
     "y": -600
   },
   "tablet_check": {
-    "x": 17300,
-    "y": -700
-  },
-  "material_dispatch": {
-    "x": 18100,
+    "x": 18000,
     "y": -600
   },
+  "material_dispatch": {
+    "x": 18000,
+    "y": -850
+  },
   "clothing_check": {
-    "x": 17900,
-    "y": -750
+    "x": 17750,
+    "y": -850
   },
   "material_check": {
-    "x": 17400,
-    "y": -550
+    "x": 17200,
+    "y": -750
   },
   "trello_cp_week": {
     "x": 17000,
-    "y": -200
+    "y": -550
   },
   "fr_comeback": {
     "x": 16800,
@@ -892,8 +1144,8 @@
     "y": 200
   },
   "nc_in": {
-    "x": 17400,
-    "y": 200
+    "x": 17000,
+    "y": -200
   },
   "trello_update": {
     "x": 17200,
@@ -916,15 +1168,39 @@
     "y": 0
   },
   "fr_end_of_mission_call": {
-    "x": 17400,
+    "x": 17450,
     "y": 400
   },
   "teams_planning_final": {
-    "x": 17400,
-    "y": -200
+    "x": 17450,
+    "y": 0
   },
   "definition_mission_starting_date": {
     "x": 16600,
     "y": 200
+  },
+  "reserve_accomodation": {
+    "x": 17750,
+    "y": -1100
+  },
+  "update_notion": {
+    "x": 17500,
+    "y": -1100
+  },
+  "communicate_weekplans": {
+    "x": 18000,
+    "y": -1100
+  },
+  "define_zones": {
+    "x": 17050,
+    "y": -750
+  },
+  "manage_cars": {
+    "x": 17750,
+    "y": -1400
+  },
+  "manage_material_exchanges": {
+    "x": 18000,
+    "y": -1400
   }
 }
